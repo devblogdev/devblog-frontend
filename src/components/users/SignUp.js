@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import { NavLink } from 'react-router-dom'
+import { useInput } from '../hooks/input-hook'
+import { createOrLoginUser } from '../../actions/userActions'
 
 
 
@@ -50,11 +52,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp(routerProps) {
   const classes = useStyles();
 
+  const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput("")
+  const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput("")
+  const { value: email, bind: bindEmail, reset: resetEmail } = useInput("")
+  const { value: password, bind: bindPassword, reset: resetPassword } = useInput("")
 
-  
+  const handleSubmit = (event) => {
+      event.preventDefault();
+      const endpoint = "/users"
+      const userData = { first_name: firstName, last_name: lastName, email, password}
+      console.log("sign up was pressed")
+      createOrLoginUser(endpoint, userData, routerProps )
+    //   resetFirstName()
+    //   resetLastName()
+    //   resetEmail()
+    //   resetPassword()
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -65,7 +82,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -77,6 +94,7 @@ export default function SignUp() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                {...bindFirstName}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -88,6 +106,7 @@ export default function SignUp() {
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
+                {...bindLastName}
               />
             </Grid>
             <Grid item xs={12}>
@@ -99,6 +118,7 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                {...bindEmail}
               />
             </Grid>
             <Grid item xs={12}>
@@ -111,6 +131,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                {...bindPassword}
               />
             </Grid>
             <Grid item xs={12}>
