@@ -6,6 +6,13 @@ export default function postsAndCommentsReducer(
         loading: false,
         message: ""
     }, action) {
+        
+        let userId 
+        let post 
+        let postId
+        let postIndex
+        let likeIndex
+        
         switch(action.type) {
             case 'LAODING_POSTS':
                 return {
@@ -13,6 +20,7 @@ export default function postsAndCommentsReducer(
                     loading: true,
                     message: "Loading posts..."
                 }
+
             case 'FETCH_POSTS':
                 return {
                     ...state,
@@ -20,7 +28,21 @@ export default function postsAndCommentsReducer(
                     loading: false,
                     message: ""
                 }
-            
+
+            case 'ADD_POST':
+                post = action.post
+                return { ...state, ...posts, post}
+
+            case 'REMOVE_POST':
+                postId = action.postId
+                postIndex = state.posts.findIndex( post => post.id === postId)
+                return {
+                    ...state, 
+                        posts: [
+                            state.posts.slice(0, postIndex), state.posts.slice(postIndex+1)
+                        ]
+                }
+
             case 'ADD_LIKE':
                 const user = "some user"
                 const postId= "someId"
@@ -34,6 +56,7 @@ export default function postsAndCommentsReducer(
                             state.posts.slice(0, postIndex), post, state.posts(postIndex+1)
                         ]
                 }
+
             case 'REMOVE_LIKE':
                 const postID= "someId"
                 // const retrieveIdandIndex = (object) => state.posts.find( (post, index) => {post.id === postId})
