@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -52,6 +52,14 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
   const classes = useStyles();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDeafult();
+    
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -62,7 +70,7 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           DevBlog
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -73,6 +81,8 @@ export default function Login() {
             name="email"
             autoComplete="email"
             autoFocus
+            value ={email}
+            onChange = { event => setEmail(event.target.value)}
           />
           <TextField
             variant="outlined"
@@ -84,6 +94,8 @@ export default function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value ={password}
+            onChange = { event => setPassword(event.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
