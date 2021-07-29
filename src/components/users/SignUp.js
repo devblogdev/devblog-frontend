@@ -53,8 +53,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
   
   return (
     <Container component="main" maxWidth="xs">
@@ -100,8 +99,6 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                value ={email}
-                onChange = { event => setEmail(event.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -114,8 +111,6 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                value ={password}
-                onChange = { event => setPassword(event.target.value)}
               />
             </Grid>
             <Grid item xs={12}>

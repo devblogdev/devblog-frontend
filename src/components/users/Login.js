@@ -15,6 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import { NavLink } from 'react-router-dom'
+import { createOrLoginUser } from '../../actions/userActions'
 
 function Copyright() {
   return (
@@ -49,15 +50,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+export default function Login(routerProps) {
   const classes = useStyles();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (event) => {
-    event.preventDeafult();
-    
+    event.preventDefault();
+    const endpoint = "/api/v1/auth"
+    // console.log({email, password})
+    const userData = {email, password}
+    createOrLoginUser(endpoint, userData, routerProps)
+
   }
 
   return (
