@@ -5,6 +5,7 @@ import {
     Route    
 } from 'react-router-dom'
 import NavBar from './components/navbar/NavBar'
+import Home from './containers/Home'
 import ManageLogin from './containers/ManageLogin'
 
 
@@ -14,16 +15,19 @@ function App() {
       <div className="App">
         <NavBar />
         <Route
+          exact path="/"
+          component = {Home}
+        />
+        <Route
           exact path="/login"
           // component ={ <ManageLogin routerProps ={props} />}
           render={routerProps => <ManageLogin {...routerProps} /> }
         />
-        {/* <Route
-          exact path="/logout"
-          component = {ManageLogin}
-        /> */}
-
-      
+        <Route
+          exact path="/signup"
+          // component ={ <ManageLogin routerProps ={props} />}
+          render={routerProps => <ManageLogin {...routerProps} /> }
+        />
       </div>
     </Router>
   );
