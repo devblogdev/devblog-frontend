@@ -44,11 +44,11 @@ export default function postsAndCommentsReducer(
                 }
 
             case 'ADD_LIKE':
-                user = "some user"
+                userId = "some user"
                 postId= "someId"
                 post = state.posts.find(post => post.id === postId)
                 postIndex = state.posts.findIndex( post => post.id === postId )
-                const newLike = {userId: user}
+                const newLike = {userId}
                 post = [...post, ...post.likes, newLike]
                 return {
                     ...state,
@@ -58,12 +58,12 @@ export default function postsAndCommentsReducer(
                 }
 
             case 'REMOVE_LIKE':
-                const postID= "someId"
+                postId= "someId"
                 // const retrieveIdandIndex = (object) => state.posts.find( (post, index) => {post.id === postId})
-                const user = "some user"
-                const postIndex = state.posts.findIndex( post => post.id === postId )
-                const post = "hi"
-                const likeIndex = post.likes.findIndex(like => like.userId === user)
+                userId = "some user"
+                postIndex = state.posts.findIndex( post => post.id === postId )
+                post = "hi"
+                likeIndex = post.likes.findIndex(like => like.userId === userId)
                 const postLikes = [ post.likes.slice(0, likeIndex), post.likes.slice(likeIndex+1) ] 
                 post.likes = postLikes
                 return {
