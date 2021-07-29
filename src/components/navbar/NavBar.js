@@ -33,7 +33,7 @@ export default function NavBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            DevBlog
+          <NavLink to="/">DevBlog</NavLink>
           </Typography>
           <Typography variant="h6" className={classes.title}>
             <NavLink to="/login">Login</NavLink>

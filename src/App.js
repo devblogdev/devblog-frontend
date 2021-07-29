@@ -18,10 +18,10 @@ function App() {
           // component ={ <ManageLogin routerProps ={props} />}
           render={routerProps => <ManageLogin {...routerProps} /> }
         />
-        <Route
+        {/* <Route
           exact path="/logout"
           component = {ManageLogin}
-        />
+        /> */}
 
       
       </div>
