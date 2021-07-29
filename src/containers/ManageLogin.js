@@ -1,10 +1,10 @@
-
+import Login from '../components/users/Login'
 
 const ManageLogin = (props) => {
-    if (props.match.url === '/signup') {
-        return <div>the signup component</div>
+    if (props.match.url === '/login') {
+        return <Login />
     } 
-    return <div>the signup component</div>
+    return <Login />
 }
 
 export default ManageLogin

@@ -7,6 +7,9 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import { NavLink, Link } from 'react-router-dom'
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -31,6 +34,17 @@ export default function NavBar() {
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             DevBlog
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            <NavLink to="/login">Login</NavLink>
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            <NavLink 
+                to="/logout"
+                variant="h6" 
+                className={classes.title}
+            >Logout
+            </NavLink>
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
