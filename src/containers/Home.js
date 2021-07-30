@@ -1,6 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
-const  Home = () => {
+const  Home = (props) => {
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (props.match.url === "/logout") {
+            dispatch({type: 'LOGOUT_USER'})
+            props.history.replace('/')
+        }
+    })
 
     return (
         <div>

@@ -20,13 +20,15 @@ function App() {
         />
         <Route
           exact path="/login"
-          // component ={ <ManageLogin routerProps ={props} />}
           render={routerProps => <ManageLogin {...routerProps} /> }
         />
         <Route
           exact path="/signup"
-          // component ={ <ManageLogin routerProps ={props} />}
           render={routerProps => <ManageLogin {...routerProps} /> }
+        />
+        <Route
+          exact path="/logout"
+          render={routerProps => <Home {...routerProps} /> }
         />
       </div>
     </Router>
