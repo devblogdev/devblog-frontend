@@ -1,4 +1,5 @@
 import React from 'react';
+// MATERIAL UI DEPENDENCIES
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,13 +13,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+// APP DEPENDENCIES
 import { NavLink } from 'react-router-dom'
 import { useInput } from '../hooks/input-hook'
 import { CreateOrLoginUser } from '../../actions/userActions'
+import { useDispatch } from 'react-redux'
 
 
-
+// MATERIAL UI FUNCTION 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -32,6 +34,7 @@ function Copyright() {
   );
 }
 
+// MATERIAL UI STYLES
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -52,26 +55,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// MAIN FUNCTION; FUNCTIONAL COMPONENT
 export default function SignUp(routerProps) {
   const classes = useStyles();
+  const dispatch = useDispatch()
 
   const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput("")
   const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput("")
   const { value: email, bind: bindEmail, reset: resetEmail } = useInput("")
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput("")
 
+
   const handleSubmit = (event) => {
       event.preventDefault();
       const endpoint = "/users"
       const userData = { first_name: firstName, last_name: lastName, email, password}
-      console.log("sign up was pressed")
-      CreateOrLoginUser(endpoint, userData, routerProps )
-      resetFirstName()
-      resetLastName()
-      resetEmail()
-      resetPassword()
+      dispatch(CreateOrLoginUser(endpoint, userData, routerProps ))
+    //   resetFirstName()
+    //   resetLastName()
+    //   resetEmail()
+    //   resetPassword()
   }
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
