@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+// MATERIAL UI DEPENDENCIES
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,12 +14,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+// APP DEPENDENCIES
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { CreateOrLoginUser } from '../../actions/userActions'
 
-// MATERIAL-UI FUNCTION
+// MATERIAL UI FUNCTION
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// MAIN FUCNTIONAL COMPONENT; RENDENRS A LOGIN FORM
+// MAIN: FUCNTIONAL COMPONENT; RENDERS A LOGIN FORM
 export default function Login(routerProps) {
   const classes = useStyles();
   // Applying 'useState' hook to set the values and manage the state of the emai input an the password input
@@ -65,7 +66,6 @@ export default function Login(routerProps) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const endpoint = "/api/v1/auth"
-    // console.log({email, password})
     const userData = {email, password}
     dispatch(CreateOrLoginUser(endpoint, userData, routerProps))
   }
@@ -126,9 +126,6 @@ export default function Login(routerProps) {
               </Link>
             </Grid>
             <Grid item>
-              {/* <Link href="/signup" variant="body2">
-              {"Don't have an account? Sign Up"}
-              </Link> */}
               <NavLink to="/signup" variant="body2">
               {"Don't have an account? Sign Up"}
               </NavLink>
