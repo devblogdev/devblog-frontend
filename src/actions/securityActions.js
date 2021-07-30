@@ -1,4 +1,4 @@
-// import axios from 'axios'
+import axios from 'axios'
 import auth from "../components/security/auth"
 
 export function authentication() {
@@ -12,15 +12,30 @@ export function authentication() {
              return auth.logout()
         }
     }
-    
 }
 
-// export default authentication
-
-// const authorization= () => {
-//     const token ="a"
-//     if (token) {
-//         return "Send API call to check user's credentials"
-//     }
-//     return auth.logout()
-// }
+export function authorization(endpoint=null, routerProps=null ) {
+    const token = localStorage.getItem('token')
+    let url
+    endpoint ? url= endpoint : url= '/profile' 
+    if(token){
+        return (dispatch) => {
+            axios.get(`http://localhost:3000${url}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                // console.log(response.data.user)
+                dispatch({type:'SET_USER', payload: response.data.user})   
+            })
+            .catch(error => {
+                dispatch({type: 'LOGOUT_USER'})
+                console.log(error)
+                // return routerProps ? routerProps.history.push('/') : null
+            })
+        }
+    } return (dispatch) => {
+        dispatch({type: 'LOGOUT_USER'})
+    }
+}

@@ -11,7 +11,7 @@ import ManageLogin from './containers/ManageLogin'
 import { authentication } from './actions/securityActions'
 import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom'
-import ProtectedRoute from './components/privateRoute/privateRoute';
+import ProtectedRoute from './components/protectedRoute/protectedRoute';
 // import auth from './components/security/auth'
 import ProfileContainer from './containers/ProfileContainer'
 
@@ -66,6 +66,7 @@ function App() {
             exact path ="/profile"
             component = {ProfileContainer}
             user = {current_user}
+            
         />
         <Route
             exact path="/login"
