@@ -4,6 +4,7 @@ class Auth {
     }
 
     login(callBack) {
+        // debugger
         this.authenticated = true;
         // callBack;
     }
@@ -11,7 +12,7 @@ class Auth {
     logout(callBack) {
         this.authenticated = false;
         localStorage.removeItem('token');
-        console.log("Logged out, authentication is now: ", this.isAuthenticated());
+        // console.log("Logged out, authentication is now: ", this.isAuthenticated());
     }
 
     isAuthenticated(callBack) {

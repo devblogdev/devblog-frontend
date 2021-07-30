@@ -9,6 +9,7 @@ export default function usersReducer(
         case 'SET_USER':
             console.log("users reducer")
             auth.login();
+            // debugger
             return {...state, current_user: action.payload }
         case 'LOGOUT_USER':
             auth.logout();

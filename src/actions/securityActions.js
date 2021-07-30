@@ -2,20 +2,28 @@ import axios from 'axios'
 import auth from "../components/security/auth"
 
 
-const authentication= () => {
-    const token = "a"
-    if (token === undefined) {
-        auth.logout()
+export function authentication() {
+    // debugger
+    const token = localStorage.getItem('token')
+    // debugger
+    return (dispatch) => {
+        if (token) {
+            console.log("Logged in worked")
+            return auth.login()
+        } else if (token === undefined) {
+            console.log("Logged out worked")
+             return auth.logout()
+        }
     }
-
+    
 }
 
-const authorization= () => {
-    const token ="a"
-    if (token) {
-        return "Send API call to check user's credentials"
-    }
-    return auth.logout()
+// export default authentication
 
-
-}
+// const authorization= () => {
+//     const token ="a"
+//     if (token) {
+//         return "Send API call to check user's credentials"
+//     }
+//     return auth.logout()
+// }
