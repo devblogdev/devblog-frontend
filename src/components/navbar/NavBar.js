@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 // MATERIAL UI DEPENDENCIES 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 // APP DEPENDENCIES
 import { NavLink } from 'react-router-dom'
-import auth from '../security/auth'
+// import auth from '../security/auth'
 
 // MATERIAL UI STYLES
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 // MAIN FUNCTION, FUNCTIONAL COMPONENT
 export default function NavBar(props) {
-    console.log(props)
+    // console.log(props)
   const classes = useStyles();
 // debugger
 //   useEffect(() => {
@@ -55,8 +55,6 @@ export default function NavBar(props) {
 //             return button
 //       }
 //   }
-
-
 
   return (
     <div className={classes.root}>

@@ -7,7 +7,7 @@ export default function usersReducer(
     }, action) {
     switch(action.type) {
         case 'SET_USER':
-            console.log("users reducer")
+            // console.log("users reducer")
             auth.login();
             // debugger
             return {...state, current_user: action.payload }

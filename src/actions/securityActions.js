@@ -1,4 +1,4 @@
-import axios from 'axios'
+// import axios from 'axios'
 import auth from "../components/security/auth"
 
 
@@ -11,7 +11,7 @@ export function authentication() {
             console.log("Logged in worked")
             return auth.login()
         } else if (token === undefined) {
-            console.log("Logged out worked")
+            // console.log("Logged out worked")
              return auth.logout()
         }
     }

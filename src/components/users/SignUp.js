@@ -66,10 +66,10 @@ export default function SignUp(routerProps) {
       const userData = { first_name: firstName, last_name: lastName, email, password}
       console.log("sign up was pressed")
       CreateOrLoginUser(endpoint, userData, routerProps )
-    //   resetFirstName()
-    //   resetLastName()
-    //   resetEmail()
-    //   resetPassword()
+      resetFirstName()
+      resetLastName()
+      resetEmail()
+      resetPassword()
   }
 
   return (

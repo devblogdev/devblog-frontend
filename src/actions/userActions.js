@@ -7,8 +7,7 @@ export function CreateOrLoginUser(endpoint, userData, routerProps) {
         axios.post(endpoint, {user: userData})
         .then(response => {
             localStorage.setItem('token', response.data.jwt)
-            console.log(routerProps)
-            dispatch({type: 'SET_USER', payload: response.data })
+            dispatch({type: 'SET_USER', payload: response.data.user })
             routerProps.history.push('/')
         })
         .catch(error => {
@@ -18,12 +17,12 @@ export function CreateOrLoginUser(endpoint, userData, routerProps) {
     }
 }
 
-const authorization= () => {
-    const token ="a"
-    if (token) {
-        return "Send API call to check user's credentials"
-    }
-    return auth.logout()
+// const authorization= () => {
+//     const token ="a"
+//     if (token) {
+//         return "Send API call to check user's credentials"
+//     }
+//     return auth.logout()
 
 
-}
+// }

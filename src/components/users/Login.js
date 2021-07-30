@@ -65,7 +65,7 @@ export default function Login(routerProps) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const endpoint = "/api/v1/auth"
-    console.log({email, password})
+    // console.log({email, password})
     const userData = {email, password}
     dispatch(CreateOrLoginUser(endpoint, userData, routerProps))
   }
