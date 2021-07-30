@@ -45,16 +45,9 @@ export default function NavBar(props) {
           </Typography>
           <Typography variant="h6" className={classes.title}>
             <NavLink 
-                to="/login" 
+                to="/profile" 
                 style={{color: 'white', textDecoration: 'none'}} 
-            >Login
-            </NavLink>
-          </Typography>
-          <Typography variant="h6" className={classes.title}>
-            <NavLink 
-                to="/logout"
-                style={{color: 'white', textDecoration: 'none'}} 
-            >Logout
+            >My Profile
             </NavLink>
           </Typography>
           {props.button}

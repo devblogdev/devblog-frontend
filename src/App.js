@@ -11,7 +11,9 @@ import ManageLogin from './containers/ManageLogin'
 import { authentication } from './actions/securityActions'
 import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom'
+import ProtectedRoute from './components/privateRoute/privateRoute';
 // import auth from './components/security/auth'
+import ProfileContainer from './containers/ProfileContainer'
 
 function App() {
   console.log('App.js was rendered')
@@ -53,20 +55,25 @@ function App() {
       <div className="App">
         <NavBar button ={setButton()} />
         <Route
-          exact path="/"
-          component = {Home}
+            exact path="/"
+            component = {Home}
         />
         <Route
-          exact path="/logout"
-          render={routerProps => <Home {...routerProps} /> }
+            exact path="/logout"
+            render={routerProps => <Home {...routerProps} /> }
+        />
+        <ProtectedRoute
+            exact path ="/profile"
+            component = {ProfileContainer}
+            user = {current_user}
         />
         <Route
-          exact path="/login"
-          render={routerProps => <ManageLogin {...routerProps} /> }
+            exact path="/login"
+            render={routerProps => <ManageLogin {...routerProps} /> }
         />
         <Route
-          exact path="/signup"
-          render={routerProps => <ManageLogin {...routerProps} /> }
+            exact path="/signup"
+            render={routerProps => <ManageLogin {...routerProps} /> }
         />
       </div>
     </Router>

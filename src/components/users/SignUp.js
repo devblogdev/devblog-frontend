@@ -19,7 +19,6 @@ import { useInput } from '../hooks/input-hook'
 import { CreateOrLoginUser } from '../../actions/userActions'
 import { useDispatch } from 'react-redux'
 
-
 // MATERIAL UI FUNCTION 
 function Copyright() {
   return (
@@ -60,21 +59,21 @@ export default function SignUp(routerProps) {
   const classes = useStyles();
   const dispatch = useDispatch()
 
+  // CONSTANTS FOR INPUT CUSTOM HOOK
   const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput("")
   const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput("")
   const { value: email, bind: bindEmail, reset: resetEmail } = useInput("")
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput("")
-
 
   const handleSubmit = (event) => {
       event.preventDefault();
       const endpoint = "/users"
       const userData = { first_name: firstName, last_name: lastName, email, password}
       dispatch(CreateOrLoginUser(endpoint, userData, routerProps ))
-    //   resetFirstName()
-    //   resetLastName()
-    //   resetEmail()
-    //   resetPassword()
+      resetFirstName()
+      resetLastName()
+      resetEmail()
+      resetPassword()
   }
   return (
     <Container component="main" maxWidth="xs">
