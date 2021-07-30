@@ -7,7 +7,7 @@ export function createOrLoginUser(endpoint, userData, routerProps) {
     .then(response => {
         // localStorage.setItem('token', response.data.jwt)
         // routerProps.history.push('/')
-        console.log("you pressed 'Log in")
+        console.log("you pressed 'Log in'")
     })
     .catch(error => {
         auth.logout()
