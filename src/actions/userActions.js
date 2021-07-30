@@ -1,18 +1,20 @@
 import axios from 'axios'
 import auth from '..//components/security/auth'
 
-export function createOrLoginUser(endpoint, userData, routerProps) {
-    // debugger
-    axios.post(endpoint, {user: userData})
-    .then(response => {
-        // localStorage.setItem('token', response.data.jwt)
-        // routerProps.history.push('/')
-        console.log("you pressed 'Log in'")
-    })
-    .catch(error => {
-        auth.logout()
-        console.log(error)
-    })
+export function CreateOrLoginUser(endpoint, userData, routerProps) {
+    return (dispatch) => {
+        axios.post(endpoint, {user: userData})
+        .then(response => {
+            localStorage.setItem('token', response.data.jwt)
+            console.log(routerProps)
+            // dispatch({type: 'SET_USER', payload: response.data })
+            // routerProps.history.push('/')
+        })
+        .catch(error => {
+            auth.logout()
+            console.log(error)
+        })
+    }
 }
 
 const authorization= () => {

@@ -15,8 +15,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import { NavLink } from 'react-router-dom'
-import { createOrLoginUser } from '../../actions/userActions'
+import { useDispatch } from 'react-redux'
+import { CreateOrLoginUser } from '../../actions/userActions'
 
+// MATERIAL-UI FUNCTION
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -30,6 +32,7 @@ function Copyright() {
   );
 }
 
+// MATERIAL-UI STYLES
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -50,21 +53,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// MAIN FUCNTIONAL COMPONENT; RENDENRS A LOGIN FORM
 export default function Login(routerProps) {
   const classes = useStyles();
-
+  // Applying 'useState' hook to set the values and manage the state of the emai input an the password input
+  // Applying 'useDispatch' hook to to mimic mapDidspatchtoProps
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch()
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const endpoint = "/api/v1/auth"
-    // console.log({email, password})
+    console.log({email, password})
     const userData = {email, password}
-    createOrLoginUser(endpoint, userData, routerProps)
-
+    dispatch(CreateOrLoginUser(endpoint, userData, routerProps))
   }
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

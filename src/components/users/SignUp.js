@@ -15,7 +15,7 @@ import Container from '@material-ui/core/Container';
 
 import { NavLink } from 'react-router-dom'
 import { useInput } from '../hooks/input-hook'
-import { createOrLoginUser } from '../../actions/userActions'
+import { CreateOrLoginUser } from '../../actions/userActions'
 
 
 
@@ -65,7 +65,7 @@ export default function SignUp(routerProps) {
       const endpoint = "/users"
       const userData = { first_name: firstName, last_name: lastName, email, password}
       console.log("sign up was pressed")
-      createOrLoginUser(endpoint, userData, routerProps )
+      CreateOrLoginUser(endpoint, userData, routerProps )
     //   resetFirstName()
     //   resetLastName()
     //   resetEmail()
