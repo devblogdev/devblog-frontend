@@ -1,14 +1,11 @@
 // import axios from 'axios'
 import auth from "../components/security/auth"
 
-
 export function authentication() {
-    // debugger
     const token = localStorage.getItem('token')
-    // debugger
-    return (dispatch) => {
+    return () => {
         if (token) {
-            console.log("Logged in worked")
+            // console.log("Logged in worked")
             return auth.login()
         } else if (token === undefined) {
             // console.log("Logged out worked")

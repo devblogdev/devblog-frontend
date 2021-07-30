@@ -26,35 +26,8 @@ const useStyles = makeStyles((theme) => ({
 
 // MAIN FUNCTION, FUNCTIONAL COMPONENT
 export default function NavBar(props) {
-    // console.log(props)
+    
   const classes = useStyles();
-// debugger
-//   useEffect(() => {
-//       setButton()
-//   })
-//   let button
-// //   debugger
-// const setButton = () => {
-//     const token = localStorage.getItem('token')
-//     console.log(token)
-//     if (token) {
-//       button = 
-//           <NavLink 
-//               to="/logout"
-//               style={{color: 'white', textDecoration: 'none'}} 
-//           > <Button color="inherit">Logout</Button>
-//           </NavLink>
-//           return button
-//       } else {
-//           button =
-//                 <NavLink 
-//                     to="/login"
-//                     style={{color: 'white', textDecoration: 'none'}} 
-//                   > <Button color="inherit">Login</Button>
-//                 </NavLink>
-//             return button
-//       }
-//   }
 
   return (
     <div className={classes.root}>

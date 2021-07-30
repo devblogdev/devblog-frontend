@@ -2,7 +2,6 @@ import axios from 'axios'
 import auth from '..//components/security/auth'
 
 export function CreateOrLoginUser(endpoint, userData, routerProps) {
-    // debugger
     return (dispatch) => {
         axios.post(endpoint, {user: userData})
         .then(response => {

@@ -46,7 +46,7 @@ function App() {
                 </NavLink>
         }
         return button
-      }
+  }
 
   return (
     <Router>
