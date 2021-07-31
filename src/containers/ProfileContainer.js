@@ -5,7 +5,7 @@ import { authorization } from '../actions/securityActions'
 export default function ProfileContainer(props) {
     const dispatch = useDispatch()
     useEffect(() => {
-        console.log("my profile effect")
+        // console.log("my profile effect")
         dispatch(authorization())
     },[dispatch])
     return (
