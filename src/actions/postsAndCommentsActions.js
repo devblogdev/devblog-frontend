@@ -4,8 +4,7 @@ export function fetchNYTIMESposts(endpoint) {
         axios.get(endpoint)
         .then(response => {
             console.log(response)
-            // dispatch({type: 'SET_USER', payload: response.data.user })
-            // routerProps.history.push('/')
+            dispatch({type: 'FETCH_POSTS', payload: response.data })
         })
         .catch(error => {
             auth.logout()

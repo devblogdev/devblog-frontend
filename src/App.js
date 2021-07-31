@@ -14,6 +14,7 @@ import { NavLink } from 'react-router-dom'
 import ProtectedRoute from './components/protectedRoute/protectedRoute';
 // import auth from './components/security/auth'
 import ProfileContainer from './containers/ProfileContainer'
+import axios from 'axios'
 
 function App() {
   console.log('App.js was rendered')
@@ -23,6 +24,11 @@ function App() {
     dispatch(authentication())
     setButton()
   })
+  // useEffect(() => {
+  //   axios.get("posts")
+  //   .then(response => console.log(response))
+  //   .catch(error => console.log(error))
+  // })
 
   let button
   const token = localStorage.getItem('token')
@@ -30,6 +36,7 @@ function App() {
   // and the 'useEffect' above will not be called; the presence of the state variable ensures that App will rerender after user login 
   // calling the setButton function in useEffect, which will make the "LOGIN" link in navbar to change to "LOGOUT" after the user logs in; and viceversa when the user logs out
   const current_user = useSelector((state) => state.users.current_user)
+  const NYTIMESposts = useSelector((state) => state.posts)
   
   const setButton = () => {
       if (token) {
@@ -51,12 +58,13 @@ function App() {
   }
 
   return (
+    
     <Router>
       <div className="App">
         <NavBar button ={setButton()} />
         <Route
             exact path="/"
-            component = {Home}
+            render = {routerProps => <Home externalPosts = {NYTIMESposts}  {...routerProps} /> }
         />
         <Route
             exact path="/logout"
