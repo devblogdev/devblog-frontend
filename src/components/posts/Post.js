@@ -1,11 +1,14 @@
 import React from 'react'
 
-export default function Post({match, posts}) {
-    debugger
+const  Post = ({match, posts}) => {
+    // debugger
+    console.log('Attempted')
     return(
         <div>
-            <p>HELLO</p>
-            <p>{match.params}</p>
+            <p>HEkkLLO</p>
+            <p>{posts[match.params.postID].title}</p>
         </div>
     )
 }
+
+export default Post

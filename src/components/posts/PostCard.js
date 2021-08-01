@@ -1,8 +1,8 @@
 import React from 'react'
 
-const PostCard = (props) => {
+const PostCard = ({post}) => {
     // debugger
-    const {title, abstract, url, images} = {...props.post}
+    const {title, abstract, url, images} = post
     // console.log(title)
     return(
         <React.Fragment>

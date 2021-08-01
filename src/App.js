@@ -57,7 +57,7 @@ function App() {
       <div className="App">
         <NavBar button ={setButton()} />
         <Route
-            exact path="/"
+             path="/"
             render = {routerProps => <Home {...routerProps} /> }
         />
         <Route

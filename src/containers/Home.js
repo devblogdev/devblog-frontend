@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Route } from 'react-router-dom'
 
 // import auth from '../components/security/auth'
 import PostList from '../components/posts/PostList'
 import { fetchPosts } from '../actions/postsAndCommentsActions'
+import Post from '../components/posts/Post'
 
 // MATERIAL UI DEPENDENCIES
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
 // MATERIAL UI STYLES
@@ -30,26 +32,16 @@ const Home = (props) => {
     })
 
     useEffect(() => {
-        // if (posts === []) {
         const endpoint = "/posts"
         dispatch(fetchPosts(endpoint))
-        // }
     }, [dispatch])
     
-    // const handleClick = event => {
-    //     console.log("HELLO")
-    //     axios.get("posts")
-    //     .then(response => console.log(response))
-    //     .catch(error => console.log(error))
-    // }
     return (
         <div>
         <React.Fragment>
             <h1>Welcome to DevBlog</h1>
-                <Button 
-                >Get Posts
-                </Button>
-            <PostList posts = {posts} {...props} />
+            <Route path={`/posts/:postID`} render= {props => <Post {...props} posts = {posts} />} />
+            <PostList posts ={posts} />
         </React.Fragment>
         </div>
     )
