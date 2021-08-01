@@ -2,7 +2,7 @@ import React from 'react'
 
 const PostCard = ({post}) => {
     // debugger
-    const {title, abstract, url, images} = post
+    const {title, abstract, images} = post
     // console.log(title)
     return(
         <React.Fragment>

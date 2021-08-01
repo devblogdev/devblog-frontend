@@ -1,12 +1,10 @@
 import React from 'react'
 
 const  Post = ({match, posts}) => {
-    // debugger
-    console.log('Attempted')
     return(
         <div>
-            <p>HEkkLLO</p>
-            <p>{posts[match.params.postID].title}</p>
+            <h2>HEllo</h2>
+            <h3>{posts[match.params.postID].title}</h3>
         </div>
     )
 }

@@ -18,6 +18,7 @@ export function authorization(endpoint=null, routerProps=null ) {
     const token = localStorage.getItem('token')
     let url
     endpoint ? url= endpoint : url= '/profile' 
+    console.log("Security called")
     if(token){
         return (dispatch) => {
             axios.get(`http://localhost:3000${url}`, {
