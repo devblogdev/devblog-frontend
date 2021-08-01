@@ -1,5 +1,7 @@
+import axios from 'axios'
+import auth from '../components/security/auth'
 
-export function fetchNYTIMESposts(endpoint) {
+export function fetchPosts(endpoint) {
     return (dispatch) => {
         axios.get(endpoint)
         .then(response => {
@@ -7,8 +9,8 @@ export function fetchNYTIMESposts(endpoint) {
             dispatch({type: 'FETCH_POSTS', payload: response.data })
         })
         .catch(error => {
-            auth.logout()
             console.log(error)
+            auth.logout()
         })
     }
 }

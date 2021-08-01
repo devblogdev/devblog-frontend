@@ -1,21 +1,25 @@
 import React from 'react'
 import PostCard from './PostCard'
-import {Route, Link} from 'react-router-dom'
+import Post from './Post'
+import {Route, Link } from 'react-router-dom'
 
- const PostList = ({ match, posts: posts}) => {
+ const PostList = ({ match, posts}) => {
     //  debugger
-    const allPosts = posts.map((post,index) => {
-       <Link key={index} to={`/posts/${index}`}>
-           <li key={index}>
-               <PostCard post= {post} /> 
-           </li>
-        </Link>
+    console.log(match)
+    const allPosts = posts.map((post,postID) => {
+       return <Link key={postID} to={`/posts/${postID}`}>
+                <PostCard post= {post} /> 
+              </Link>
     })
 
     return (
         <div>
+            <h1>Post List</h1>
             {allPosts}
-            <Route path={`${match.url}/:postId`} render= {routerProps => <PostCard {...routerProps} posts = {allPosts} />} />
+            
+            {/* <Route path={`/posts/:postID`} render= {routerProps => <Post {...routerProps} posts = {posts} />} /> */}
+            <Route path={`/posts/:postID`}>HELLOS</Route>
+            
         </div>
     )
 }

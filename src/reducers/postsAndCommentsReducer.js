@@ -22,11 +22,12 @@ export default function postsAndCommentsReducer(
                 }
 
             case 'FETCH_POSTS':
+                // debugger
                 return {
                     ...state,
                     loading: false,
                     message: "",
-                    posts: [state.posts, ...action.payload],
+                    posts: action.payload
                 }
 
             case 'ADD_POST':
