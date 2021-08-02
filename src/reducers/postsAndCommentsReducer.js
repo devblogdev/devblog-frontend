@@ -31,7 +31,8 @@ export default function postsAndCommentsReducer(
                 }
 
             case 'ADD_POST':
-                post = action.post
+                post = action.payload
+                console.log("ADD PONT ACTION REACHED")
                 return { ...state, ...state.posts, post}
 
             case 'REMOVE_POST':

@@ -4,6 +4,9 @@ import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {convertFromRaw, convertToRaw} from 'draft-js';
+import { convertToHTML } from 'draft-convert';
+// import DOMPurify from 'dompurify';
+
 import Button from '@material-ui/core/Button';
 import { addPost } from '../../actions/postsAndCommentsActions'
 
@@ -22,6 +25,7 @@ const MyEditor = () => {
   const [editorState, setEditorState] = useState( 
       () => initialEditorState
   );
+
   const dispatch = useDispatch()
 
   const saveRaw = () => {
@@ -36,10 +40,13 @@ const MyEditor = () => {
   }
 
   const savePost = (event) => {
-    const postData = localStorage.getItem('draftRaw')
-    const button = event.target.value
+    // const postData = localStorage.getItem('draftRaw')
+    const data = convertToHTML(editorState.getCurrentContent());
+    const postData = {body: data}
+    console.log(postData)
+    const button = event.target.innerText
     let endpoint 
-    button === "Publish" ? endpoint="/publish" : endpoint="/draft"
+    button === "PUBLISH" ? endpoint="/publish" : endpoint="/draft"
     dispatch(addPost(endpoint, postData))
   }
 
