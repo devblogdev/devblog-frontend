@@ -14,3 +14,27 @@ export function fetchPosts(endpoint) {
         })
     }
 }
+
+export function addPost(endpoint, postData, routerProps=null){
+    const token = localStorage.getItem('token')
+    const axiosConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${token}`   
+        }
+    }
+    if(token){
+        return (dispatch) => {
+            axios.post(`${endpoint}`, {post: postData} , axiosConfig)
+            .then( response => {
+                dispatch( {type: 'ADD_POST', payload: response.data.post})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
+    } return (dispatch) => {
+        dispatch({type: 'LOGOUT_USER'})
+        // "Your session expired, please log back in"
+    }
+}
