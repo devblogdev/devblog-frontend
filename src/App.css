@@ -13,7 +13,7 @@
   }
 }
 
-.App-header {
+/* .App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -22,7 +22,22 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+} */
+
+/* APP STYLES TO FIT POSTS TEXT EDITOR */
+.App-header {
+  background-color: #282c34;
+  min-height: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  margin-bottom: 5vh;
+  text-align: center;
 }
+
 
 .App-link {
   color: #61dafb;
@@ -36,3 +51,19 @@
     transform: rotate(360deg);
   }
 }
+
+/* STYLES FOR POSTS TEXT EDITOR */
+.wrapper-class {
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+.editor-class {
+  /* background-color:lightgray; */
+  background-color:silver;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+.toolbar-class {
+  border: 1px solid #ccc;
+}
+/* STYLES FOR POSTS TEXT EDITOR */

@@ -12,6 +12,7 @@ import ProtectedRoute from './components/protectedRoute/protectedRoute';
 import ProfileContainer from './containers/ProfileContainer'
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
 import { fetchPosts } from './actions/postsAndCommentsActions'
+import PostForm from './components/posts/PostForm'
 
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
   useEffect(() => {
     const endpoint = "/posts"
     dispatch(fetchPosts(endpoint))
-}, [dispatch])
+  }, [dispatch])
 
   let button
   const token = localStorage.getItem('token')
@@ -56,12 +57,11 @@ function App() {
   }
 
   return (
-    
     <Router>
       <div className="App">
 
         <NavBar button ={setButton()} />
-
+        
         <Route
             exact path="/"
             render = {routerProps => <Home {...routerProps} posts = {posts} /> }
@@ -86,6 +86,10 @@ function App() {
         <Route
             exact path="/signup"
             render={routerProps => <ManageLogin {...routerProps} /> }
+        />      
+        <Route
+            exact path="/newpost"
+            render={routerProps => <PostForm {...routerProps} /> }
         />      
       </div>
     </Router>

@@ -50,6 +50,13 @@ export default function NavBar(props) {
             >My Profile
             </NavLink>
           </Typography>
+          <Typography variant="h6" className={classes.title}>
+            <NavLink 
+                to="/newpost" 
+                style={{color: 'white', textDecoration: 'none'}} 
+            >New Post
+            </NavLink>
+          </Typography>
           {props.button}
         </Toolbar>
       </AppBar>

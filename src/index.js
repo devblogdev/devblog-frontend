@@ -10,9 +10,11 @@ import thunk from 'redux-thunk'
 import rootReducer from './reducers/index'
 import axios from 'axios'
 
+
 axios.defaults.baseURL= 'http://localhost:3000'
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
+
 
 ReactDOM.render(
   <Provider store = {store} >
