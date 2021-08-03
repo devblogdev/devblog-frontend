@@ -78,19 +78,25 @@ export default function ProfileContainer(props) {
 
   const dispatch = useDispatch()
   const [drafts, setDrafts] = useState([])
+  const [published, setPublished] = useState([])
   const current_user = useSelector((state) => state.users.current_user)
   
   useEffect(() => {
       dispatch(authorization())
-      console.log("USE EFFECT WAS CALLED")
   },[dispatch])
+
+  const loadedDrafts = current_user.posts?.filter( post => post.status === "draft").map((post,index) => 
+      <li key={index}><Link to= {`/profile/drafts/${post.id}`}>{post.body}</Link></li>
+    )
+
+  const loadedPublished = current_user.posts?.filter( post => post.status === "published").map((post,index) => 
+      <li key={index}><Link to= {`/profile/drafts/${post.id}`}>{post.body}</Link></li>
+    )
 
   useEffect(() => {
     console.log("User loaded")
-    const loadedDrafts = current_user.posts?.filter( post => post.status === "draft").map((post,index) => 
-      <li key={index}><Link to= {`/profile/drafts/${post.id}`}>{post.body}</Link></li>
-      )
     setDrafts(loadedDrafts)
+    setPublished(loadedPublished)
   },[current_user])
   
   const classes = useStyles();
@@ -103,14 +109,14 @@ export default function ProfileContainer(props) {
     <Container>
       <div className={classes.root}>
         <Typography id="demo-a11y-tabs-manual-label">
-          <h2>Welcome to your profile {props.user.email}</h2>
+          Welcome to your profile {props.user.email}
         </Typography>
         <DemoTabs labelId="demo-a11y-tabs-manual-label" onChange={handleChange} value={value} />
         <TabPanel value={value} index={0}>
           {drafts}
         </TabPanel>
         <TabPanel value={value} index={1}>
-          {/* {published} */}
+          {published}
         </TabPanel>
         <TabPanel value={value} index={2}>
           {/* {Item Three} */}
