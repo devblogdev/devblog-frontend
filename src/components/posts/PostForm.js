@@ -41,7 +41,7 @@ const MyEditor = () => {
 
   const saveDraft = (event) => {
     const data = convertToHTML(editorState.getCurrentContent());
-    const endpoint = "/drafy" 
+    const endpoint = "/draft" 
     const postData = {body: data, status: "draft"}
     dispatch(addPost(endpoint, postData))
   }

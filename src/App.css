@@ -67,3 +67,8 @@
   border: 1px solid #ccc;
 }
 /* STYLES FOR POSTS TEXT EDITOR */
+
+.app-container {
+  margin-top: 100px
+}
+

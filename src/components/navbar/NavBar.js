@@ -9,7 +9,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 // APP DEPENDENCIES
 import { NavLink } from 'react-router-dom'
-// import auth from '../security/auth'
+import grey from '@material-ui/core/colors/grey';
+
+
 
 // MATERIAL UI STYLES
 const useStyles = makeStyles((theme) => ({
@@ -22,16 +24,23 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  backgroundColor: "gray"
 }));
 
 // MAIN FUNCTION, FUNCTIONAL COMPONENT
 export default function NavBar(props) {
     
   const classes = useStyles();
+  const color = grey[700];
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed">
+      <AppBar 
+        position="fixed" 
+        style={{
+          backgroundColor: color
+        }}
+      >
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />

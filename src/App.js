@@ -63,7 +63,7 @@ function App() {
       <div className="App">
 
         <NavBar button ={setButton()} />
-        
+        <div className="app-container">
         <Route
             exact path="/"
             render = {routerProps => <Home {...routerProps} posts = {posts} /> }
@@ -96,7 +96,8 @@ function App() {
         <Route
             exact path="/newpost"
             render={routerProps => <PostForm {...routerProps} /> }
-        />      
+        />    
+        </div>  
       </div>
     </Router>
   );

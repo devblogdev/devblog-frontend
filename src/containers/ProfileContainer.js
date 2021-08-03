@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { authorization } from '../actions/securityActions'
 
@@ -48,8 +48,11 @@ function DemoTabs(props) {
         selectionFollowsFocus={selectionFollowsFocus}
         value={value}
         centered
-        // textColor="white"
-        // indicatorColor="white"
+        // textColor=""
+        style={{
+          backgroundColor: "black"
+        }}
+        
       >
         <Tab label="Drafts" aria-controls="a11y-tabpanel-0" id="a11y-tab-0" />
         <Tab label="Published" aria-controls="a11y-tabpanel-1" id="a11y-tab-1" />
@@ -77,32 +80,58 @@ export default function ProfileContainer(props) {
 
   const dispatch = useDispatch()
 
+  // const [isLoaded, setIsLoaded] = useState(false)
+  // const [currentUser, setCurrentUser] = useState(props.user);
+  // const user = useSelector((state) => state.users.current_user)
+  const [drafts, setDrafts] = useState([])
+  const current_user = useSelector((state) => state.users.current_user)
+  // const [published, setPublshed] = useState(null);
+
+  
 
   useEffect(() => {
       dispatch(authorization())
+      console.log("USE EFFECT WAS CALLED")
   },[dispatch])
-  console.log(props)
 
-  
-  // console.log(current_user)
-  let current_user
-  let posts
-  let drafts
-  let published
-   current_user = useSelector((state) => state.users.current_user)
-   posts = current_user.posts
-   drafts = posts.filter( post => post.status === "draft").map((post,index) => 
-    <li><Link to= {`/profile/drafts/${post.id}`} key={index} >
+  useEffect(() => {
+    console.log("User loaded")
+    console.log(current_user)
+    const loadedDrafts = current_user.posts?.filter( post => post.status === "draft").map((post,index) => 
+    <li key={index}><Link to= {`/profile/drafts/${post.id}`}  >
       {post.body}
     </Link>
     </li>
   )
-   published =posts.filter( post => post.status === "published").map((post,index) => 
-  <li><Link to= {`/posts/${post.id}`} key={post.id} >
-    {post.body}
-  </Link>
-  </li>
-  )
+    setDrafts(loadedDrafts)
+  },[current_user])
+  // console.log(props)
+
+
+
+
+  
+ 
+  console.log(props)
+  
+  // let current_user
+  // let posts
+  
+  // let published
+  // let drafts
+  // //  posts = currentUser.posts
+  // drafts = current_user.posts?.filter( post => post.status === "draft").map((post,index) => 
+  //   <li key={index}><Link to= {`/profile/drafts/${post.id}`}  >
+  //     {post.body}
+  //   </Link>
+  //   </li>
+  // )
+  //  published =posts.filter( post => post.status === "published").map((post,index) => 
+  // <li><Link to= {`/posts/${post.id}`} key={post.id} >
+  //   {post.body}
+  // </Link>
+  // </li>
+  // )
 
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -110,7 +139,7 @@ export default function ProfileContainer(props) {
     setValue(newValue);
   };
 
-  return  (
+  return (
     <Container>
     <div className={classes.root}>
         <h2>Welcome to your profile {props.user.email}</h2>
@@ -120,17 +149,18 @@ export default function ProfileContainer(props) {
       <DemoTabs labelId="demo-a11y-tabs-manual-label" onChange={handleChange} value={value} />
       <TabPanel value={value} index={0}>
         {drafts}
+        {/* {currentUser} */}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {published}
+        {/* {published} */}
       </TabPanel>
       <TabPanel value={value} index={2}>
         {/* {Item Three} */}
       </TabPanel>
-      
     </div>
     </Container>
-  );
+  )
+  
 }
 
 
