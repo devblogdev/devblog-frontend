@@ -28,7 +28,7 @@ export function addPost(endpoint, postData, routerProps=null){
             axios.post(`${endpoint}`, {post: postData} , axiosConfig)
             .then( response => {
                 console.log(response)
-                dispatch( {type: 'ADD_POST', payload: response.data.post})
+                dispatch( {type: 'ADD_POST', payload: response.data})
             })
             .catch(error => {
                 console.log(error);

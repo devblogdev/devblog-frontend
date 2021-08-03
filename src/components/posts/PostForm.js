@@ -40,7 +40,6 @@ const MyEditor = () => {
   }
 
   const savePost = (event) => {
-    // const postData = localStorage.getItem('draftRaw')
     const data = convertToHTML(editorState.getCurrentContent());
     const postData = {body: data}
     console.log(postData)
