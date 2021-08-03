@@ -14,6 +14,7 @@ import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
 import { fetchPosts } from './actions/postsAndCommentsActions'
 import PostForm from './components/posts/PostForm'
 import PostLinksContainer from './containers/PostLinksContainer';
+import Container from '@material-ui/core/Container';
 
 
 function App() {
@@ -63,41 +64,44 @@ function App() {
       <div className="App">
 
         <NavBar button ={setButton()} />
-        <div className="app-container">
-        <Route
-            exact path="/"
-            render = {routerProps => <Home {...routerProps} posts = {posts} /> }
-        />
-        <Route
-            exact path="/posts"
-            render = {routerProps => <PostLinksContainer {...routerProps} posts = {posts} /> }
-        />
-         <Route 
-            path={`/posts/:postID`} 
-            render= {props => <PostsAndCommentsContainer {...props} posts = {posts} />} />
-        
-        <Route
-            exact path="/logout"
-            render={routerProps => <Home {...routerProps}  posts = {posts} /> }
-        />
-        <ProtectedRoute
-            exact path ="/profile"
-            component = {ProfileContainer}
-            user = {current_user}
-        />
-        <Route
-            exact path="/login"
-            render={routerProps => <ManageLogin {...routerProps} /> }
-        />
-        <Route
-            exact path="/signup"
-            render={routerProps => <ManageLogin {...routerProps} /> }
-        />      
-        <Route
-            exact path="/newpost"
-            render={routerProps => <PostForm {...routerProps} /> }
-        />    
-        </div>  
+        <Container 
+          className="app-container"
+          maxWidth="lg"
+        >
+          <Route
+              exact path="/"
+              render = {routerProps => <Home {...routerProps} posts = {posts} /> }
+          />
+          <Route
+              exact path="/posts"
+              render = {routerProps => <PostLinksContainer {...routerProps} posts = {posts} /> }
+          />
+          <Route 
+              path={`/posts/:postID`} 
+              render= {props => <PostsAndCommentsContainer {...props} posts = {posts} />} />
+          
+          <Route
+              exact path="/logout"
+              render={routerProps => <Home {...routerProps}  posts = {posts} /> }
+          />
+          <ProtectedRoute
+              exact path ="/profile"
+              component = {ProfileContainer}
+              user = {current_user}
+          />
+          <Route
+              exact path="/login"
+              render={routerProps => <ManageLogin {...routerProps} /> }
+          />
+          <Route
+              exact path="/signup"
+              render={routerProps => <ManageLogin {...routerProps} /> }
+          />      
+          <Route
+              exact path="/newpost"
+              render={routerProps => <PostForm {...routerProps} /> }
+          />    
+        </Container>  
       </div>
     </Router>
   );
