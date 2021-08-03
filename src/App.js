@@ -13,6 +13,7 @@ import ProfileContainer from './containers/ProfileContainer'
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
 import { fetchPosts } from './actions/postsAndCommentsActions'
 import PostForm from './components/posts/PostForm'
+import PostLinksContainer from './containers/PostLinksContainer';
 
 
 function App() {
@@ -36,7 +37,8 @@ function App() {
   // calling the setButton function in useEffect, which will make the "LOGIN" link in navbar to change to "LOGOUT" after the user logs in; and viceversa when the user logs out
   const current_user = useSelector((state) => state.users.current_user)
   const posts = useSelector((state) => state.posts.posts)
-  
+  console.log(current_user)
+
   const setButton = () => {
       if (token) {
           button = 
@@ -65,6 +67,10 @@ function App() {
         <Route
             exact path="/"
             render = {routerProps => <Home {...routerProps} posts = {posts} /> }
+        />
+        <Route
+            exact path="/posts"
+            render = {routerProps => <PostLinksContainer {...routerProps} posts = {posts} /> }
         />
          <Route 
             path={`/posts/:postID`} 

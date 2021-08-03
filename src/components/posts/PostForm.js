@@ -39,13 +39,16 @@ const MyEditor = () => {
     saveRaw(contentState);
   }
 
+  const saveDraft = (event) => {
+    const data = convertToHTML(editorState.getCurrentContent());
+    const endpoint = "/drafy" 
+    const postData = {body: data, status: "draft"}
+    dispatch(addPost(endpoint, postData))
+  }
   const savePost = (event) => {
     const data = convertToHTML(editorState.getCurrentContent());
-    const postData = {body: data}
-    console.log(postData)
-    const button = event.target.innerText
-    let endpoint 
-    button === "PUBLISH" ? endpoint="/publish" : endpoint="/draft"
+    const endpoint = "/publish" 
+    const postData = {body: data, status: "published"}
     dispatch(addPost(endpoint, postData))
   }
 
@@ -62,7 +65,7 @@ const MyEditor = () => {
         editorClassName="editor-class"
         toolbarClassName="toolbar-class"
       />
-      <Button onClick ={savePost}>
+      <Button onClick ={saveDraft}>
           Save as Draft
       </Button>
       <Button onClick ={savePost}>

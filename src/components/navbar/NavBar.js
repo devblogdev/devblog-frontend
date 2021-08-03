@@ -31,7 +31,7 @@ export default function NavBar(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
@@ -45,7 +45,7 @@ export default function NavBar(props) {
           </Typography>
           <Typography variant="h6" className={classes.title}>
              <NavLink 
-                to="/"
+                to="/posts"
                 style={{color: 'white', textDecoration: 'none'}} 
             >All Posts   
             </NavLink>

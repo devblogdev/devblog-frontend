@@ -6,6 +6,7 @@ export function CreateOrLoginUser(endpoint, userData, routerProps) {
         axios.post(endpoint, {user: userData})
         .then(response => {
             localStorage.setItem('token', response.data.jwt)
+            console.log(response)
             dispatch({type: 'SET_USER', payload: response.data.user })
             routerProps.history.push('/')
         })

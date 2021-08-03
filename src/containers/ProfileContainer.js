@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { authorization } from '../actions/securityActions'
 
 
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import { Link } from 'react-router-dom'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -39,7 +40,6 @@ TabPanel.propTypes = {
 
 function DemoTabs(props) {
   const { labelId, onChange, selectionFollowsFocus, value } = props;
-
   return (
     <AppBar position="static">
       <Tabs
@@ -47,10 +47,13 @@ function DemoTabs(props) {
         onChange={onChange}
         selectionFollowsFocus={selectionFollowsFocus}
         value={value}
+        centered
+        // textColor="white"
+        // indicatorColor="white"
       >
-        <Tab label="Item One" aria-controls="a11y-tabpanel-0" id="a11y-tab-0" />
-        <Tab label="Item Two" aria-controls="a11y-tabpanel-1" id="a11y-tab-1" />
-        <Tab label="Item Three" aria-controls="a11y-tabpanel-2" id="a11y-tab-2" />
+        <Tab label="Drafts" aria-controls="a11y-tabpanel-0" id="a11y-tab-0" />
+        <Tab label="Published" aria-controls="a11y-tabpanel-1" id="a11y-tab-1" />
+        <Tab label="My Info" aria-controls="a11y-tabpanel-2" id="a11y-tab-2" />
       </Tabs>
     </AppBar>
   );
@@ -63,53 +66,70 @@ DemoTabs.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles ((theme) => ({
   root: {
     flexGrow: 1,
+    // backgroundColor: '#2e1534'
   },
-});
+}));
 
 export default function ProfileContainer(props) {
 
- const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
- useEffect(() => {
-    dispatch(authorization())
- },[dispatch])
+
+  useEffect(() => {
+      dispatch(authorization())
+  },[dispatch])
+  console.log(props)
+
+  
+  // console.log(current_user)
+  let current_user
+  let posts
+  let drafts
+  let published
+   current_user = useSelector((state) => state.users.current_user)
+   posts = current_user.posts
+   drafts = posts.filter( post => post.status === "draft").map((post,index) => 
+    <li><Link to= {`/profile/drafts/${post.id}`} key={index} >
+      {post.body}
+    </Link>
+    </li>
+  )
+   published =posts.filter( post => post.status === "published").map((post,index) => 
+  <li><Link to= {`/posts/${post.id}`} key={post.id} >
+    {post.body}
+  </Link>
+  </li>
+  )
 
   const classes = useStyles();
-
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  return (
+  return  (
+    <Container>
     <div className={classes.root}>
-        <div>Welcome to your profile {props.user.email}</div>
-      <Typography id="demo-a11y-tabs-automatic-label">
-        Tabs where selection follows focus
-      </Typography>
-      <DemoTabs
-        labelId="demo-a11y-tabs-automatic-label"
-        selectionFollowsFocus
-        onChange={handleChange}
-        value={value}
-      />
+        <h2>Welcome to your profile {props.user.email}</h2>
       <Typography id="demo-a11y-tabs-manual-label">
         Tabs where each tab needs to be selected manually
       </Typography>
       <DemoTabs labelId="demo-a11y-tabs-manual-label" onChange={handleChange} value={value} />
       <TabPanel value={value} index={0}>
-        Item One
+        {drafts}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        {published}
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        {/* {Item Three} */}
       </TabPanel>
+      
     </div>
+    </Container>
   );
 }
 
