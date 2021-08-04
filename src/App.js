@@ -1,7 +1,7 @@
 import React, { useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import NavBar from './components/navbar/NavBar'
 import Home from './containers/Home'
 import ManageLogin from './containers/ManageLogin'
@@ -68,7 +68,6 @@ function App() {
           className="app-container"
           maxWidth="lg"
         >
-          
           <Route
               exact path="/"
               render = {routerProps => <Home {...routerProps} posts = {posts} /> }
@@ -103,9 +102,6 @@ function App() {
               exact path="/newpost"
               render={routerProps => <PostForm {...routerProps} /> }
           />    
-          {/* <Switch> */}
-       
-          {/* </Switch> */}
         </Container>  
       </div>
     </Router>
