@@ -1,7 +1,7 @@
 import React, { useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './App.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import NavBar from './components/navbar/NavBar'
 import Home from './containers/Home'
 import ManageLogin from './containers/ManageLogin'
@@ -38,7 +38,7 @@ function App() {
   // calling the setButton function in useEffect, which will make the "LOGIN" link in navbar to change to "LOGOUT" after the user logs in; and viceversa when the user logs out
   const current_user = useSelector((state) => state.users.current_user)
   const posts = useSelector((state) => state.posts.posts)
-  console.log(current_user)
+  console.log(posts)
 
   const setButton = () => {
       if (token) {
@@ -68,6 +68,7 @@ function App() {
           className="app-container"
           maxWidth="lg"
         >
+          
           <Route
               exact path="/"
               render = {routerProps => <Home {...routerProps} posts = {posts} /> }
@@ -76,10 +77,7 @@ function App() {
               exact path="/posts"
               render = {routerProps => <PostLinksContainer {...routerProps} posts = {posts} /> }
           />
-          <Route 
-              path={`/posts/:postID`} 
-              render= {props => <PostsAndCommentsContainer {...props} posts = {posts} />} />
-          
+     
           <Route
               exact path="/logout"
               render={routerProps => <Home {...routerProps}  posts = {posts} /> }
@@ -89,6 +87,10 @@ function App() {
               component = {ProfileContainer}
               user = {current_user}
           />
+          <Route 
+              path={`/posts/:postID`} 
+              render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} />} 
+           />
           <Route
               exact path="/login"
               render={routerProps => <ManageLogin {...routerProps} /> }
@@ -101,6 +103,9 @@ function App() {
               exact path="/newpost"
               render={routerProps => <PostForm {...routerProps} /> }
           />    
+          {/* <Switch> */}
+       
+          {/* </Switch> */}
         </Container>  
       </div>
     </Router>

@@ -1,10 +1,13 @@
 import React from 'react'
+// import { useParams } from 'react-router-dom'
 
 const  Post = ({match, posts}) => {
+    const currentPost = posts.find(({id}) => id == match.params.postID)
+    console.log(currentPost)
     return(
         <div>
-            <h2>HEllo</h2>
-            <h3>{posts[match.params.postID].title}</h3>
+            <h1>Title: {currentPost.title}</h1>
+            <h1>Body: {currentPost.body}</h1>
         </div>
     )
 }

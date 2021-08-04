@@ -86,11 +86,11 @@ export default function ProfileContainer(props) {
   },[dispatch])
 
   const loadedDrafts = current_user.posts?.filter( post => post.status === "draft").map((post,index) => 
-      <li key={index}><Link to= {`/profile/drafts/${post.id}`}>{post.body}</Link></li>
+      <li key={index}><Link to= {`/drafts/${post.id}`}>{post.body}</Link></li>
     )
 
   const loadedPublished = current_user.posts?.filter( post => post.status === "published").map((post,index) => 
-      <li key={index}><Link to= {`/profile/drafts/${post.id}`}>{post.body}</Link></li>
+      <li key={index}><Link to= {`/posts/${post.id}`}>{post.body}</Link></li>
     )
 
   useEffect(() => {
@@ -109,7 +109,7 @@ export default function ProfileContainer(props) {
     <Container>
       <div className={classes.root}>
         <Typography id="demo-a11y-tabs-manual-label">
-          Welcome to your profile {props.user.email}
+          Welcome to your profile, {props.user.email}
         </Typography>
         <DemoTabs labelId="demo-a11y-tabs-manual-label" onChange={handleChange} value={value} />
         <TabPanel value={value} index={0}>

@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 // APP DEPENDENCIES
 import { NavLink } from 'react-router-dom'
-import grey from '@material-ui/core/colors/grey';
+import blueGrey from '@material-ui/core/colors/blueGrey';
 
 
 
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 export default function NavBar(props) {
     
   const classes = useStyles();
-  const color = grey[700];
+  const color = blueGrey[700];
 
   return (
     <div className={classes.root}>
