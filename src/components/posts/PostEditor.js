@@ -4,7 +4,7 @@ import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {convertFromRaw, convertToRaw} from 'draft-js';
-import { convertToHTML } from 'draft-convert';
+import { convertToHTML} from 'draft-convert';
 // import DOMPurify from 'dompurify';
 
 import Button from '@material-ui/core/Button';

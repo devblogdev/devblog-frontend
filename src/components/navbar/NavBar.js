@@ -73,6 +73,7 @@ export default function NavBar(props) {
             >New Post
             </NavLink>
           </Typography>
+          {/* Loing/Logout button */}
           {props.button}
         </Toolbar>
       </AppBar>
