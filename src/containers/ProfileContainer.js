@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { authorization } from '../actions/securityActions'
 
 import PropTypes from 'prop-types';
@@ -10,7 +11,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
-import { Link } from 'react-router-dom'
+import Button from '@material-ui/core/Button';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,7 +52,6 @@ function DemoTabs(props) {
         style={{
           backgroundColor: "black"
         }}
-        
       >
         <Tab label="Drafts" aria-controls="a11y-tabpanel-0" id="a11y-tab-0" />
         <Tab label="Published" aria-controls="a11y-tabpanel-1" id="a11y-tab-1" />
@@ -74,19 +74,21 @@ const useStyles = makeStyles ((theme) => ({
   },
 }));
 
-export default function ProfileContainer(props) {
+export default function ProfileContainer({ user, token, ...routerProps}) {
 
   const dispatch = useDispatch()
   const [drafts, setDrafts] = useState([])
   const [published, setPublished] = useState([])
   const current_user = useSelector((state) => state.users.current_user)
-  
+  function deleteDraftPostEditor() {
+    
+  }
   useEffect(() => {
       dispatch(authorization())
   },[dispatch])
-
+  console.log(routerProps)
   const loadedDrafts = current_user.posts?.filter( post => post.status === "draft").map((post,index) => 
-      <li key={index}><Link to= {`/drafts/${post.id}`}>{post.body}</Link></li>
+      <li key={index}><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.body}</Link></li>
     )
 
   const loadedPublished = current_user.posts?.filter( post => post.status === "published").map((post,index) => 
@@ -105,14 +107,19 @@ export default function ProfileContainer(props) {
     setValue(newValue);
   };
 
+  const newDraft = () => {
+
+  }
+
   return (
     <Container>
       <div className={classes.root}>
         <Typography id="demo-a11y-tabs-manual-label">
-          Welcome to your profile, {props.user.email}
+          Welcome to your profile, {user.email}
         </Typography>
         <DemoTabs labelId="demo-a11y-tabs-manual-label" onChange={handleChange} value={value} />
         <TabPanel value={value} index={0}>
+          <Link to={`${routerProps.match.url}/drafts/new`}><Button>New Post</Button></Link>
           {drafts}
         </TabPanel>
         <TabPanel value={value} index={1}>

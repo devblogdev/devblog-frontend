@@ -15,6 +15,7 @@ export function fetchPosts(endpoint) {
     }
 }
 
+
 export function addPost(endpoint, postData, routerProps=null){
     const token = localStorage.getItem('token')
     const axiosConfig = {
@@ -39,3 +40,5 @@ export function addPost(endpoint, postData, routerProps=null){
         // "Your session expired, please log back in"
     }
 }
+
+

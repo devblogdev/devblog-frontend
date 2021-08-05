@@ -2,7 +2,8 @@ import React from 'react'
 import PostCard from './PostCard'
 import { Link } from 'react-router-dom'
 
- const PostList = ({posts}) => {
+ const PostList = ({match, posts}) => {
+     console.log(match)
     const postCards = posts.map((post, index) => {
       if (post.coming_from === "database") {
        return  <Link key={index} to={`/posts/${post.id}`}>

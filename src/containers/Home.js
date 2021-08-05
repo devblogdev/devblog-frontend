@@ -28,7 +28,7 @@ const Home = (props) => {
     return (
         <React.Fragment>
             <h1>Welcome to DevBlog</h1>
-            <PostList posts ={props.posts} />
+            <PostList posts ={props.posts} {...props} />
         </React.Fragment>
     )
 }

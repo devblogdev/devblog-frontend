@@ -3,7 +3,7 @@ import React from 'react'
 const PostCard = ({post}) => {
     const {title, abstract, body, images, url} = post
     let coverPicture 
-    // console.log(images)
+    // console.log(post)
     if (images !== undefined){
         images[0] === undefined ? coverPicture = "IMAGE" : coverPicture = <img src = {images[0].url} alt= {images[0].alt}/>
     }else {

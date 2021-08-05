@@ -1,7 +1,7 @@
 import React, { useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './App.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import NavBar from './components/navbar/NavBar'
 import Home from './containers/Home'
 import ManageLogin from './containers/ManageLogin'
@@ -12,9 +12,10 @@ import ProtectedRoute from './components/protectedRoute/protectedRoute';
 import ProfileContainer from './containers/ProfileContainer'
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
 import { fetchPosts } from './actions/postsAndCommentsActions'
-import PostForm from './components/posts/PostForm'
+import PostForm from './components/posts/PostEditor'
 import PostLinksContainer from './containers/PostLinksContainer';
 import Container from '@material-ui/core/Container';
+import PostEditor2 from './components/posts/PostEditor2'
 
 
 function App() {
@@ -58,7 +59,7 @@ function App() {
         }
         return button
   }
-
+ 
   return (
     <Router>
       <div className="App">
@@ -68,6 +69,7 @@ function App() {
           className="app-container"
           maxWidth="lg"
         >
+          <Switch>
           <Route
               exact path="/"
               render = {routerProps => <Home {...routerProps} posts = {posts} /> }
@@ -86,6 +88,16 @@ function App() {
               component = {ProfileContainer}
               user = {current_user}
           />
+          <ProtectedRoute
+              path ="/profile/drafts/new"
+              component = {PostEditor2}
+              user = {current_user}
+          />
+          <ProtectedRoute
+              path ="/profile/drafts/:postID"
+              component = {PostEditor2}
+              user = {current_user}
+          />
           <Route 
               path={`/posts/:postID`} 
               render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} />} 
@@ -98,10 +110,11 @@ function App() {
               exact path="/signup"
               render={routerProps => <ManageLogin {...routerProps} /> }
           />      
-          <Route
+          {/* <Route
               exact path="/newpost"
               render={routerProps => <PostForm {...routerProps} /> }
-          />    
+          />     */}
+          </Switch>
         </Container>  
       </div>
     </Router>
