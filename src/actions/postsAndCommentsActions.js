@@ -42,3 +42,54 @@ export function addPost(endpoint, postData, routerProps=null){
 }
 
 
+export function editPost(endpoint, postData, routerProps=null){
+    const token = localStorage.getItem('token')
+    const axiosConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${token}`   
+        }
+    }
+    if(token){
+        return (dispatch) => {
+            axios.put(`${endpoint}`, {post: postData} , axiosConfig)
+            .then( response => {
+                console.log(response)
+                dispatch( {type: 'EDIT_POST', payload: response.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+    } return (dispatch) => {
+        dispatch({type: 'LOGOUT_USER'})
+        // "Your session expired, please log back in"
+    }
+}
+
+export function deletePost(endpoint, postID, routerProps=null){
+    const token = localStorage.getItem('token')
+    const axiosConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${token}`   
+        }
+    }
+    if(token){
+        return (dispatch) => {
+            axios.delete(`${endpoint}`, axiosConfig)
+            .then( response => {
+                console.log(response)
+                dispatch( {type: 'DELETE_POST', payload: postID})
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+    } return (dispatch) => {
+        dispatch({type: 'LOGOUT_USER'})
+        // "Your session expired, please log back in"
+    }
+}
+
+

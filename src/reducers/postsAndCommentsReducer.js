@@ -35,15 +35,26 @@ export default function postsAndCommentsReducer(
                 console.log("ADD PONT ACTION REACHED")
                 return { ...state, posts: [...state.posts, post] }
 
-            case 'REMOVE_POST':
-                // postId = action.postId
+            case 'EDIT_POST':
                 postIndex = state.posts.findIndex( post => post.id === postId)
+                return {
+                    ...state, 
+                        posts: [
+                            state.posts.slice(0, postIndex), action.payload, state.posts.slice(postIndex+1)
+                        ]
+                }
+
+            case 'DELETE_POST':
+                postId = action.payload
+                postIndex = state.posts.findIndex( post => post.id == postId)
                 return {
                     ...state, 
                         posts: [
                             state.posts.slice(0, postIndex), state.posts.slice(postIndex+1)
                         ]
                 }
+                // Add code to remove post's associated commens
+      
 
             case 'ADD_LIKE':
                 userId = "some user"
