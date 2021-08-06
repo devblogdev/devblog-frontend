@@ -1,7 +1,7 @@
 import React, { useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, HashRouter, Route, Switch } from 'react-router-dom'
 import NavBar from './components/navbar/NavBar'
 import Home from './containers/Home'
 import ManageLogin from './containers/ManageLogin'
@@ -26,6 +26,11 @@ function App() {
     dispatch(authentication())
     setButton()
   })
+
+  useEffect(() => {
+    const endpoint = "/posts"
+    dispatch(fetchPosts(endpoint))
+  }, [dispatch])
 
   useEffect(() => {
     const endpoint = "/posts"
@@ -98,9 +103,14 @@ function App() {
               component = {PostEditor2}
               user = {current_user}
           />
+          <ProtectedRoute
+              path ="/posts/edit/:postID"
+              component = {PostEditor2}
+              user = {current_user}
+          />
           <Route 
               path={`/posts/:postID`} 
-              render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} />} 
+              render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} user={current_user} />} 
            />
           <Route
               exact path="/login"

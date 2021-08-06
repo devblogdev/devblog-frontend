@@ -3,6 +3,7 @@ import auth from '../components/security/auth'
 
 export function fetchPosts(endpoint) {
     return (dispatch) => {
+        dispatch({type: 'LOADING_POSTS' })
        axios.get(endpoint)
         .then(response => {
             // console.log(response)

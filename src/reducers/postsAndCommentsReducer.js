@@ -14,7 +14,7 @@ export default function postsAndCommentsReducer(
         let likeIndex
         
         switch(action.type) {
-            case 'LAODING_POSTS':
+            case 'LOADING_POSTS':
                 return {
                     ...state,
                     loading: true,
@@ -36,13 +36,15 @@ export default function postsAndCommentsReducer(
                 return { ...state, posts: [...state.posts, post] }
 
             case 'EDIT_POST':
-                postIndex = state.posts.findIndex( post => post.id === postId)
+                postIndex = state.posts.findIndex( post => post.id == postId)
+                post = action.payload
                 return {
                     ...state, 
                         posts: [
-                            state.posts.slice(0, postIndex), action.payload, state.posts.slice(postIndex+1)
+                            ...state.posts.slice(0, postIndex), post, ...state.posts.slice(postIndex+1)
                         ]
                 }
+                // return {...state, posts: [...state.posts.slice(0, postIndex), action.payload, ...state.posts.slice(postIndex+1)]}
 
             case 'DELETE_POST':
                 postId = action.payload
@@ -50,7 +52,7 @@ export default function postsAndCommentsReducer(
                 return {
                     ...state, 
                         posts: [
-                            state.posts.slice(0, postIndex), state.posts.slice(postIndex+1)
+                            ...state.posts.slice(0, postIndex), ...state.posts.slice(postIndex+1)
                         ]
                 }
                 // Add code to remove post's associated commens
@@ -66,7 +68,7 @@ export default function postsAndCommentsReducer(
                 return {
                     ...state,
                         posts: [
-                            state.posts.slice(0, postIndex), post, state.posts(postIndex+1)
+                            ...state.posts.slice(0, postIndex), post, ...state.posts(postIndex+1)
                         ]
                 }
 
@@ -77,12 +79,12 @@ export default function postsAndCommentsReducer(
                 postIndex = state.posts.findIndex( post => post.id === postId )
                 post = "hi"
                 likeIndex = post.likes.findIndex(like => like.userId === userId)
-                const postLikes = [ post.likes.slice(0, likeIndex), post.likes.slice(likeIndex+1) ] 
+                const postLikes = [ ...post.likes.slice(0, likeIndex), ...post.likes.slice(likeIndex+1) ] 
                 post.likes = postLikes
                 return {
                     ...state, 
                         posts: [
-                            state.posts.slice(0, postIndex), post, state.posts(postIndex+1)
+                            ...state.posts.slice(0, postIndex), post, ...state.posts(postIndex+1)
                         ]
                 }
             default:
