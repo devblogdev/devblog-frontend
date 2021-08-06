@@ -9,6 +9,7 @@ import { convertToHTML, convertFromHTML } from 'draft-convert';
 
 import Button from '@material-ui/core/Button';
 import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsActions';
+import { FileUploadPage } from '../images/imageUpload';
 
 const PostEditor2 = (props) => {
 
@@ -77,6 +78,11 @@ const PostEditor2 = (props) => {
     //   ------------ Delete draft or post  ---------------
     const deleteButton = <Button onClick={removePost}>Delete</Button>
 
+    // --------------- Image upload -------------------
+
+
+
+
     //  CRUD ACTIONS END
     
     let buttons
@@ -128,6 +134,18 @@ const PostEditor2 = (props) => {
       {/* <Button onClick ={deletePost} >
           Delete
       </Button> */}
+        {/* <label htmlFor="upload-photo">
+            <input
+                style={{ display: 'none' }}
+                id="upload-photo"
+                name="upload-photo"
+                type="file"
+            />
+            <Button color="secondary" variant="contained" component="span">
+                Upload button
+            </Button>
+        </label>; */}
+        <FileUploadPage />
     </div>
   )
 }
