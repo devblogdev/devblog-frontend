@@ -5,7 +5,7 @@ import { BrowserRouter as Router, HashRouter, Route, Switch } from 'react-router
 import NavBar from './components/navbar/NavBar'
 import Home from './containers/Home'
 import ManageLogin from './containers/ManageLogin'
-import { authentication } from './actions/securityActions'
+import { authentication, authorization } from './actions/securityActions'
 import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom'
 import ProtectedRoute from './components/protectedRoute/protectedRoute';
@@ -22,10 +22,15 @@ function App() {
   console.log('App.js was rendered')
   const dispatch = useDispatch()
 
+  // useEffect(() => {
+  //   dispatch(authentication())
+  //   setButton()
+  // })
   useEffect(() => {
-    dispatch(authentication())
+    // dispatch(authentication())
+    dispatch(authorization())
     setButton()
-  })
+  }, [dispatch])
 
   useEffect(() => {
     const endpoint = "/posts"

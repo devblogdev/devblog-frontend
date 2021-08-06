@@ -85,6 +85,7 @@ const PostEditor2 = (props) => {
         initialEditorState = EditorState.createEmpty();
         buttons = [saveAsDraftButton, publishNewButton]
     } else {
+        // debugger
         const draftOrPost = props.user.posts.find(post => post.id == props.match.params.postID)
         // console.log(draftOrPost)
         const info = convertFromHTML(draftOrPost.body)
