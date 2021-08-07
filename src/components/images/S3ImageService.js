@@ -10,7 +10,7 @@ const config = {
     secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
 }
 
-const UploadImageToS3WithReactS3 = () => {
+const S3ImageService = () => {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
 
@@ -85,4 +85,4 @@ const UploadImageToS3WithReactS3 = () => {
 	)
 }
 
-export default UploadImageToS3WithReactS3
+export default S3ImageService
