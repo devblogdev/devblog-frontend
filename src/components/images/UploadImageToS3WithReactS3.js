@@ -20,16 +20,17 @@ const UploadImageToS3WithReactS3 = () => {
 		setIsFilePicked(true);
 	};
 	const handleSubmission = async (file) => {
-            // uploadFile(file, config)
-            const ReactS3Client = new S3(config)
-            ReactS3Client.uploadFile(file)
-                .then((result) => {
-                    console.log('Success:', result);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+        // uploadFile(file, config)
+        const ReactS3Client = new S3(config)
+        ReactS3Client.uploadFile(file)
+            .then((result) => {
+                console.log('Success:', result);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
 	};
+
 	return(
         <div>
             <label htmlFor="btn-upload">
@@ -47,19 +48,18 @@ const UploadImageToS3WithReactS3 = () => {
             </label>
 			{isFilePicked ? (
 				<div>
-					<p>Filename: {selectedFile.name}</p>
-					<p>Filetype: {selectedFile.type}</p>
-					<p>Size in bytes: {selectedFile.size}</p>
+					<p>Filename: {selectedFile?.name}</p>
+					<p>Filetype: {selectedFile?.type}</p>
+					<p>Size in bytes: {selectedFile?.size}</p>
 					<p>
 						lastModifiedDate:{' '}
-						{selectedFile.lastModifiedDate.toLocaleDateString()}
+						{selectedFile?.lastModifiedDate.toLocaleDateString()}
 					</p>
 				</div>
 			) : (
 				<p>Select a file to show details</p>
 			)}
 			<div>
-                {console.log(config)}
 				<button onClick={() => handleSubmission(selectedFile)}>Submit</button>
 			</div>
 		</div>

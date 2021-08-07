@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
+import grey from '@material-ui/core/colors/grey';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,6 +39,8 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
+const color = grey[900];
+
 function DemoTabs(props) {
   const { labelId, onChange, selectionFollowsFocus, value } = props;
   return (
@@ -48,9 +51,8 @@ function DemoTabs(props) {
         selectionFollowsFocus={selectionFollowsFocus}
         value={value}
         centered
-        // textColor=""
         style={{
-          backgroundColor: "black"
+          backgroundColor: color
         }}
       >
         <Tab label="Drafts" aria-controls="a11y-tabpanel-0" id="a11y-tab-0" />
@@ -81,7 +83,7 @@ export default function ProfileContainer({ user, token, ...routerProps}) {
   const [published, setPublished] = useState([])
   const current_user = useSelector((state) => state.users.current_user)
   function deleteDraftPostEditor() {
-    
+
   }
   useEffect(() => {
       dispatch(authorization())
@@ -119,7 +121,15 @@ export default function ProfileContainer({ user, token, ...routerProps}) {
         </Typography>
         <DemoTabs labelId="demo-a11y-tabs-manual-label" onChange={handleChange} value={value} />
         <TabPanel value={value} index={0}>
-          <Link to={`${routerProps.match.url}/drafts/new`}><Button>New Post</Button></Link>
+          <Link to={`${routerProps.match.url}/drafts/new`}>
+              <Button 
+                color="primary" variant="contained" component="span"
+                size="small"
+                disableElevation
+              >
+                New Post
+              </Button>
+          </Link>
           {drafts}
         </TabPanel>
         <TabPanel value={value} index={1}>

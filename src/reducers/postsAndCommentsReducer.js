@@ -36,6 +36,7 @@ export default function postsAndCommentsReducer(
                 return { ...state, posts: [...state.posts, post] }
 
             case 'EDIT_POST':
+                postId = action.payload.id
                 postIndex = state.posts.findIndex( post => post.id == postId)
                 post = action.payload
                 return {

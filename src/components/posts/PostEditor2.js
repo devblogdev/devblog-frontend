@@ -8,10 +8,41 @@ import { convertToHTML, convertFromHTML } from 'draft-convert';
 // import DOMPurify from 'dompurify';
 
 import Button from '@material-ui/core/Button';
+import { createTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { green, blueGrey } from '@material-ui/core/colors';
 import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsActions';
 // import { FileUploadPage } from '../images/imageUpload';
 import  UploadImageToS3WithReactS3  from '../images/UploadImageToS3WithReactS3'
 
+
+
+const ColorButton = withStyles((theme) => ({
+    root: {
+    //   color: theme.palette.getContrastText(green[500]),
+      backgroundColor: green[600],
+      '&:hover': {
+        backgroundColor: green[800],
+      },
+    },
+  }))(Button);
+
+const DangerButton = withStyles((theme) => ({
+    root: {
+    //   color: theme.palette.getContrastText(green[500]),
+      backgroundColor: blueGrey[200],
+      '&:hover': {
+        backgroundColor: blueGrey[400],
+      },
+    },
+  }))(Button);
+
+const useStyles = makeStyles((theme) => ({
+    margin: {
+      margin: theme.spacing(1),
+    },
+  }));
+  
+  
 const PostEditor2 = (props) => {
 
     const user = useSelector(state => state.users.current_user)
@@ -21,6 +52,8 @@ const PostEditor2 = (props) => {
     const storeRaw = localStorage.getItem('draftRaw')
 
     const dispatch = useDispatch()
+    const classes = useStyles();
+    
 
     const saveRaw = () => {
         let contentRaw = convertToRaw(editorState.getCurrentContent());
@@ -63,21 +96,55 @@ const PostEditor2 = (props) => {
         const endpoint = `/posts/${postID}`
         dispatch(deletePost(endpoint, postID))
     }
+
         //   ------------ New psot  ---------------
-    const saveAsDraftButton = <Button onClick={saveDraft}>Save as Draft</Button>
-    const publishNewButton = <Button onClick={savePost}>Publish</Button>  
+    const saveAsDraftButton = <Button 
+                                onClick={saveDraft}
+                                color="primary" variant="contained" component="span"
+                                disableElevation
+                              >Save as Draft
+                              </Button>
+
+    const publishNewButton = <ColorButton 
+                                onClick={savePost}
+                                color="primary" variant="contained" component="span"
+                                disableElevation
+                                className={classes.margin}
+                              >Publish
+                              </ColorButton>  
 
     //   ------------ Draft post ---------------
         //   Updating a draft post
-    const saveButton = <Button onClick={(event) => updateDraft(event)}>Save</Button>
+    const saveButton = <Button 
+                          onClick={(event) => updateDraft(event)}
+                          color="primary" variant="contained" component="span"
+                        >Save
+                        </Button>
+
         //   Publishing a draft
-    const publishDraftButton = <Button onClick={updatePost}>Publish</Button>  
+    const publishDraftButton = <ColorButton 
+                                  onClick={updatePost}
+                                  color="primary" variant="contained" component="span"
+                                  disableElevation
+                                  className={classes.margin}
+                               >Publish
+                               </ColorButton>  
     
     //   ------------ Published post  ---------------
-    const saveAndPublishButton = <Button onClick={updatePost}>Save and Publish</Button>
+    const saveAndPublishButton = <ColorButton 
+                                    onClick={updatePost}
+                                    color="primary" variant="contained" component="span"
+                                    disableElevation
+                                    className={classes.margin}
+                                  >Save and Publish
+                                  </ColorButton>
     
     //   ------------ Delete draft or post  ---------------
-    const deleteButton = <Button onClick={removePost}>Delete</Button>
+    const deleteButton = <DangerButton 
+                           onClick={removePost}
+                           disableElevation
+                          >Delete
+                          </DangerButton>
 
     // --------------- Image upload -------------------
 
@@ -108,6 +175,8 @@ const PostEditor2 = (props) => {
     () => initialEditorState
   );
     
+  
+
   return (
     <div className="App">
       <header className="App-header">
