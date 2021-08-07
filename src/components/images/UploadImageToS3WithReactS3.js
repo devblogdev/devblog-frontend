@@ -1,37 +1,34 @@
 import React, {useState} from 'react';
-import {uploadFile} from 'react-aws-s3'
+// import {uploadFile} from 'react-aws-s3'
+import S3 from 'react-aws-s3'
 import Button from '@material-ui/core/Button';
-import axios from 'acios'
 
 const config = {
     bucketName: process.env.REACT_APP_S3_BUCKET,
-  //  dirName: 'Enter Folder Name ', /* optional */
     region: process.env.REACT_APP_REGION,
     accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
     secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
 }
 
-export function FileUploadPage2() {
+const UploadImageToS3WithReactS3 = () => {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
+
 	const changeHandler = (event) => {
         // if (event.target.files && event.target.files[0])
 		setSelectedFile(event.target.files[0]);
 		setIsFilePicked(true);
 	};
-	const handleSubmission = () => {
-		const formData = new FormData();
-		formData.append('File', selectedFile);
-        const uploadImage = (endpoint, imageData) => {
-            axios.post('https://freeimage.host/api/1/upload?key=<YOUR_API_KEY>', {method: 'POST', body: formData} )
-            .then((response) => response.json())
-            .then((result) => {
-                console.log('Success:', result);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
+	const handleSubmission = async (file) => {
+            // uploadFile(file, config)
+            const ReactS3Client = new S3(config)
+            ReactS3Client.uploadFile(file)
+                .then((result) => {
+                    console.log('Success:', result);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
 	};
 	return(
         <div>
@@ -62,8 +59,11 @@ export function FileUploadPage2() {
 				<p>Select a file to show details</p>
 			)}
 			<div>
-				<button onClick={handleSubmission}>Submit</button>
+                {console.log(config)}
+				<button onClick={() => handleSubmission(selectedFile)}>Submit</button>
 			</div>
 		</div>
 	)
 }
+
+export default UploadImageToS3WithReactS3

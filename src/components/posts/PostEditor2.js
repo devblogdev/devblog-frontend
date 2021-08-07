@@ -9,7 +9,8 @@ import { convertToHTML, convertFromHTML } from 'draft-convert';
 
 import Button from '@material-ui/core/Button';
 import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsActions';
-import { FileUploadPage } from '../images/imageUpload';
+// import { FileUploadPage } from '../images/imageUpload';
+import  UploadImageToS3WithReactS3  from '../images/UploadImageToS3WithReactS3'
 
 const PostEditor2 = (props) => {
 
@@ -145,7 +146,7 @@ const PostEditor2 = (props) => {
                 Upload button
             </Button>
         </label>; */}
-        <FileUploadPage />
+        <UploadImageToS3WithReactS3 />
     </div>
   )
 }
