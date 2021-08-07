@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 // import {uploadFile} from 'react-aws-s3'
 import S3 from 'react-aws-s3'
 import Button from '@material-ui/core/Button';
@@ -14,21 +14,39 @@ const UploadImageToS3WithReactS3 = () => {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
 
+    const ref = useRef()
+
+    const reset = (file) => {
+        // console.log(file.value)
+        // ref.current.value = null
+        setSelectedFile()
+        setIsFilePicked(false)
+    }
+
 	const changeHandler = (event) => {
-        // if (event.target.files && event.target.files[0])
+        if (event.target.files && event.target.files[0]) {
 		setSelectedFile(event.target.files[0]);
 		setIsFilePicked(true);
+        }
 	};
 	const handleSubmission = async (file) => {
-        // uploadFile(file, config)
         const ReactS3Client = new S3(config)
+        const newFilename = selectedFile.name
         ReactS3Client.uploadFile(file)
-            .then((result) => {
-                console.log('Success:', result);
+            .then((response) => {
+                console.log('Success:', response);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
+        // const filename = selectedFile.name
+        // ReactS3Client.deleteFile("2qYYFYzk1focd8LWmAdGq2.png")
+        //     .then((response) => {
+        //         console.log('Success:', response);
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error:', error);
+        //     });
 	};
 
 	return(
@@ -41,10 +59,13 @@ const UploadImageToS3WithReactS3 = () => {
                     name="btn-upload" 
                     onChange={changeHandler} 
                     accept="image/*"
+                    ref = {ref}
+                    // onClick={e => e.target.value = null}
                 />
                  <Button color="secondary" variant="contained" component="span">
                     Upload a cover image
                  </Button>
+                 
             </label>
 			{isFilePicked ? (
 				<div>
@@ -55,13 +76,15 @@ const UploadImageToS3WithReactS3 = () => {
 						lastModifiedDate:{' '}
 						{selectedFile?.lastModifiedDate.toLocaleDateString()}
 					</p>
+                    <Button onClick={() => reset(selectedFile)}>Remove image</Button>
+                    <div>
+				        <button onClick={() => handleSubmission(selectedFile)}>Submit</button>
+			        </div>
 				</div>
 			) : (
 				<p>Select a file to show details</p>
 			)}
-			<div>
-				<button onClick={() => handleSubmission(selectedFile)}>Submit</button>
-			</div>
+		
 		</div>
 	)
 }
