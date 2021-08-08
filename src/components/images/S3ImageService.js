@@ -19,19 +19,22 @@ const S3ImageService = (props) => {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
 
-    const ref = useRef()
+    // const ref = useRef()
 
     const reset = () => {
         setSelectedFile()
         setIsFilePicked(false)
+        props.retrieveImageState()
     }
-
+    // console.log(props.retrieveImageState())
 	const changeHandler = (event) => {
         // if (event.target.files && event.target.files[0]) {
             setSelectedFile(event.target.files[0]);
             setIsFilePicked(true);
-            props.retrieveImageState(selectedFile)
-            console.log(props.retrieveImageState(selectedFile))
+            
+            props.retrieveImageState(event.target.files[0])
+            console.log(props.retrieveImageState(event.target.files[0]))
+            // console.log(props)
             // debugger
         // }
 	};
@@ -46,7 +49,7 @@ const S3ImageService = (props) => {
                     name="btn-upload" 
                     onChange={changeHandler} 
                     accept="image/*"
-                    ref = {ref}
+                    // ref = {ref}
                 />
                   <Button 
                     color="secondary" variant="contained" component="span"
@@ -67,6 +70,7 @@ const S3ImageService = (props) => {
                         onClick={() => reset()}
                         color="primary" variant="contained" component="span"
                         disableElevation
+                        size="small"
                     >Remove image
                     </RemoveImageButton>
                     {/* <div>

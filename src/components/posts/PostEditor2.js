@@ -50,17 +50,20 @@ const PostEditor2 = (props) => {
     // --------------------- CRUD ACTIONS START ------------------------
 
     // --------------- Image upload -------------------
+
+    const [imageState, setImageState] = useState({})
+
+
     const retrieveImageState = (file) => {
-        return file
+        setImageState(file)
     }
 
-    // Function for post editor buttons
+    // Functions for post editor buttons
     const saveDraft = (event) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/draft" 
         const postData = {body: data, status: "draft"}
-        const imageData = retrieveImageState()
-        console.log(imageData)
+        console.log(imageState)
         dispatch(addPost(endpoint, postData))
         props.history.push("/profile")
     }
@@ -74,8 +77,7 @@ const PostEditor2 = (props) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
         const postData = {body: data, status: "draft"}
-        const imageData = retrieveImageState()
-        console.log(imageData)
+        console.log(imageState)
         dispatch(editPost(endpoint, postData))
     }
     const updatePost = () => {
@@ -227,7 +229,7 @@ const PostEditor2 = (props) => {
         </React.Fragment> 
        )}
         {/* Renders a button, but it is a full compponent */}
-        <S3ImageService retrieveImageState = {() => retrieveImageState} />
+        <S3ImageService retrieveImageState= {retrieveImageState} />
     </div>
   )
 }
