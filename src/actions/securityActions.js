@@ -2,13 +2,7 @@ import axios from 'axios'
 import auth from "../components/security/auth"
 
 
-const token = localStorage.getItem('token')
-const axiosConfig = {
-    headers: {
-        Authorization: `Bearer ${token}`
-    }
-}
-let url
+
 
 export function authentication() {
     const token = localStorage.getItem('token')
@@ -52,10 +46,16 @@ export function authentication() {
 //     }
 // }
 export function authorization(endpoint=null, routerProps=null ) {
+    const token = localStorage.getItem('token')
+    let url
     endpoint ? url= endpoint : url= '/profile' 
     if(token){
         return async (dispatch) => {
-           const response = await axios.get(`http://localhost:3000${url}`, axiosConfig)
+           const response = await axios.get(`http://localhost:3000${url}`,  {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
              .catch(error => {
                 dispatch({type: 'LOGOUT_USER'})
                 console.log(error)

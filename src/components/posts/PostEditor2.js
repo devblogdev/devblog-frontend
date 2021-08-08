@@ -1,9 +1,10 @@
-import React, { useState,useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import {convertFromRaw, convertToRaw} from 'draft-js';
+import { convertToRaw } from 'draft-js';
+// import { convertFromRaw } from 'draft-js';
 import { convertToHTML, convertFromHTML } from 'draft-convert';
 // import DOMPurify from 'dompurify';
 
@@ -11,9 +12,8 @@ import Button from '@material-ui/core/Button';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { green, blueGrey } from '@material-ui/core/colors';
 import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsActions';
-import  UploadImageToS3WithReactS3  from '../images/UploadImageToS3WithReactS3'
-
-
+import  S3ImageService  from '../images/S3ImageService'
+import { uploadImage } from '../../actions/imageActions'
 
 const ColorButton = withStyles((theme) => ({
     root: {
@@ -39,57 +39,43 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
   
-  
+//   FUNCTIONAL COMPONENT
 const PostEditor2 = (props) => {
 
-    const user = useSelector(state => state.users.current_user)
-
-    let initialEditorState = null;
-
-    const storeRaw = localStorage.getItem('draftRaw')
-
     const dispatch = useDispatch()
+
     const classes = useStyles();
     
-
-    const saveRaw = () => {
-        let contentRaw = convertToRaw(editorState.getCurrentContent());
-        localStorage.setItem('draftRaw', JSON.stringify(contentRaw))
-    }
-
-    function handleEditorChange(state){
-        setEditorState(state)
-        const contentState = editorState.getCurrentContent();
-        saveRaw(contentState);
-    }
-
-    //  CRUD ACTIONS STRAT
+    
+    // --------------------- CRUD ACTIONS START ------------------------
 
     // --------------- Image upload -------------------
-    function retrieveImageState(imageData){
-        const file = imageData.file
-
+    const retrieveImageState = (file) => {
+        return file
     }
 
+    // Function for post editor buttons
     const saveDraft = (event) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/draft" 
         const postData = {body: data, status: "draft"}
+        const imageData = retrieveImageState()
+        console.log(imageData)
         dispatch(addPost(endpoint, postData))
         props.history.push("/profile")
     }
-    const savePost = (event) => {
+    const savePost = () => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/publish" 
         const postData = {body: data, status: "published"}
         dispatch(addPost(endpoint, postData, props))
-        console.log(props)
-        // props.history.push(`/posts/${props.match.params.postID}`)
     }
-    const updateDraft = (event) => {
+    const updateDraft = () => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
         const postData = {body: data, status: "draft"}
+        const imageData = retrieveImageState()
+        console.log(imageData)
         dispatch(editPost(endpoint, postData))
     }
     const updatePost = () => {
@@ -97,7 +83,6 @@ const PostEditor2 = (props) => {
         const endpoint = `/posts/${props.match.params.postID}`
         const postData = {body: data, status: "published"}
         dispatch(editPost(endpoint, postData, props))
-        // props.history.push(endpoint)
     }
     const removePost = () => {
         const postID = props.match.params.postID
@@ -106,7 +91,8 @@ const PostEditor2 = (props) => {
         props.history.push("/profile")
     }
 
-        //   ------------ New psot  ---------------
+    // Post editor buttons
+        //   ------------ NEW POST  ---------------
     const saveAsDraftButton = <Button 
                                 onClick={saveDraft}
                                 color="primary" variant="contained" component="span"
@@ -122,7 +108,7 @@ const PostEditor2 = (props) => {
                               >Publish
                               </ColorButton>  
 
-    //   ------------ Draft post ---------------
+    //   ------------ DRAFT POST ---------------
         //   Updating a draft post
     const saveButton = <Button 
                           onClick={(event) => updateDraft(event)}
@@ -140,7 +126,7 @@ const PostEditor2 = (props) => {
                                >Publish
                                </ColorButton>  
     
-    //   ------------ Published post  ---------------
+    //   ------------ PUBLISHED POST  ---------------
     const saveAndPublishButton = <ColorButton 
                                     onClick={updatePost}
                                     color="primary" variant="contained" component="span"
@@ -156,17 +142,49 @@ const PostEditor2 = (props) => {
                           >Delete
                           </DangerButton>
 
-    //  CRUD ACTIONS END
+    // --------------------- CRUD ACTIONS END ------------------------
     
     let buttons
+
+    // const [draftOrPost, setDraftOrPost] = useState({})
+    
+    // const loadDraftOrPost = () => props.user.posts.find(post => post.id == props.match.params.postID)
+
+
+    // useEffect(() => {
+    //     if (Object.keys(props.user).length > 0) {
+    //         setDraftOrPost(loadDraftOrPost())
+    //     }
+    //   },[props.user])
+
+    //   const [info, setInfo] = useState({})
+
+    //   useEffect(() => {
+    //       setInfo(convertFromHTML(draftOrPost.body))
+    //   },[draftOrPost])
+
+    // --------------------- POST EDITOR START ------------------------
+
+    let initialEditorState = null;
+
+    const storeRaw = localStorage.getItem('draftRaw')
+
+    const saveRaw = () => {
+        let contentRaw = convertToRaw(editorState.getCurrentContent());
+        localStorage.setItem('draftRaw', JSON.stringify(contentRaw))
+    }
+
+    function handleEditorChange(state){
+        setEditorState(state)
+        const contentState = editorState.getCurrentContent();
+        saveRaw(contentState);
+    }
 
     if ( props.match.url === "/profile/drafts/new" ) {
         initialEditorState = EditorState.createEmpty();
         buttons = [saveAsDraftButton, publishNewButton]
     } else {
-        // debugger
         const draftOrPost = props.user.posts.find(post => post.id == props.match.params.postID)
-        // console.log(draftOrPost)
         const info = convertFromHTML(draftOrPost.body)
         initialEditorState = EditorState.createWithContent(info)
         if (props.match.path === "/profile/drafts/:postID") {
@@ -176,9 +194,19 @@ const PostEditor2 = (props) => {
         }
     }
 
-  const [editorState, setEditorState] = useState( 
-    () => initialEditorState
-  );
+    const [editorState, setEditorState] = useState( 
+        () => initialEditorState
+    );
+
+    // --------------------- POST EDITOR END ------------------------
+    
+        // useEffect(() => {
+        //     if ( props.match.url === "/profile/drafts/new" ) {
+        //         initialEditorState = EditorState.createEmpty();
+        //     } else {
+        //         initialEditorState = EditorState.createWithContent(info)
+        //     }
+        // },[info])
 
     
   return (
@@ -198,7 +226,8 @@ const PostEditor2 = (props) => {
             {button}
         </React.Fragment> 
        )}
-        <UploadImageToS3WithReactS3 />
+        {/* Renders a button, but it is a full compponent */}
+        <S3ImageService retrieveImageState = {() => retrieveImageState} />
     </div>
   )
 }

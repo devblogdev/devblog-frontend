@@ -12,6 +12,9 @@ const RemoveImageButton = withStyles((theme) => ({
     },
   }))(Button);
 
+
+// Functional component; utilizes Amazon Web Services S3 for storing images
+
 const S3ImageService = (props) => {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
@@ -24,14 +27,13 @@ const S3ImageService = (props) => {
     }
 
 	const changeHandler = (event) => {
-        if (event.target.files && event.target.files[0]) {
+        // if (event.target.files && event.target.files[0]) {
             setSelectedFile(event.target.files[0]);
             setIsFilePicked(true);
-            props.retrieveImageState({
-                file: selectedFile,
-                name: selectedFile.name
-            })
-        }
+            props.retrieveImageState(selectedFile)
+            console.log(props.retrieveImageState(selectedFile))
+            // debugger
+        // }
 	};
 
 	return(
@@ -54,12 +56,12 @@ const S3ImageService = (props) => {
             </label>
 			{isFilePicked ? (
 				<div>
-					<p>Filename: {selectedFile?.name}</p>
-					<p>Filetype: {selectedFile?.type}</p>
-					<p>Size in bytes: {selectedFile?.size}</p>
+					<p>Filename: {selectedFile.name}</p>
+					<p>Filetype: {selectedFile.type}</p>
+					<p>Size in bytes: {selectedFile.size}</p>
 					<p>
 						lastModifiedDate:{' '}
-						{selectedFile?.lastModifiedDate.toLocaleDateString()}
+						{selectedFile.lastModifiedDate.toLocaleDateString()}
 					</p>
                     <RemoveImageButton 
                         onClick={() => reset()}
@@ -67,9 +69,9 @@ const S3ImageService = (props) => {
                         disableElevation
                     >Remove image
                     </RemoveImageButton>
-                    <div>
+                    {/* <div>
 				        <button onClick={() => handleSubmission(selectedFile)}>Submit</button>
-			        </div>
+			        </div> */}
 				</div>
 			) : (
 				<p>Select a file to show details</p>

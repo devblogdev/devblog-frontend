@@ -88,8 +88,8 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
       dispatch(authorization())
   },[dispatch])
 
-  const loadedDrafts = () => user.posts.filter( post => post.status === "draft").map((post,index) => 
-      <li key={index}><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.body}</Link></li>
+  const loadedDrafts = () => user.posts?.filter( post => post.status === "draft").map((post,index) => {
+      return <li key={index}><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.body}</Link></li>}
     )
 // debugger
   // const loadedPublished = current_user.posts?.filter( post => post.status === "published" ).map((post,index) => 
