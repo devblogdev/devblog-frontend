@@ -82,18 +82,19 @@ export default function ProfileContainer({ user, token, ...routerProps}) {
   const [drafts, setDrafts] = useState([])
   const [published, setPublished] = useState([])
   const current_user = useSelector((state) => state.users.current_user)
-  function deleteDraftPostEditor() {
+  const general = useSelector((state) => state.posts)
 
-  }
   useEffect(() => {
       dispatch(authorization())
   },[dispatch])
-  console.log(routerProps)
+
+  console.log(current_user)
+
   const loadedDrafts = current_user.posts?.filter( post => post.status === "draft").map((post,index) => 
       <li key={index}><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.body}</Link></li>
     )
-
-  const loadedPublished = current_user.posts?.filter( post => post.status === "published").map((post,index) => 
+// debugger
+  const loadedPublished = current_user.posts?.filter( post => post.status === "published" ).map((post,index) => 
       <li key={index}><Link to= {`/posts/${post.id}`}>{post.body}</Link></li>
     )
 
@@ -108,10 +109,6 @@ export default function ProfileContainer({ user, token, ...routerProps}) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  const newDraft = () => {
-
-  }
 
   return (
     <Container>

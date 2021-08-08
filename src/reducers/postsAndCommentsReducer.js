@@ -32,20 +32,28 @@ export default function postsAndCommentsReducer(
 
             case 'ADD_POST':
                 post = action.payload
-                console.log("ADD PONT ACTION REACHED")
-                return { ...state, posts: [...state.posts, post] }
+                if (post.status === "published") {
+                    console.log("ADD PONT ACTION REACHED")
+                    return { ...state, posts: [...state.posts, post] }
+                } return state
 
             case 'EDIT_POST':
+                post = action.payload
                 postId = action.payload.id
                 postIndex = state.posts.findIndex( post => post.id == postId)
-                post = action.payload
-                return {
-                    ...state, 
-                        posts: [
-                            ...state.posts.slice(0, postIndex), post, ...state.posts.slice(postIndex+1)
-                        ]
-                }
-                // return {...state, posts: [...state.posts.slice(0, postIndex), action.payload, ...state.posts.slice(postIndex+1)]}
+                // If the post is in the public bucket, (published), update the post [-1 meanns result not found]
+                if (postIndex !== -1) {
+                    return {
+                        ...state, 
+                            posts: [
+                                ...state.posts.slice(0, postIndex), post, ...state.posts.slice(postIndex+1)
+                            ]
+                    }
+                 // if hte post is not in the public bucket, include it in the bucket (that is, post changed status from "draft" to "published")
+                 } return { ...state, posts: [...state.posts, post] }
+                 
+                
+                
 
             case 'DELETE_POST':
                 postId = action.payload

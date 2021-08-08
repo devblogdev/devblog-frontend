@@ -1,18 +1,30 @@
 import axios from 'axios'
 import auth from '../components/security/auth'
 
+// export function fetchPosts(endpoint) {
+//     return async (dispatch) => {
+//         dispatch({type: 'LOADING_POSTS' })
+//        await axios.get(endpoint)
+//         .then(response => {
+//             // console.log(response)
+//             dispatch({type: 'FETCH_POSTS', payload: response.data })
+//         })
+//         .catch(error => {
+//             console.log(error)
+//             auth.logout()
+//         })
+//     }
+// }
 export function fetchPosts(endpoint) {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch({type: 'LOADING_POSTS' })
-       axios.get(endpoint)
-        .then(response => {
+        const response = await axios.get(endpoint)
+            .catch(error => {
+                console.log(error)
+                auth.logout()
+            })
             // console.log(response)
             dispatch({type: 'FETCH_POSTS', payload: response.data })
-        })
-        .catch(error => {
-            console.log(error)
-            auth.logout()
-        })
     }
 }
 
@@ -26,11 +38,17 @@ export function addPost(endpoint, postData, routerProps=null){
         }
     }
     if(token){
-        return (dispatch) => {
-            axios.post(`${endpoint}`, {post: postData} , axiosConfig)
+        return async (dispatch) => {
+            await axios.post(`${endpoint}`, {post: postData} , axiosConfig)
             .then( response => {
                 console.log(response)
                 dispatch( {type: 'ADD_POST', payload: response.data})
+                dispatch( {type: "ADD_POST_TO_USER", payload: response.data})
+                // debugger
+                if (response.data.status === "published" ){
+                    console.log(`/posts/${response.data.id}`)
+                }
+                routerProps.history.push(`/posts/${response.data.id}`)
             })
             .catch(error => {
                 console.log(error);
@@ -57,6 +75,8 @@ export function editPost(endpoint, postData, routerProps=null){
             .then( response => {
                 console.log(response)
                 dispatch( {type: 'EDIT_POST', payload: response.data})
+                dispatch( {type: "EDIT_USER_POST", payload: response.data})
+                routerProps.history.push(`/posts/${response.data.id}`)
             })
             .catch(error => {
                 console.log(error);

@@ -8,17 +8,15 @@ import { convertToHTML, convertFromHTML } from 'draft-convert';
 // import DOMPurify from 'dompurify';
 
 import Button from '@material-ui/core/Button';
-import { createTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { green, blueGrey } from '@material-ui/core/colors';
 import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsActions';
-// import { FileUploadPage } from '../images/imageUpload';
 import  UploadImageToS3WithReactS3  from '../images/UploadImageToS3WithReactS3'
 
 
 
 const ColorButton = withStyles((theme) => ({
     root: {
-    //   color: theme.palette.getContrastText(green[500]),
       backgroundColor: green[600],
       '&:hover': {
         backgroundColor: green[800],
@@ -28,7 +26,6 @@ const ColorButton = withStyles((theme) => ({
 
 const DangerButton = withStyles((theme) => ({
     root: {
-    //   color: theme.palette.getContrastText(green[500]),
       backgroundColor: blueGrey[200],
       '&:hover': {
         backgroundColor: blueGrey[400],
@@ -67,17 +64,27 @@ const PostEditor2 = (props) => {
     }
 
     //  CRUD ACTIONS STRAT
+
+    // --------------- Image upload -------------------
+    function retrieveImageState(imageData){
+        const file = imageData.file
+
+    }
+
     const saveDraft = (event) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/draft" 
         const postData = {body: data, status: "draft"}
         dispatch(addPost(endpoint, postData))
+        props.history.push("/profile")
     }
     const savePost = (event) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/publish" 
         const postData = {body: data, status: "published"}
-        dispatch(addPost(endpoint, postData))
+        dispatch(addPost(endpoint, postData, props))
+        console.log(props)
+        // props.history.push(`/posts/${props.match.params.postID}`)
     }
     const updateDraft = (event) => {
         const data = convertToHTML(editorState.getCurrentContent());
@@ -89,12 +96,14 @@ const PostEditor2 = (props) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
         const postData = {body: data, status: "published"}
-        dispatch(editPost(endpoint, postData))
+        dispatch(editPost(endpoint, postData, props))
+        // props.history.push(endpoint)
     }
     const removePost = () => {
         const postID = props.match.params.postID
         const endpoint = `/posts/${postID}`
         dispatch(deletePost(endpoint, postID))
+        props.history.push("/profile")
     }
 
         //   ------------ New psot  ---------------
@@ -118,6 +127,7 @@ const PostEditor2 = (props) => {
     const saveButton = <Button 
                           onClick={(event) => updateDraft(event)}
                           color="primary" variant="contained" component="span"
+                          disableElevation
                         >Save
                         </Button>
 
@@ -146,11 +156,6 @@ const PostEditor2 = (props) => {
                           >Delete
                           </DangerButton>
 
-    // --------------- Image upload -------------------
-
-
-
-
     //  CRUD ACTIONS END
     
     let buttons
@@ -175,8 +180,6 @@ const PostEditor2 = (props) => {
     () => initialEditorState
   );
     
-  
-
   return (
     <div className="App">
       <header className="App-header">
@@ -184,7 +187,6 @@ const PostEditor2 = (props) => {
       </header>
       <Editor 
         editorState={editorState}
-        // onEditorStateChange={setEditorState}
         onEditorStateChange={handleEditorChange}
         wrapperClassName="wrapper-class"
         editorClassName="editor-class"
@@ -195,26 +197,6 @@ const PostEditor2 = (props) => {
             {button}
         </React.Fragment> 
        )}
-      {/* <Button onClick ={saveDraft}>
-          Save as Draft
-      </Button>
-      <Button onClick ={savePost}>
-          Publish
-      </Button> */}
-      {/* <Button onClick ={deletePost} >
-          Delete
-      </Button> */}
-        {/* <label htmlFor="upload-photo">
-            <input
-                style={{ display: 'none' }}
-                id="upload-photo"
-                name="upload-photo"
-                type="file"
-            />
-            <Button color="secondary" variant="contained" component="span">
-                Upload button
-            </Button>
-        </label>; */}
         <UploadImageToS3WithReactS3 />
     </div>
   )

@@ -5,25 +5,40 @@ import Button from '@material-ui/core/Button';
 
 
 const  Post = ({match, posts, user}) => {
-    const storePosts = useSelector( state => state.posts.posts)
-    const [currentPost, setCurrentPost] = useState({})
-    // const loadedPost = storePosts?.find(({id}) => id == match.params.postID)
-    const loadedPost = posts?.find(({id}) => id == match.params.postID)
-    const editButton = <Link to={`/posts/edit/${currentPost.id}`}>Edit post</Link>
-    console.log(user)
+    // const storePosts = useSelector( state => state.posts.posts)
+    // const [currentPost, setCurrentPost] = useState({})
+    // const [loadedPosts, setLoadedPosts] = useState([])
+    const [post, setPost] = useState({})
+    const [editButton, setEditButton] = useState()
+    // const allPosts = useSelector((state) => state.posts.posts)
+    // const loadedPost = posts?.find(({id}) => id == match.params.postID)
+    // const post = loadedPosts.find(({id}) => id == match.params.postID)
+    // const editButton = <Link to={`/posts/edit/${loadedPost.id}`}>Edit post</Link>
+    // console.log(posts)
 
-    useEffect(() => {
-        setCurrentPost(loadedPost)
-    }, [storePosts]);
+    useEffect(() => { 
+        if (posts.length > 0) {
+            setPost( () => posts.find(({id}) => id == match.params.postID)
+            )
+            setEditButton(() => <Link to={`/posts/edit/${post.id}`}>Edit post</Link> )
+        }
+    },[posts]);
+    useEffect(() => { 
+        setEditButton(() => <Link to={`/posts/edit/${post.id}`}>Edit post</Link> )
+    },[post]);
 
-    console.log(currentPost)
+    // console.log(loadedPosts)
+    console.log(post)
     return(
         <div>
             {editButton}
-            <h1>Title: {currentPost.title}</h1>
-            <h1>Body: {currentPost.body}</h1>
+            <h1>Title: {post.title}</h1>
+            <h1>Body: {post.body}</h1>
         </div>
     )
 }
-
 export default Post
+
+
+
+

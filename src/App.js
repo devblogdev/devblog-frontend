@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './App.css';
 import { BrowserRouter as Router, HashRouter, Route, Switch } from 'react-router-dom'
@@ -19,34 +19,29 @@ import PostEditor2 from './components/posts/PostEditor2'
 
 
 function App() {
+
   console.log('App.js was rendered')
+
   const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   dispatch(authentication())
-  //   setButton()
-  // })
   useEffect(() => {
-    // dispatch(authentication())
     dispatch(authorization())
+    console.log("authorization")
+    
     setButton()
   }, [dispatch])
 
   useEffect(() => {
     const endpoint = "/posts"
     dispatch(fetchPosts(endpoint))
+    console.log("Fetch posts")
   }, [dispatch])
-
-  useEffect(() => {
-    const endpoint = "/posts"
-    dispatch(fetchPosts(endpoint))
-  }, [dispatch])
-
-  let button
-  const token = localStorage.getItem('token')
+ 
   // IMPORTANT NOTE: The below 'current_user' comes from a state variable; a state variable is NEEDED for the App component to rerender since the App component is skipped after the user logs in
   // and the 'useEffect' above will not be called; the presence of the state variable ensures that App will rerender after user login 
   // calling the setButton function in useEffect, which will make the "LOGIN" link in navbar to change to "LOGOUT" after the user logs in; and viceversa when the user logs out
+  let button
+  const token = localStorage.getItem('token')
   const current_user = useSelector((state) => state.users.current_user)
   const posts = useSelector((state) => state.posts.posts)
   console.log(posts)
@@ -84,11 +79,10 @@ function App() {
               exact path="/"
               render = {routerProps => <Home {...routerProps} posts = {posts} /> }
           />
-          <Route
+           <Route
               exact path="/posts"
               render = {routerProps => <PostLinksContainer {...routerProps} posts = {posts} /> }
           />
-     
           <Route
               exact path="/logout"
               render={routerProps => <Home {...routerProps}  posts = {posts} /> }
@@ -125,10 +119,6 @@ function App() {
               exact path="/signup"
               render={routerProps => <ManageLogin {...routerProps} /> }
           />      
-          {/* <Route
-              exact path="/newpost"
-              render={routerProps => <PostForm {...routerProps} /> }
-          />     */}
           </Switch>
         </Container>  
       </div>

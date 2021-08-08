@@ -1,52 +1,37 @@
 import React, {useState, useRef} from 'react';
-// import {uploadFile} from 'react-aws-s3'
-import S3 from 'react-aws-s3'
 import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import { purple } from '@material-ui/core/colors';
 
-const config = {
-    bucketName: process.env.REACT_APP_S3_BUCKET,
-    region: process.env.REACT_APP_REGION,
-    accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
-    secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
-}
+const RemoveImageButton = withStyles((theme) => ({
+    root: {
+      backgroundColor: purple[600],
+      '&:hover': {
+        backgroundColor: purple[800],
+      },
+    },
+  }))(Button);
 
-const S3ImageService = () => {
+const S3ImageService = (props) => {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
 
     const ref = useRef()
 
-    const reset = (file) => {
-        // console.log(file.value)
-        // ref.current.value = null
+    const reset = () => {
         setSelectedFile()
         setIsFilePicked(false)
     }
 
 	const changeHandler = (event) => {
         if (event.target.files && event.target.files[0]) {
-		setSelectedFile(event.target.files[0]);
-		setIsFilePicked(true);
-        }
-	};
-	const handleSubmission = async (file) => {
-        const ReactS3Client = new S3(config)
-        const newFilename = selectedFile.name
-        ReactS3Client.uploadFile(file)
-            .then((response) => {
-                console.log('Success:', response);
+            setSelectedFile(event.target.files[0]);
+            setIsFilePicked(true);
+            props.retrieveImageState({
+                file: selectedFile,
+                name: selectedFile.name
             })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        // const filename = selectedFile.name
-        // ReactS3Client.deleteFile("2qYYFYzk1focd8LWmAdGq2.png")
-        //     .then((response) => {
-        //         console.log('Success:', response);
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error:', error);
-        //     });
+        }
 	};
 
 	return(
@@ -61,7 +46,11 @@ const S3ImageService = () => {
                     accept="image/*"
                     ref = {ref}
                 />
-                  <Button color="secondary" variant="contained" component="span">Upload a cover image</Button> 
+                  <Button 
+                    color="secondary" variant="contained" component="span"
+                    disableElevation
+                  >Upload a cover image
+                  </Button> 
             </label>
 			{isFilePicked ? (
 				<div>
@@ -72,7 +61,12 @@ const S3ImageService = () => {
 						lastModifiedDate:{' '}
 						{selectedFile?.lastModifiedDate.toLocaleDateString()}
 					</p>
-                    <Button onClick={() => reset(selectedFile)}>Remove image</Button>
+                    <RemoveImageButton 
+                        onClick={() => reset()}
+                        color="primary" variant="contained" component="span"
+                        disableElevation
+                    >Remove image
+                    </RemoveImageButton>
                     <div>
 				        <button onClick={() => handleSubmission(selectedFile)}>Submit</button>
 			        </div>
