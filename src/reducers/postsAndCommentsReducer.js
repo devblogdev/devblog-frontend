@@ -50,14 +50,16 @@ export default function postsAndCommentsReducer(
                             ]
                     }
                  // if hte post is not in the public bucket, include it in the bucket (that is, post changed status from "draft" to "published")
-                 } return { ...state, posts: [...state.posts, post] }
+                 } else if (post.status === "published") {
+                     return { ...state, posts: [...state.posts, post] }
+                 } return state
                  
-                
-                
-
             case 'DELETE_POST':
                 postId = action.payload
                 postIndex = state.posts.findIndex( post => post.id == postId)
+                if (postIndex === -1) {
+                    return state
+                }
                 return {
                     ...state, 
                         posts: [
@@ -66,7 +68,6 @@ export default function postsAndCommentsReducer(
                 }
                 // Add code to remove post's associated commens
       
-
             case 'ADD_LIKE':
                 userId = "some user"
                 postId= "someId"

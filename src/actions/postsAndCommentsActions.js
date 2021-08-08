@@ -76,7 +76,9 @@ export function editPost(endpoint, postData, routerProps=null){
                 console.log(response)
                 dispatch( {type: 'EDIT_POST', payload: response.data})
                 dispatch( {type: "EDIT_USER_POST", payload: response.data})
-                routerProps.history.push(`/posts/${response.data.id}`)
+                if (response.data.status === "published") {
+                    routerProps.history.push(`/posts/${response.data.id}`)
+                }
             })
             .catch(error => {
                 console.log(error);

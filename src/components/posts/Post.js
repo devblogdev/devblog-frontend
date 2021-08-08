@@ -20,15 +20,13 @@ const  Post = ({match, posts, user}) => {
         if (posts.length > 0) {
             setPost( () => posts.find(({id}) => id == match.params.postID)
             )
-            setEditButton(() => <Link to={`/posts/edit/${post.id}`}>Edit post</Link> )
         }
     },[posts]);
+
     useEffect(() => { 
         setEditButton(() => <Link to={`/posts/edit/${post.id}`}>Edit post</Link> )
     },[post]);
 
-    // console.log(loadedPosts)
-    console.log(post)
     return(
         <div>
             {editButton}

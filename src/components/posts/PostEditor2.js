@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -179,6 +179,7 @@ const PostEditor2 = (props) => {
   const [editorState, setEditorState] = useState( 
     () => initialEditorState
   );
+
     
   return (
     <div className="App">

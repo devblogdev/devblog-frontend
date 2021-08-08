@@ -91,21 +91,25 @@ function App() {
               exact path ="/profile"
               component = {ProfileContainer}
               user = {current_user}
+              posts = {posts}
           />
           <ProtectedRoute
               path ="/profile/drafts/new"
               component = {PostEditor2}
               user = {current_user}
+              posts = {posts}
           />
           <ProtectedRoute
               path ="/profile/drafts/:postID"
               component = {PostEditor2}
               user = {current_user}
+              posts = {posts}
           />
           <ProtectedRoute
               path ="/posts/edit/:postID"
               component = {PostEditor2}
               user = {current_user}
+              posts = {posts}
           />
           <Route 
               path={`/posts/:postID`} 
