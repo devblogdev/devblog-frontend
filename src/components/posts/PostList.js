@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom'
                </Link>
       } return <a key={-index} href={post.url} target="_blank" rel="noreferrer noopener"><PostCard post = {post} /></a>
     })
+    console.log(posts)
     return (
         <div>
             <h1>Post List</h1>     

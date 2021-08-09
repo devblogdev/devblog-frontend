@@ -21,8 +21,8 @@ const axiosConfig = {
 
 const uploadImage =  async (file) => {
     // Upload the image to Amazon S3 bucket
-    if (file) {
-        console.log("uploadImage called")
+    if (file && token) {
+        console.log("upload image called")
         const res = await ReactS3Client.uploadFile(file)
         .catch(error => { 
             console.log(error) 
@@ -39,18 +39,34 @@ const uploadImage =  async (file) => {
     } return []
 }
 
-const deleteImage = () => {
-    ReactS3Client.deleteFile()
-    .then((response) => {
-        console.log('Success:', response);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+const deleteImage = async (postImage) => {
+    if (token) {
+        console.log("delete image called")
+        await ReactS3Client.deleteFile(postImage.s3key)
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        return []
+    } return []
 }
 
-const updateImage = () => {
-
+const updateImage = async (postImage, imageData) => {
+    if (token) {
+        console.log("update image called")
+        const res = await ReactS3Client.uploadFile(imageData, postImage.s3key)
+        .catch(error => { 
+            console.log(error) 
+            return [postImage]
+        })
+        const images_attributes = [{
+            name: imageData.name,
+            size: imageData.size,
+            url: postImage.location,
+            s3key: postImage.key
+        }]
+        console.log(images_attributes)
+        return images_attributes
+    } return []
 }
 
 export function manageImageForNewDraftOrPost(imageData) {
@@ -58,15 +74,20 @@ export function manageImageForNewDraftOrPost(imageData) {
     return uploadImage(imageData)
 }
 
-export function manageImageForDraftOrPost(postData, imageData) {
-    if (postData.images[0] !== undefined && imageData === undefined) {
-        deleteImage(postData)
-    } else if (postData.images[0] !== undefined && imageData !== undefined) {
-        if ( postData.images[0].name !== imageData.name || postData.images[0].size !== imageData.size ) {
-            updateImage(imageData)
-        }
-    }
-  
+export function manageImageForDraftOrPost(currentPost, imageState) {
+    let images = currentPost.images
+    let imageData = imageState
+    // debugger
+    // If the post has an image on record, and the no image included in post editor, delete the post's record image
+    if (images[0] !== undefined && imageData === undefined) {
+        return deleteImage(images[0])
+    } else if (images[0] !== undefined && imageData !== undefined) {
+        if ( images[0].name !== imageData.name || images[0].size !== imageData.size ) {
+            return updateImage(images[0], imageData)
+        } return [images[0]]
+    } else if (images[0] === undefined && imageData !== undefined) {
+        return uploadImage(imageData)
+    } return []
 }
 
 

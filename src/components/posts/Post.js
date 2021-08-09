@@ -22,7 +22,7 @@ const  Post = ({match, posts, user}) => {
             )
         }
     },[posts]);
-
+    console.log(post)
     useEffect(() => { 
         setEditButton(() => <Link to={`/posts/edit/${post.id}`}>Edit post</Link> )
     },[post]);

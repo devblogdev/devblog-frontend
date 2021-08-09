@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { purple } from '@material-ui/core/colors';
@@ -16,9 +16,19 @@ const RemoveImageButton = withStyles((theme) => ({
 // Functional component; utilizes Amazon Web Services S3 for storing images
 
 const S3ImageService = (props) => {
-	const [selectedFile, setSelectedFile] = useState();
-	const [isFilePicked, setIsFilePicked] = useState(false);
+	const [selectedFile, setSelectedFile] = useState(props.initialImageState);
+	const [isFilePicked, setIsFilePicked] = useState(() => {
+        if (props.initialImageState) {
+            return true
+        } return false
+    });
 
+    useEffect(() => {
+      props.retrieveImageState(props.initialImageState)
+      console.log("useeffect was called")
+    },[])
+
+    console.log(selectedFile)
     const reset = () => {
         setSelectedFile()
         setIsFilePicked(false)
@@ -53,10 +63,10 @@ const S3ImageService = (props) => {
 					<p>Filename: {selectedFile.name}</p>
 					<p>Filetype: {selectedFile.type}</p>
 					<p>Size in bytes: {selectedFile.size}</p>
-					<p>
+					{/* <p>
 						lastModifiedDate:{' '}
-						{selectedFile.lastModifiedDate.toLocaleDateString()}
-					</p>
+						{selectedFile.lastModifiedDate?.toLocaleDateString()}
+					</p> */}
                     <RemoveImageButton 
                         onClick={() => reset()}
                         color="primary" variant="contained" component="span"

@@ -5,7 +5,8 @@ const PostCard = ({post}) => {
     let coverPicture 
     // console.log(post)
     if (images !== undefined){
-        images[0] === undefined ? coverPicture = "IMAGE" : coverPicture = <img src = {images[0].url} alt= {images[0].alt}/>
+        // debugger
+        images[0] === undefined ? coverPicture = "IMAGE" : coverPicture = <img src = {images[0].url} alt= {images[0].alt} className="image"/>
     }else {
         images === undefined ? coverPicture = "IMAGE" : coverPicture = <img src = {images[0].url} alt= {images[0].alt}/>
     }

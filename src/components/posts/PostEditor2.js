@@ -53,12 +53,14 @@ const PostEditor2 = (props) => {
     // --------------- Image upload -------------------
 
     const [imageState, setImageState] = useState()
+    let imageOnInitialRender
+    // const [imageOnInitialRender, setImageOnInitialRender] = useState()
 
     const retrieveImageState = (file) => {
         setImageState(file)
     }
 
-    // Functions for post editor buttons
+    // FUNCTION FOR POST EDITOR BUTTONS
     const saveDraft = (event) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/draft" 
@@ -68,7 +70,7 @@ const PostEditor2 = (props) => {
         // wrap the function in an async/await block to wait until the promise is resolved
         const resolveImageThenResolvePost = async () => {
             const imageData = await manageImageForNewDraftOrPost(imageState);
-            let postData =Object.assign({}, rawPostData, {images_attributes: imageData})
+            let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
             dispatch(addPost(endpoint, postData))    
             props.history.push("/profile")
@@ -92,27 +94,46 @@ const PostEditor2 = (props) => {
     const updateDraft = () => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
-        const postData = {body: data, status: "draft"}
+        const currentPost = props.user.posts.find(post => post.id == props.match.params.postID)
+        const rawPostData = {body: data, status: "draft"}
         console.log(imageState)
-        dispatch(manageImageForDraftOrPost(postData, imageState))
-        dispatch(editPost(endpoint, postData))
+        const resolveImageThenResolvePost = async () => {
+            const imageData = await manageImageForDraftOrPost(currentPost, imageState);
+            let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
+            console.log(postData)
+            dispatch(editPost(endpoint, postData))
+            props.history.push("/profile")
+        }
+        resolveImageThenResolvePost()
     }
 
     const updatePost = () => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
-        const postData = {body: data, status: "published"}
-        dispatch(editPost(endpoint, postData, props))
+        const currentPost = props.user.posts.find(post => post.id == props.match.params.postID)
+        const rawPostData = {body: data, status: "published"}
+        const resolveImageThenResolvePost = async () => {
+            const imageData = await manageImageForDraftOrPost(currentPost, imageState);
+            let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
+            console.log(postData)
+            dispatch(editPost(endpoint, postData, props))
+        }
+        resolveImageThenResolvePost()
     }
 
     const removePost = () => {
         const postID = props.match.params.postID
         const endpoint = `/posts/${postID}`
-        dispatch(deletePost(endpoint, postID))
-        props.history.push("/profile")
+        const currentPost = props.user.posts.find(post => post.id == props.match.params.postID)
+        const resolveImageThenResolvePost = async () => {
+            await manageImageForDraftOrPost(currentPost);
+            dispatch(deletePost(endpoint, postID))
+            props.history.push("/profile")
+        }
+        resolveImageThenResolvePost()
     }
 
-    // Post editor buttons
+    // POST EDITOR BUTTONS
         //   ------------ NEW POST  ---------------
     const saveAsDraftButton = <Button 
                                 onClick={saveDraft}
@@ -165,30 +186,12 @@ const PostEditor2 = (props) => {
 
     // --------------------- CRUD ACTIONS END ------------------------
     
-    let buttons
-
-    // const [draftOrPost, setDraftOrPost] = useState({})
     
-    // const loadDraftOrPost = () => props.user.posts.find(post => post.id == props.match.params.postID)
-
-
-    // useEffect(() => {
-    //     if (Object.keys(props.user).length > 0) {
-    //         setDraftOrPost(loadDraftOrPost())
-    //     }
-    //   },[props.user])
-
-    //   const [info, setInfo] = useState({})
-
-    //   useEffect(() => {
-    //       setInfo(convertFromHTML(draftOrPost.body))
-    //   },[draftOrPost])
-
     // --------------------- POST EDITOR START ------------------------
-
+    let buttons
     let initialEditorState = null;
-
-    const storeRaw = localStorage.getItem('draftRaw')
+    let initialImageState = null
+    // const storeRaw = localStorage.getItem('draftRaw')
 
     const saveRaw = () => {
         let contentRaw = convertToRaw(editorState.getCurrentContent());
@@ -208,6 +211,10 @@ const PostEditor2 = (props) => {
         const draftOrPost = props.user.posts.find(post => post.id == props.match.params.postID)
         const info = convertFromHTML(draftOrPost.body)
         initialEditorState = EditorState.createWithContent(info)
+        initialImageState =  draftOrPost.images[0]
+        initialImageState ? imageOnInitialRender = true : imageOnInitialRender = false
+        // setImageState(initialImageState)
+        console.log(imageState)
         if (props.match.path === "/profile/drafts/:postID") {
             buttons = [saveButton, publishDraftButton, deleteButton]
         } else if (props.match.path === "/posts/edit/:postID") {
@@ -220,16 +227,7 @@ const PostEditor2 = (props) => {
     );
 
     // --------------------- POST EDITOR END ------------------------
-    
-        // useEffect(() => {
-        //     if ( props.match.url === "/profile/drafts/new" ) {
-        //         initialEditorState = EditorState.createEmpty();
-        //     } else {
-        //         initialEditorState = EditorState.createWithContent(info)
-        //     }
-        // },[info])
-
-    
+        
   return (
     <div className="App">
       <header className="App-header">
@@ -248,7 +246,7 @@ const PostEditor2 = (props) => {
         </React.Fragment> 
        )}
         {/* Renders a button, but it is a full compponent */}
-        <S3ImageService retrieveImageState= {retrieveImageState} />
+        <S3ImageService retrieveImageState= {retrieveImageState} initialImageState = {initialImageState} />
     </div>
   )
 }

@@ -17,3 +17,5 @@ const Bucketpolicyexample =
         }
     ]
 }
+
+const gettingallfiles = await s3.listFiles()

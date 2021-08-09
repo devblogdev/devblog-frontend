@@ -115,7 +115,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  console.log(drafts)
   return (
     <Container>
       <div className={classes.root}>
