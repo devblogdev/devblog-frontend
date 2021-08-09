@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { purple } from '@material-ui/core/colors';
@@ -19,24 +19,16 @@ const S3ImageService = (props) => {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
 
-    // const ref = useRef()
-
     const reset = () => {
         setSelectedFile()
         setIsFilePicked(false)
         props.retrieveImageState()
     }
-    // console.log(props.retrieveImageState())
+    
 	const changeHandler = (event) => {
-        // if (event.target.files && event.target.files[0]) {
-            setSelectedFile(event.target.files[0]);
-            setIsFilePicked(true);
-            
-            props.retrieveImageState(event.target.files[0])
-            console.log(props.retrieveImageState(event.target.files[0]))
-            // console.log(props)
-            // debugger
-        // }
+        setSelectedFile(event.target.files[0]);
+        setIsFilePicked(true);
+        props.retrieveImageState(event.target.files[0])
 	};
 
 	return(
@@ -49,7 +41,6 @@ const S3ImageService = (props) => {
                     name="btn-upload" 
                     onChange={changeHandler} 
                     accept="image/*"
-                    // ref = {ref}
                 />
                   <Button 
                     color="secondary" variant="contained" component="span"
@@ -73,9 +64,6 @@ const S3ImageService = (props) => {
                         size="small"
                     >Remove image
                     </RemoveImageButton>
-                    {/* <div>
-				        <button onClick={() => handleSubmission(selectedFile)}>Submit</button>
-			        </div> */}
 				</div>
 			) : (
 				<p>Select a file to show details</p>

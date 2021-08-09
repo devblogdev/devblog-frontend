@@ -48,7 +48,7 @@ export function addPost(endpoint, postData, routerProps=null){
                 if (response.data.status === "published" ){
                     console.log(`/posts/${response.data.id}`)
                 }
-                routerProps.history.push(`/posts/${response.data.id}`)
+                routerProps?.history.push(`/posts/${response.data.id}`)
             })
             .catch(error => {
                 console.log(error);

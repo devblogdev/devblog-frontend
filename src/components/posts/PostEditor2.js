@@ -13,7 +13,8 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { green, blueGrey } from '@material-ui/core/colors';
 import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsActions';
 import  S3ImageService  from '../images/S3ImageService'
-import { uploadImage } from '../../actions/imageActions'
+import { manageImageForNewDraftOrPost } from '../../actions/imageActions'
+import { manageImageForDraftOrPost } from '../../actions/imageActions'
 
 const ColorButton = withStyles((theme) => ({
     root: {
@@ -51,8 +52,7 @@ const PostEditor2 = (props) => {
 
     // --------------- Image upload -------------------
 
-    const [imageState, setImageState] = useState({})
-
+    const [imageState, setImageState] = useState()
 
     const retrieveImageState = (file) => {
         setImageState(file)
@@ -62,30 +62,49 @@ const PostEditor2 = (props) => {
     const saveDraft = (event) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/draft" 
-        const postData = {body: data, status: "draft"}
+        const rawPostData = {body: data, status: "draft"}
         console.log(imageState)
-        dispatch(addPost(endpoint, postData))
-        props.history.push("/profile")
+        // "manageImageForNewDraftOrPost" below return a Promise; to get the data out of the promise we need to
+        // wrap the function in an async/await block to wait until the promise is resolved
+        const resolveImageThenResolvePost = async () => {
+            const imageData = await manageImageForNewDraftOrPost(imageState);
+            let postData =Object.assign({}, rawPostData, {images_attributes: imageData})
+            console.log(postData)
+            dispatch(addPost(endpoint, postData))    
+            props.history.push("/profile")
+        }
+        resolveImageThenResolvePost()
     }
+
     const savePost = () => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/publish" 
-        const postData = {body: data, status: "published"}
-        dispatch(addPost(endpoint, postData, props))
+        const rawPostData = {body: data, status: "published"}
+        const resolveImageThenResolvePost = async () => {
+            const imageData = await manageImageForNewDraftOrPost(imageState);
+            let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
+            console.log(postData)
+            dispatch(addPost(endpoint, postData, props))    
+        }
+        resolveImageThenResolvePost()
     }
+
     const updateDraft = () => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
         const postData = {body: data, status: "draft"}
         console.log(imageState)
+        dispatch(manageImageForDraftOrPost(postData, imageState))
         dispatch(editPost(endpoint, postData))
     }
+
     const updatePost = () => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
         const postData = {body: data, status: "published"}
         dispatch(editPost(endpoint, postData, props))
     }
+
     const removePost = () => {
         const postID = props.match.params.postID
         const endpoint = `/posts/${postID}`
