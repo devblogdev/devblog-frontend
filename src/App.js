@@ -16,8 +16,6 @@ import PostEditor2 from './components/posts/PostEditor2'
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
 import ManageLogin from './containers/ManageLogin'
 
-
-
 function App() {
 
   console.log('App.js was rendered')
@@ -27,6 +25,7 @@ function App() {
   const posts = useSelector((state) => state.posts.posts)
   console.log(posts)
   const token = localStorage.getItem('token')
+  
   
   const Buttons = useCallback(() => {
     let button
@@ -51,6 +50,7 @@ function App() {
   useEffect(() => {
     dispatch(authorization())
     Buttons()
+    console.log("authorization called")
   }, [dispatch, Buttons])
 
   useEffect(() => {
