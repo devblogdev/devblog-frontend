@@ -8,7 +8,7 @@ import { convertToHTML} from 'draft-convert';
 // import DOMPurify from 'dompurify';
 
 import Button from '@material-ui/core/Button';
-import { addPost } from '../../actions/postsAndCommentsActions'
+import { addPost } from '../src/actions/postsAndCommentsActions'
 
 const PostEditor = (props) => {
 

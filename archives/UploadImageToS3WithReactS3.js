@@ -3,11 +3,12 @@ import React, {useState, useRef} from 'react';
 import S3 from 'react-aws-s3'
 import Button from '@material-ui/core/Button';
 
+// Remove the strings from the below values for config object to work
 const config = {
-    bucketName: process.env.REACT_APP_S3_BUCKET,
-    region: process.env.REACT_APP_REGION,
-    accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
-    secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
+    bucketName: "process.env.REACT_APP_S3_BUCKET",
+    region: "process.env.REACT_APP_REGION",
+    accessKeyId: "process.env.REACT_APP_ACCESS_KEY_ID",
+    secretAccessKey: "process.env.REACT_APP_SECRET_ACCESS_KEY"
 }
 
 const UploadImageToS3WithReactS3 = () => {
@@ -16,9 +17,7 @@ const UploadImageToS3WithReactS3 = () => {
 
     const ref = useRef()
 
-    const reset = (file) => {
-        // console.log(file.value)
-        // ref.current.value = null
+    const reset = () => {
         setSelectedFile()
         setIsFilePicked(false)
     }
@@ -39,15 +38,19 @@ const UploadImageToS3WithReactS3 = () => {
             .catch((error) => {
                 console.error('Error:', error);
             });
-        // const filename = selectedFile.name
-        // ReactS3Client.deleteFile("2qYYFYzk1focd8LWmAdGq2.png")
-        //     .then((response) => {
-        //         console.log('Success:', response);
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error:', error);
-        //     });
+
 	};
+
+    const delteImageFromS3 = () => {
+        const filename = selectedFile.name
+        ReactS3Client.deleteFile("2qYYFYzk1focd8LWmAdGq2.png")
+            .then((response) => {
+                console.log('Success:', response);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 
 	return(
         <div>

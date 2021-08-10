@@ -57,19 +57,18 @@ const useStyles = makeStyles((theme) => ({
 // MAIN: FUCNTIONAL COMPONENT; RENDERS A LOGIN FORM
 export default function Login(routerProps) {
   const classes = useStyles();
-  // Applying 'useState' hook to set the values and manage the state of the emai input an the password input
-  // Applying 'useDispatch' hook to to mimic mapDidspatchtoProps
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch()
 
   const handleSubmit = (event) => {
-    // debugger
     event.preventDefault();
     const endpoint = "/api/v1/auth"
     const userData = {email, password}
     dispatch(CreateOrLoginUser(endpoint, userData, routerProps))
   }
+  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
