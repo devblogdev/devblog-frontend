@@ -72,8 +72,8 @@ const PostEditor2 = (props) => {
             const imageData = await manageImageForNewDraftOrPost(imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
-            dispatch(addPost(endpoint, postData))    
-            props.history.push("/profile")
+            dispatch(addPost(endpoint, postData, props))    
+            // props.history.push("/profile")
         }
         resolveImageThenResolvePost()
     }
@@ -101,7 +101,7 @@ const PostEditor2 = (props) => {
             const imageData = await manageImageForDraftOrPost(currentPost, imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
-            dispatch(editPost(endpoint, postData))
+            dispatch(editPost(endpoint, postData, props))
             props.history.push("/profile")
         }
         resolveImageThenResolvePost()
