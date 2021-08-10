@@ -1,9 +1,7 @@
 import axios from 'axios'
 import auth from "../components/security/auth"
 
-
-
-
+// Authentication function is not used in the App
 export function authentication() {
     const token = localStorage.getItem('token')
     return (dispatch) => {

@@ -12,10 +12,10 @@ const RemoveImageButton = withStyles((theme) => ({
     },
   }))(Button);
 
-
 // Functional component; utilizes Amazon Web Services S3 for storing images
 
 const S3ImageService = ({initialImageState, retrieveImageState}) => {
+    
 	const [selectedFile, setSelectedFile] = useState(initialImageState);
 	const [isFilePicked, setIsFilePicked] = useState(() => {
         if (initialImageState) {
@@ -25,10 +25,10 @@ const S3ImageService = ({initialImageState, retrieveImageState}) => {
 
     useEffect(() => {
       retrieveImageState(initialImageState)
-      console.log("useeffect was called")
     },[retrieveImageState, initialImageState])
 
     console.log(selectedFile)
+    
     const reset = () => {
         setSelectedFile()
         setIsFilePicked(false)
@@ -61,8 +61,8 @@ const S3ImageService = ({initialImageState, retrieveImageState}) => {
 			{isFilePicked ? (
 				<div>
 					<p>Filename: {selectedFile.name}</p>
+                    <p>Size in bytes: {selectedFile.size}</p>
 					{/* <p>Filetype: {selectedFile.type}</p> */}
-					<p>Size in bytes: {selectedFile.size}</p>
 					{/* <p>
 						lastModifiedDate:{' '}
 						{selectedFile.lastModifiedDate?.toLocaleDateString()}

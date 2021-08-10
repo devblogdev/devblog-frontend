@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+// This custom hook is used in SignUp component
 export const useInput = initialValue => {
     const [value, setValue] = useState(initialValue)
 
