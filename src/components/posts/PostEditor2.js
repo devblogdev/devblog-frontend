@@ -7,7 +7,6 @@ import { convertToRaw } from 'draft-js';
 // import { convertFromRaw } from 'draft-js';
 import { convertToHTML, convertFromHTML } from 'draft-convert';
 // import DOMPurify from 'dompurify';
-
 import Button from '@material-ui/core/Button';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { green, blueGrey } from '@material-ui/core/colors';
@@ -194,8 +193,8 @@ const PostEditor2 = (props) => {
     let initialImageState = null
     // const storeRaw = localStorage.getItem('draftRaw')
 
-    const saveRaw = () => {
-        let contentRaw = convertToRaw(editorState.getCurrentContent());
+    const saveRaw = (currentContent) => {
+        let contentRaw = convertToRaw(currentContent);
         localStorage.setItem('draftRaw', JSON.stringify(contentRaw))
     }
 
@@ -209,11 +208,11 @@ const PostEditor2 = (props) => {
         initialEditorState = EditorState.createEmpty();
         buttons = [saveAsDraftButton, publishNewButton]
     } else {
-        const draftOrPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
+        const draftOrPost = Object.keys(props.user).length > 0 && props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const info = convertFromHTML(draftOrPost.body)
         initialEditorState = EditorState.createWithContent(info)
         initialImageState =  draftOrPost.images[0]
-        console.log(imageState)
+        console.log(props.user)
         if (props.match.path === "/profile/drafts/:postID") {
             buttons = [saveButton, publishDraftButton, deleteButton]
         } else if (props.match.path === "/posts/edit/:postID") {
@@ -232,6 +231,7 @@ const PostEditor2 = (props) => {
       <header className="App-header">
         Post Editor
       </header>
+      {/* Renders the post editor */}
       <Editor 
         editorState={editorState}
         onEditorStateChange={handleEditorChange}
@@ -239,12 +239,13 @@ const PostEditor2 = (props) => {
         editorClassName="editor-class"
         toolbarClassName="toolbar-class"
       />
+      {/* Renders the "Save, Publish, Delete ... below post editor" */}
       {buttons.map( (button, index) => 
         <React.Fragment key={index}>
             {button}
         </React.Fragment> 
        )}
-        {/* Renders a button, but it is a full compponent */}
+        {/* Renders the "Upload a cover image" button; it is a full compponent */}
         <S3ImageService retrieveImageState= {retrieveImageState} initialImageState = {initialImageState} />
     </div>
   )

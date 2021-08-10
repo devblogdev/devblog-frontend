@@ -61,7 +61,7 @@ const S3ImageService = ({initialImageState, retrieveImageState}) => {
 			{isFilePicked ? (
 				<div>
 					<p>Filename: {selectedFile.name}</p>
-					<p>Filetype: {selectedFile.type}</p>
+					{/* <p>Filetype: {selectedFile.type}</p> */}
 					<p>Size in bytes: {selectedFile.size}</p>
 					{/* <p>
 						lastModifiedDate:{' '}

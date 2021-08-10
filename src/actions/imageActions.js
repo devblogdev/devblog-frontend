@@ -13,6 +13,7 @@ const token = localStorage.getItem('token')
 
 const uploadImage =  async (file) => {
     // Upload the image to Amazon S3 bucket
+    // debugger
     if (file && token) {
         console.log("upload image called")
         const res = await ReactS3Client.uploadFile(file)

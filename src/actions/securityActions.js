@@ -21,18 +21,20 @@ export function authorization(endpoint=null, routerProps=null ) {
     endpoint ? url= endpoint : url= '/profile' 
     if(token){
         return async (dispatch) => {
-            const response = await axios.get(`${url}`, {
+            await axios.get(`${url}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     "Authorization": `Bearer ${token}`   
                 }
             })
+             .then(response => {
+                console.log(response)
+                dispatch({type:'SET_USER', payload: response.data})  
+             })
              .catch(error => {
                 dispatch({type: 'LOGOUT_USER'})
                 console.log(error)
              })
-            console.log(response)
-            dispatch({type:'SET_USER', payload: response.data})   
         }
     } return (dispatch) => {
         dispatch({type: 'LOGOUT_USER'})

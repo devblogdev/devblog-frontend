@@ -1,14 +1,6 @@
 import axios from 'axios'
 import auth from '../components/security/auth'
 
-const token = localStorage.getItem('token')
-const axiosConfig = {
-    headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${token}`   
-    }
-}
-
 export function fetchPosts(endpoint) {
     return async (dispatch) => {
         dispatch({type: 'LOADING_POSTS' })
@@ -22,6 +14,13 @@ export function fetchPosts(endpoint) {
 }
 
 export function addPost(endpoint, postData, routerProps=null){
+    const token = localStorage.getItem('token')
+    const axiosConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${token}`   
+        }
+    }
     if(token){
         return async (dispatch) => {
            await axios.post(`${endpoint}`, {post: postData} , axiosConfig)
@@ -45,6 +44,13 @@ export function addPost(endpoint, postData, routerProps=null){
 }
 
 export function editPost(endpoint, postData, routerProps=null){
+    const token = localStorage.getItem('token')
+    const axiosConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${token}`   
+        }
+    }
     if(token){
         return async(dispatch) => {
             await axios.put(`${endpoint}`, {post: postData} , axiosConfig)
@@ -66,6 +72,13 @@ export function editPost(endpoint, postData, routerProps=null){
 }
 
 export function deletePost(endpoint, postID, routerProps=null){
+    const token = localStorage.getItem('token')
+    const axiosConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${token}`   
+        }
+    }
     if(token){
         return async (dispatch) => {
             await axios.delete(`${endpoint}`, axiosConfig)
