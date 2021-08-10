@@ -86,9 +86,6 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
       dispatch(authorization())
   },[dispatch])
 
-  // const loadedDrafts = useCallback ( () => user.posts?.filter( post => post.status === "draft").map((post,index) => {
-  //     return <li key={index}><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.body}</Link></li>}
-  //   ),[user, routerProps.match.url])
   const loadedDrafts = useCallback ( () => user.posts?.filter( post => post.status === "draft").map((post,index) => {
       return <li key={index}><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.body}</Link></li>}
     ),[user.posts, routerProps.match.url])
@@ -99,10 +96,8 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
 
   useEffect(() => {
     console.log(user)
-    // if (Object.keys(user).length > 0) {
       setDrafts(loadedDrafts())
       setPublished(loadedPublished())
-    // }
   },[user, loadedDrafts, loadedPublished])
 
   // useEffect(() => {

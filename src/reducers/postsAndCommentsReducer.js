@@ -38,11 +38,10 @@ export default function postsAndCommentsReducer(
                 } return state
 
             case 'EDIT_POST':
-                // debugger
                 post = action.payload
                 postId = action.payload.id
                 postIndex = state.posts.findIndex( post => post.id === postId)
-                 // If the post is in the public bucket, (published), update the post [-1 meanns result not found]
+                 // If the post is in the public bucket (published), update the post [-1 meanns result not found]
                 if (postIndex > -1) {
                     return {
                         ...state, 
@@ -55,12 +54,8 @@ export default function postsAndCommentsReducer(
                   return   { ...state, posts: [...state.posts, post] }
                 } 
                 return state
-                
-                 
-                  
-                 
+                                 
             case 'DELETE_POST':
-                // debugger
                 postId = action.payload
                 postIndex = state.posts.findIndex( post => `${post.id}` === postId)
                 if (postIndex > -1) {
@@ -73,8 +68,9 @@ export default function postsAndCommentsReducer(
                  return state
                 
            
-                // Add code to remove post's associated commens
+                // Add code to remove post's associated comments, WHEN COMMENTS ARE IMPLEMENTED
       
+                // PLACE HOLDER CODE WHEN LIKES IS IMPLEMENTED
             case 'ADD_LIKE':
                 userId = "some user"
                 postId= "someId"
@@ -89,6 +85,7 @@ export default function postsAndCommentsReducer(
                         ]
                 }
 
+                // PLACE HOLDER CODE WHEN LIKES IS IMPLEMENTED
             case 'REMOVE_LIKE':
                 postId= "someId"
                 // const retrieveIdandIndex = (object) => state.posts.find( (post, index) => {post.id === postId})

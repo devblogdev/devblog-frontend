@@ -12,7 +12,7 @@ import Home from './containers/Home'
 import PostLinksContainer from './containers/PostLinksContainer';
 import ProtectedRoute from './components/protectedRoute/protectedRoute';
 import ProfileContainer from './containers/ProfileContainer'
-import PostEditor2 from './components/posts/PostEditor2'
+import PostEditor from './components/posts/PostEditor'
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
 import ManageLogin from './containers/ManageLogin'
 
@@ -88,19 +88,19 @@ function App() {
             />
             <ProtectedRoute
                 path ="/profile/drafts/new"
-                component = {PostEditor2}
+                component = {PostEditor}
                 user = {current_user}
                 posts = {posts}
             />
             <ProtectedRoute
                 path ="/profile/drafts/:postID"
-                component = {PostEditor2}
+                component = {PostEditor}
                 user = {current_user}
                 posts = {posts}
             />
             <ProtectedRoute
                 path ="/posts/edit/:postID"
-                component = {PostEditor2}
+                component = {PostEditor}
                 user = {current_user}
                 posts = {posts}
             />

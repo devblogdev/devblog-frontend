@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   }));
   
 //   FUNCTIONAL COMPONENT
-const PostEditor2 = (props) => {
+const PostEditor = (props) => {
 
     const dispatch = useDispatch()
 
@@ -59,7 +59,8 @@ const PostEditor2 = (props) => {
 
         // --------------- Image Data Retrieval -------------------
 
-    // FUNCTION FOR POST EDITOR BUTTONS
+    // FUNCTIONS FOR POST EDITOR BUTTONS
+
     const saveDraft = (event) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/draft" 
@@ -72,7 +73,6 @@ const PostEditor2 = (props) => {
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
             dispatch(addPost(endpoint, postData, props))    
-            // props.history.push("/profile")
         }
         resolveImageThenResolvePost()
     }
@@ -239,7 +239,7 @@ const PostEditor2 = (props) => {
         editorClassName="editor-class"
         toolbarClassName="toolbar-class"
       />
-      {/* Renders the "Save, Publish, Delete ... below post editor" */}
+      {/* Renders the "Save, Publish, ... Delete buttons below post editor" */}
       {buttons.map( (button, index) => 
         <React.Fragment key={index}>
             {button}
@@ -250,4 +250,4 @@ const PostEditor2 = (props) => {
     </div>
   )
 }
-export default PostEditor2;
+export default PostEditor;

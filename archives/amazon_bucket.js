@@ -18,4 +18,4 @@ const Bucketpolicyexample =
     ]
 }
 
-const gettingallfiles = await s3.listFiles()
+const ExampleForgettingAllfiles = await s3.listFiles()

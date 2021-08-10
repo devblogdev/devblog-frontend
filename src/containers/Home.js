@@ -2,20 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PostList from '../components/posts/PostList';
 
-// MATERIAL UI DEPENDENCIES
-// import Button from '@material-ui/core/Button';
-// import { makeStyles } from '@material-ui/core/styles';
-
-// MATERIAL UI STYLES
-// const useStyles = makeStyles((theme) => ({
-//   mainGrid: {
-//     marginTop: theme.spacing(3),
-//   },
-// }));
-
 // MAIN COMPONENT; FUNCTIONAL COMPONENT
 const Home = (props) => {
-    // const classes = useStyles();
+    
     const dispatch = useDispatch()
     
     useEffect(() => {

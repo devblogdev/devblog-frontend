@@ -21,7 +21,7 @@ export default function usersReducer(
             return {...state, current_user: {}}
 
         case 'ADD_POST_TO_USER':
-            console.log("Users reducer called")
+            console.log("Users ADD POST reducer called")
             post = action.payload
             return {
                 ...state, 
