@@ -17,12 +17,3 @@ export function CreateOrLoginUser(endpoint, userData, routerProps) {
     }
 }
 
-// const authorization= () => {
-//     const token ="a"
-//     if (token) {
-//         return "Send API call to check user's credentials"
-//     }
-//     return auth.logout()
-
-
-// }
