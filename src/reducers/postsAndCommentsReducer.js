@@ -41,32 +41,42 @@ export default function postsAndCommentsReducer(
                 // debugger
                 post = action.payload
                 postId = action.payload.id
-                postIndex = state.posts.findIndex( post => `${post.id}` === postId)
-                // If the post is in the public bucket, (published), update the post [-1 meanns result not found]
-                if (postIndex !== -1) {
+                postIndex = state.posts.findIndex( post => post.id === postId)
+                // if hte post is not in the public bucket, include it in the bucket (that is, post changed status from "draft" to "published")
+                if (postIndex > -1) {
+                    // let array = state.posts.slice()
+                    // array.map((postElement, index) => {
+                    //     if (index !== postIndex) {
+                    //         return postElement
+                    //     }
+                    //     return {...postElement, ...action.payload}
+                    // })
+                    // return {...state, posts: array}
                     return {
                         ...state, 
                             posts: [
                                 ...state.posts.slice(0, postIndex), post, ...state.posts.slice(postIndex+1)
-                            ]
-                    }
-                 // if hte post is not in the public bucket, include it in the bucket (that is, post changed status from "draft" to "published")
-                 } else if (post.status === "published") {
-                     return { ...state, posts: [...state.posts, post] }
-                 } return state
+                            ]                    
+                    } 
+                } return { ...state, posts: [...state.posts, post] }
+                // If the post is in the public bucket, (published), update the post [-1 meanns result not found]
+                 
+                  
                  
             case 'DELETE_POST':
+                // debugger
                 postId = action.payload
                 postIndex = state.posts.findIndex( post => `${post.id}` === postId)
-                if (postIndex === -1) {
-                    return state
-                }
-                return {
-                    ...state, 
+                if (postIndex > -1) {
+                    return {...state, 
                         posts: [
                             ...state.posts.slice(0, postIndex), ...state.posts.slice(postIndex+1)
                         ]
+                    }
                 }
+                 return state
+                
+           
                 // Add code to remove post's associated commens
       
             case 'ADD_LIKE':

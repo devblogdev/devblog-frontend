@@ -34,9 +34,10 @@ export default function usersReducer(
             }
 
         case 'EDIT_USER_POST':
+            // debugger
             console.log("Users edit post reducer called")
             postId = action.payload.id
-            postIndex = state.current_user.posts.findIndex( post => `${post.id}` === postId)
+            postIndex = state.current_user.posts.findIndex( post => post.id === postId)
             post = action.payload
             return {
                 ...state, 
