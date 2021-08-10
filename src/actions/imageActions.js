@@ -1,5 +1,4 @@
 import S3 from 'react-aws-s3'
-import axios from 'axios'
 
 const config = {
     bucketName: process.env.REACT_APP_S3_BUCKET,
@@ -11,13 +10,6 @@ const config = {
 const ReactS3Client = new S3(config)
 
 const token = localStorage.getItem('token')
-
-const axiosConfig = {
-    headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${token}`   
-    }
-}
 
 const uploadImage =  async (file) => {
     // Upload the image to Amazon S3 bucket
@@ -53,7 +45,7 @@ const deleteImage = async (postImage) => {
 const updateImage = async (postImage, imageData) => {
     if (token) {
         console.log("update image called")
-        const res = await ReactS3Client.uploadFile(imageData, postImage.s3key)
+        await ReactS3Client.uploadFile(imageData, postImage.s3key)
         .catch(error => { 
             console.log(error) 
             return [postImage]
@@ -61,8 +53,8 @@ const updateImage = async (postImage, imageData) => {
         const images_attributes = [{
             name: imageData.name,
             size: imageData.size,
-            url: postImage.location,
-            s3key: postImage.key
+            url: postImage.url,
+            s3key: postImage.s3key
         }]
         console.log(images_attributes)
         return images_attributes

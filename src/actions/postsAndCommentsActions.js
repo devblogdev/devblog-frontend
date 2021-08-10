@@ -74,10 +74,11 @@ export function editPost(endpoint, postData, routerProps=null){
             axios.put(`${endpoint}`, {post: postData} , axiosConfig)
             .then( response => {
                 console.log(response)
-                dispatch( {type: 'EDIT_POST', payload: response.data})
-                dispatch( {type: "EDIT_USER_POST", payload: response.data})
                 if (response.data.status === "published") {
+                    dispatch( {type: 'EDIT_POST', payload: response.data})
                     routerProps.history.push(`/posts/${response.data.id}`)
+                } else {
+                    dispatch( {type: "EDIT_USER_POST", payload: response.data})
                 }
             })
             .catch(error => {

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { authorization } from '../actions/securityActions'
-
 import PropTypes from 'prop-types';
-import { makeStyles, withTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -79,48 +78,46 @@ const useStyles = makeStyles ((theme) => ({
 export default function ProfileContainer({ user, posts, token, ...routerProps}) {
 
   const dispatch = useDispatch()
+  const classes = useStyles();
   const [drafts, setDrafts] = useState([])
   const [published, setPublished] = useState([])
-  // const current_user = useSelector((state) => state.users.current_user)
-  // const general = useSelector((state) => state.posts)
 
   useEffect(() => {
       dispatch(authorization())
   },[dispatch])
 
-  const loadedDrafts = () => user.posts?.filter( post => post.status === "draft").map((post,index) => {
+  const loadedDrafts = useCallback ( () => user.posts?.filter( post => post.status === "draft").map((post,index) => {
       return <li key={index}><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.body}</Link></li>}
-    )
-// debugger
-  // const loadedPublished = current_user.posts?.filter( post => post.status === "published" ).map((post,index) => 
-  //     <li key={index}><Link to= {`/posts/${post.id}`}>{post.body}</Link></li>
-  //   )
-  const loadedPublished = posts.filter( post => post.status === "published" ).map((post,index) => 
+    ),[user, routerProps.match.url])
+
+  const loadedPublished = useCallback ( () => posts.filter( post => post.status === "published" ).map((post,index) => 
       <li key={index}><Link to= {`/posts/${post.id}`}>{post.body}</Link></li>
-    )
+    ),[posts])
 
   useEffect(() => {
     console.log(user)
     if (Object.keys(user).length > 0) {
       setDrafts(loadedDrafts())
     }
-  },[user])
+  },[user, loadedDrafts])
 
   useEffect(() => {
-    setPublished(loadedPublished)
-  },[posts])
+    setPublished(loadedPublished())
+    console.log("published rendered")
+  },[loadedPublished])
   
-  const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log(drafts)
+
+  console.log("profile rendered")
+  
   return (
     <Container>
       <div className={classes.root}>
         <Typography id="demo-a11y-tabs-manual-label">
-          Welcome to your profile, {user.email}
+          Welcome to your profile, {user.first_name}
         </Typography>
         <DemoTabs labelId="demo-a11y-tabs-manual-label" onChange={handleChange} value={value} />
         <TabPanel value={value} index={0}>

@@ -38,9 +38,10 @@ export default function postsAndCommentsReducer(
                 } return state
 
             case 'EDIT_POST':
+                // debugger
                 post = action.payload
                 postId = action.payload.id
-                postIndex = state.posts.findIndex( post => post.id == postId)
+                postIndex = state.posts.findIndex( post => `${post.id}` === postId)
                 // If the post is in the public bucket, (published), update the post [-1 meanns result not found]
                 if (postIndex !== -1) {
                     return {
@@ -56,7 +57,7 @@ export default function postsAndCommentsReducer(
                  
             case 'DELETE_POST':
                 postId = action.payload
-                postIndex = state.posts.findIndex( post => post.id == postId)
+                postIndex = state.posts.findIndex( post => `${post.id}` === postId)
                 if (postIndex === -1) {
                     return state
                 }

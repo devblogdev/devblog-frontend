@@ -15,30 +15,30 @@ const RemoveImageButton = withStyles((theme) => ({
 
 // Functional component; utilizes Amazon Web Services S3 for storing images
 
-const S3ImageService = (props) => {
-	const [selectedFile, setSelectedFile] = useState(props.initialImageState);
+const S3ImageService = ({initialImageState, retrieveImageState}) => {
+	const [selectedFile, setSelectedFile] = useState(initialImageState);
 	const [isFilePicked, setIsFilePicked] = useState(() => {
-        if (props.initialImageState) {
+        if (initialImageState) {
             return true
         } return false
     });
 
     useEffect(() => {
-      props.retrieveImageState(props.initialImageState)
+      retrieveImageState(initialImageState)
       console.log("useeffect was called")
-    },[])
+    },[retrieveImageState, initialImageState])
 
     console.log(selectedFile)
     const reset = () => {
         setSelectedFile()
         setIsFilePicked(false)
-        props.retrieveImageState()
+        retrieveImageState()
     }
     
 	const changeHandler = (event) => {
         setSelectedFile(event.target.files[0]);
         setIsFilePicked(true);
-        props.retrieveImageState(event.target.files[0])
+        retrieveImageState(event.target.files[0])
 	};
 
 	return(

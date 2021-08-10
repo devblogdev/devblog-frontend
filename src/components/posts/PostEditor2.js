@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -48,17 +48,17 @@ const PostEditor2 = (props) => {
     const classes = useStyles();
     
     
-    // --------------------- CRUD ACTIONS START ------------------------
+    // --------------------- CRUD ACTIONS START ------------------------------------
 
-    // --------------- Image upload -------------------
+        // --------------- Image Data Retrieval -------------------
 
     const [imageState, setImageState] = useState()
-    let imageOnInitialRender
-    // const [imageOnInitialRender, setImageOnInitialRender] = useState()
-
-    const retrieveImageState = (file) => {
+    
+    const retrieveImageState = useCallback ((file) => {
         setImageState(file)
-    }
+    },[])
+
+        // --------------- Image Data Retrieval -------------------
 
     // FUNCTION FOR POST EDITOR BUTTONS
     const saveDraft = (event) => {
@@ -94,7 +94,7 @@ const PostEditor2 = (props) => {
     const updateDraft = () => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
-        const currentPost = props.user.posts.find(post => post.id == props.match.params.postID)
+        const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const rawPostData = {body: data, status: "draft"}
         console.log(imageState)
         const resolveImageThenResolvePost = async () => {
@@ -110,8 +110,9 @@ const PostEditor2 = (props) => {
     const updatePost = () => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
-        const currentPost = props.user.posts.find(post => post.id == props.match.params.postID)
+        const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const rawPostData = {body: data, status: "published"}
+        console.log(imageState)
         const resolveImageThenResolvePost = async () => {
             const imageData = await manageImageForDraftOrPost(currentPost, imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
@@ -124,7 +125,7 @@ const PostEditor2 = (props) => {
     const removePost = () => {
         const postID = props.match.params.postID
         const endpoint = `/posts/${postID}`
-        const currentPost = props.user.posts.find(post => post.id == props.match.params.postID)
+        const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const resolveImageThenResolvePost = async () => {
             await manageImageForDraftOrPost(currentPost);
             dispatch(deletePost(endpoint, postID))
@@ -208,12 +209,10 @@ const PostEditor2 = (props) => {
         initialEditorState = EditorState.createEmpty();
         buttons = [saveAsDraftButton, publishNewButton]
     } else {
-        const draftOrPost = props.user.posts.find(post => post.id == props.match.params.postID)
+        const draftOrPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const info = convertFromHTML(draftOrPost.body)
         initialEditorState = EditorState.createWithContent(info)
         initialImageState =  draftOrPost.images[0]
-        initialImageState ? imageOnInitialRender = true : imageOnInitialRender = false
-        // setImageState(initialImageState)
         console.log(imageState)
         if (props.match.path === "/profile/drafts/:postID") {
             buttons = [saveButton, publishDraftButton, deleteButton]

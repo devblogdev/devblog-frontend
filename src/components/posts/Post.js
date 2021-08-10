@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import {Redirect, Link} from 'react-router-dom'
-import Button from '@material-ui/core/Button';
-
+// import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+// import Button from '@material-ui/core/Button';
 
 const  Post = ({match, posts, user}) => {
     // const storePosts = useSelector( state => state.posts.posts)
@@ -18,10 +17,11 @@ const  Post = ({match, posts, user}) => {
 
     useEffect(() => { 
         if (posts.length > 0) {
-            setPost( () => posts.find(({id}) => id == match.params.postID)
+            setPost( () => posts.find(({id}) => `${id}` === match.params.postID)
             )
         }
-    },[posts]);
+    },[posts, match.params.postID]);
+
     console.log(post)
     useEffect(() => { 
         setEditButton(() => <Link to={`/posts/edit/${post.id}`}>Edit post</Link> )

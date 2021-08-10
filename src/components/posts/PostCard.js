@@ -1,7 +1,7 @@
 import React from 'react'
 
 const PostCard = ({post}) => {
-    const {title, abstract, body, images, url} = post
+    const {title, abstract, body, images } = post
     let coverPicture 
     // console.log(post)
     if (images !== undefined){
