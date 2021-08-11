@@ -76,3 +76,52 @@
   max-width: 100%
 }
 
+.home {
+  display: grid;
+  grid-template-areas:
+  "a"
+  "b"
+  "c";
+  gap: 1.5rem 1.5rem;
+}
+
+.mainPost {
+  grid-area: a;
+}
+
+.featuredPosts {
+  grid-area: b;
+  display: grid;
+  grid-template-areas:
+  "post1 post2";
+  gap: 1.5rem 1.5rem;
+}
+
+.remainderPosts {
+  grid-area: c;
+  display: grid;
+  grid-template-areas:
+  "postx posty postz";
+  gap: 1.5rem 1.5rem;
+}
+
+/* .featuredPost1 {
+  grid-area: post1;
+}
+.featuredPost2 {
+  grid-area: post2;
+}
+
+.remainderPostx {
+  grid-area: postx
+}
+.remainderPosty {
+  grid-area: posty
+}
+.remainderPostz {
+  grid-area: postz
+} */
+
+
+
+
