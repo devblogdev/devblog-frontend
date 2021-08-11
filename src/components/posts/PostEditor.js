@@ -212,7 +212,7 @@ const PostEditor = (props) => {
         const info = convertFromHTML(draftOrPost.body)
         initialEditorState = EditorState.createWithContent(info)
         initialImageState =  draftOrPost.images[0]
-        console.log(props.user)
+        console.log(imageState)
         if (props.match.path === "/profile/drafts/:postID") {
             buttons = [saveButton, publishDraftButton, deleteButton]
         } else if (props.match.path === "/posts/edit/:postID") {

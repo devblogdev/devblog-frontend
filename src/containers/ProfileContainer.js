@@ -84,33 +84,29 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
 
   useEffect(() => {
       dispatch(authorization())
+      console.log("Authorization called in profile")
   },[dispatch])
 
   const loadedDrafts = useCallback ( () => user.posts?.filter( post => post.status === "draft").map((post,index) => {
       return <li key={index}><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.body}</Link></li>}
     ),[user.posts, routerProps.match.url])
 
-  const loadedPublished = useCallback ( () => user.posts?.filter( post => post.status === "published" ).map((post,index) => 
+  const loadedPublished = useCallback ( () => posts.filter( post => post.status === "published" && post.user_id === user.id).map((post,index) => 
       <li key={index}><Link to= {`/posts/${post.id}`}>{post.body}</Link></li>
-    ),[user.posts])
+    ),[posts, user])
 
   useEffect(() => {
-    console.log(user)
       setDrafts(loadedDrafts())
       setPublished(loadedPublished())
-  },[user, loadedDrafts, loadedPublished])
+  },[loadedDrafts, loadedPublished])
 
-  // useEffect(() => {
-  //   setPublished(loadedPublished())
-  //   console.log("published rendered")
-  // },[loadedPublished])
   
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  console.log(user)
+  console.log(published)
 
   return (
     <Container>
