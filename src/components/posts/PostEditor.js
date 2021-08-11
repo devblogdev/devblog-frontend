@@ -125,9 +125,11 @@ const PostEditor = (props) => {
         const postID = props.match.params.postID
         const endpoint = `/posts/${postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
+        console.log(currentPost)
         const resolveImageThenResolvePost = async () => {
             await manageImageForDraftOrPost(currentPost);
-            dispatch(deletePost(endpoint, postID))
+            // dispatch(deletePost(endpoint, postID))
+            dispatch(deletePost(endpoint, currentPost))
             props.history.push("/profile")
         }
         resolveImageThenResolvePost()
@@ -212,7 +214,7 @@ const PostEditor = (props) => {
         const info = convertFromHTML(draftOrPost.body)
         initialEditorState = EditorState.createWithContent(info)
         initialImageState =  draftOrPost.images[0]
-        console.log(imageState)
+        console.log(props.user)
         if (props.match.path === "/profile/drafts/:postID") {
             buttons = [saveButton, publishDraftButton, deleteButton]
         } else if (props.match.path === "/posts/edit/:postID") {

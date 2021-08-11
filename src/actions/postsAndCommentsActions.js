@@ -71,7 +71,7 @@ export function editPost(endpoint, postData, routerProps=null){
     }
 }
 
-export function deletePost(endpoint, postID, routerProps=null){
+export function deletePost(endpoint, postData, routerProps=null){
     const token = localStorage.getItem('token')
     const axiosConfig = {
         headers: {
@@ -84,7 +84,11 @@ export function deletePost(endpoint, postID, routerProps=null){
             await axios.delete(`${endpoint}`, axiosConfig)
               .then( response => {
                 console.log(response)
-                dispatch( {type: 'DELETE_POST', payload: postID})
+                if (postData.status === "published") {
+                    dispatch( {type: 'DELETE_POST', payload: postData.id})
+                } else {
+                    dispatch( {type: 'DELETE_USER_POST', payload: postData.id})
+                }
               })
               .catch(error => {
                 console.log(error);

@@ -40,6 +40,7 @@ const deleteImage = async (postImage) => {
             .catch((error) => {
                 console.error('Error:', error);
             });
+        console.log("Delete image from S3 was called")
         return []
     } return []
 }

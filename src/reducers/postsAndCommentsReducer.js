@@ -57,7 +57,7 @@ export default function postsAndCommentsReducer(
                                  
             case 'DELETE_POST':
                 postId = action.payload
-                postIndex = state.posts.findIndex( post => `${post.id}` === postId)
+                postIndex = state.posts.findIndex( post => post.id === postId)
                 if (postIndex > -1) {
                     return {...state, 
                         posts: [
@@ -65,7 +65,7 @@ export default function postsAndCommentsReducer(
                         ]
                     }
                 }
-                 return state
+                return state
                 
            
                 // Add code to remove post's associated comments, WHEN COMMENTS ARE IMPLEMENTED

@@ -43,7 +43,21 @@ export default function usersReducer(
                             posts: [...state.current_user.posts.slice(0, postIndex), post, ...state.current_user.posts.slice(postIndex+1)]
                     }
             }
-  
+
+        case "DELETE_USER_POST":
+            postId = action.payload
+            postIndex = state.current_user.posts.findIndex( post => post.id === postId)
+            if (postIndex > -1 ) {
+                return {
+                    ...state,
+                        current_user: {
+                            ...state.current_user,
+                                posts: [...state.current_user.posts.slice(0, postIndex), ...state.current_user.posts.slice(postIndex + 1) ]
+                        }
+                }
+            }
+            return state
+
         default:
             return state
     }
