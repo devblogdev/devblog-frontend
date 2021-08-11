@@ -73,6 +73,7 @@ export function manageImageForNewDraftOrPost(imageData) {
 export function manageImageForDraftOrPost(currentPost, imageState) {
     // This function may return a promise; promise is resolved in Post Editor
     // debugger
+    console.log("Image manager called")
     let images = currentPost.images
     let imageData = imageState
     // If the post has an image on record, and there no image included in post editor, delete the post's record image
