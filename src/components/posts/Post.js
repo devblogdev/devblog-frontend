@@ -27,6 +27,7 @@ const  Post = ({match, posts, user}) => {
     return(
         <div>
             {editButton}
+            <img src = { post.images && post?.images[0]?.url} alt= {post.images && post?.images[0]?.alt} className="image"/>
             <Markup  content={post.body} />            
         </div>
     )
