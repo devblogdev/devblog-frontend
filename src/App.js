@@ -62,6 +62,7 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <div className="Nav-addon"></div>
         <NavBar button ={Buttons()} />
         <Container 
           className="main"

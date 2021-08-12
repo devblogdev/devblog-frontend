@@ -77,7 +77,7 @@
 /* STYLES FOR POSTS TEXT EDITOR */
 
 .main {
-  margin-top: 100px;
+  margin-top: 20px;
 }
 
 .image {
@@ -116,13 +116,30 @@
 }
 
 .postPage {
-  margin: 8rem;
+  margin-top: 2rem;
+  margin-left: 8rem;
+  margin-right: 8rem;
+  margin-bottom: 2rem;
   text-align: left;
   
 }
 
+.Nav-addon {
+  /* display: block; */
+  /* background-color: #29434e; */
+  background-color: #002984;
+  height: 1rem;;
+  /* border: 1px solid white; */
+  /* display: flex */
+}
+
+/* .MuiToolbar-root.MuiToolbar-regular.MuiToolbar-gutters {
 
 
+} */
 
+/* .MuiPaper-root.MuiAppBar-root.MuiAppBar-positionFixed.MuiAppBar-colorPrimary.mui-fixed.MuiPaper-elevation4 {
+  position: relative;
+} */
 
 

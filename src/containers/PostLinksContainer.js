@@ -8,7 +8,8 @@ export default function PostLinksContainer({match, posts}) {
       )
       
     return (
-        <div>
+        <div className="postPage">
+            <h1>Posts List</h1>
             {published}
         </div>
     )
