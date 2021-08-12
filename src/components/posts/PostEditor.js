@@ -66,7 +66,7 @@ const PostEditor = (props) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/draft" 
         const postExtraction = extractTitle(data)
-        const rawPostData = {body: data, title: postExtraction[0], abstract: postExtraction[2], status: "draft"}
+        const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[2]?.slice(1), status: "draft"}
         console.log(imageState)
         // "manageImageForNewDraftOrPost" below return a Promise; to get the data out of the promise we need to
         // wrap the function in an async/await block to wait until the promise is resolved
@@ -83,7 +83,7 @@ const PostEditor = (props) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/publish" 
         const postExtraction = extractTitle(data)
-        const rawPostData = {body: data, title: postExtraction[0], abstract: postExtraction[2], status: "published"}
+        const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[2]?.slice(1), status: "published"}
         const resolveImageThenResolvePost = async () => {
             const imageData = await manageImageForNewDraftOrPost(imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
@@ -98,7 +98,7 @@ const PostEditor = (props) => {
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const postExtraction = extractTitle(data)
-        const rawPostData = {body: data, title: postExtraction[0], abstract: postExtraction[2], status: "draft"}
+        const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[2]?.slice(1), status: "draft"}
         console.log(extractTitle(data))
         console.log(imageState)
         const resolveImageThenResolvePost = async () => {
@@ -116,7 +116,7 @@ const PostEditor = (props) => {
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const postExtraction = extractTitle(data)
-        const rawPostData = {body: data, title: postExtraction[0], abstract: postExtraction[2], status: "published"}
+        const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[2]?.slice(1), status: "published"}
         console.log(extractTitle(data))
         console.log(imageState)
         const resolveImageThenResolvePost = async () => {
