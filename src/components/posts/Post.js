@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import {Markup} from 'interweave'
 
 const  Post = ({match, posts, user}) => {
 
@@ -26,8 +27,7 @@ const  Post = ({match, posts, user}) => {
     return(
         <div>
             {editButton}
-            <h1>Title: {post.title}</h1>
-            <h1>Body: {post.body}</h1>
+            <Markup  content={post.body} />            
         </div>
     )
 }

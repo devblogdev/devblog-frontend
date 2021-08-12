@@ -15,4 +15,9 @@ export function extractTitle(data) {
     return result
 }
 
+// let pattern4= str.replace(/^"(.*)"$/, '$1')
+export function removeQuotes(data) {
+    return data.slice(1, -1)
+}
+
 

@@ -100,6 +100,7 @@
 .featuredPosts {
   grid-area: b;
   display: grid;
+  grid-template-columns: 1fr 1fr;
   grid-template-areas:
   "post1 post2";
   gap: 1.5rem 1.5rem;
@@ -108,9 +109,14 @@
 .remainderPosts {
   grid-area: c;
   display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas:
   "postx posty postz";
   gap: 1.5rem 1.5rem;
+}
+
+.postPage {
+  margin: 5rem;
 }
 
 
