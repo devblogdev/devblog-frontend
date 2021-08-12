@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import grey from '@material-ui/core/colors/grey';
+import blueGrey from '@material-ui/core/colors/blueGrey';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,7 +38,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const color = grey[900];
+const color = blueGrey[800];
 
 function DemoTabs(props) {
   const { labelId, onChange, selectionFollowsFocus, value } = props;
