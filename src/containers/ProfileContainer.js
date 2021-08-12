@@ -112,7 +112,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
     <Container>
       <div className={classes.root}>
         <Typography id="demo-a11y-tabs-manual-label">
-          Welcome to your profile, {user.first_name}
+          <h3>Welcome to your profile, {user.first_name}</h3>
         </Typography>
         <DemoTabs labelId="demo-a11y-tabs-manual-label" onChange={handleChange} value={value} />
         <TabPanel value={value} index={0}>

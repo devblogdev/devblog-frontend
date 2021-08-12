@@ -48,6 +48,7 @@ const Home = (props) => {
         <div className='home'>
             
             <div className="mainPost">
+            <h1>Welcome to DevBlog</h1>
                 {mainPost()} 
             </div>
             <div className="featuredPosts">
@@ -56,7 +57,7 @@ const Home = (props) => {
             <div className="remainderPosts">
                 {remainderPosts}
             </div>
-            {/* <h1>Welcome to DevBlog</h1> */}
+            
             {/* <PostList posts ={props.posts} {...props} />  */}
          </div>
     )

@@ -56,20 +56,28 @@
 .wrapper-class {
   padding: 1rem;
   border: 1px solid #ccc;
+  /* min-height: 20rem */
 }
 .editor-class {
   /* background-color:lightgray; */
-  background-color:silver;
+  background-color:whitesmoke;
   padding: 1rem;
   border: 1px solid #ccc;
+  
 }
 .toolbar-class {
   border: 1px solid #ccc;
 }
+
+.postEditor {
+  margin-left: 4rem;
+  margin-right: 4rem;
+  padding-bottom: 2rem  
+}
 /* STYLES FOR POSTS TEXT EDITOR */
 
-.app-container {
-  margin-top: 100px
+.main {
+  margin-top: 100px;
 }
 
 .image {
@@ -105,22 +113,7 @@
   gap: 1.5rem 1.5rem;
 }
 
-/* .featuredPost1 {
-  grid-area: post1;
-}
-.featuredPost2 {
-  grid-area: post2;
-}
 
-.remainderPostx {
-  grid-area: postx
-}
-.remainderPosty {
-  grid-area: posty
-}
-.remainderPostz {
-  grid-area: postz
-} */
 
 
 

@@ -64,7 +64,7 @@ function App() {
       <div className="App">
         <NavBar button ={Buttons()} />
         <Container 
-          className="app-container"
+          className="main"
           maxWidth="lg"
         >
           <Switch>

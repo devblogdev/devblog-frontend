@@ -14,6 +14,7 @@ import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsAct
 import  S3ImageService  from '../images/S3ImageService'
 import { manageImageForNewDraftOrPost } from '../../actions/imageActions'
 import { manageImageForDraftOrPost } from '../../actions/imageActions'
+import { extractTitle } from '../../actions/postEditorHelper'
 
 const ColorButton = withStyles((theme) => ({
     root: {
@@ -64,7 +65,8 @@ const PostEditor = (props) => {
     const saveDraft = (event) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/draft" 
-        const rawPostData = {body: data, status: "draft"}
+        const postExtraction = extractTitle(data)
+        const rawPostData = {body: data, title: postExtraction[0], abstract: postExtraction[2], status: "draft"}
         console.log(imageState)
         // "manageImageForNewDraftOrPost" below return a Promise; to get the data out of the promise we need to
         // wrap the function in an async/await block to wait until the promise is resolved
@@ -80,7 +82,8 @@ const PostEditor = (props) => {
     const savePost = () => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/publish" 
-        const rawPostData = {body: data, status: "published"}
+        const postExtraction = extractTitle(data)
+        const rawPostData = {body: data, title: postExtraction[0], abstract: postExtraction[2], status: "published"}
         const resolveImageThenResolvePost = async () => {
             const imageData = await manageImageForNewDraftOrPost(imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
@@ -94,7 +97,9 @@ const PostEditor = (props) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
-        const rawPostData = {body: data, status: "draft"}
+        const postExtraction = extractTitle(data)
+        const rawPostData = {body: data, title: postExtraction[0], abstract: postExtraction[2], status: "draft"}
+        console.log(extractTitle(data))
         console.log(imageState)
         const resolveImageThenResolvePost = async () => {
             const imageData = await manageImageForDraftOrPost(currentPost, imageState);
@@ -110,7 +115,9 @@ const PostEditor = (props) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
-        const rawPostData = {body: data, status: "published"}
+        const postExtraction = extractTitle(data)
+        const rawPostData = {body: data, title: postExtraction[0], abstract: postExtraction[2], status: "published"}
+        console.log(extractTitle(data))
         console.log(imageState)
         const resolveImageThenResolvePost = async () => {
             const imageData = await manageImageForDraftOrPost(currentPost, imageState);
@@ -229,7 +236,7 @@ const PostEditor = (props) => {
     // --------------------- POST EDITOR END ------------------------
         
   return (
-    <div className="App">
+    <div className="App postEditor">
       <header className="App-header">
         Post Editor
       </header>

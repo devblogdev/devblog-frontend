@@ -24,6 +24,8 @@ export default function ImgCardMedia(props) {
   const classes = useStyles();
   const { post } = props
 
+  const abstract = `${post.abstract?.substring(0,200)} ...`
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -31,7 +33,7 @@ export default function ImgCardMedia(props) {
           component="img"
           alt= {post.title}
           height= {props.imageHeight}
-          image= {post.images[0].url}
+          image= {post.images[0]?.url}
           title= {post.title}
         />
         <CardContent>
@@ -39,7 +41,7 @@ export default function ImgCardMedia(props) {
             {post.title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {post.body}
+            {abstract}
           </Typography>
         </CardContent>
       </CardActionArea>
