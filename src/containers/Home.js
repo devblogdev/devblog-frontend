@@ -49,6 +49,7 @@ const Home = (props) => {
             
             <div className="mainPost">
             <h1>Welcome to DevBlog</h1>
+                <h4>{props.loading}</h4>
                 {mainPost()} 
             </div>
             <div className="featuredPosts">

@@ -23,6 +23,7 @@ function App() {
   const dispatch = useDispatch()
   const current_user = useSelector((state) => state.users.current_user)
   const posts = useSelector((state) => state.posts.posts)
+  const loading = useSelector((state) => state.posts.message)
   console.log(posts)
   const token = localStorage.getItem('token')
   
@@ -71,7 +72,7 @@ function App() {
           <Switch>
             <Route
                 exact path="/"
-                render = {routerProps => <Home {...routerProps} posts = {posts} /> }
+                render = {routerProps => <Home {...routerProps} posts = {posts} loading = {loading}/> }
             />
             <Route
                 exact path="/posts"
