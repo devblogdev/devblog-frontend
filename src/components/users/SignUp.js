@@ -144,6 +144,7 @@ export default function SignUp(routerProps) {
               /> */}
             </Grid>
           </Grid>
+          <p>Note: Form validation is currently in progress; please try to include accurate information if you want to access your created account once validations are in place.</p>
           <Button
             type="submit"
             fullWidth
@@ -151,7 +152,7 @@ export default function SignUp(routerProps) {
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+            Sign Up 
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
