@@ -18,7 +18,7 @@ export default function postsAndCommentsReducer(
                 return {
                     ...state,
                     loading: true,
-                    message: "A problem has occurred with the most recent deployment in the server. The problem is being addressed; pleae come back to the site later.  "
+                    message: "Loading posts ..."
                 }
 
             case 'FETCH_POSTS':

@@ -109,7 +109,6 @@ export default function SignUp(routerProps) {
   }
     
   const handleSubmit = (event) => {
-    // debugger
       event.preventDefault();
       if (Object.values(errors).find( field => field !== null)) {
         setDisplayError(true)
