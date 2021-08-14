@@ -18,6 +18,7 @@ const Home = (props) => {
     })
 
     const published = props.posts.filter( post => post.status === "published")
+    // const published = props.posts.slice()
 
     const mainPost = useCallback(() => {
         if (published.length > 0) {
