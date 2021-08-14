@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // MATERIAL UI DEPENDENCIES
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp(routerProps) {
   const classes = useStyles();
   const dispatch = useDispatch()
+  const [displayError, setDisplayError] = useState(false)
 
   // CONSTANTS FOR INPUT CUSTOM HOOK
   const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput("")
@@ -65,16 +66,65 @@ export default function SignUp(routerProps) {
   const { value: email, bind: bindEmail, reset: resetEmail } = useInput("")
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput("")
 
-  const handleSubmit = (event) => {
-      event.preventDefault();
-      const endpoint = "/users"
-      const userData = { first_name: firstName, last_name: lastName, email, password}
-      dispatch(CreateOrLoginUser(endpoint, userData, routerProps ))
-      resetFirstName()
-      resetLastName()
-      resetEmail()
-      resetPassword()
+
+  const nameValidation = (fieldName, fieldValue) => {
+    if (fieldValue.trim() === '') {
+      return `${fieldName} is required`;
+    }
+    if (/[^a-zA-Z -]/.test(fieldValue)) {
+      return 'Invalid characters';
+    }
+    return null;
+  };
+
+  const emailValidation = email => {
+    if (
+      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+        email,
+      )
+    ) {
+      return null;
+    }
+    if (email.trim() === '') {
+      return 'Email is required';
+    }
+    return 'Please enter a valid email';
+  };
+
+  const passwordValidation = (password) => {
+    if (password.trim() === '') {
+      return `Password is required`;
+    }
+    if (password.trim().length < 5) {
+      return `Password needs to be at least five characters`;
+    }
+    return null;
+  };
+
+  const errors = {
+      firstName: nameValidation("First name", firstName),
+      lastName: nameValidation("Last name", lastName),
+      // email: emailValidation(email),
+      password: passwordValidation(password)
   }
+    
+  const handleSubmit = (event) => {
+    // debugger
+      event.preventDefault();
+      if (Object.values(errors).find( field => field !== null)) {
+        setDisplayError(true)
+      }
+      else {
+        const endpoint = "/users"
+        const userData = { first_name: firstName, last_name: lastName, email, password}
+        dispatch(CreateOrLoginUser(endpoint, userData, routerProps ))
+        // resetFirstName()
+        // resetLastName()
+        // resetEmail()
+        // resetPassword()
+      }
+  }
+  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -99,7 +149,10 @@ export default function SignUp(routerProps) {
                 autoFocus
                 {...bindFirstName}
               />
+              {displayError && errors.firstName}
             </Grid>
+            
+            {/* {typing} */}
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
@@ -111,6 +164,7 @@ export default function SignUp(routerProps) {
                 autoComplete="lname"
                 {...bindLastName}
               />
+              {displayError && errors.lastName}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -123,6 +177,7 @@ export default function SignUp(routerProps) {
                 autoComplete="email"
                 {...bindEmail}
               />
+              {/* {displayError && errors.email} */}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -136,6 +191,7 @@ export default function SignUp(routerProps) {
                 autoComplete="current-password"
                 {...bindPassword}
               />
+              {displayError && errors.password}
             </Grid>
             <Grid item xs={12}>
               {/* <FormControlLabel
