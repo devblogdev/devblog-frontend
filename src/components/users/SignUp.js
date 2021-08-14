@@ -104,7 +104,7 @@ export default function SignUp(routerProps) {
   const errors = {
       firstName: nameValidation("First name", firstName),
       lastName: nameValidation("Last name", lastName),
-      // email: emailValidation(email),
+      email: emailValidation(email),
       password: passwordValidation(password)
   }
     
@@ -118,10 +118,10 @@ export default function SignUp(routerProps) {
         const endpoint = "/users"
         const userData = { first_name: firstName, last_name: lastName, email, password}
         dispatch(CreateOrLoginUser(endpoint, userData, routerProps ))
-        // resetFirstName()
-        // resetLastName()
-        // resetEmail()
-        // resetPassword()
+        resetFirstName()
+        resetLastName()
+        resetEmail()
+        resetPassword()
       }
   }
   
@@ -177,7 +177,7 @@ export default function SignUp(routerProps) {
                 autoComplete="email"
                 {...bindEmail}
               />
-              {/* {displayError && errors.email} */}
+              {displayError && errors.email}
             </Grid>
             <Grid item xs={12}>
               <TextField
