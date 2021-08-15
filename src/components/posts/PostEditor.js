@@ -71,9 +71,11 @@ const PostEditor = (props) => {
         // "manageImageForNewDraftOrPost" below return a Promise; to get the data out of the promise we need to
         // wrap the function in an async/await block to wait until the promise is resolved
         const resolveImageThenResolvePost = async () => {
+            dispatch({type: 'LOADING_POSTS', payload: "Managing image..."})
             const imageData = await manageImageForNewDraftOrPost(imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
+            dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
             dispatch(addPost(endpoint, postData, props))    
         }
         resolveImageThenResolvePost()
@@ -85,9 +87,11 @@ const PostEditor = (props) => {
         const postExtraction = extractTitle(data)
         const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[2]?.slice(1), status: "published"}
         const resolveImageThenResolvePost = async () => {
+            dispatch({type: 'LOADING_POSTS', payload: "Managing image..."})
             const imageData = await manageImageForNewDraftOrPost(imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
+            dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
             dispatch(addPost(endpoint, postData, props))    
         }
         resolveImageThenResolvePost()
@@ -102,13 +106,13 @@ const PostEditor = (props) => {
         console.log(extractTitle(data))
         console.log(imageState)
         const resolveImageThenResolvePost = async () => {
-            dispatch({type: 'LOADING_POST', payload: "Managing image ..."})
+            dispatch({type: 'LOADING_POSTS', payload: "Managing image..."})
             const imageData = await manageImageForDraftOrPost(currentPost, imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
-            dispatch({type: 'LOADING_POST', payload: "Managing post ..."})
-            dispatch(editPost(endpoint, postData, props, props.retrieveModalState))
-            props.history.push("/profile")
+            dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
+            dispatch(editPost(endpoint, postData, props ))
+            // props.history.push("/profile")
         }
         resolveImageThenResolvePost()
     }
@@ -122,9 +126,11 @@ const PostEditor = (props) => {
         console.log(extractTitle(data))
         console.log(imageState)
         const resolveImageThenResolvePost = async () => {
+            dispatch({type: 'LOADING_POSTS', payload: "Managing image..."})
             const imageData = await manageImageForDraftOrPost(currentPost, imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
+            dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
             dispatch(editPost(endpoint, postData, props))
         }
         resolveImageThenResolvePost()
@@ -138,7 +144,7 @@ const PostEditor = (props) => {
         const resolveImageThenResolvePost = async () => {
             await manageImageForDraftOrPost(currentPost);
             // dispatch(deletePost(endpoint, postID))
-            dispatch(deletePost(endpoint, currentPost))
+            dispatch(deletePost(endpoint, currentPost, props))
             props.history.push("/profile")
         }
         resolveImageThenResolvePost()
@@ -240,12 +246,11 @@ const PostEditor = (props) => {
         
   return (
     <div className="App postEditor">
-      <h4> {props.loading}</h4>
+      <div>{props.loading}</div>
       <header className="App-header">
         Post Editor
       </header>
       {/* Renders the post editor */}
-     
       <Editor 
         editorState={editorState}
         onEditorStateChange={handleEditorChange}

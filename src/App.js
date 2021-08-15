@@ -108,6 +108,8 @@ function App() {
                 component = {PostEditor}
                 user = {current_user}
                 posts = {posts}
+                retrieveModalState = {retrieveModalState}
+                loading = {loading}
             />
             <ProtectedRoute
                 path ="/profile/drafts/:postID"
@@ -122,6 +124,8 @@ function App() {
                 component = {PostEditor}
                 user = {current_user}
                 posts = {posts}
+                retrieveModalState = {retrieveModalState}
+                loading = {loading}
             />
             <Route 
                 path={`/posts/:postID`} 

@@ -13,7 +13,7 @@ export function fetchPosts(endpoint) {
     }
 }
 
-export function addPost(endpoint, postData, routerProps=null){
+export function addPost(endpoint, postData, routerAndModal=null){
     const token = localStorage.getItem('token')
     const axiosConfig = {
         headers: {
@@ -29,9 +29,11 @@ export function addPost(endpoint, postData, routerProps=null){
                 dispatch( {type: 'ADD_POST', payload: response.data})
                 dispatch( {type: "ADD_POST_TO_USER", payload: response.data})
                 if (response.data.status === "published" ){
-                    routerProps.history.push(`/posts/${response.data.id}`)
+                    routerAndModal.history.push(`/posts/${response.data.id}`)
+                    routerAndModal.retrieveModalState(["Post successfully published"])
                 } else {
-                    routerProps.history.push("/profile")
+                    routerAndModal.history.push("/profile")
+                    routerAndModal.retrieveModalState(["Draft successfully created"])
                 }
             })
             .catch(error => {
@@ -43,7 +45,8 @@ export function addPost(endpoint, postData, routerProps=null){
     }
 }
 
-export function editPost(endpoint, postData, routerProps=null, modalFunction){
+// export function editPost(endpoint, postData, routerProps=null){
+export function editPost(endpoint, postData, routerAndModal=null){
     const token = localStorage.getItem('token')
     const axiosConfig = {
         headers: {
@@ -59,9 +62,12 @@ export function editPost(endpoint, postData, routerProps=null, modalFunction){
                 dispatch( {type: 'EDIT_POST', payload: response.data})
                 dispatch( {type: "EDIT_USER_POST", payload: response.data})
                 if (response.data.status === "published") {
-                    routerProps.history.push(`/posts/${response.data.id}`)
-                } 
-                modalFunction(["Draft successfully saved"])
+                    routerAndModal.history.push(`/posts/${response.data.id}`)
+                    routerAndModal.retrieveModalState(["Post successfully published"])
+                } else {
+                    routerAndModal.history.push('/profile')
+                    routerAndModal.retrieveModalState(["Draft successfully saved"])
+                }
               })
               .catch(error => {
                 console.log(error);
@@ -72,7 +78,7 @@ export function editPost(endpoint, postData, routerProps=null, modalFunction){
     }
 }
 
-export function deletePost(endpoint, postData, routerProps=null){
+export function deletePost(endpoint, postData, routerAndModal=null){
     const token = localStorage.getItem('token')
     const axiosConfig = {
         headers: {
@@ -87,8 +93,10 @@ export function deletePost(endpoint, postData, routerProps=null){
                 console.log(response)
                 if (postData.status === "published") {
                     dispatch( {type: 'DELETE_POST', payload: postData.id})
+                    routerAndModal.retrieveModalState(["Post successfully deleted"])
                 } else {
                     dispatch( {type: 'DELETE_USER_POST', payload: postData.id})
+                    routerAndModal.retrieveModalState(["Draft successfully deleted"])
                 }
               })
               .catch(error => {

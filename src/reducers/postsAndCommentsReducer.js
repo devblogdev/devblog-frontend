@@ -35,8 +35,12 @@ export default function postsAndCommentsReducer(
                 post = action.payload
                 if (post.status === "published") {
                     console.log("ADD PONT ACTION REACHED")
-                    return { ...state, posts: [...state.posts, post] }
-                } return state
+                    return {
+                         ...state, 
+                            message: "",
+                            posts: [...state.posts, post] 
+                    }
+                } return {...state, message: ""}
 
             case 'EDIT_POST':
                 post = action.payload
@@ -46,27 +50,30 @@ export default function postsAndCommentsReducer(
                 if (postIndex > -1) {
                     return {
                         ...state, 
+                            message: "",
                             posts: [
                                 ...state.posts.slice(0, postIndex), post, ...state.posts.slice(postIndex+1)
                             ]                    
                     } 
                  // if hte post is not in the public bucket, include it in the bucket (that is, post changed status from "draft" to "published")
                 } else if (postIndex === -1 && post.status === "published") {
-                  return   { ...state, posts: [...state.posts, post] }
+                  return   { ...state, message: "", posts: [...state.posts, post] }
                 } 
-                return state
+                return {...state, message: ""}
                                  
             case 'DELETE_POST':
                 postId = action.payload
                 postIndex = state.posts.findIndex( post => post.id === postId)
                 if (postIndex > -1) {
-                    return {...state, 
+                    return {
+                        ...state, 
+                        message: "",
                         posts: [
                             ...state.posts.slice(0, postIndex), ...state.posts.slice(postIndex+1)
                         ]
                     }
                 }
-                return state
+                return {...state, message: ""}
                 
            
                 // Add code to remove post's associated comments, WHEN COMMENTS ARE IMPLEMENTED
