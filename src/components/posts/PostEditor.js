@@ -102,9 +102,11 @@ const PostEditor = (props) => {
         console.log(extractTitle(data))
         console.log(imageState)
         const resolveImageThenResolvePost = async () => {
+            dispatch({type: 'LOADING_POST', payload: "Managing image ..."})
             const imageData = await manageImageForDraftOrPost(currentPost, imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
+            dispatch({type: 'LOADING_POST', payload: "Managing post ..."})
             dispatch(editPost(endpoint, postData, props, props.retrieveModalState))
             props.history.push("/profile")
         }
@@ -238,10 +240,12 @@ const PostEditor = (props) => {
         
   return (
     <div className="App postEditor">
+      <h4> {props.loading}</h4>
       <header className="App-header">
         Post Editor
       </header>
       {/* Renders the post editor */}
+     
       <Editor 
         editorState={editorState}
         onEditorStateChange={handleEditorChange}

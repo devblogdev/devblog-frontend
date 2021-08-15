@@ -18,7 +18,8 @@ export default function postsAndCommentsReducer(
                 return {
                     ...state,
                     loading: true,
-                    message: "Loading posts ..."
+                    // Multipurpose message loader
+                    message: action.payload
                 }
 
             case 'FETCH_POSTS':

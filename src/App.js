@@ -64,7 +64,7 @@ function App() {
     console.log("Fetch posts")
   }, [dispatch])
 
-  
+
   const retrieveModalState = useCallback ((messageArray, time=3000) => {
       const message = messageArray.map((message,index) => {
         return <li key={index}>{message}</li>
@@ -115,6 +115,7 @@ function App() {
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
+                loading = {loading}
             />
             <ProtectedRoute
                 path ="/posts/edit/:postID"
