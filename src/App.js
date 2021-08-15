@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
@@ -15,6 +15,7 @@ import ProfileContainer from './containers/ProfileContainer'
 import PostEditor from './components/posts/PostEditor'
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
 import ManageLogin from './containers/ManageLogin'
+import Modal from '../src/components/Modal'
 
 function App() {
 
@@ -26,6 +27,9 @@ function App() {
   const loading = useSelector((state) => state.posts.message)
   console.log(posts)
   const token = localStorage.getItem('token')
+
+  const [displayModeModal, setDisplayModeModal] = useState("hidden")
+  const [modalMessage, setModalMessage] = useState([])
   
   
   const Buttons = useCallback(() => {
@@ -59,12 +63,23 @@ function App() {
     dispatch(fetchPosts(endpoint))
     console.log("Fetch posts")
   }, [dispatch])
+
+  
+  const retrieveModalState = useCallback ((messageArray, time=3000) => {
+      const message = messageArray.map((message,index) => {
+        return <li key={index}>{message}</li>
+      })
+      setModalMessage(message)
+      setDisplayModeModal("")
+      setTimeout(() => { setDisplayModeModal('hidden')}, time)
+  },[])
  
   return (
     <Router>
       <div className="App">
         <div className="Nav-addon"></div>
         <NavBar button ={Buttons()} />
+        <Modal displayModeModal = {displayModeModal} modalMessage = {modalMessage}/>
         <Container 
           className="main"
           maxWidth="lg"
@@ -99,6 +114,7 @@ function App() {
                 component = {PostEditor}
                 user = {current_user}
                 posts = {posts}
+                retrieveModalState = {retrieveModalState}
             />
             <ProtectedRoute
                 path ="/posts/edit/:postID"

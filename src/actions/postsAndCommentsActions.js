@@ -43,7 +43,7 @@ export function addPost(endpoint, postData, routerProps=null){
     }
 }
 
-export function editPost(endpoint, postData, routerProps=null){
+export function editPost(endpoint, postData, routerProps=null, modalFunction){
     const token = localStorage.getItem('token')
     const axiosConfig = {
         headers: {
@@ -61,6 +61,7 @@ export function editPost(endpoint, postData, routerProps=null){
                 if (response.data.status === "published") {
                     routerProps.history.push(`/posts/${response.data.id}`)
                 } 
+                modalFunction(["Draft successfully saved"])
               })
               .catch(error => {
                 console.log(error);

@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { convertToRaw } from 'draft-js';
-// import { convertFromRaw } from 'draft-js';
+// import { convertToRaw } from 'draft-js';  do not delete this line; can be used for future improvement
+// import { convertFromRaw } from 'draft-js'; do not delete this line; can be used for future improvement
 import { convertToHTML, convertFromHTML } from 'draft-convert';
 // import DOMPurify from 'dompurify';
 import Button from '@material-ui/core/Button';
@@ -105,7 +105,7 @@ const PostEditor = (props) => {
             const imageData = await manageImageForDraftOrPost(currentPost, imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
-            dispatch(editPost(endpoint, postData, props))
+            dispatch(editPost(endpoint, postData, props, props.retrieveModalState))
             props.history.push("/profile")
         }
         resolveImageThenResolvePost()
@@ -202,15 +202,16 @@ const PostEditor = (props) => {
     let initialImageState = null
     // const storeRaw = localStorage.getItem('draftRaw')
 
-    const saveRaw = (currentContent) => {
-        let contentRaw = convertToRaw(currentContent);
-        localStorage.setItem('draftRaw', JSON.stringify(contentRaw))
-    }
+
+    // const saveRaw = (currentContent) => {
+    //     let contentRaw = convertToRaw(currentContent);
+    //     localStorage.setItem('draftRaw', JSON.stringify(contentRaw))
+    // }
 
     function handleEditorChange(state){
         setEditorState(state)
-        const contentState = editorState.getCurrentContent();
-        saveRaw(contentState);
+        // const contentState = editorState.getCurrentContent();
+        // saveRaw(contentState);
     }
 
     if ( props.match.url === "/profile/drafts/new" ) {
