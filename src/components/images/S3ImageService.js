@@ -27,7 +27,7 @@ const S3ImageService = ({initialImageState, retrieveImageState}) => {
       retrieveImageState(initialImageState)
     },[retrieveImageState, initialImageState])
 
-    console.log(selectedFile)
+    // console.log(selectedFile)
     
     const reset = () => {
         setSelectedFile()

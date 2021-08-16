@@ -6,9 +6,20 @@ const ProtectedRoute = ({ component: Component, user: current_user, posts: publi
         <Route {...rest}
             render = {props => {
                 const token = localStorage.getItem('token')
+                console.log(props)
                 if (token) {
                     return <Component {...props} user={current_user} posts={published} retrieveModalState={RetrieveModalState} loading={Loading} token />
-                }return <Redirect to={{pathname: '/'}} />
+                }
+                else {
+                    return <Redirect to={
+                        {
+                            pathname: '/',
+                            state: {
+                                from: props.location
+                            }
+                        }
+                    } />
+                }  
             }}
         />
     )

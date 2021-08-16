@@ -13,7 +13,7 @@ export function authentication() {
     }
 }
 
-export function authorization(endpoint=null, routerProps=null ) {
+export function authorization(endpoint=null, routerAndModal=null ) {
     const token = localStorage.getItem('token')
     let url
     endpoint ? url= endpoint : url= '/profile' 

@@ -11,10 +11,15 @@ const Home = (props) => {
     const dispatch = useDispatch()
     
     useEffect(() => {
+        console.log(props)
         if (props.match.url === "/logout") {
             dispatch({type: 'LOGOUT_USER'})
             props.history.replace('/')
-        }
+        } 
+        // else if (props.location.state?.from.pathname === '/profile') {
+        //     props.history.replace('/')
+        //     props.retrieveModalState(["Please login to access this feature"])
+        // } 
     })
 
     const published = props.posts.filter( post => post.status === "published")

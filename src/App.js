@@ -16,6 +16,7 @@ import PostEditor from './components/posts/PostEditor'
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
 import ManageLogin from './containers/ManageLogin'
 import Modal from '../src/components/Modal'
+import auth from './components/security/auth'
 
 function App() {
 
@@ -73,7 +74,7 @@ function App() {
       setDisplayModeModal("")
       setTimeout(() => { setDisplayModeModal('hidden')}, time)
   },[])
- 
+  console.log(auth.isAuthenticated())
   return (
     <Router>
       <div className="App">
@@ -87,7 +88,7 @@ function App() {
           <Switch>
             <Route
                 exact path="/"
-                render = {routerProps => <Home {...routerProps} posts = {posts} loading = {loading}/> }
+                render = {routerProps => <Home {...routerProps} posts = {posts} loading = {loading} retrieveModalState = {retrieveModalState} /> }
             />
             <Route
                 exact path="/posts"
@@ -102,6 +103,7 @@ function App() {
                 component = {ProfileContainer}
                 user = {current_user}
                 posts = {posts}
+                retrieveModalState = {retrieveModalState}
             />
             <ProtectedRoute
                 path ="/profile/drafts/new"
