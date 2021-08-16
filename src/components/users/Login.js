@@ -17,7 +17,8 @@ import Container from '@material-ui/core/Container';
 // APP DEPENDENCIES
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { CreateOrLoginUser } from '../../actions/userActions'
+import { createOrLoginUser } from '../../actions/userActions'
+
 
 // MATERIAL UI FUNCTION
 function Copyright() {
@@ -55,18 +56,38 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // MAIN: FUCNTIONAL COMPONENT; RENDERS A LOGIN FORM
-export default function Login(routerProps) {
+export default function Login(props) {
+
   const classes = useStyles();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [displayErrors, setDisplayErrors] = useState(false)
   const dispatch = useDispatch()
+
+
+  const fieldValidator = (field, fieldName) => {
+    if (field.trim() === '') {
+      return (
+          <p className="errorField">{fieldName} cant't be blank</p>
+      )
+    } 
+    return null
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const endpoint = "/api/v1/auth"
-    const userData = {email, password}
-    dispatch(CreateOrLoginUser(endpoint, userData, routerProps))
+    if (fieldValidator(email) || fieldValidator(password) ) {
+      setDisplayErrors(true)
+    } 
+    else {
+      const endpoint = "/api/v1/auth"
+      const userData = {email, password}
+      dispatch(createOrLoginUser(endpoint, userData, props))
+      setEmail("")
+      setPassword("")
+      setDisplayErrors(false)
+    }
   }
   
   return (
@@ -93,6 +114,7 @@ export default function Login(routerProps) {
             value ={email}
             onChange = { event => setEmail(event.target.value)}
           />
+          {displayErrors && fieldValidator(email, "Email")}
           <TextField
             variant="outlined"
             margin="normal"
@@ -106,6 +128,7 @@ export default function Login(routerProps) {
             value ={password}
             onChange = { event => setPassword(event.target.value)}
           />
+          {displayErrors && fieldValidator(password, "Password")}
           {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"

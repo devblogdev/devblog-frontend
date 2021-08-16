@@ -135,11 +135,11 @@ function App() {
             />
             <Route
                 exact path="/login"
-                render={routerProps => <ManageLogin {...routerProps} /> }
+                render={routerProps => <ManageLogin {...routerProps} retrieveModalState = {retrieveModalState} /> }
             />
             <Route
                 exact path="/signup"
-                render={routerProps => <ManageLogin {...routerProps} /> }
+                render={routerProps => <ManageLogin {...routerProps} retrieveModalState = {retrieveModalState} /> }
             />      
           </Switch>
         </Container>  

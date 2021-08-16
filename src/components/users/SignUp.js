@@ -16,8 +16,9 @@ import Container from '@material-ui/core/Container';
 // APP DEPENDENCIES
 import { NavLink } from 'react-router-dom'
 import { useInput } from '../hooks/input-hook'
-import { CreateOrLoginUser } from '../../actions/userActions'
+import { createOrLoginUser } from '../../actions/userActions'
 import { useDispatch } from 'react-redux'
+
 
 // MATERIAL UI FUNCTION 
 function Copyright() {
@@ -55,10 +56,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // MAIN FUNCTION; FUNCTIONAL COMPONENT
-export default function SignUp(routerProps) {
+export default function SignUp(props) {
   const classes = useStyles();
   const dispatch = useDispatch()
-  const [displayError, setDisplayError] = useState(false)
+  const [displayErrors, setDisplayErrors] = useState(false)
 
   // CONSTANTS FOR INPUT CUSTOM HOOK
   const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput("")
@@ -111,16 +112,17 @@ export default function SignUp(routerProps) {
   const handleSubmit = (event) => {
       event.preventDefault();
       if (Object.values(errors).find( field => field !== null)) {
-        setDisplayError(true)
+        setDisplayErrors(true)
       }
       else {
         const endpoint = "/users"
         const userData = { first_name: firstName, last_name: lastName, email, password}
-        dispatch(CreateOrLoginUser(endpoint, userData, routerProps ))
+        dispatch(createOrLoginUser(endpoint, userData, props ))
         resetFirstName()
         resetLastName()
         resetEmail()
         resetPassword()
+        setDisplayErrors(false)
       }
   }
   
@@ -148,7 +150,7 @@ export default function SignUp(routerProps) {
                 autoFocus
                 {...bindFirstName}
               />
-              {displayError && errors.firstName}
+              <p className="errorField">{displayErrors && errors.firstName}</p>
             </Grid>
             
             {/* {typing} */}
@@ -163,7 +165,7 @@ export default function SignUp(routerProps) {
                 autoComplete="lname"
                 {...bindLastName}
               />
-              {displayError && errors.lastName}
+              <p className="errorField">{displayErrors && errors.lastName}</p>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -176,7 +178,7 @@ export default function SignUp(routerProps) {
                 autoComplete="email"
                 {...bindEmail}
               />
-              {displayError && errors.email}
+             <p className="errorField">{displayErrors && errors.email}</p>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -190,7 +192,7 @@ export default function SignUp(routerProps) {
                 autoComplete="current-password"
                 {...bindPassword}
               />
-              {displayError && errors.password}
+              <p className="errorField">{displayErrors && errors.password}</p>
             </Grid>
             <Grid item xs={12}>
               {/* <FormControlLabel
