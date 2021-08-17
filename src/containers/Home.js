@@ -46,7 +46,7 @@ const Home = (props) => {
                    </Link>
         }
         return <a key={-index} href={post.url} target="_blank" rel="noreferrer noopener" style={{ textDecoration: 'none' }} >
-                    <ExternalImgCardMedia key={index} post = {post} />
+                    <ExternalImgCardMedia key={index} post = {post} imageHeight={'140'} />
                </a>
         })
 

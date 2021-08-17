@@ -70,8 +70,10 @@
 }
 
 .postEditor {
-  margin-left: 4rem;
-  margin-right: 4rem;
+  /* margin-left: 4rem;
+  margin-right: 4rem; */
+  margin-left: 8rem;
+  margin-right: 8rem;
   padding-bottom: 2rem  
 }
 /* STYLES FOR POSTS TEXT EDITOR */
@@ -81,7 +83,7 @@
 }
 
 .image {
-  max-width: 100%
+  max-width: 100%;
 }
 
 .home {
@@ -91,6 +93,8 @@
   "b"
   "c";
   gap: 1.5rem 1.5rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 
 .mainPost {
@@ -102,8 +106,8 @@
   grid-area: b;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-  "post1 post2";
+  /* grid-template-areas:
+  "post1 post2"; */
   gap: 1.5rem 1.5rem;
 }
 
@@ -111,8 +115,8 @@
   grid-area: c;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-areas:
-  "postx posty postz";
+  /* grid-template-areas:
+  "postx posty postz"; */
   gap: 1.5rem 1.5rem;
 }
 
@@ -125,12 +129,8 @@
 }
 
 .Nav-addon {
-  /* display: block; */
-  /* background-color: #29434e; */
   background-color: #002984;
   height: 1rem;;
-  /* border: 1px solid white; */
-  /* display: flex */
 }
 
 .errorField {
@@ -138,13 +138,54 @@
   color: red;
 }
 
-/* .MuiToolbar-root.MuiToolbar-regular.MuiToolbar-gutters {
+
+/* .reponsive: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px
+); */
+
+ /* MEDIUM SCREEN */
+ @media screen and (max-width: 960px) {
+  .home {
+    margin-left: 0rem;
+    margin-right: 0rem;
+  }
+  .featuredPosts, .remainderPosts {
+    grid-template-columns: 1fr 1fr
+  } 
+  .postPage {
+    margin-left: 4rem;
+    margin-right: 4rem;
+  }
+  /* .image-single {
+    height: 0px;
+  } */
+  .postEditor {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+ }
+
+/* SMALL SCREEN */
+@media screen and (max-width: 540px) {
+  .featuredPosts, .remainderPosts {
+    grid-template-columns: 1fr
+  } 
+  .postPage {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  .postEditor {
+    margin-left: 0rem;
+    margin-right: 0rem;
+  }
+ }
 
 
-} */
 
-/* .MuiPaper-root.MuiAppBar-root.MuiAppBar-positionFixed.MuiAppBar-colorPrimary.mui-fixed.MuiPaper-elevation4 {
-  position: relative;
-} */
+
 
 
