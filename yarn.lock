@@ -6037,7 +6037,7 @@
   "resolved" "https://registry.npmjs.org/immer/-/immer-8.0.1.tgz"
   "version" "8.0.1"
 
-"immutable@~3.7.4", "immutable@3.x.x || 4.x.x":
+"immutable@^3.7.6", "immutable@~3.7.4", "immutable@3.x.x || 4.x.x":
   "integrity" "sha1-E7TTyxK++hVIKib+Gy665kAHHks="
   "resolved" "https://registry.npmjs.org/immutable/-/immutable-3.7.6.tgz"
   "version" "3.7.6"

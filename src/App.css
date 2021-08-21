@@ -78,8 +78,15 @@
 }
 /* STYLES FOR POSTS TEXT EDITOR */
 
+
+.Nav-addon {
+  background-color:  #002984;
+  height: 1rem;;
+}
+
 .main {
   margin-top: 20px;
+
 }
 
 .image {
@@ -99,7 +106,6 @@
 
 .mainPost {
   grid-area: a;
-  
 }
 
 .featuredPosts {
@@ -126,11 +132,6 @@
   margin-right: 8rem;
   margin-bottom: 2rem;
   text-align: left;
-}
-
-.Nav-addon {
-  background-color: #002984;
-  height: 1rem;;
 }
 
 .errorField {

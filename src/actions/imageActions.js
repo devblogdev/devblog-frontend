@@ -89,8 +89,3 @@ export function manageImageForDraftOrPost(currentPost, imageState) {
         return uploadImage(imageData)
     } return []
 }
-
-
-
-
-

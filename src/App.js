@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Container from '@material-ui/core/Container';
-// import Container from 'react-bootstrap/Container';
 import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom'
 import { authorization } from './actions/securityActions'
@@ -13,11 +12,12 @@ import Home from './containers/Home'
 import PostLinksContainer from './containers/PostLinksContainer';
 import ProtectedRoute from './components/protectedRoute/protectedRoute';
 import ProfileContainer from './containers/ProfileContainer'
-import PostEditor from './components/posts/PostEditor'
+import PostEditor2 from './components/posts/PostEditor2'
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
 import ManageLogin from './containers/ManageLogin'
 import Modal from '../src/components/Modal'
 import auth from './components/security/auth'
+// import { UserContext } from './components/UserContext';
 
 function App() {
 
@@ -108,15 +108,16 @@ function App() {
             />
             <ProtectedRoute
                 path ="/profile/drafts/new"
-                component = {PostEditor}
+                component = {PostEditor2}
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
                 loading = {loading}
             />
+            {/* <UserContext.Provider value="hello from context"> */}
             <ProtectedRoute
                 path ="/profile/drafts/:postID"
-                component = {PostEditor}
+                component = {PostEditor2}
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
@@ -124,12 +125,13 @@ function App() {
             />
             <ProtectedRoute
                 path ="/posts/edit/:postID"
-                component = {PostEditor}
+                component = {PostEditor2}
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
                 loading = {loading}
             />
+            {/* </UserContext.Provider> */}
             <Route 
                 path={`/posts/:postID`} 
                 render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} user={current_user} />} 
@@ -141,7 +143,7 @@ function App() {
             <Route
                 exact path="/signup"
                 render={routerProps => <ManageLogin {...routerProps} retrieveModalState = {retrieveModalState} /> }
-            />      
+            />   
           </Switch>
         </Container>  
       </div>

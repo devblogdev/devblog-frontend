@@ -1,19 +1,20 @@
-// This editor works well, however, it breaks when the page is refreshed while editing a draft or post
+import React, { useState, useCallback, useEffect } from 'react';
 
-import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { EditorState } from 'draft-js';
+// import { DefaultDraftBlockRenderMap } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { convertToRaw } from 'draft-js';  //do not delete this line; can be used for future improvement
+// import { convertToRaw } from 'draft-js';  //do not delete this line; can be used for future improvement
 // import { convertFromRaw } from 'draft-js'; //do not delete this line; can be used for future improvement
 import { convertToHTML, convertFromHTML } from 'draft-convert';
+// import { Map } from 'immutable'
 // import DOMPurify from 'dompurify';
 import Button from '@material-ui/core/Button';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { green, blueGrey } from '@material-ui/core/colors';
 import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsActions';
-import  S3ImageService  from '../images/S3ImageService'
+import  S3ImageService2  from '../images/S3ImageService2'
 import { manageImageForNewDraftOrPost } from '../../actions/imageActions'
 import { manageImageForDraftOrPost } from '../../actions/imageActions'
 import { extractTitle } from '../../actions/postEditorHelper'
@@ -41,9 +42,54 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   }));
-  
+
+  // ATTEMPTING TO ENABLE CODE SNIPPETS when conttent is converted from HTML
+  // by modifying Draf js' default block HTML
+// const ORDERED_LIST_TYPES = ['1', 'a', 'i'];
+// const blockRenderMap =  Map({ 
+//   unstyled: <p />,
+//   paragraph: <p />,
+//   'header-one': {
+//     element: 'h1'
+//   },
+//   'header-two': {
+//     element: 'h2'
+//   },
+//   'header-three': {
+//     element: 'h3'
+//   },
+//   'header-four': {
+//     element: 'h4'
+//   },
+//   'header-five': {
+//     element: 'h5'
+//   },
+//   'header-six': {
+//     element: 'h6'
+//   },
+//   'code-block': <pre />,
+//   blockquote: <blockquote />,
+//   'unordered-list-item': {
+//     element: <li />,
+//     nest: <ul />,
+//   },
+//   'ordered-list-item': {
+//     element: <li />,
+//     nest: depth => {
+//       const type = ORDERED_LIST_TYPES[depth % 3];
+//       return <ol type={type} />;
+//     },
+//   },
+//   media: <figure />,
+//   atomic: <figure />,
+// })
+
+  // console.log(blockRenderMap.toJS())
+  // console.log(blockRenderMap)
+
+
 //   FUNCTIONAL COMPONENT
-const PostEditor = (props) => {
+const PostEditor2 = (props) => {
 
     const dispatch = useDispatch()
 
@@ -52,18 +98,20 @@ const PostEditor = (props) => {
     
     // --------------------- CRUD ACTIONS START ------------------------------------
 
-        // --------------- Image Data Retrieval -------------------
+        // --------------- Image Data Retrieval START-------------------
 
+    // This variable is set when the user selects a picture to upload
     const [imageState, setImageState] = useState()
-    
+    // This function is passed to S3ImageService2 component at bottom; it is activated when the user selects an image
     const retrieveImageState = useCallback ((file) => {
         setImageState(file)
     },[])
 
-        // --------------- Image Data Retrieval -------------------
+        // --------------- Image Data Retrieval END-------------------
 
-    // FUNCTIONS FOR POST EDITOR BUTTONS
+    // FUNCTIONS FOR POST EDITOR BUTTONS START
 
+    // saves a NEW draft and keeps it as a draft
     const saveDraft = (event) => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/draft" 
@@ -83,6 +131,7 @@ const PostEditor = (props) => {
         resolveImageThenResolvePost()
     }
 
+    // saves a NEW draft and automatically publishes it; no longer a draft, now a published post
     const savePost = () => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = "/publish" 
@@ -99,6 +148,7 @@ const PostEditor = (props) => {
         resolveImageThenResolvePost()
     }
 
+    // updates an already created draft
     const updateDraft = () => {
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
@@ -119,7 +169,10 @@ const PostEditor = (props) => {
         resolveImageThenResolvePost()
     }
 
+    // Two things: –updates an existing draft and changes it into a post (basically, pubslihes the draft); 
+    //             –updates and republishes an existing post
     const updatePost = () => {
+      // debugger
         const data = convertToHTML(editorState.getCurrentContent());
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
@@ -138,6 +191,7 @@ const PostEditor = (props) => {
         resolveImageThenResolvePost()
     }
 
+    // deletes an existing draft or post
     const removePost = () => {
         const postID = props.match.params.postID
         const endpoint = `/posts/${postID}`
@@ -151,6 +205,8 @@ const PostEditor = (props) => {
         }
         resolveImageThenResolvePost()
     }
+
+    // FUNCTION FOR POST EDITOR BUTTONS END
 
     // POST EDITOR BUTTONS
         //   ------------ NEW POST  ---------------
@@ -206,48 +262,90 @@ const PostEditor = (props) => {
     // --------------------- CRUD ACTIONS END ------------------------
     
     
-    // --------------------- POST EDITOR START ------------------------
-    let buttons
-    let initialEditorState = null
-    let initialImageState  = null
-    // const storeRaw = localStorage.getItem('draftRaw')
-
     
-    const saveRaw = (currentContent) => {
-        let contentRaw = convertToRaw(currentContent);
-        localStorage.setItem('draftRaw', JSON.stringify(contentRaw))
-        // console.log(editorState.get(contentRaw))
-    }
+    // --------------------- POST EDITOR START ------------------------
+    
+      // A NIGHTMARE!!! 
+      
+    // If editing a draft or post, the below line provides dummy content for the editor to start with while the draft or post data is loaded
+    const [draftOrPost, setDraftOrPost] = useState({body: "<p>Loding content...</p>"})
+    
+    // DO NOT DELTE THE BELOW CONST; MIGHT BE NEEDED AT SOME POINT
+    // const saveRaw = (currentContent) => {
+    //     let contentRaw = convertToRaw(currentContent);
+    //     localStorage.setItem('draftRaw', JSON.stringify(contentRaw))
+    // }
 
+    // Updates the editor state when typing 
     function handleEditorChange(state){
         setEditorState(state)
-        const contentState = editorState.getCurrentContent();
-        saveRaw(contentState);
+        // DO NOT ERASE THE BELOW LINES; MIGTH BE NIEEDED AT SOME POINT
+        // const contentState = editorState.getCurrentContent();
+        // saveRaw(contentState);
     }
     
+    // If editing a draft or post, this callback is used in 'useEffect' hook below to obtain the draft or post data
+    const loadedDraftOrPost = useCallback( () => { 
+      return props.user.posts.find( post => `${post.id}` === props.match.params.postID)
+    },[props.user, props.match])
+
+    // Sets the buttons depending on whether we have a new draft, a draft, or a published post
+    let buttons
+    // the conditional does not depend on state
     if ( props.match.url === "/profile/drafts/new" ) {
-        initialEditorState = EditorState.createEmpty();
-        buttons = [saveAsDraftButton, publishNewButton]
+      buttons = [saveAsDraftButton, publishNewButton]
     } else {
-        const draftOrPost = Object.keys(props.user).length > 0 && props.user.posts.find(post => `${post.id}` === props.match.params.postID)   
-        const info = convertFromHTML(draftOrPost.body)
-        initialEditorState = EditorState.createWithContent(info)
-        initialImageState =  draftOrPost.images[0]
-        console.log(props.user)
-        if (props.match.path === "/profile/drafts/:postID") {
-            buttons = [saveButton, publishDraftButton, deleteButton]
-        } else if (props.match.path === "/posts/edit/:postID") {
-            buttons = [saveAndPublishButton, deleteButton]
-        }
+      if (props.match.path === "/profile/drafts/:postID") {
+          buttons = [saveButton, publishDraftButton, deleteButton]
+      } else if (props.match.path === "/posts/edit/:postID") {
+          buttons = [saveAndPublishButton, deleteButton]
+      }
     }
+  
+  // Loads the editor with the dummy content provided in 'draftOrPost' state variable
+  // This is needed to ensure that the editor does not break when refreshing the page on a draft or post
+  // A total painstaking process to achieve this
+  const loadedInitialEditorState = useCallback( () => (EditorState.createWithContent(convertFromHTML(draftOrPost.body))),[draftOrPost])
 
+  // Takes the incoming draft or post and defines a new Editor state using the draft or post
+  // This will be used to replace the dummy state created by 'loadedInitialEditorState' above
+  // This ensures that the editor does not break when refreshing the page on a draft or post
+  const reinitializeState = useCallback ((argument) => {
+    const blocksFromHTML = convertFromHTML(argument.body);
+    const result = EditorState.createWithContent(blocksFromHTML)
+    return result
+  },[])
+
+
+  useEffect( () => {
+    if (props.match.url !== "/profile/drafts/new") {
+      if (props.user.posts) {
+        // 'content' is the incoming draft or post
+        const content = loadedDraftOrPost()
+        setDraftOrPost(content)
+        // replaces the inital dummy content with the content from the draft or post
+        setEditorState(reinitializeState(content))
+      }
+    }
+  },[props.user, props.match, loadedDraftOrPost, reinitializeState, draftOrPost])
+
+
+  // If a new draft, just create a blank editor ('EditorState.createEmpty()')
+  // If editing a draft or post, load the editor with some dummy state;
+  // the dummy state will be later replaced in 'useEffect' hook
+  // This is needed for the editor not to break when refreshing the page while editing a draft or post
+  // A total painstaking process to achieve this
+  const [editorState, setEditorState] = useState( 
+    () => {
+      if(props.match.url === "/profile/drafts/new") {
+        return EditorState.createEmpty()
+      } else {
+        return loadedInitialEditorState()
+      }
+    }
+  );
     
-    const [editorState, setEditorState] = useState( 
-        () => initialEditorState
-    );
-
-
-    // --------------------- POST EDITOR END ------------------------
+  // --------------------- POST EDITOR END ------------------------
         
   return (
     <div className="App postEditor">
@@ -262,16 +360,18 @@ const PostEditor = (props) => {
         wrapperClassName="wrapper-class"
         editorClassName="editor-class"
         toolbarClassName="toolbar-class"
+        // blockRenderMap={blockRenderMap}
+        // blockRenderMap={defaultBlockHTML}
       />
-      {/* Renders the "Save, Publish, ... Delete buttons below post editor" */}
+      {/* Renders the "Save, Publish,Delete, etc." buttons below post editor */}
       {buttons.map( (button, index) => 
         <React.Fragment key={index}>
             {button}
         </React.Fragment> 
        )}
         {/* Renders the "Upload a cover image" button; it is a full compponent */}
-        <S3ImageService retrieveImageState= {retrieveImageState} initialImageState = {initialImageState} />
+        <S3ImageService2 retrieveImageState = {retrieveImageState} user = {props.user} {...props} />
     </div>
   )
 }
-export default PostEditor;
+export default PostEditor2;

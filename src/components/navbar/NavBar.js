@@ -35,7 +35,7 @@ export default function NavBar(props) {
       <AppBar 
         position="relative" 
         style={{
-          // backgroundColor: blue
+          // backgroundColor: color
         }}
       >
         <Toolbar>
