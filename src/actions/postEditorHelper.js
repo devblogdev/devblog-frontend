@@ -18,7 +18,6 @@
 
 // let alternative = /(?:\/)([^#]+)(?=#*)/
 export function extractTitle(data) {
-    // This regular expression causes errors in Safari browser
     let result = data.match(/(?:>).*?(?=<)/g);
     console.log(result);
     return result

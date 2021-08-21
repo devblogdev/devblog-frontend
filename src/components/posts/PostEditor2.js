@@ -1,13 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { EditorState } from 'draft-js';
+import { EditorState, ContentState } from 'draft-js';
 // import { DefaultDraftBlockRenderMap } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-// import { convertToRaw } from 'draft-js';  //do not delete this line; can be used for future improvement
+import { convertToRaw } from 'draft-js';  //do not delete this line; can be used for future improvement
 // import { convertFromRaw } from 'draft-js'; //do not delete this line; can be used for future improvement
 import { convertToHTML, convertFromHTML } from 'draft-convert';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 // import { Map } from 'immutable'
 // import DOMPurify from 'dompurify';
 import Button from '@material-ui/core/Button';
@@ -173,7 +175,9 @@ const PostEditor2 = (props) => {
     //             –updates and republishes an existing post
     const updatePost = () => {
       // debugger
-        const data = convertToHTML(editorState.getCurrentContent());
+        // const data = convertToHTML(editorState.getCurrentContent());
+        const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+        // debugger
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const postExtraction = extractTitle(data)
@@ -310,9 +314,20 @@ const PostEditor2 = (props) => {
   // Takes the incoming draft or post and defines a new Editor state using the draft or post
   // This will be used to replace the dummy state created by 'loadedInitialEditorState' above
   // This ensures that the editor does not break when refreshing the page on a draft or post
+
+        // If using 'convertFromHTML' dependency, use the below reinitializeState
+  // const reinitializeState = useCallback ((argument) => {
+  //   const blocksFromHTML = convertFromHTML(argument.body);
+  //   const result = EditorState.createWithContent(blocksFromHTML)
+  //   return result
+  // },[])
+
+        // If using 'htmlToDraft' dependency, use the below reinitializeState
   const reinitializeState = useCallback ((argument) => {
-    const blocksFromHTML = convertFromHTML(argument.body);
-    const result = EditorState.createWithContent(blocksFromHTML)
+    const blocksFromHTML = htmlToDraft(argument.body);
+    const { contentBlocks, entityMap} = blocksFromHTML
+    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+    const result = EditorState.createWithContent(contentState)
     return result
   },[])
 
