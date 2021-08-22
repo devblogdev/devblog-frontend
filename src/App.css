@@ -13,6 +13,7 @@
   }
 }
 
+
 /* .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -86,7 +87,7 @@
 
 .main {
   margin-top: 20px;
-
+  /* overflow: hidden; */
 }
 
 .image {
@@ -186,7 +187,14 @@
  }
 
 
-
-
+/* CODE SNIPPETS STYLING START */
+pre {
+  /* This line ensures that the code snippets do not overflow their respective container */
+  white-space: pre-wrap;
+  padding: 1rem;
+  background: rgba(242, 242, 242, 1);
+  font-family: Menlo, Monaco, "Courier New", Courier, monospace
+}
+/* CODE SNIPPETS STYLING START */
 
 

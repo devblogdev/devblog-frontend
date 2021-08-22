@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import {Markup} from 'interweave'
+// import {Markup} from 'interweave' //Simple markdown; does not transfer links when saving posts
+import Interweave from 'interweave'
 
 const  Post = ({match, posts, user}) => {
 
@@ -27,8 +28,12 @@ const  Post = ({match, posts, user}) => {
     return(
         <div>
             {editButton}
-            <div className="image-single"><img src = { post.images && post?.images[0]?.url} alt= {post.images && post?.images[0]?.alt} className="image"/></div>
-            <div><Markup  content={post.body} /></div>
+            <div className="image-single">
+                <img src = { post.images && post?.images[0]?.url} alt= {post.images && post?.images[0]?.alt} className="image"/>
+            </div>
+            <div>
+                <Interweave  content={post.body} />
+            </div>
         </div>
     )
 }
