@@ -7,7 +7,8 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertToRaw } from 'draft-js';  //do not delete this line; can be used for future improvement
 // import { convertFromRaw } from 'draft-js'; //do not delete this line; can be used for future improvement
-import { convertToHTML, convertFromHTML } from 'draft-convert';
+import { convertFromHTML } from 'draft-convert';
+// import { convertToHTML } from 'draft-convert';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 // import { Map } from 'immutable'
@@ -115,7 +116,7 @@ const PostEditor2 = (props) => {
 
     // saves a NEW draft and keeps it as a draft
     const saveDraft = (event) => {
-        const data = convertToHTML(editorState.getCurrentContent());
+        const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
         const endpoint = "/draft" 
         const postExtraction = extractTitle(data)
         const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[2]?.slice(1), status: "draft"}
@@ -135,7 +136,7 @@ const PostEditor2 = (props) => {
 
     // saves a NEW draft and automatically publishes it; no longer a draft, now a published post
     const savePost = () => {
-        const data = convertToHTML(editorState.getCurrentContent());
+        const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
         const endpoint = "/publish" 
         const postExtraction = extractTitle(data)
         const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[2]?.slice(1), status: "published"}
@@ -152,7 +153,7 @@ const PostEditor2 = (props) => {
 
     // updates an already created draft
     const updateDraft = () => {
-        const data = convertToHTML(editorState.getCurrentContent());
+        const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const postExtraction = extractTitle(data)
