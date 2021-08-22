@@ -5,7 +5,7 @@ import { EditorState, ContentState } from 'draft-js';
 // import { DefaultDraftBlockRenderMap } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { convertToRaw } from 'draft-js';  //do not delete this line; can be used for future improvement
+import { convertToRaw } from 'draft-js';  
 // import { convertFromRaw } from 'draft-js'; //do not delete this line; can be used for future improvement
 import { convertFromHTML } from 'draft-convert';
 // import { convertToHTML } from 'draft-convert';
@@ -46,53 +46,9 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-  // ATTEMPTING TO ENABLE CODE SNIPPETS when conttent is converted from HTML
-  // by modifying Draf js' default block HTML
-// const ORDERED_LIST_TYPES = ['1', 'a', 'i'];
-// const blockRenderMap =  Map({ 
-//   unstyled: <p />,
-//   paragraph: <p />,
-//   'header-one': {
-//     element: 'h1'
-//   },
-//   'header-two': {
-//     element: 'h2'
-//   },
-//   'header-three': {
-//     element: 'h3'
-//   },
-//   'header-four': {
-//     element: 'h4'
-//   },
-//   'header-five': {
-//     element: 'h5'
-//   },
-//   'header-six': {
-//     element: 'h6'
-//   },
-//   'code-block': <pre />,
-//   blockquote: <blockquote />,
-//   'unordered-list-item': {
-//     element: <li />,
-//     nest: <ul />,
-//   },
-//   'ordered-list-item': {
-//     element: <li />,
-//     nest: depth => {
-//       const type = ORDERED_LIST_TYPES[depth % 3];
-//       return <ol type={type} />;
-//     },
-//   },
-//   media: <figure />,
-//   atomic: <figure />,
-// })
-
-  // console.log(blockRenderMap.toJS())
-  // console.log(blockRenderMap)
-
 
 //   FUNCTIONAL COMPONENT
-const PostEditor2 = (props) => {
+const PostEditor3 = (props) => {
 
     const dispatch = useDispatch()
 
@@ -315,15 +271,6 @@ const PostEditor2 = (props) => {
   // Takes the incoming draft or post and defines a new Editor state using the draft or post
   // This will be used to replace the dummy state created by 'loadedInitialEditorState' above
   // This ensures that the editor does not break when refreshing the page on a draft or post
-
-        // If using 'convertFromHTML' dependency, use the below reinitializeState
-  // const reinitializeState = useCallback ((argument) => {
-  //   const blocksFromHTML = convertFromHTML(argument.body);
-  //   const result = EditorState.createWithContent(blocksFromHTML)
-  //   return result
-  // },[])
-
-        // If using 'htmlToDraft' dependency, use the below reinitializeState
   const reinitializeState = useCallback ((argument) => {
     const blocksFromHTML = htmlToDraft(argument.body);
     const { contentBlocks, entityMap} = blocksFromHTML
@@ -390,4 +337,4 @@ const PostEditor2 = (props) => {
     </div>
   )
 }
-export default PostEditor2;
+export default PostEditor3;

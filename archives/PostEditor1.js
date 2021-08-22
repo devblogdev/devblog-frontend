@@ -1,4 +1,5 @@
 // This editor works well, however, it breaks when the page is refreshed while editing a draft or post
+// The editor does not support code snippets upon saving the post. 
 
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
