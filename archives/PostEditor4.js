@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { EditorState, ContentState } from 'draft-js';
+import { EditorState, ContentState, EditorBlock, AtomicBlockUtils } from 'draft-js';
 // import { DefaultDraftBlockRenderMap } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -21,7 +21,7 @@ import  S3ImageService2  from '../images/S3ImageService2'
 import { manageImageForNewDraftOrPost } from '../../actions/imageActions'
 import { manageImageForDraftOrPost } from '../../actions/imageActions'
 import { extractTitle } from '../../actions/postEditorHelper'
-// import  titleBlockRenderer from './entities//titleBlockRenderer'
+
 
 const ColorButton = withStyles((theme) => ({
     root: {
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 //   FUNCTIONAL COMPONENT
-const PostEditor3 = (props) => {
+const PostEditor4 = (props) => {
 
     const dispatch = useDispatch()
 
@@ -304,8 +304,8 @@ const PostEditor3 = (props) => {
   const [editorState, setEditorState] = useState( 
     () => {
       if(props.match.url === "/profile/drafts/new") {
-        // return EditorState.createEmpty()        
-        return reinitializeState({body: "<h1>Title</h1>"})
+        return EditorState.createEmpty()        
+        // return reinitializeState({body: "<h1>Title</h1>"})
       } else {
         return loadedInitialEditorState()
       }
@@ -313,11 +313,36 @@ const PostEditor3 = (props) => {
   );
 
     //   Defining a Custom Block for the post title in the editor; START
-    // const titleInput = useRef(null)
+    const titleInput = useRef(null)
 
-    // const focus = () => titleInput.current.focus();
+    const focus = () => titleInput.current.focus();
 
-  
+    const insertBlock = () => {
+        
+        const contentSatte = editorState.getCurrentContent();
+    
+        const contentStateWithEntity = contentSatte.createEntity(
+          "TEST",
+          "MUTABLE",
+          { a: "b" }
+        );
+    
+        const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+        const newEditorState = EditorState.set(editorState, {
+          currentContent: contentStateWithEntity
+        });
+    
+        setEditorState(
+          AtomicBlockUtils.insertAtomicBlock(
+            newEditorState,
+            entityKey,
+            " "
+          ), 
+        //   () => setTimeout(() => focus(),0)
+        );
+      };
+
+    
   // --------------------- POST EDITOR END ------------------------
         
   return (
@@ -327,7 +352,7 @@ const PostEditor3 = (props) => {
         Post Editor
       </header>
       {/* Renders the post editor */}
-      {/* <button onClick={insertBlock}>Insert block</button> */}
+      <button onClick={insertBlock}>Insert block</button>
       <Editor 
         editorState={editorState}
         onEditorStateChange={handleEditorChange}
@@ -336,6 +361,8 @@ const PostEditor3 = (props) => {
         toolbarClassName="toolbar-class"
         // blockRenderMap={blockRenderMap}
         // blockRenderMap={defaultBlockHTML}
+        // ref = {titleInput}
+        blockRendererFn = {titleBlockRenderer}
       />
       {/* Renders the "Save, Publish,Delete, etc." buttons below post editor */}
       {buttons.map( (button, index) => 
@@ -350,6 +377,28 @@ const PostEditor3 = (props) => {
 }
 
 
-export default PostEditor3;
+export default PostEditor4;
 
 
+function titleBlockRenderer(contentBlock) {
+    const type = contentBlock.getType();
+
+    if (type === "atomic"){
+        return {
+            component: TitleComponent,
+            editable: true,
+            props: {
+                holder: 'Title'
+            }
+        }
+    }
+}
+
+const TitleComponent = props => {
+    console.log("hey")
+    return (
+        <div style={{ border: "1px solid #f00" }} >
+            <EditorBlock {...props} />
+        </div>
+    )
+}

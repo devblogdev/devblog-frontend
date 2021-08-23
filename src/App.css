@@ -14,7 +14,7 @@
 }
 
 
-/* .App-header {
+.App-header, .posteditor-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -23,10 +23,10 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-} */
+}
 
 /* APP STYLES TO FIT POSTS TEXT EDITOR */
-.App-header {
+/* .App-header {
   background-color: #282c34;
   min-height: 5vh;
   display: flex;
@@ -37,7 +37,7 @@
   color: white;
   margin-bottom: 5vh;
   text-align: center;
-}
+} */
 
 
 .App-link {
@@ -54,6 +54,12 @@
 }
 
 /* STYLES FOR POSTS TEXT EDITOR */
+.posteditor-header {
+  min-height: 5vh;
+  /* margin-bottom: 5vh; */
+  text-align: center;
+
+}
 .wrapper-class {
   padding: 1rem;
   border: 1px solid #ccc;
