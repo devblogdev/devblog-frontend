@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { EditorState, ContentState, EditorBlock, AtomicBlockUtils } from 'draft-js';
+import { EditorState, ContentState, EditorBlock, AtomicBlockUtils, removeEditorStyles } from 'draft-js';
 // import { DefaultDraftBlockRenderMap } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -313,7 +313,13 @@ const PostEditor4 = (props) => {
   );
 
     //   Defining a Custom Block for the post title in the editor; START
-    const titleInput = useRef(null)
+    
+
+    // const editor = useRef(null)
+
+    // function focusEditor() {
+    //     editor.current.focus()
+    // }
 
     const focus = () => titleInput.current.focus();
 
@@ -342,7 +348,12 @@ const PostEditor4 = (props) => {
         );
       };
 
-    
+    const handlePastedText = (text, styles, editorState) => {
+      // INCREDIBLE: leaving this function empty normalizes the pasted text's font size and background color, while keeping 
+      // special features, such as bullet points, links, monospace, ...
+          // setEditorState(removeEditorStyles(text, editorState))
+      }
+
   // --------------------- POST EDITOR END ------------------------
         
   return (
@@ -354,6 +365,7 @@ const PostEditor4 = (props) => {
       {/* Renders the post editor */}
       <button onClick={insertBlock}>Insert block</button>
       <Editor 
+      // ref = {titleInput}
         editorState={editorState}
         onEditorStateChange={handleEditorChange}
         wrapperClassName="wrapper-class"
@@ -361,8 +373,26 @@ const PostEditor4 = (props) => {
         toolbarClassName="toolbar-class"
         // blockRenderMap={blockRenderMap}
         // blockRenderMap={defaultBlockHTML}
-        // ref = {titleInput}
-        blockRendererFn = {titleBlockRenderer}
+        // blockStyleFn={normalizeStyleFn}
+        // blockRendererFn = {titleBlockRenderer}
+        // stripPastedStyles = {true}
+        handlePastedText = {handlePastedText}
+        toolbar={{
+          options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'remove', 'history'],
+          inline: {
+              monospace: { label: "Monospace", className: undefined}
+          },
+          blockType: {
+              inDropdown: false,
+              options: ['Normal', 'H1', 'H2', 'Blockquote', 'Code']
+          },
+          fontSize: {
+              options: [16, 18, 24]
+          },
+          textAlign: {
+              options: ['left']
+          },
+      }}
       />
       {/* Renders the "Save, Publish,Delete, etc." buttons below post editor */}
       {buttons.map( (button, index) => 
@@ -378,6 +408,17 @@ const PostEditor4 = (props) => {
 
 
 export default PostEditor4;
+
+
+function normalizeStyleFn(contentBlock) {
+  const type = contentBlock.getType();
+  if ( type === 'blockquote' || type === 'header-one' || type === 'header-two' || type === 'unstyled' || type === 'paragraph' ) {
+        return 'normalizeStyle';
+      }
+  else if ( type === 'code') {
+      return 'normalizeCodeSnippet'
+  }
+}
 
 
 function titleBlockRenderer(contentBlock) {
@@ -402,3 +443,6 @@ const TitleComponent = props => {
         </div>
     )
 }
+
+
+

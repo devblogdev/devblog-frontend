@@ -1,3 +1,8 @@
+// Changes compared to PostEditor2: 
+// * customized editor toolbar to show less buttons; 
+// * added the 'handledPastedText' empty function that normalizes the font size, font family, and
+// background color of pasted text
+
 import React, { useState, useCallback, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
@@ -240,6 +245,7 @@ const PostEditor3 = (props) => {
 
     // Updates the editor state when typing 
     function handleEditorChange(state){
+        // debugger
         setEditorState(state)
         // DO NOT ERASE THE BELOW LINES; MIGTH BE NIEEDED AT SOME POINT
         // const contentState = editorState.getCurrentContent();
@@ -296,8 +302,8 @@ const PostEditor3 = (props) => {
   )
 
 
-  // If a new draft, just create a blank editor ('EditorState.createEmpty()')
-  // If editing a draft or post, load the editor with some dummy state;
+  // If a new draft, create a blank editor with "Title" as the first line
+  // If editing a draft or post, load the editor with some dummy state 'loadedInitialEditorState()';
   // the dummy state will be later replaced in 'useEffect' hook
   // This is needed for the editor not to break when refreshing the page while editing a draft or post
   // A total painstaking process to achieve this
@@ -312,10 +318,12 @@ const PostEditor3 = (props) => {
     }
   );
 
-    //   Defining a Custom Block for the post title in the editor; START
-    // const titleInput = useRef(null)
 
-    // const focus = () => titleInput.current.focus();
+  const handlePastedText = (text, styles, editorState) => {
+    // INCREDIBLE: leaving this function empty normalizes the pasted text's font size and background color, while keeping 
+    // special features, such as bullet points, links, monospace, ...
+        // setEditorState(removeEditorStyles(text, editorState))
+  }
 
   
   // --------------------- POST EDITOR END ------------------------
@@ -327,15 +335,31 @@ const PostEditor3 = (props) => {
         Post Editor
       </header>
       {/* Renders the post editor */}
-      {/* <button onClick={insertBlock}>Insert block</button> */}
       <Editor 
+        // ref={editor}
         editorState={editorState}
         onEditorStateChange={handleEditorChange}
         wrapperClassName="wrapper-class"
         editorClassName="editor-class"
         toolbarClassName="toolbar-class"
-        // blockRenderMap={blockRenderMap}
-        // blockRenderMap={defaultBlockHTML}
+        spellCheck = {true}
+        handlePastedText = {handlePastedText}
+        toolbar={{
+            options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'remove', 'history'],
+            inline: {
+                monospace: { label: "Monospace", className: undefined}
+            },
+            blockType: {
+                inDropdown: false,
+                options: ['Normal', 'H1', 'H2', 'Blockquote', 'Code']
+            },
+            fontSize: {
+                options: [16, 18, 24]
+            },
+            textAlign: {
+                options: ['left']
+            },
+        }}
       />
       {/* Renders the "Save, Publish,Delete, etc." buttons below post editor */}
       {buttons.map( (button, index) => 
@@ -351,5 +375,11 @@ const PostEditor3 = (props) => {
 
 
 export default PostEditor3;
+
+
+
+
+
+
 
 
