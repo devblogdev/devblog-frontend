@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  font-size: 18px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
 }
 
 .App-logo {
@@ -192,7 +196,7 @@
     grid-template-columns: 1fr
   } 
   .postPage {
-    max-width: 736px;
+    max-width: 680px;
     margin-left: 8px;
     margin-right: 8px;
   }
@@ -203,9 +207,7 @@
   }
  }
 
-
-
-/* CODE SNIPPETS STYLING START */
+/* CODE STYLING START */
 pre {
   /* This line ensures that the code snippets do not overflow their respective container */
   white-space: pre-wrap;
@@ -214,25 +216,15 @@ pre {
   font-family: Menlo, Monaco, "Courier New", Courier, monospace;
   font-size: 16px;
 }
-/* CODE SNIPPETS STYLING START */
 
+code {
+  font-size: 16px;;
+  background-color: rgba(242, 242, 242, 1);
+}
+/* CODE STYLING END */
 
-/* .public-DraftStyleDefault-block {
-  background-color: none;
-} */
-
-.normalizeStyle {
-  /* color: #999; */
+.superFancyBlockquote, blockquote {
   /* font-family: 'Hoefler Text', Georgia, serif; */
   font-style: italic;
-  /* font-size: 18px; */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
-  background-color: transparent;
-
 }
 
-.normalizeCodeSnippet {
-  font-size: 16px;
-}

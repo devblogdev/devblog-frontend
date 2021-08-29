@@ -344,6 +344,7 @@ const PostEditor3 = (props) => {
         toolbarClassName="toolbar-class"
         spellCheck = {true}
         handlePastedText = {handlePastedText}
+        blockStyleFn={myBlockStyleFn}
         toolbar={{
             options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'remove', 'history'],
             inline: {
@@ -375,6 +376,15 @@ const PostEditor3 = (props) => {
 
 
 export default PostEditor3;
+
+
+function myBlockStyleFn(contentBlock) {
+    const type = contentBlock.getType();
+    if (type === 'blockquote') {
+      return 'superFancyBlockquote';
+    }
+  }
+  
 
 
 
