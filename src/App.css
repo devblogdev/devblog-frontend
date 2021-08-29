@@ -81,9 +81,13 @@
 .postEditor {
   /* margin-left: 4rem;
   margin-right: 4rem; */
-  margin-left: 8rem;
-  margin-right: 8rem;
-  padding-bottom: 2rem  
+  /* margin-left: 8rem; */
+  /* margin-right: 8rem; */
+  padding-bottom: 2rem;
+  max-width: 736px;
+  margin-left: auto;
+  margin-right: auto;
+  
 }
 /* STYLES FOR POSTS TEXT EDITOR */
 
@@ -95,7 +99,6 @@
 
 .main {
   margin-top: 20px;
-  /* overflow: hidden; */
 }
 
 .image {
@@ -121,8 +124,6 @@
   grid-area: b;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* grid-template-areas:
-  "post1 post2"; */
   gap: 1.5rem 1.5rem;
 }
 
@@ -130,8 +131,6 @@
   grid-area: c;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  /* grid-template-areas:
-  "postx posty postz"; */
   gap: 1.5rem 1.5rem;
 }
 
@@ -143,11 +142,16 @@
   text-align: left;
 }
 
+.standardSize {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .errorField {
   margin: 0;
   color: red;
 }
-
 
 /* .reponsive: (
   sm: 540px,
@@ -166,17 +170,20 @@
   .featuredPosts, .remainderPosts {
     grid-template-columns: 1fr 1fr
   } 
-  .postPage {
+  /* .postPage {
+    max-width: 736px;
+    margin-left: 2rem;
+    margin-right: 2rem;
+  } */
+  .postLinks {
     margin-left: 4rem;
     margin-right: 4rem;
   }
-  /* .image-single {
-    height: 0px;
-  } */
-  .postEditor {
+  /* .postEditor {
+    max-width: 736px;
     margin-left: 2rem;
     margin-right: 2rem;
-  }
+  } */
  }
 
 /* SMALL SCREEN */
@@ -185,14 +192,17 @@
     grid-template-columns: 1fr
   } 
   .postPage {
-    margin-left: 1rem;
-    margin-right: 1rem;
+    max-width: 736px;
+    margin-left: 8px;
+    margin-right: 8px;
   }
   .postEditor {
+    max-width: 736px;
     margin-left: 0rem;
     margin-right: 0rem;
   }
  }
+
 
 
 /* CODE SNIPPETS STYLING START */
