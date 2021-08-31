@@ -15,6 +15,10 @@ export default function usersReducer(
         case 'SET_USER':
             auth.login();
             return {...state, current_user: action.payload }
+        
+        case 'ADD_USERS':
+            console.log(action.payload)
+            return { ...state, users: action.payload }
 
         case 'LOGOUT_USER':
             auth.logout();

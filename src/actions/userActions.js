@@ -20,3 +20,14 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
     }
 }
 
+export function fetchUsers(endpoint) {
+    return async (dispatch) => {
+        const response = await axios.get(endpoint)
+        .catch(error => {
+            auth.logout()
+            console.log(error.response)
+        })
+        dispatch({type: 'ADD_USERS', payload: response.data })
+    }
+}
+

@@ -57,6 +57,13 @@ export default function NavBar(props) {
             </NavLink>
           </Typography>
           <Typography variant="h6" className={classes.title}>
+             <NavLink 
+                to="/authors"
+                style={{color: 'white', textDecoration: 'none'}} 
+            >Authors
+            </NavLink>
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
             <NavLink 
                 to="/profile" 
                 style={{color: 'white', textDecoration: 'none'}} 

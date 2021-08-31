@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom'
 import { authorization } from './actions/securityActions'
 import { fetchPosts } from './actions/postsAndCommentsActions'
+import {fetchUsers} from './actions/userActions'
 import NavBar from './components/navbar/NavBar'
 import Home from './containers/Home'
 import PostLinksContainer from './containers/PostLinksContainer';
@@ -14,10 +15,12 @@ import ProtectedRoute from './components/protectedRoute/protectedRoute';
 import ProfileContainer from './containers/ProfileContainer'
 import PostEditor3 from './components/posts/PostEditor3'
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
+import AuthorsLinks from './containers/AuthorsLinks'
+import AuthorContainer from './containers/AuthorContainer'
 import ManageLogin from './containers/ManageLogin'
 import Modal from '../src/components/Modal'
 import auth from './components/security/auth'
-// import { UserContext } from './components/UserContext';
+
 
 function App() {
 
@@ -25,6 +28,8 @@ function App() {
 
   const dispatch = useDispatch()
   const current_user = useSelector((state) => state.users.current_user)
+  const users = useSelector((state) => state.users.users)
+  // const [users, setUsers] = useState([])
   const posts = useSelector((state) => state.posts.posts)
   const loading = useSelector((state) => state.posts.message)
   console.log(posts)
@@ -63,6 +68,8 @@ function App() {
   useEffect(() => {
     const endpoint = "/posts"
     dispatch(fetchPosts(endpoint))
+    dispatch(fetchUsers("/users"))
+    
     console.log("Fetch posts")
   }, [dispatch])
 
@@ -114,7 +121,6 @@ function App() {
                 retrieveModalState = {retrieveModalState}
                 loading = {loading}
             />
-            {/* <UserContext.Provider value="hello from context"> */}
             <ProtectedRoute
                 path ="/profile/drafts/:postID"
                 component = {PostEditor3}
@@ -131,10 +137,17 @@ function App() {
                 retrieveModalState = {retrieveModalState}
                 loading = {loading}
             />
-            {/* </UserContext.Provider> */}
             <Route 
                 path={`/posts/:postID`} 
-                render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} user={current_user} />} 
+                render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} user={current_user} users = {users} />} 
+            />
+            <Route
+                path={'/authors/:authorID'}
+                render= {routerProps => <AuthorContainer {...routerProps} authors={users} />}
+            />
+            <Route
+                exact path="/authors"
+                render= {routerProps => <AuthorsLinks {...routerProps} authors={users} />}
             />
             <Route
                 exact path="/login"

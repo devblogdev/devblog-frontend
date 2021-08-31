@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 // import {Markup} from 'interweave' //Simple markdown; does not transfer links when saving posts
 import Interweave from 'interweave'
 
-const  Post = ({match, posts, user}) => {
+const  Post = ({match, posts, user, users}) => {
 
     const [post, setPost] = useState({})
     const [editButton, setEditButton] = useState()
@@ -25,15 +25,20 @@ const  Post = ({match, posts, user}) => {
         }
     },[post, user]);
 
+    const author = users.find( author => post.user_id === author.id )
+    
+
     return(
-        <div>
-            {editButton}
-            
-                <img src = { post.images && post?.images[0]?.url} alt= {post.images && post?.images[0]?.alt} className="image"/>
-            
-            
-                <Interweave  content={post.body} />
-            
+        <div >
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
+                <div>{editButton}</div>  
+                <div style={{textAlign: 'right'}}>{post.creation_time}</div>
+            </div>
+            <div style={{textAlign: 'right'}}>
+                <Link to={`/authors/${author?.id}`}>{author?.first_name} {author?.last_name}</Link> 
+            </div>
+            <img src = { post.images && post?.images[0]?.url} alt= {post.images && post?.images[0]?.alt} className="image"/>
+            <Interweave  content={post.body} />
         </div>
     )
 }
