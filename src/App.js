@@ -19,7 +19,7 @@ import AuthorsLinks from './containers/AuthorsLinks'
 import AuthorContainer from './containers/AuthorContainer'
 import ManageLogin from './containers/ManageLogin'
 import Modal from '../src/components/Modal'
-import auth from './components/security/auth'
+// import auth from './components/security/auth'
 
 
 function App() {
@@ -62,15 +62,14 @@ function App() {
   useEffect(() => {
     dispatch(authorization())
     Buttons()
-    console.log("authorization called")
+    console.log('Auhorization dispatcher was called')
   }, [dispatch, Buttons])
 
   useEffect(() => {
     const endpoint = "/posts"
     dispatch(fetchPosts(endpoint))
     dispatch(fetchUsers("/users"))
-    
-    console.log("Fetch posts")
+    console.log('Posts dispatcher was called')
   }, [dispatch])
 
 
@@ -82,7 +81,9 @@ function App() {
       setDisplayModeModal("")
       setTimeout(() => { setDisplayModeModal('hidden')}, time)
   },[])
-  console.log(auth.isAuthenticated())
+
+  // console.log(posts)
+
   return (
     <Router>
       <div className="App">

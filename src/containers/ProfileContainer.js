@@ -7,11 +7,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import blueGrey from '@material-ui/core/colors/blueGrey';
+import ProfileForm from '../components/users/ProfileForm'
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -25,7 +27,8 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          {/* <Typography>{children}</Typography> */}
+          <div>{children}</div>
         </Box>
       )}
     </div>
@@ -115,24 +118,32 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
           <h3>Welcome to your profile, {user.first_name}</h3>
         {/* </Typography> */}
         <DemoTabs labelId="demo-a11y-tabs-manual-label" onChange={handleChange} value={value} />
+
         <TabPanel value={value} index={0}>
-          <Link to={`${routerProps.match.url}/drafts/new`}>
+          <Link 
+              to = {`${routerProps.match.url}/drafts/new`}
+              style = {{ textDecoration: 'none' }} 
+          >
               <Button 
                 color="primary" variant="contained" component="span"
                 size="small"
                 disableElevation
+                style={{ marginBottom: '1rem'}}
               >
                 New Post
               </Button>
           </Link>
           {drafts}
         </TabPanel>
-        <TabPanel value={value} index={1}>
+
+        <TabPanel value={value} index={1} style={{textAlign: ''}}>
           {published}
         </TabPanel>
+
         <TabPanel value={value} index={2}>
-          {/* {Item Three} */}
+            <ProfileForm user={user} />
         </TabPanel>
+
       </div>
     </Container>
   )

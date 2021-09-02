@@ -70,7 +70,7 @@
   /* min-height: 20rem */
 }
 .editor-class {
-  /* background-color:lightgray; */
+  /* background-color:ivory; */
   background-color:whitesmoke;
   padding: 1rem;
   border: 1px solid #ccc;
@@ -227,6 +227,7 @@ code {
   /* font-family: 'Hoefler Text', Georgia, serif; */
   font-style: italic;
 }
+
 
 
 

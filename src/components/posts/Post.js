@@ -6,7 +6,9 @@ import Interweave from 'interweave'
 const  Post = ({match, posts, user, users}) => {
 
     const [post, setPost] = useState({})
+    const [date, setDate] = useState("")
     const [editButton, setEditButton] = useState()
+
 
     useEffect(() => { 
         if (posts.length > 0) {
@@ -15,13 +17,19 @@ const  Post = ({match, posts, user, users}) => {
         }
     },[posts, match.params.postID]);
 
-    console.log(post)
+    // console.log(post)
 
     useEffect(() => { 
         if ( Object.keys(user).length > 0 ) {
             if ( post.user_id === user.id ) {
                 setEditButton(() => <Link to={`/posts/edit/${post.id}`}>Edit post</Link> )
             }
+        }
+        if ( Object.keys(post).length > 0 ) {
+            let timeSplit = post.creation_time.split(",")
+            if (timeSplit[1].trim() === `${new Date().getFullYear()}`) {
+                setDate(timeSplit[0]) 
+            } else { setDate(post.creation_time) }
         }
     },[post, user]);
 
@@ -32,7 +40,7 @@ const  Post = ({match, posts, user, users}) => {
         <div >
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
                 <div>{editButton}</div>  
-                <div style={{textAlign: 'right'}}>{post.creation_time}</div>
+                <div style={{textAlign: 'right'}}>{date}</div>
             </div>
             <div style={{textAlign: 'right'}}>
                 <Link to={`/authors/${author?.id}`}>{author?.first_name} {author?.last_name}</Link> 
