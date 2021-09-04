@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import ProfileForm from '../components/users/ProfileForm'
+// import { ActivationProvider } from '../components/users/ActivationContext'
 
 
 function TabPanel(props) {
@@ -109,7 +110,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
     setValue(newValue);
   };
 
-  console.log(published)
+  console.log(user)
 
   return (
     <Container>
@@ -141,7 +142,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
         </TabPanel>
 
         <TabPanel value={value} index={2}>
-            <ProfileForm user={user} />
+              <ProfileForm user={user} />
         </TabPanel>
 
       </div>

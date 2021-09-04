@@ -166,9 +166,8 @@ const PostEditor3 = (props) => {
         console.log(currentPost)
         const resolveImageThenResolvePost = async () => {
             await manageImageForDraftOrPost(currentPost);
-            // dispatch(deletePost(endpoint, postID))
             dispatch(deletePost(endpoint, currentPost, props))
-            props.history.push("/profile")
+            // props.history.push("/profile")
         }
         resolveImageThenResolvePost()
     }
@@ -254,9 +253,16 @@ const PostEditor3 = (props) => {
   
     
     // If editing a draft or post, this callback is used in 'useEffect' hook below to obtain the draft or post data
-    const loadedDraftOrPost = useCallback( () => { 
+    const loadedDraftOrPost = useCallback( () => {         
       return props.user.posts.find( post => `${post.id}` === props.match.params.postID)
     },[props.user, props.match])
+
+    // const loadedDraftOrPost = useCallback( () => {       
+    //   const determine = props.user.posts.find( post => `${post.id}` === props.match.params.postID)
+    //   if (determine) {
+    //       return determine
+    //   } return draftOrPost
+    // },[props.user, props.match])
 
     // Sets the buttons depending on whether we have a new draft, a draft, or a published post
     let buttons
@@ -273,7 +279,7 @@ const PostEditor3 = (props) => {
   
   // Loads the editor with the dummy content provided in 'draftOrPost' state variable
   // This is needed to ensure that the editor does not break when refreshing the page on a draft or post
-  // A total painstaking process to achieve this
+  // A total painstaking process to arrive to this
   const loadedInitialEditorState = useCallback( () => (EditorState.createWithContent(convertFromHTML(draftOrPost.body))),[draftOrPost])
 
   // Takes the incoming draft or post and defines a new Editor state using the draft or post
@@ -306,7 +312,7 @@ const PostEditor3 = (props) => {
   // If editing a draft or post, load the editor with some dummy state 'loadedInitialEditorState()';
   // the dummy state will be later replaced in 'useEffect' hook
   // This is needed for the editor not to break when refreshing the page while editing a draft or post
-  // A total painstaking process to achieve this
+  // A total painstaking process to arrive to this
   const [editorState, setEditorState] = useState( 
     () => {
       if(props.match.url === "/profile/drafts/new") {

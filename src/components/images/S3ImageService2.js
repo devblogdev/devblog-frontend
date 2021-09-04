@@ -44,9 +44,11 @@ const S3ImageService2 = ({retrieveImageState, user, ...props}) => {
     }
     
 	const changeHandler = (event) => {
-        setSelectedFile(event.target.files[0]);
-        setIsFilePicked(true);
-        retrieveImageState(event.target.files[0])
+        if (event.target.files[0]) {
+            setSelectedFile(event.target.files[0]);
+            setIsFilePicked(true);
+            retrieveImageState(event.target.files[0])
+        }
 	};
 
 	return(

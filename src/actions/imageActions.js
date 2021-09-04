@@ -1,4 +1,6 @@
 import S3 from 'react-aws-s3'
+import axios from 'axios'
+import auth from '../components/security/auth'
 
 const config = {
     bucketName: process.env.REACT_APP_S3_BUCKET,
@@ -88,4 +90,19 @@ export function manageImageForDraftOrPost(currentPost, imageState) {
     } else if (images[0] === undefined && imageData !== undefined) {
         return uploadImage(imageData)
     } return []
+}
+
+
+export function fetchProfileImages(endpoint) {
+    return async (dispatch) => {
+        await axios.get(endpoint)
+        .then( response => {
+            console.log(response.data)
+            dispatch({type: 'ADD_IMAGES', payload: response.data })
+        })
+        .catch(error => {
+            auth.logout()
+            console.log(error.response)
+        })
+    }
 }

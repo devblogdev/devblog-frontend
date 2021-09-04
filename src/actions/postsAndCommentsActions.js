@@ -45,7 +45,7 @@ export function addPost(endpoint, postData, routerAndModal=null){
     }
 }
 
-// export function editPost(endpoint, postData, routerProps=null){
+
 export function editPost(endpoint, postData, routerAndModal=null){
     const token = localStorage.getItem('token')
     const axiosConfig = {
@@ -92,9 +92,11 @@ export function deletePost(endpoint, postData, routerAndModal=null){
               .then( response => {
                 console.log(response)
                 if (postData.status === "published") {
+                    routerAndModal.history.push("/profile")
                     dispatch( {type: 'DELETE_POST', payload: postData.id})
                     routerAndModal.retrieveModalState(["Post successfully deleted"])
-                } else {
+                } else if ( postData.status === "draft") {
+                    routerAndModal.history.push("/profile")
                     dispatch( {type: 'DELETE_USER_POST', payload: postData.id})
                     routerAndModal.retrieveModalState(["Draft successfully deleted"])
                 }

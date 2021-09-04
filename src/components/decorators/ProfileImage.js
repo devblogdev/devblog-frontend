@@ -71,10 +71,6 @@ export default function ProfileImage( { imgSource = null, first_name = "D", last
         )
     } else {
 
-        // const initialsSplit = name.split(" ")
-        // const lastNameInitial = initialsSplit[1][0].toUpperCase()
-        // const initials = initialsSplit[0][0].toUpperCase() + lastNameInitial
-
         const lastNameInitial = last_name[0].toUpperCase()
         const initials = first_name[0].toUpperCase() + last_name[0].toUpperCase()
 
@@ -90,10 +86,9 @@ export default function ProfileImage( { imgSource = null, first_name = "D", last
                         width: size,
                         height: size,
                         borderRadius: '50%',
-                        // border: 'solid 2px',
+                        // border: 'solid 2px black',
                         color: 'white',
                         fontSize: '20px',
-                        // fontStyle: 'bold',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',

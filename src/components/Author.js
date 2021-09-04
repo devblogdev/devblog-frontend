@@ -20,16 +20,13 @@ const Author = ({author}) => {
         }
     },[posts, author])
 
-
-
     return (
         <div>
             <div>
                 <ProfileImage 
-                //   imgSource= "https://devblogimages.s3-us-east-2.amazonaws.com/x9BQAkjERgaGzmhNK6xkJu.png"
-                  imgSource= {null}
-                  first_name= {author?.first_name}
-                  last_name={author?.last_name}
+                    imgSource= {null}
+                    first_name= {author?.first_name}
+                    last_name={author?.last_name}
                 />
                 <h2>{author?.first_name} {author?.last_name}</h2>
                 <p>{author?.bio}</p>

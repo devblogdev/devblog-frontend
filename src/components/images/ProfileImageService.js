@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { purple } from '@material-ui/core/colors';
@@ -14,39 +15,38 @@ const RemoveImageButton = withStyles((theme) => ({
   }))(Button);
 
 
-// Functional component; utilizes Amazon Web Services S3 for storing images
-const ProfileImageService = ({retrieveImageState, user, ...props}) => {
+export default function ProfileImageService({retrieveImageState, user, ...props}) {
 
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [isFilePicked, setIsFilePicked] = useState(false)
     const [preview, setPreview] = useState()
 
+    const profileImages = useSelector((state) => state.images.profileImages)
+    const userImage = profileImages.find( image => image.user_ids[0] === user.id )
+
     useEffect(() => {
         if (Object.keys(user) !== []) {
-            if (user.last_name) {
-                // If the post editor is being loaded with a draft or a post, 
-                // and if the draft or post contains an image,
-                // load the image file ('setSelectedFile'), 
-                // pass the file to the post editor ('retrieveImageState'),
-                // display the image file info ('setIsFilePicked')
-                setSelectedFile(user.last_name)
-                retrieveImageState(user.last_name)
-                setIsFilePicked()
+            if (userImage) {
+                setSelectedFile(userImage)
+                retrieveImageState(userImage)
+                setIsFilePicked(true)
+                setPreview(URL.createObjectURL(userImage))
             }
         }
-    },[retrieveImageState, props.match, user])
+    },[retrieveImageState, props.match, user, userImage])
 
     const reset = () => {
         setSelectedFile()
         setIsFilePicked(false)
         retrieveImageState()
+        setPreview()
     }
     
 	const changeHandler = (event) => {
         if (event.target.files[0]) {
             setSelectedFile(event.target.files[0]);
             setIsFilePicked(true);
-            retrieveImageState(event.target.files[0])
+            retrieveImageState(event.target.files[0]) 
             setPreview(URL.createObjectURL(event.target.files[0]))
         }
 	};
@@ -55,17 +55,8 @@ const ProfileImageService = ({retrieveImageState, user, ...props}) => {
         <div>
 			{isFilePicked ? (
 				<div>
-                    {/* <div style={{border: 'solid 2px purple'}}> */}
-                        {/* <img src={preview} width="200px" alt="" /> */}
-                        <ProfileImage imgSource={preview} />
-                    {/* </div> */}
+                    <ProfileImage imgSource={preview} />
 					<p>Filename: {selectedFile.name}</p>
-                    {/* <p>Size in bytes: {selectedFile.size}</p> */}
-					{/* <p>Filetype: {selectedFile.type}</p> */}
-					{/* <p>
-						lastModifiedDate:{' '}
-						{selectedFile.lastModifiedDate?.toLocaleDateString()}
-					</p> */}
                     <RemoveImageButton 
                         onClick={() => reset()}
                         color="primary" variant="contained" component="span"
@@ -76,7 +67,6 @@ const ProfileImageService = ({retrieveImageState, user, ...props}) => {
 				</div>
 			) : (
                 <ProfileImage imgSource={null} first_name={user.first_name} last_name={user.last_name} background="#bdbdbd" />
-				// <p>Select a file to show details</p>
 			)}
             <label htmlFor="btn-upload">
                 <input 
@@ -97,4 +87,3 @@ const ProfileImageService = ({retrieveImageState, user, ...props}) => {
 	)
 }
 
-export default ProfileImageService

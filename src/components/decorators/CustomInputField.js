@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { ActivationContext } from '../users/ActivationContext'
 
 const textInputStyles = () => {
     return (
@@ -7,6 +8,7 @@ const textInputStyles = () => {
             fontSize: '16px',
             fontFamily: 'inherit',
             background: 'rgb(245, 245, 245)',
+            border: 'solid 2px darkslategray',
             marginTop: '5px',
             marginBottom: '8px',
             marginRight: '8px',
@@ -53,6 +55,8 @@ const gridPlacement = (props) => {
 
 export default function CustomInputField( props ) {
 
+    const { active } = useContext(ActivationContext);
+
     if (!props.textArea) {
 
         return (
@@ -71,6 +75,7 @@ export default function CustomInputField( props ) {
                         size = {props.size || '25'}
                         label = {props.label}
                         style = {textInputStyles()}
+                        disabled = {active}
                     />    
                 </div>
             </div>
@@ -93,6 +98,7 @@ export default function CustomInputField( props ) {
                     rows = '5'
                     label = {props.label}
                     style = {textAreaStyles()}
+                    disabled = {active}
                 />    
             </div>
         </div>

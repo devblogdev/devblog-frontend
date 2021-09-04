@@ -1,8 +1,11 @@
 import { Route, Redirect } from 'react-router-dom'
+import { ActivationProvider } from '../users/ActivationContext'
+
 
 const ProtectedRoute = ({ component: Component, user: current_user, posts: published, retrieveModalState: RetrieveModalState, loading: Loading, ...rest}) => {
     console.log(rest)
     return (
+        <ActivationProvider>
         <Route {...rest}
             render = {props => {
                 const token = localStorage.getItem('token')
@@ -22,6 +25,7 @@ const ProtectedRoute = ({ component: Component, user: current_user, posts: publi
                 }  
             }}
         />
+        </ActivationProvider>
     )
 }
 
