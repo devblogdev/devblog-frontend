@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux'
+import React, { useEffect, useContext } from 'react';
+// import { useSelector } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { purple } from '@material-ui/core/colors';
 import ProfileImage from '../decorators/ProfileImage';
+import { ActivationContext } from '../users/ActivationContext';
+
 
 const RemoveImageButton = withStyles((theme) => ({
     root: {
@@ -15,28 +17,34 @@ const RemoveImageButton = withStyles((theme) => ({
   }))(Button);
 
 
-export default function ProfileImageService({retrieveImageState, user, ...props}) {
+export default function ProfileImageService({retrieveImageState, user, showSaveButton, ...props}) {
 
-	const [selectedFile, setSelectedFile] = useState(null);
-	const [isFilePicked, setIsFilePicked] = useState(false)
-    const [preview, setPreview] = useState()
+	// const [selectedFile, setSelectedFile] = useState(null);
+	// const [isFilePicked, setIsFilePicked] = useState(false)
+    // const [preview, setPreview] = useState()
+    const { preview, setPreview, isFilePicked, setIsFilePicked } = useContext(ActivationContext)
 
-    const profileImages = useSelector((state) => state.images.profileImages)
-    const userImage = profileImages.find( image => image.user_ids[0] === user.id )
+    // const profileImages = useSelector((state) => state.images.profileImages)
+    
 
     useEffect(() => {
+        console.log("rerender")
         if (Object.keys(user) !== []) {
+            // const userImage = profileImages.find( image => image.user_ids[0] === user.id )
+            const userImage = user.images[0]
             if (userImage) {
-                setSelectedFile(userImage)
+                // setSelectedFile(userImage)
                 retrieveImageState(userImage)
                 setIsFilePicked(true)
-                setPreview(URL.createObjectURL(userImage))
+                // debugger
+                console.log("called image service effect")
+                setPreview(userImage.url)
             }
         }
-    },[retrieveImageState, props.match, user, userImage])
+    },[retrieveImageState, user, setPreview, setIsFilePicked])
 
     const reset = () => {
-        setSelectedFile()
+        // setSelectedFile()
         setIsFilePicked(false)
         retrieveImageState()
         setPreview()
@@ -44,24 +52,27 @@ export default function ProfileImageService({retrieveImageState, user, ...props}
     
 	const changeHandler = (event) => {
         if (event.target.files[0]) {
-            setSelectedFile(event.target.files[0]);
+            // setSelectedFile(event.target.files[0]);
             setIsFilePicked(true);
             retrieveImageState(event.target.files[0]) 
             setPreview(URL.createObjectURL(event.target.files[0]))
         }
 	};
 
+    
 	return(
         <div>
 			{isFilePicked ? (
 				<div>
-                    <ProfileImage imgSource={preview} />
-					<p>Filename: {selectedFile.name}</p>
+                    <ProfileImage imgSource={preview} first_name={user.first_name} last_name={user.last_name} background="#bdbdbd" />
+					 {/* Filename: {selectedFile.name} */}
                     <RemoveImageButton 
                         onClick={() => reset()}
                         color="primary" variant="contained" component="span"
                         disableElevation
                         size="small"
+                        disabled={!showSaveButton}
+                        style={{ marginBottom: '0px'}}
                     >Remove image
                     </RemoveImageButton>
 				</div>
@@ -80,6 +91,7 @@ export default function ProfileImageService({retrieveImageState, user, ...props}
                   <Button 
                     color="secondary" variant="contained" component="span"
                     disableElevation
+                    disabled={!showSaveButton}
                   >Upload a profile image
                   </Button> 
             </label>

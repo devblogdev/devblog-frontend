@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useContext } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { authorization } from '../actions/securityActions'
@@ -13,7 +13,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import ProfileForm from '../components/users/ProfileForm'
-// import { ActivationProvider } from '../components/users/ActivationContext'
+import { ActivationContext } from '../components/users/ActivationContext';
 
 
 function TabPanel(props) {
@@ -46,6 +46,10 @@ const color = blueGrey[800];
 
 function DemoTabs(props) {
   const { labelId, onChange, selectionFollowsFocus, value } = props;
+  const { deactivate } = useContext(ActivationContext)
+  // When the user clicks on the "MY INFO" tab, disable (deactivate) the textfields in the MY INFO tab
+  // (in the event the user did not click on 'Cancel' before leaving the MY INFO tab)
+  const handleFocus = () => deactivate()
   return (
     <AppBar position="static">
       <Tabs
@@ -60,7 +64,7 @@ function DemoTabs(props) {
       >
         <Tab label="Drafts" aria-controls="a11y-tabpanel-0" id="a11y-tab-0" />
         <Tab label="Published" aria-controls="a11y-tabpanel-1" id="a11y-tab-1" />
-        <Tab label="My Info" aria-controls="a11y-tabpanel-2" id="a11y-tab-2" />
+        <Tab label="My Info" aria-controls="a11y-tabpanel-2" id="a11y-tab-2" onFocus={handleFocus} />
       </Tabs>
     </AppBar>
   );
@@ -142,7 +146,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
         </TabPanel>
 
         <TabPanel value={value} index={2}>
-              <ProfileForm user={user} />
+            <ProfileForm user={user} {...routerProps} />
         </TabPanel>
 
       </div>

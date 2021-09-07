@@ -31,3 +31,30 @@ export function fetchUsers(endpoint) {
     }
 }
 
+
+export function updateUser(endpoint, userData, routerAndModal=null){
+    const token = localStorage.getItem('token')
+    const axiosConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${token}`   
+        }
+    }
+    if(token){
+        return async(dispatch) => {
+            await axios.put(`${endpoint}`, {user: userData} , axiosConfig)
+              .then( response => {
+                console.log(response)
+                dispatch( {type: "UPDATE_USER_PRIVATE", payload: response.data})
+                // dispatch( {type: 'EDIT_USER_PUBLIC', payload: response.data})
+                routerAndModal.retrieveModalState(["Profile successfully updated"])
+              })
+              .catch(error => {
+                console.log(error);
+              });
+        }
+    } return (dispatch) => {
+        // dispatch({type: 'LOGOUT_USER'})
+    }
+}
+

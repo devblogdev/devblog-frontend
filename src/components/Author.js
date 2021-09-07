@@ -7,7 +7,7 @@ import ProfileImage from './decorators/ProfileImage'
 // import Avatar from '@material-ui/core/Avatar';
 
 const Author = ({author}) => {
-
+    
     const posts = useSelector( (state) => state.posts.posts)
     
     const authorPosts = useCallback(() => {
@@ -29,7 +29,7 @@ const Author = ({author}) => {
                     last_name={author?.last_name}
                 />
                 <h2>{author?.first_name} {author?.last_name}</h2>
-                <p>{author?.bio}</p>
+                {/* <p>{author?.bio}</p> */}
             </div>
             <div className= 'remainderPosts'>
                 {authorPosts()}

@@ -61,6 +61,9 @@ export default function usersReducer(
                 }
             }
             return state
+        
+        case "UPDATE_USER_PRIVATE":
+            return { ...state, current_user: action.payload }
 
         default:
             return state

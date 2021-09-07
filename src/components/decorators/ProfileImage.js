@@ -64,7 +64,7 @@ export default function ProfileImage( { imgSource = null, first_name = "D", last
                     style = {{
                         borderRadius: '50%',
                         objectFit: 'cover',
-                        border: 'solid 2px',
+                        // border: 'solid 2px',
                     }}
                 />          
             </div>
