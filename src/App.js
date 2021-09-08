@@ -84,7 +84,7 @@ function App() {
       setTimeout(() => { setDisplayModeModal('hidden')}, time)
   },[])
 
-  // console.log(posts)
+  console.log(users)
 
   return (
     <Router>

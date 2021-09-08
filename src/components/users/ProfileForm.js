@@ -120,7 +120,6 @@ export default function ProfileForm(props) {
             // const anyChanges = JSON.stringify(user.bio) !== JSON.stringify(rawUserData.bio) 
             // debugger
             if ( anyChanges ) {
-                debugger
                 let userData = Object.assign(rawUserData, {images_attributes: imageData} )
                 const endpoint = `users/${user.id}`
                 console.log("there was a change")
