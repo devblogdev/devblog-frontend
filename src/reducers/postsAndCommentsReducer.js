@@ -46,6 +46,8 @@ export default function postsAndCommentsReducer(
                 post = action.payload
                 postId = action.payload.id
                 postIndex = state.posts.findIndex( post => post.id === postId)
+                console.log(post)
+                console.log(postIndex)
                  // If the post is in the public bucket (published), update the post [-1 meanns result not found]
                 if (postIndex > -1) {
                     return {

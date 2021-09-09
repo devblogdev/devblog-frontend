@@ -10,9 +10,8 @@ const textInputStyles = () => {
             background: 'rgb(245, 245, 245)',
             border: 'solid 2px darkslategray',
             marginTop: '5px',
-            marginBottom: '8px',
-            marginRight: '8px',
-            marginLeft: '8px',
+            width: '100%',
+            boxSizing: 'border-box',
         }
     )
 }
@@ -25,21 +24,24 @@ const textAreaStyles = () => {
             fontFamily: 'inherit',
             background: 'rgb(245, 245, 245)',
             marginTop: '5px',
-            marginBottom: '8px',
-            marginRight: '8px',
-            marginLeft: '8px',
             border: 'solid 2px darkslategray',
-            resize: 'vertical'
+            resize: 'vertical',
+            width: '100%',
+            boxSizing: 'border-box',
         }
     )
 }
 
-const InputControl = () => {
+const InputControl = (maxWidth) => {
     return (
         {
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-start'
+            alignItems: 'center',
+            maxWidth: maxWidth,
+            marginBottom: '16px',
+            marginRight: '8px',
+            marginLeft: '8px',
         }
     )
 }
@@ -47,21 +49,21 @@ const InputControl = () => {
 const gridPlacement = (gridArea) => {
     return (
         {
-            gridArea: gridArea 
+            gridArea: gridArea,
         }
     )
 }
 
 
 export default function CustomInputField( props ) {
-    const { name, label, defaultValue, size, gridArea, inputRef } = props
+    const { name, label, defaultValue, maxWidth, gridArea, inputRef } = props
     const { active } = useContext(ActivationContext);
 
     if (!props.textArea) {
 
         return (
             <div style= {gridPlacement(gridArea)} >
-                <div style = {InputControl()} >
+                <div style = {InputControl(maxWidth)} >
                     <label 
                         htmlFor={name} 
                         style={{
@@ -72,12 +74,12 @@ export default function CustomInputField( props ) {
                     </label> 
                     <input
                         name = {name}
-                        size = {size || '25'}
                         label = {label}
                         style = {textInputStyles()}
                         defaultValue = {defaultValue || ""} 
                         ref = {inputRef}
                         disabled = {active}
+                        maxLength = '70'
                     />    
                 </div>
             </div>
@@ -85,7 +87,7 @@ export default function CustomInputField( props ) {
     }
     return (
         <div style= {gridPlacement(gridArea)} >
-            <div style = {InputControl()} >
+            <div style = {InputControl(maxWidth)} >
                 <label 
                     htmlFor={name} 
                     style={{
@@ -103,6 +105,7 @@ export default function CustomInputField( props ) {
                     defaultValue = {defaultValue || ""}
                     ref={inputRef}
                     disabled = {active}
+                    maxLength = '1000'
                 />    
             </div>
         </div>

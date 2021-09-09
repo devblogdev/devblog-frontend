@@ -22,21 +22,19 @@ export default function ProfileImageService({retrieveImageState, user, showSaveB
 	// const [selectedFile, setSelectedFile] = useState(null);
 	// const [isFilePicked, setIsFilePicked] = useState(false)
     // const [preview, setPreview] = useState()
-    const { preview, setPreview, isFilePicked, setIsFilePicked } = useContext(ActivationContext)
-
     // const profileImages = useSelector((state) => state.images.profileImages)
+    
+    const { preview, setPreview, isFilePicked, setIsFilePicked } = useContext(ActivationContext)
     
 
     useEffect(() => {
         console.log("rerender")
         if (Object.keys(user) !== []) {
-            // const userImage = profileImages.find( image => image.user_ids[0] === user.id )
             const userImage = user.images[0]
             if (userImage) {
                 // setSelectedFile(userImage)
                 retrieveImageState(userImage)
                 setIsFilePicked(true)
-                // debugger
                 console.log("called image service effect")
                 setPreview(userImage.url)
             }
@@ -87,6 +85,7 @@ export default function ProfileImageService({retrieveImageState, user, showSaveB
                     name="btn-upload" 
                     onChange={changeHandler} 
                     accept="image/*"
+                    disabled={!showSaveButton}
                 />
                   <Button 
                     color="secondary" variant="contained" component="span"

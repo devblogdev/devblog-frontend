@@ -12,39 +12,15 @@ import { manageImageForDraftOrPost } from '../../actions/imageActions'
 
 
 
-
-
-// const useStyles = makeStyles(theme => ({
-//     root: {
-//       display: 'grid',
-//       gridTemplateAreas: `
-//                         'contact profileImage'
-//                         'about profileImage'
-//                         'edit edit'
-//                     `,
-//       justifyItems: 'center',
-//       padding: theme.spacing(2),
-//       border: 'solid 2px',
-//       borderRadius: '5px',
-//   '& .MuiTextField-root': {
-//         margin: theme.spacing(1),
-//         width: '300px',
-//       },
-//   '& .MuiButtonBase-root': {
-//         margin: theme.spacing(2),
-//       },
-//     },
-//   }));
-
 const useStyles = makeStyles(theme => ({
     root: {
       display: 'grid',
       gridTemplateAreas: `
                         'contact profileImage'
                         'about profileImage'
-                        'username profileImage'
                     `,
       justifyItems: 'center',
+      justifyContent: 'space-evenly',
       padding: theme.spacing(2),
   '@media (max-width: 540px)': {
     display: 'flex',
@@ -94,8 +70,7 @@ export default function ProfileForm(props) {
         deactivate()
         // about.current.value = user.bio.about
         publicFields.forEach( (field, index) => {
-            // debugger
-          inputFieldRef.current[index].value = user.bio[publicFields[index]]
+          inputFieldRef.current[index].value = user.bio[publicFields[index]] || ""
         })
         setImageState(user.images[0])
         restoreProfileImage(user.images[0]?.url)
@@ -104,21 +79,22 @@ export default function ProfileForm(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        // 'bio' keys nedd to be organized alphabetically for comparison purposes
+        // 'bio' keys nedd to be organized alphabetically for comparison purposes in 'anyChanges' constant below
         const rawUserData = {
                   bio: {
                     about: event.target.about.value,
                     contact: event.target.contact.value
                   }
+                //   For late use
                 //   private: {
                 //     username: event.target.username.value
                 //   }
                 }
         const resolveImageThenResolveUser = async () => {
             const imageData = await manageImageForDraftOrPost(user, imageState, true)
-            const anyChanges = JSON.stringify(user.bio) !== JSON.stringify(rawUserData.bio) || user.images[0]?.name !== imageData[0]?.name || user.images[0]?.size !== imageData[0]?.size 
-            // const anyChanges = JSON.stringify(user.bio) !== JSON.stringify(rawUserData.bio) 
-            // debugger
+            // 'anyChanges' -> Did the user write anything on the textfields compared to what was in the textfields initially?
+                        //  -> Did the profile image file change in name or file size?
+            const anyChanges = JSON.stringify(user.bio) !== JSON.stringify(rawUserData) || user.images[0]?.name !== imageData[0]?.name || user.images[0]?.size !== imageData[0]?.size 
             if ( anyChanges ) {
                 let userData = Object.assign(rawUserData, {images_attributes: imageData} )
                 const endpoint = `users/${user.id}`
@@ -131,7 +107,6 @@ export default function ProfileForm(props) {
             deactivate()
         }
         resolveImageThenResolveUser()
-        // console.log(rawUserData)
     }
     console.log(user)
     console.log(imageState)
@@ -146,54 +121,56 @@ export default function ProfileForm(props) {
                 border: 'solid 2px',
                 borderRadius: '5px',
             }}
-        >       * This tab is currently in progress; info is not yet saved
+        >       
             <form onSubmit={handleSubmit}>
-            <div className={classes.root}>
-                <CustomInputField 
-                    name="contact" 
-                    label="Contact Email" 
-                    gridArea="contact" 
-                    defaultValue={user.bio.contact}  
-                    // inputRef={contact}
-                    inputRef={el => inputFieldRef.current[0] = el}
-                />
-                <CustomInputField 
-                    name="about" 
-                    label="About" 
-                    gridArea='about' 
-                    textArea={true} 
-                    defaultValue={user.bio.about} 
-                    // inputRef={about}
-                    inputRef={el => inputFieldRef.current[1] = el}
-                />
-                {/* <CustomInputField 
-                    name="username" 
-                    label="Username" 
-                    gridArea='username' 
-                    defaultValue={user.private.username} 
-                    inputRef={el => inputFieldRef.current[2] = el}
-                /> */}
-                <div style={{ gridArea: 'profileImage'}}>
-                     <ProfileImageService user = {props.user} retrieveImageState = {retrieveImageState} showSaveButton={showSaveButton} />
+                <div className={classes.root}>
+                    <CustomInputField 
+                        name="contact" 
+                        label="Contact Email" 
+                        gridArea="contact" 
+                        defaultValue={user.bio.contact}  
+                        inputRef={el => inputFieldRef.current[0] = el}
+                        // inputRef={contact}
+                        maxWidth= '215px'
+                    />
+                    <CustomInputField 
+                        name="about" 
+                        label="About" 
+                        gridArea='about' 
+                        textArea={true} 
+                        defaultValue={user.bio.about} 
+                        inputRef={el => inputFieldRef.current[1] = el}
+                        maxWidth= '256px'
+                        // inputRef={about}
+                    />
+                    {/* <CustomInputField 
+                        name="username" 
+                        label="Username" 
+                        gridArea='username' 
+                        defaultValue={user.private.username} 
+                        inputRef={el => inputFieldRef.current[2] = el}
+                    /> */}
+                    <div style={{ gridArea: 'profileImage'}}>
+                        <ProfileImageService user = {props.user} retrieveImageState = {retrieveImageState} showSaveButton={showSaveButton} />
+                    </div>
                 </div>
-            </div>
-            { !showSaveButton ? (
-                    <div style={{ display: "flex", justifyContent: 'center', marginBottom: '16px'}}>
-                        <Button variant="contained" color="primary" onClick={handleEdit} disableElevation >
-                        Edit
-                        </Button>
-                    </div>
-                ) : (
-                    <div style={{ display: "flex", justifyContent: 'center', marginBottom: '16px'}}>
-                        <GreenButton type="submit" color="primary" variant="contained" disableElevation style={{marginRight: '8px'}} >
-                        Save
-                        </GreenButton>
-                        <DangerButton variant="contained" onClick={handleCancel} disableElevation >
-                        Cancel
-                        </DangerButton>
-                    </div>
-                )
-            }
+                { !showSaveButton ? (
+                        <div style={{ display: "flex", justifyContent: 'center', marginBottom: '16px'}}>
+                            <Button variant="contained" color="primary" onClick={handleEdit} disableElevation >
+                            Edit
+                            </Button>
+                        </div>
+                    ) : (
+                        <div style={{ display: "flex", justifyContent: 'center', marginBottom: '16px'}}>
+                            <GreenButton type="submit" color="primary" variant="contained" disableElevation style={{marginRight: '8px'}} >
+                            Save
+                            </GreenButton>
+                            <DangerButton variant="contained" onClick={handleCancel} disableElevation >
+                            Cancel
+                            </DangerButton>
+                        </div>
+                    )
+                }
             </form>
        </div>
     )
