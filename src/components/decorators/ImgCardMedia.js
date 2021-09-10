@@ -17,7 +17,9 @@ export default function ImgCardMedia(props) {
       width: "100%",
       media: {
           height: 540,
+          
       },
+      objectFit: 'contain',
     },
   });
    
@@ -35,17 +37,20 @@ export default function ImgCardMedia(props) {
           height= {props.imageHeight}
           image= {post.images[0]?.url}
           title= {post.title}
+          style ={{ 
+            objectFit: 'contain',
+          }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2" align="left">
            {post.title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p" align="left" >
-            {abstract}
+            {abstract || ""}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
+      <CardActions style={{ justifyContent: 'space-around'}}>
         <Button size="small" color="primary">
           Share
         </Button>
@@ -55,7 +60,7 @@ export default function ImgCardMedia(props) {
         <Typography
           variant='body2'
         >
-          {/* {post.user.full_name} */}
+          {post.author_name}
         </Typography>
         <Typography 
           variant='body2'

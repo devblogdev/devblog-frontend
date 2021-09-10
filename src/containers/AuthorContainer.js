@@ -7,7 +7,7 @@ export default function AuthorContainer({match, authors}) {
 
     return (
       <div className='home'>
-        <Author author={author} />
+        <Author author={author} match={match} />
       </div>
     )
 }

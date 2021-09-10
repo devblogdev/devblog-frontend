@@ -3,10 +3,13 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ImgCardMedia from './decorators/ImgCardMedia'
 import ProfileImage from './decorators/ProfileImage'
+import { Route } from 'react-router-dom'
+import AuthorBio from './AuthorBio'
+
 
 // import Avatar from '@material-ui/core/Avatar';
 
-const Author = ({author}) => {
+const Author = ({match, author}) => {
     
     const posts = useSelector( (state) => state.posts.posts)
     
@@ -29,7 +32,42 @@ const Author = ({author}) => {
                     last_name={author?.last_name}
                 />
                 <h2>{author?.first_name} {author?.last_name}</h2>
-                {/* <p>{author?.bio}</p> */}
+                
+                    {
+                        author?.bio && author ? (
+                            <div>
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-evenly',
+                                        marginBottom: '16px'
+                                    }}   
+                                > 
+                                    <Link to={ `${match.url}/about`} >
+                                          About
+                                    </Link>
+                                    <Link to={ `${match.url}/contact`} >
+                                          Contact
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Route
+                                        path = {`${match.path}/about`}
+                                    >
+                                        <AuthorBio author={author} criteria = "about" />
+                                    </Route>
+                                    <Route
+                                        path = {`${match.path}/contact`}
+                                    >
+                                        <AuthorBio author={author} criteria = "contact" />
+                                    </Route>
+                                </div>
+                            </div>
+                        ) : (
+                            null
+                        )
+                    }  
             </div>
             <div className= 'remainderPosts'>
                 {authorPosts()}

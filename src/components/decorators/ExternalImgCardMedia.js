@@ -43,7 +43,7 @@ export default function ExternalImgCardMedia(props) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
+      <CardActions style={{ justifyContent: 'space-around'}}>
         <Button size="small" color="primary">
           Share
         </Button>

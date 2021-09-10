@@ -9,6 +9,9 @@ export default function usersReducer(
         let post 
         let postId
         let postIndex
+        let user
+        let userId
+        let userIndex
         
     switch(action.type) {
 
@@ -64,6 +67,18 @@ export default function usersReducer(
         
         case "UPDATE_USER_PRIVATE":
             return { ...state, current_user: action.payload }
+
+        case "UPDATE_USER_PUBLIC":
+            user = action.payload
+            userId = user.id
+            userIndex = state.users.findIndex( publicUser => publicUser.id === userId)
+            if ( userIndex > -1 ) {
+                return {
+                    ...state,
+                        users: [ ...state.users.slice(0, userIndex), user, ...state.users.slice( userIndex + 1 )]
+                }
+            } 
+            return state
 
         default:
             return state

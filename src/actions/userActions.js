@@ -46,7 +46,7 @@ export function updateUser(endpoint, userData, routerAndModal=null){
               .then( response => {
                 console.log(response)
                 dispatch( {type: "UPDATE_USER_PRIVATE", payload: response.data})
-                // dispatch( {type: 'EDIT_USER_PUBLIC', payload: response.data})
+                dispatch( {type: 'UPDATE_USER_PUBLIC', payload: response.data})
                 routerAndModal.retrieveModalState(["Profile successfully updated"])
               })
               .catch(error => {
