@@ -26,6 +26,7 @@ import  S3ImageService2  from '../images/S3ImageService2'
 import { manageImageForNewDraftOrPost } from '../../actions/imageActions'
 import { manageImageForDraftOrPost } from '../../actions/imageActions'
 import { extractTitle } from '../../actions/postEditorHelper'
+import { noBody, noTitle } from '../PostEditor/ValdationPostEditor';
 // import  titleBlockRenderer from './entities//titleBlockRenderer'
 
 
@@ -64,7 +65,7 @@ const PostEditor3 = (props) => {
         const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
         const endpoint = "/draft" 
         const postExtraction = extractTitle(data)
-        const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[2]?.slice(1), status: "draft"}
+        const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[1]?.slice(1), status: "draft"}
         console.log(imageState)
         // "manageImageForNewDraftOrPost" below return a Promise; to get the data out of the promise we need to
         // wrap the function in an async/await block to wait until the promise is resolved
@@ -76,7 +77,16 @@ const PostEditor3 = (props) => {
             dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
             dispatch(addPost(endpoint, postData, props))    
         }
-        resolveImageThenResolvePost()
+        // debugger
+        if (noTitle(data, postExtraction)) {
+          props.retrieveModalState(["Posts need to include an H1 title"])
+        } else if (noBody(postExtraction)) {
+          props.retrieveModalState(["Posts need to include a body"])
+        } else {
+          resolveImageThenResolvePost()
+        }
+        
+        
     }
 
     // saves a NEW draft and automatically publishes it; no longer a draft, now a published post
@@ -93,7 +103,14 @@ const PostEditor3 = (props) => {
             dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
             dispatch(addPost(endpoint, postData, props))    
         }
-        resolveImageThenResolvePost()
+        if (noTitle(data, postExtraction)) {
+          props.retrieveModalState(["Posts need to include an H1 title"])
+        } else if (noBody(postExtraction)) {
+          props.retrieveModalState(["Posts need to include a body"])
+        } else {
+          resolveImageThenResolvePost()
+        }
+        
     }
 
     // updates an already created draft
@@ -114,7 +131,13 @@ const PostEditor3 = (props) => {
             dispatch(editPost(endpoint, postData, props ))
             // props.history.push("/profile")
         }
-        resolveImageThenResolvePost()
+        if (noTitle(data, postExtraction)) {
+          props.retrieveModalState(["Posts need to include an H1 title"])
+        } else if (noBody(postExtraction)) {
+          props.retrieveModalState(["Posts need to include a body"])
+        } else {
+          resolveImageThenResolvePost()
+        }
     }
 
     // Two things: –updates an existing draft and changes it into a post (basically, pubslihes the draft); 
@@ -127,7 +150,9 @@ const PostEditor3 = (props) => {
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const postExtraction = extractTitle(data)
-        const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[2]?.slice(1), status: "published"}
+
+        const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[1]?.slice(1), status: "published"}
+        // debugger
         console.log(extractTitle(data))
         console.log(imageState)
         const resolveImageThenResolvePost = async () => {
@@ -138,7 +163,13 @@ const PostEditor3 = (props) => {
             dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
             dispatch(editPost(endpoint, postData, props))
         }
-        resolveImageThenResolvePost()
+        if (noTitle(data, postExtraction)) {
+          props.retrieveModalState(["Posts need to include an H1 title"])
+        } else if (noBody(postExtraction)) {
+          props.retrieveModalState(["Posts need to include a body"])
+        } else {
+          resolveImageThenResolvePost()
+        }
     }
 
     // deletes an existing draft or post
