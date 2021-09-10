@@ -31,7 +31,7 @@ export default function usersReducer(
                 ...state, 
                     current_user: {
                         ...state.current_user, 
-                            posts: [...state.current_user.posts, post]
+                            posts: [ post, ...state.current_user.posts ]
                     }
             }
 

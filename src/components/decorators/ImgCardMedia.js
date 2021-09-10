@@ -52,6 +52,16 @@ export default function ImgCardMedia(props) {
         <Button size="small" color="primary">
           Continue reading...
         </Button>
+        <Typography
+          variant='body2'
+        >
+          {/* {post.user.full_name} */}
+        </Typography>
+        <Typography 
+          variant='body2'
+        >
+          {post.creation_time.split(",")[0]}
+        </Typography>
       </CardActions>
     </Card>
   );

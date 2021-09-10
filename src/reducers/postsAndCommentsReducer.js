@@ -38,7 +38,7 @@ export default function postsAndCommentsReducer(
                     return {
                          ...state, 
                             message: "",
-                            posts: [...state.posts, post] 
+                            posts: [ post, ...state.posts ] 
                     }
                 } return {...state, message: ""}
 
@@ -59,7 +59,7 @@ export default function postsAndCommentsReducer(
                     } 
                  // if hte post is not in the public bucket, include it in the bucket (that is, post changed status from "draft" to "published")
                 } else if (postIndex === -1 && post.status === "published") {
-                  return   { ...state, message: "", posts: [...state.posts, post] }
+                  return   { ...state, message: "", posts: [post, ...state.posts] }
                 } 
                 return {...state, message: ""}
                                  

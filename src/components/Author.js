@@ -24,7 +24,7 @@ const Author = ({author}) => {
         <div>
             <div>
                 <ProfileImage 
-                    imgSource= {null}
+                    imgSource= {author?.images[0]?.url || null}
                     first_name= {author?.first_name}
                     last_name={author?.last_name}
                 />

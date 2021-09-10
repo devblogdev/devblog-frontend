@@ -50,6 +50,11 @@ export default function ExternalImgCardMedia(props) {
         <Button size="small" color="primary">
           Learn More
         </Button>
+        <Typography 
+          variant='body2'
+        >
+          {post.creation_time.split(",")[0]}
+        </Typography>
       </CardActions>
     </Card>
   );

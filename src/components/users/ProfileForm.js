@@ -94,7 +94,7 @@ export default function ProfileForm(props) {
             const imageData = await manageImageForDraftOrPost(user, imageState, true)
             // 'anyChanges' -> Did the user write anything on the textfields compared to what was in the textfields initially?
                         //  -> Did the profile image file change in name or file size?
-            const anyChanges = JSON.stringify(user.bio) !== JSON.stringify(rawUserData) || user.images[0]?.name !== imageData[0]?.name || user.images[0]?.size !== imageData[0]?.size 
+            const anyChanges = JSON.stringify({bio: user.bio}) !== JSON.stringify(rawUserData) || user.images[0]?.name !== imageData[0]?.name || user.images[0]?.size !== imageData[0]?.size 
             if ( anyChanges ) {
                 let userData = Object.assign(rawUserData, {images_attributes: imageData} )
                 const endpoint = `users/${user.id}`

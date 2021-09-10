@@ -19,7 +19,6 @@ import AuthorsLinks from './containers/AuthorsLinks'
 import AuthorContainer from './containers/AuthorContainer'
 import ManageLogin from './containers/ManageLogin'
 import Modal from '../src/components/Modal'
-import { fetchProfileImages } from './actions/imageActions';
 // import auth from './components/security/auth'
 
 
@@ -70,7 +69,6 @@ function App() {
     const endpoint = "/posts"
     dispatch(fetchPosts(endpoint))
     dispatch(fetchUsers("/users"))
-    dispatch(fetchProfileImages("/images"))
     console.log('Posts dispatcher was called')
   }, [dispatch])
 
