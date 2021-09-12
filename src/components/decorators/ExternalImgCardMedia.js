@@ -36,9 +36,9 @@ export default function ExternalImgCardMedia(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2" align="left">
-            {post.title}
+           <strong> {post.title} </strong>
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p" align="left">
+          <Typography variant="body2" color="textPrimary" component="p" align="left">
             {post.abstract}
           </Typography>
         </CardContent>

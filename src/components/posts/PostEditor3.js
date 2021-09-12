@@ -77,11 +77,12 @@ const PostEditor3 = (props) => {
             dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
             dispatch(addPost(endpoint, postData, props))    
         }
-        // debugger
         if (noTitle(data, postExtraction)) {
           props.retrieveModalState(["Posts need to include an H1 title"])
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else if (noBody(postExtraction)) {
           props.retrieveModalState(["Posts need to include a body"])
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else {
           resolveImageThenResolvePost()
         }
@@ -105,10 +106,13 @@ const PostEditor3 = (props) => {
         }
         if (noTitle(data, postExtraction)) {
           props.retrieveModalState(["Posts need to include an H1 title"])
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else if (noBody(postExtraction)) {
           props.retrieveModalState(["Posts need to include a body"])
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else {
           resolveImageThenResolvePost()
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         }
         
     }
@@ -129,30 +133,28 @@ const PostEditor3 = (props) => {
             console.log(postData)
             dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
             dispatch(editPost(endpoint, postData, props ))
-            // props.history.push("/profile")
         }
         if (noTitle(data, postExtraction)) {
           props.retrieveModalState(["Posts need to include an H1 title"])
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else if (noBody(postExtraction)) {
           props.retrieveModalState(["Posts need to include a body"])
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else {
           resolveImageThenResolvePost()
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         }
     }
 
     // Two things: –updates an existing draft and changes it into a post (basically, pubslihes the draft); 
     //             –updates and republishes an existing post
     const updatePost = () => {
-      // debugger
         // const data = convertToHTML(editorState.getCurrentContent());
         const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-        // debugger
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const postExtraction = extractTitle(data)
-
         const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[1]?.slice(1), status: "published"}
-        // debugger
         console.log(extractTitle(data))
         console.log(imageState)
         const resolveImageThenResolvePost = async () => {
@@ -165,10 +167,13 @@ const PostEditor3 = (props) => {
         }
         if (noTitle(data, postExtraction)) {
           props.retrieveModalState(["Posts need to include an H1 title"])
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else if (noBody(postExtraction)) {
           props.retrieveModalState(["Posts need to include a body"])
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else {
           resolveImageThenResolvePost()
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         }
     }
 
@@ -181,7 +186,6 @@ const PostEditor3 = (props) => {
         const resolveImageThenResolvePost = async () => {
             await manageImageForDraftOrPost(currentPost);
             dispatch(deletePost(endpoint, currentPost, props))
-            // props.history.push("/profile")
         }
         resolveImageThenResolvePost()
     }
@@ -340,6 +344,7 @@ const PostEditor3 = (props) => {
 
 
   const handlePastedText = (text, styles, editorState) => {
+    // debugger
     // INCREDIBLE: leaving this function empty normalizes the pasted text's font size and background color, while keeping 
     // special features, such as bullet points, links, monospace, ...
         // setEditorState(removeEditorStyles(text, editorState))
@@ -397,13 +402,16 @@ const PostEditor3 = (props) => {
 
 export default PostEditor3;
 
-
+// This function applies the CSS class 'superFancyBlockquote' to text of type blockquote
 function myBlockStyleFn(contentBlock) {
     const type = contentBlock.getType();
     if (type === 'blockquote') {
       return 'superFancyBlockquote';
     }
   }
+
+
+
   
 
 

@@ -1,18 +1,14 @@
 import Button from '@material-ui/core/Button';
-import { green, blueGrey } from '@material-ui/core/colors';
+import { green, blueGrey, purple, indigo, blue, pink } from '@material-ui/core/colors';
 import { withStyles } from '@material-ui/core/styles';
 
-
+// Custom buttons used in post editor and profile page-START
 export const GreenButton = withStyles((theme) => ({
     root: {
       backgroundColor: green[600],
       '&:hover': {
         backgroundColor: green[800],
       },
-      // marginTop: '8px',
-      // marginBottom: '8px',
-      // marginLeft: '4px',
-      // marginRight: '4PX',
     },
   }))(Button);
 
@@ -22,9 +18,102 @@ export const DangerButton = withStyles((theme) => ({
       '&:hover': {
         backgroundColor: blueGrey[400],
       },
-      // marginTop: '8px',
-      // marginBottom: '8px',
-      // marginLeft: '4px',
-      // marginRight: '4PX',
     },
   }))(Button);
+
+  export const RemoveImageButton = withStyles((theme) => ({
+    root: {
+      backgroundColor: purple[600],
+      '&:hover': {
+        backgroundColor: purple[800],
+      },
+    },
+  }))(Button);
+// Custom buttons used in post editor and profile page-END
+
+
+
+// Custom buttons used in DevBlogLogo component-START
+export const PureBlue = withStyles((theme) => ({
+  root: {
+    backgroundColor: indigo[400],
+    '&:hover': {
+      backgroundColor: indigo[700],
+    },
+    // border: 'solid black 1.5px',
+    margin: '4px',
+    width: '80px',
+    height: '35px',
+  },
+}))(Button);
+
+export const PureGreen = withStyles((theme) => ({
+  root: {
+    backgroundColor: green[400],
+    '&:hover': {
+      backgroundColor: green[700],
+    },
+    // border: 'solid black 1.5px',
+    margin: '4px',
+    width: '80px',
+    height: '35px',
+  },
+}))(Button);
+
+export const PurePink = withStyles((theme) => ({
+  root: {
+    backgroundColor: pink[400],
+    '&:hover': {
+      backgroundColor: pink[600], 
+    },
+    // border: 'solid black 1.5px',
+    margin: '4px',
+    width: '80px',
+    height: '35px',
+  },
+}))(Button);
+// Custom buttons used in DevBlogLogo component-START
+
+
+
+// Custom buttons used in DevBlogLogoWhiteColor component-START
+  export const WhiteBlue = withStyles((theme) => ({
+    root: {
+      backgroundColor: 'white',
+      '&:hover': {
+        backgroundColor: blue[400],
+      },
+      // border: 'solid black 1.5px',
+      margin: '4px',
+      width: '80px',
+      height: '35px',
+    },
+  }))(Button);
+
+  export const WhiteGreen = withStyles((theme) => ({
+    root: {
+      backgroundColor: 'white',
+      '&:hover': {
+        backgroundColor: green[400],
+      },
+      // border: 'solid black 1.5px',
+      margin: '4px',
+      width: '80px',
+      height: '35px',
+    },
+  }))(Button);
+
+  export const WhiteRed = withStyles((theme) => ({
+    root: {
+      backgroundColor: 'white',
+      '&:hover': {
+        backgroundColor: pink[400], 
+      },
+      // border: 'solid black 1.5px',
+      margin: '4px',
+      width: '80px',
+      height: '35px',
+    },
+  }))(Button);
+// Custom buttons used in DevBlogLogoWhiteColor component-END
+
