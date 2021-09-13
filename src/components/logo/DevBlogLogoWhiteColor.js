@@ -8,19 +8,19 @@ export default function DevBlogLogoWhiteColor() {
         <div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}} >
                 <WhiteBlue
-                    variant="contained" component="span"
+                    color ="primary" variant="contained" component="span"
                     disableElevation
                     size='small'
-                ><Typography >
+                ><Typography variant="caption"> 
                     D
                 </Typography>
                 </WhiteBlue>
 
                 <WhiteGreen
-                    variant="contained" component="span"
+                    color ="primary" variant="contained" component="span"
                     disableElevation
                     size='small'
-                > <Typography  >
+                > <Typography variant="caption" >
                     V
                 </Typography>
                 </WhiteGreen>
@@ -28,10 +28,10 @@ export default function DevBlogLogoWhiteColor() {
 
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}} >
                 <WhiteRed
-                    variant="contained" component="span"
+                    color ="primary" variant="contained" component="span"
                     disableElevation
                     size='small'
-                ><Typography >
+                ><Typography variant="caption" >
                     B
                 </Typography>
                 </WhiteRed>

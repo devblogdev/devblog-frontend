@@ -79,40 +79,43 @@ export const PurePink = withStyles((theme) => ({
 // Custom buttons used in DevBlogLogoWhiteColor component-START
   export const WhiteBlue = withStyles((theme) => ({
     root: {
-      backgroundColor: 'white',
+      backgroundColor: 'black',
       '&:hover': {
-        backgroundColor: blue[400],
+        backgroundColor: blue[600],
       },
-      // border: 'solid black 1.5px',
-      margin: '4px',
-      width: '80px',
-      height: '35px',
+      marginLeft: '3px',
+      marginRight: '3px',
+      marginBottom: '4px',
+      marginTop: '8px',
+      minWidth: '40px',
+      height: '20px',
     },
   }))(Button);
 
   export const WhiteGreen = withStyles((theme) => ({
     root: {
-      backgroundColor: 'white',
+      backgroundColor: 'black',
       '&:hover': {
-        backgroundColor: green[400],
+        backgroundColor: green[600],
       },
-      // border: 'solid black 1.5px',
-      margin: '4px',
-      width: '80px',
-      height: '35px',
+      marginLeft: '3px',
+      marginRight: '3px',
+      marginBottom: '4px',
+      marginTop: '8px',
+      minWidth: '40px',
+      height: '20px',
     },
   }))(Button);
 
   export const WhiteRed = withStyles((theme) => ({
     root: {
-      backgroundColor: 'white',
+      backgroundColor: 'black',
       '&:hover': {
-        backgroundColor: pink[400], 
+        backgroundColor: pink[500], 
       },
-      // border: 'solid black 1.5px',
-      margin: '4px',
-      width: '80px',
-      height: '35px',
+      margin: '2px',
+      minWidth: '40px',
+      height: '20px',
     },
   }))(Button);
 // Custom buttons used in DevBlogLogoWhiteColor component-END

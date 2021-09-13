@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 // MATERIAL UI DEPENDENCIES
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -10,7 +9,6 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -18,6 +16,10 @@ import Container from '@material-ui/core/Container';
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { createOrLoginUser } from '../../actions/userActions'
+import DevBlogLogoWhiteColor from '../logo/DevBlogLogoWhiteColor';
+import DevBlogLogoFrame from '../logo/DevBlogLogoFrame';
+import { grey } from '@material-ui/core/colors'
+
 
 
 // MATERIAL UI FUNCTION
@@ -25,7 +27,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="https://luisdevblog.netlify.app">
         DevBlog
       </Link>{' '}
       {new Date().getFullYear()}
@@ -37,7 +39,7 @@ function Copyright() {
 // MATERIAL-UI STYLES
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(5),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -69,7 +71,7 @@ export default function Login(props) {
   const fieldValidator = (field, fieldName) => {
     if (field.trim() === '') {
       return (
-          <p className="errorField">{fieldName} cant't be blank</p>
+          <p className="errorField">{fieldName} can't be blank</p>
       )
     } 
     return null
@@ -94,9 +96,14 @@ export default function Login(props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <DevBlogLogoFrame
+          child = { <DevBlogLogoWhiteColor /> }
+          border = "solid 1px"
+          backgroundMinor = { grey[500] }
+          shape = "15px"
+          height = "80px"
+          width = "100px"
+        />
         <Typography component="h1" variant="h5">
           DevBlog
         </Typography>

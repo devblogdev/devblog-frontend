@@ -32,7 +32,9 @@ export default function ImgCardMedia(props) {
   return (
     <Card className={classes.root}>
       <CardActionArea>
+
         { post.images[0] ? (
+
           <CardMedia
             component="img"
             alt= {post.title}
@@ -43,8 +45,12 @@ export default function ImgCardMedia(props) {
               objectFit: 'contain',
             }}
           />
+
           ) : (
-            <DevBlogLogoFrame child={<DevBlogLogo />} />
+            <DevBlogLogoFrame 
+              child={<DevBlogLogo />} 
+              backgroundMajor = 'whitesmoke'
+            />
           )
         }
         <CardContent>

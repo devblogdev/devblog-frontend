@@ -20,12 +20,13 @@ import { createOrLoginUser } from '../../actions/userActions'
 import { useDispatch } from 'react-redux'
 
 
+
 // MATERIAL UI FUNCTION 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="https://luisdevblog.netlify.app">
         DevBlog
       </Link>{' '}
       {new Date().getFullYear()}
@@ -37,7 +38,7 @@ function Copyright() {
 // MATERIAL UI STYLES
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(5),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
