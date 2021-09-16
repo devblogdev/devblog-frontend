@@ -2518,11 +2518,6 @@
     "get-intrinsic" "^1.1.1"
     "is-string" "^1.0.5"
 
-"array-move@^4.0.0":
-  "integrity" "sha512-+RY54S8OuVvg94THpneQvFRmqWdAHeqtMzgMW6JNurHxe8rsS07cHQdfGkXnTUXiBcyZ0j3SiDIxxj0RPiqCkQ=="
-  "resolved" "https://registry.npmjs.org/array-move/-/array-move-4.0.0.tgz"
-  "version" "4.0.0"
-
 "array-union@^1.0.1":
   "integrity" "sha1-mjRBDk9OPaI96jdb5b5w8kd47Dk="
   "resolved" "https://registry.npmjs.org/array-union/-/array-union-1.0.2.tgz"

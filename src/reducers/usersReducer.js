@@ -1,5 +1,5 @@
 import auth from "../components/security/auth";
-import {arrayMoveImmutable} from 'array-move'
+import {arrayMoveImmutable} from '../components/utilities/arrayMove'
 
 export default function usersReducer(
     state = {

@@ -16,6 +16,7 @@ import ProfileForm from '../components/users/ProfileForm'
 import { ActivationContext } from '../components/users/ActivationContext';
 
 
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -111,7 +112,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
   
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setValue(newValue);    
   };
 
   console.log(user)
