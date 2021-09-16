@@ -92,9 +92,10 @@ export default function usersReducer(
             post = action.payload.current
             let previous_status = action.payload.previous_status
               // condition one (P && Q): the user EDITED a previously saved draft and decided to publish it (contition runs on "editPost" function in PostandCommentsActions.js )
-              // contition two ( || Q): the user created a NEW draft and published it immediately (contiion runs on "addPost" function in PostandCommentsActions.js )
+              // contition two (R && Q): the user created a NEW draft and published it immediately (contiion runs on "addPost" function in PostandCommentsActions.js )
             // Overall idea: if the user creates a NEW post and publishes it immediately or publishes a previosly saved draft, move the user to the to of the authors list
-            if ( (previous_status === "draft" && post.status === "published") || post.status === "published") {
+            //  P && (Q || R) == (P && Q) || (P && R)
+            if ( (post.status === "published") && (previous_status === undefined || previous_status === "draft") ) {
                 let authorIndex = state.users.findIndex( user => user.id === post.user_id )
                 // if a user publishes a post and the user already has published post(s), move the user to the top of the authors list
                 if (authorIndex >- 1 ) {
