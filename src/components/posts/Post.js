@@ -36,7 +36,7 @@ const  Post = ({match, posts, user, users}) => {
         }
     },[post, user]);
 
-    const author = users.find( author => post.user_id === author.id )
+    // const author = users.find( author => post.user_id === author.id )
     
 
     return(
@@ -46,7 +46,8 @@ const  Post = ({match, posts, user, users}) => {
                 <div style={{textAlign: 'right'}}>{date}</div>
             </div>
             <div style={{textAlign: 'right'}}>
-                <Link to={`/authors/${author?.id}`}>{author?.first_name} {author?.last_name}</Link> 
+                {/* <Link to={`/authors/${author?.id}`}>{author?.first_name} {author?.last_name}</Link>  */}
+                <Link to={`/authors/${post?.user_id}`}>{post?.author_name}</Link> 
             </div>
             {/* <img src = { post.images && post?.images[0]?.url} alt= {post.images && post?.images[0]?.alt} className="image"/> */}
             <img src = {postPicture?.url} alt= {postPicture?.alt} className="image"/>

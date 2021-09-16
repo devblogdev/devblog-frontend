@@ -100,6 +100,8 @@ export default function Login(props) {
           child = { <DevBlogLogoWhiteColor /> }
           border = "solid 1px"
           backgroundMinor = { grey[500] }
+          // backgroundMinor = { blueGrey[100] }
+          // backgroundMinor = "whitesmoke"
           shape = "15px"
           height = "80px"
           width = "100px"

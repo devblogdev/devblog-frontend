@@ -13,6 +13,7 @@ export function fetchPosts(endpoint) {
     }
 }
 
+// 'addPost' handles two cases: 1) user creates a new post and saves it as a draft; 2) user creates a new post and publishes it immediately
 export function addPost(endpoint, postData, routerAndModal=null){
     const token = localStorage.getItem('token')
     const axiosConfig = {
@@ -26,8 +27,12 @@ export function addPost(endpoint, postData, routerAndModal=null){
            await axios.post(`${endpoint}`, {post: postData} , axiosConfig)
             .then( response => {
                 console.log(response)
+                // whenever a user publishes a NEW post, move the user to the top of authors list
+                // WARNING: **
+                dispatch( {type: "MOVE_AUTHOR_TO_TOP", payload: {previous_status: undefined, current: response.data} })
                 dispatch( {type: 'ADD_POST', payload: response.data})
                 dispatch( {type: "ADD_POST_TO_USER", payload: response.data})
+                
                 if (response.data.status === "published" ){
                     routerAndModal.history.push(`/posts/${response.data.id}`)
                     routerAndModal.retrieveModalState(["Post successfully published"])
@@ -44,8 +49,18 @@ export function addPost(endpoint, postData, routerAndModal=null){
         dispatch({type: 'LOGOUT_USER'})
     }
 }
+// ** Order matters: 'MOVE_AUTHOR_TO_TOP' will add the current user to the authors list if the user does not already have published posts at the time of publishing;
+// this action will update the 'users' array in 'usersReducer.js'; then 'ADD_POST' will update the 'posts' array in 'PostsAndCommentsReducer.js'; this later update
+// triggers the 'authorPost' function in Author.js, which finds all the ppsts for the clicked author name;
+// if the order is reversed, the 'posts' array will be updated first and the 'authorPost' function will run
+// and, since at this time the author has not yet been added to the 'users' array, the author will be 'undefined' in 'authorPost' function
+// the result will be that when the user clicks on his/her name in the Authors list, the just published post will not be shown, which will cause confusion for the user
+// Reversing the orginial order does not break the code, a page refresh will update everything to the correct state
 
 
+
+// 'editPost' handles three cases: 1) user edits an existiing draft and saves it as a draft; 2) user edits an existing draft and publishes the draft
+                             //    3) user updates an existing post
 export function editPost(endpoint, postData, routerAndModal=null){
     const token = localStorage.getItem('token')
     const axiosConfig = {
@@ -59,6 +74,8 @@ export function editPost(endpoint, postData, routerAndModal=null){
             await axios.put(`${endpoint}`, {post: postData} , axiosConfig)
               .then( response => {
                 console.log(response)
+                // WARNING: **
+                dispatch( {type: "MOVE_AUTHOR_TO_TOP", payload: {previous_status: postData.status, current: response.data} })
                 dispatch( {type: 'EDIT_POST', payload: response.data})
                 dispatch( {type: "EDIT_USER_POST", payload: response.data})
                 if (response.data.status === "published") {
@@ -77,6 +94,7 @@ export function editPost(endpoint, postData, routerAndModal=null){
         dispatch({type: 'LOGOUT_USER'})
     }
 }
+// ** See note included in 'addPost'
 
 export function deletePost(endpoint, postData, routerAndModal=null){
     const token = localStorage.getItem('token')

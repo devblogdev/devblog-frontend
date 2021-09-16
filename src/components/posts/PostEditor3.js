@@ -95,7 +95,7 @@ const PostEditor3 = (props) => {
         const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
         const endpoint = "/publish" 
         const postExtraction = extractTitle(data)
-        const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[2]?.slice(1), status: "published"}
+        const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[1]?.slice(1), status: "published"}
         const resolveImageThenResolvePost = async () => {
             dispatch({type: 'LOADING_POSTS', payload: "Managing image..."})
             const imageData = await manageImageForNewDraftOrPost(imageState);
@@ -123,7 +123,7 @@ const PostEditor3 = (props) => {
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const postExtraction = extractTitle(data)
-        const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[2]?.slice(1), status: "draft"}
+        const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[1]?.slice(1), status: "draft"}
         console.log(extractTitle(data))
         console.log(imageState)
         const resolveImageThenResolvePost = async () => {
