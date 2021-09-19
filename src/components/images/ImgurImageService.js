@@ -11,14 +11,26 @@ export default function ImgurImageService(){
     const [preview, setPreview] = useState()
 
     
-    const uploadToImgur = async () => {
+    const uploadToImgur = () => {
         const axiosConfig = {
             headers: {
                 'Content-Type': 'application/json',
-                "Authorization": 'Beare ' + process.env.REACT_APP_IMGUR_ACESS_TOKEN    
+                "Authorization": 'Bearer ' + process.env.REACT_APP_IMGUR_ACCESS_TOKEN 
             }
         }
-        await axios.post("https://api.imgur.com/3/upload", file, axiosConfig)
+        axios.post("https://api.imgur.com/3/image/", file, axiosConfig)
+        .then(response => console.log(response))
+        .catch(error => console.log(error.response))    
+    }
+
+    const uploadToImgur2 = () => {
+        const axiosConfig2 = {
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": 'Client-ID ' + process.env.REACT_APP_IMGUR_CLIENT_ID
+            }
+        }
+        axios.post("https://api.imgur.com/3/image/", file, axiosConfig2)
         .then(response => console.log(response))
         .catch(error => console.log(error.response))    
     }
@@ -42,7 +54,10 @@ export default function ImgurImageService(){
 
             />
             <button onClick={uploadToImgur}>
-                SEND
+                Upload 1
+            </button>
+            <button onClick={uploadToImgur2}>
+                Upload 2
             </button>
             <img src= {preview || file} alt="" />
         </div>
