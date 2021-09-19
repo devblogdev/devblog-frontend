@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import ImgurImageService from '../components/images/ImgurImageService'
 
 
 
@@ -11,6 +12,7 @@ export default function PostLinksContainer({match, posts}) {
       
     return (
         <div className="postPage postLinks">
+            <ImgurImageService />
             <h1>Posts List</h1>
             {published}
         </div>

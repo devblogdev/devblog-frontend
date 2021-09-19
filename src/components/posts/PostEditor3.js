@@ -371,7 +371,7 @@ const PostEditor3 = (props) => {
         handlePastedText = {handlePastedText}
         blockStyleFn={myBlockStyleFn}
         toolbar={{
-            options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'remove', 'history'],
+            options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
             inline: {
                 monospace: { label: "Monospace", className: undefined}
             },
@@ -385,6 +385,15 @@ const PostEditor3 = (props) => {
             textAlign: {
                 options: ['left']
             },
+            image: {
+              className: 'image',
+              alignmentEnabled: false,
+              // urlEnabled: false,
+              defaultSize: {
+                height: 'auto',
+                width: '100%',
+              }
+            }
         }}
       />
       {/* Renders the "Save, Publish,Delete, etc." buttons below post editor */}

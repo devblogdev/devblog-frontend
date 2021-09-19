@@ -105,9 +105,10 @@
   margin-top: 20px;
 }
 
-.image {
+.image, img{
   max-width: 100%;
 }
+
 
 .home {
   display: grid;
