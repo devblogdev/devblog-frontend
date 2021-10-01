@@ -61,7 +61,7 @@ export const mediaBlockRenderer = block => {
   
   const MediaComponent = props => {
     const entity = props.contentState.getEntity(props.block.getEntityAt(0));
-    // const { src } =entity.getData();
+    // const { src } = entity.getData();
     const srcLinkAndDeleteHash = entity.getData().src.split("-")
     const src = srcLinkAndDeleteHash[0]
     const deleteHash= srcLinkAndDeleteHash[1]
@@ -72,7 +72,7 @@ export const mediaBlockRenderer = block => {
         media= <Image src={src} deleteHash={deleteHash} />
     }
     else if ( type === 'EMBEDDED_LINK')(
-        media= <Iframe src={src} />
+        media= <Iframe src={entity.getData().src} />
     )
     return media
 }
