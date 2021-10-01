@@ -3,10 +3,10 @@
 // * added the 'handledPastedText' empty function that normalizes the font size, font family, and
 // background color of pasted text
 
-import React, { useState, useCallback, useEffect, useContext, useRef } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { EditorState, ContentState } from 'draft-js';
+import { EditorState, ContentState, CompositeDecorator } from 'draft-js';
 // import { DefaultDraftBlockRenderMap } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -27,13 +27,8 @@ import { manageImageForNewDraftOrPost } from '../../actions/imageActions'
 import { manageImageForDraftOrPost } from '../../actions/imageActions'
 import { extractTitle } from '../../actions/postEditorHelper'
 import { noBody, noTitle } from '../PostEditor/ValdationPostEditor';
-import axios from 'axios'
-import { ModalContext } from '../modal/ModalContext'
-import { AllowedEmbedWebsites } from '../utilities/allowedWebsites';
-import { mediaBlockRenderer } from '../PostEditor/mediaBlockRenderer';
-
 // import  titleBlockRenderer from './entities//titleBlockRenderer'
-
+import axios from 'axios'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +49,7 @@ const PostEditor3 = (props) => {
     // --------------------- CRUD ACTIONS START ------------------------------------
 
         // --------------- Image Data Retrieval START-------------------
+
     // This variable is set when the user selects a picture to upload
     const [imageState, setImageState] = useState()
     // This function is passed to S3ImageService2 component at bottom; it is activated when the user selects an image
@@ -109,7 +105,6 @@ const PostEditor3 = (props) => {
             dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
             dispatch(addPost(endpoint, postData, props))    
         }
-        debugger
         if (noTitle(data, postExtraction)) {
           props.retrieveModalState(["Posts need to include an H1 title"])
           window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
@@ -268,6 +263,7 @@ const PostEditor3 = (props) => {
 
     // Updates the editor state when typing 
     function handleEditorChange(state){
+        // debugger
         setEditorState(state)
         // DO NOT ERASE THE BELOW LINES; MIGTH BE NIEEDED AT SOME POINT
         // const contentState = editorState.getCurrentContent();
@@ -317,8 +313,6 @@ const PostEditor3 = (props) => {
   },[])
 
 
-  const editor = useRef(null)
-
   useEffect( () => {
     if (props.match.url !== "/profile/drafts/new") {
       if (props.user.posts) {
@@ -327,11 +321,17 @@ const PostEditor3 = (props) => {
         setDraftOrPost(content)
         // replaces the inital dummy content with the content from the draft or post
         setEditorState(reinitializeState(content))
-        // editor.current.focus()
       }
     }
-  },[props.user, props.match, loadedDraftOrPost, reinitializeState, draftOrPost], () => setTimeout(() => editor.current.focus(),0)
+  },[props.user, props.match, loadedDraftOrPost, reinitializeState, draftOrPost],// () => setTimeout(() => focus(),0)
   )
+
+  const compositeDecorator = new CompositeDecorator([
+    {
+      strategy: titleStrategy,
+      component: HandleTitle
+    }
+  ])
 
 
   // If a new draft, create a blank editor with "Title" as the first line
@@ -343,7 +343,8 @@ const PostEditor3 = (props) => {
     () => {
       if(props.match.url === "/profile/drafts/new") {
         // return EditorState.createEmpty()        
-        return reinitializeState({body: "<h1>Title</h1>"})
+        // return reinitializeState({body: "<h1>Title</h1>"})
+        return EditorState.createEmpty(compositeDecorator)
       } else {
         return loadedInitialEditorState()
       }
@@ -356,56 +357,6 @@ const PostEditor3 = (props) => {
     // special features, such as bullet points, links, monospace, ...
         // setEditorState(removeEditorStyles(text, editorState))
   }
-
-
-  const { retrieveModalState } = useContext(ModalContext)
-
-  const embeddedUrl = (url) => {
-    let boolean = false
-    AllowedEmbedWebsites.forEach( domain => {
-      if(url.indexOf(domain) > -1 ) { boolean = true}
-    })
-    if (boolean) return url 
-    return retrieveModalState([
-      "Only the following domains are allowed for embedded websites:", 
-      ...AllowedEmbedWebsites,
-      "If you believe another domain should be supported, email the website's administrator"
-    ], 15000)
-  }
-
-  function uploadImageCallback(file) {
-    return new Promise((resolve, reject) => {
-      const config = {
-        headers: {
-          Authorization: "Bearer " + process.env.REACT_APP_IMGUR_ACCESS_TOKEN
-        },
-      };
-      const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-      const postExtraction = extractTitle(data)
-      if (noTitle(data, postExtraction)) return reject(retrieveModalState(['Posts need to include an H1 title before image upload']))
-      if (file.size > 1500000) return reject(retrieveModalState(['Max file size is 1.5 MB']))
-      axios.post("https://api.imgur.com/3/image", file, config).then((res) => {
-        console.log(res);
-        resolve({ data: { link: res.data.data.link + `-${res.data.data.deletehash}` } } )
-        // For future imporvement, need to include the delteHash key by its own:
-            // resolve({ data: { link: res.data.data.link, deleteHash: res.data.data.deletehash } } )
-        // mediaBlockRenderer()
-        // debugger
-      }).catch(error => {
-        console.log(error)
-        reject()
-      });
-    });
-  }
-
-  
-  // const setEditorReference = (ref) => {
-  //   editor.current.focus()
-  //   this.editroReference = ref;
-  //   ref.focus()
-  // }
-  
-
 
   
   // --------------------- POST EDITOR END ------------------------
@@ -427,30 +378,24 @@ const PostEditor3 = (props) => {
         spellCheck = {true}
         handlePastedText = {handlePastedText}
         blockStyleFn={myBlockStyleFn}
-        localization={{ locale: 'en', translations: editorLabels }}
         toolbar={{
-            options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
+            options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'image', 'remove', 'history'],
             // options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
+            inline: {
+                monospace: { label: "Monospace", className: undefined}
+            },
             blockType: {
                 inDropdown: false,
                 options: ['Normal', 'H1', 'H2', 'Blockquote', 'Code']
             },
-            list: {
-              options: ['unordered', 'ordered']
-            },
             fontSize: {
                 options: [16, 18, 24]
             },
-            embedded: {
-              defaultSize: {
-                height: 'auto',
-                width: '100%',
-              },
-              embedCallback: embeddedUrl,
+            textAlign: {
+                options: ['left']
             },
             image: {
               className: 'image',
-              urlEnabled: true,
               uploadCallback: uploadImageCallback,
               alignmentEnabled: false,
               defaultSize: {
@@ -459,9 +404,6 @@ const PostEditor3 = (props) => {
               }
             }
         }}
-        blockRendererFn = {mediaBlockRenderer}
-        // editorRef = {setEditorReference}
-        
       />
       {/* Renders the "Save, Publish,Delete, etc." buttons below post editor */}
       {buttons.map( (button, index) => 
@@ -470,14 +412,13 @@ const PostEditor3 = (props) => {
         </React.Fragment> 
        )}
         {/* Renders the "Upload a cover image" button; it is a full compponent */}
-        {/* <S3ImageService2 retrieveImageState = {retrieveImageState} user = {props.user} {...props} /> */}
-        <S3ImageService2 retrieveImageState={retrieveImageState} user = {props.user} {...props} />
+        <S3ImageService2 retrieveImageState = {retrieveImageState} user = {props.user} {...props} />
     </div>
   )
 }
 
-export default PostEditor3;
 
+export default PostEditor3;
 
 // This function applies the CSS class 'superFancyBlockquote' to text of type blockquote
 function myBlockStyleFn(contentBlock) {
@@ -487,37 +428,38 @@ function myBlockStyleFn(contentBlock) {
     }
   }
 
-
-const editorLabels = {
-  // Generic
-  'generic.add': 'Add',
-  'generic.cancel': 'Cancel',
-  // BlockType
-  // 'components.controls.blocktype.h1': 'Heading 1',
-  // 'components.controls.blocktype.blockquote': 'Blockquote',
-  'components.controls.blocktype.code': 'Code Block',
-  // 'components.controls.blocktype.blocktype': 'Block Type',
-  'components.controls.blocktype.normal': 'Normal',
-  // Inline
-  'components.controls.inline.bold': 'Bold',
-  'components.controls.inline.italic': 'Italic',
-  'components.controls.inline.underline': 'Underline',
-  'components.controls.inline.strikethrough': 'Strikethrough',
-  'components.controls.inline.monospace': 'Monospace',
-  'components.controls.inline.superscript': 'Superscript',
-  'components.controls.inline.subscript': 'Subscript',
-  // List
-  'components.controls.list.list': 'List',
-  'components.controls.list.unordered': 'Unordered',
-  'components.controls.list.ordered': 'Ordered',
-  // Image
-  'components.controls.image.image': 'Image',
-  'components.controls.image.fileUpload': 'File Upload',
-  'components.controls.image.byURL': 'URL',
-  'components.controls.image.dropFileText': 'Drop the file or click to upload',
+function titleStrategy(contentBlock, callback, contentState) {
+  // debugger
 }
 
+const HandleTitle = (props) => {
+  debugger
+  return(
+    <h1 data-offset-key={props.offsetKey} >
+      {props.children} Hello
+    </h1>
+  )
+}
 
+function uploadImageCallback(file) {
+  return new Promise((resolve, reject) => {
+    // const data = new FormData();
+    // data.append("image", file);
+    const config = {
+      headers: {
+        Authorization: "Bearer " + process.env.REACT_APP_IMGUR_ACCESS_TOKEN
+      },
+    };
+    axios.post("https://api.imgur.com/3/image", file, config).then((res) => {
+      console.log(res);
+      resolve({ data: { link: res.data.data.link } } )
+    }).catch(error => {
+      console.log(error)
+      reject()
+    });
+  });
+
+}
 
 
 

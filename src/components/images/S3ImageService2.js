@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import { RemoveImageButton } from '../decorators/Buttons'
-
-
-
+import { ModalContext } from '../modal/ModalContext';
 
 // Functional component; utilizes Amazon Web Services S3 for storing images
-const S3ImageService2 = ({retrieveImageState, user, ...props}) => {
+const S3ImageService2 = ({ retrieveImageState, user, ...props}) => {
 
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [isFilePicked, setIsFilePicked] = useState(false)
+
+    const { retrieveModalState } = useContext(ModalContext)
 
     useEffect(() => {
         if (props.match.url !== "/profile/drafts/new") {
@@ -27,7 +27,7 @@ const S3ImageService2 = ({retrieveImageState, user, ...props}) => {
                 }
             }
         }
-    },[retrieveImageState, props.match, user.posts])
+    },[retrieveImageState, props.match, user.posts, setSelectedFile, setIsFilePicked])
 
     const reset = () => {
         setSelectedFile()
@@ -36,7 +36,9 @@ const S3ImageService2 = ({retrieveImageState, user, ...props}) => {
     }
     
 	const changeHandler = (event) => {
-        if (event.target.files[0]) {
+        const file = event.target.files[0]
+        if (file) {
+            if (file.size > 1500000) return retrieveModalState(["Max file size is 1.5 MB"])
             setSelectedFile(event.target.files[0]);
             setIsFilePicked(true);
             retrieveImageState(event.target.files[0])
@@ -63,7 +65,7 @@ const S3ImageService2 = ({retrieveImageState, user, ...props}) => {
 			{isFilePicked ? (
 				<div>
 					<p>Filename: {selectedFile.name}</p>
-                    <p>Size in bytes: {selectedFile.size}</p>
+                    <p>Size: { `${selectedFile.size/1000000}`.slice(0,4) } MB</p>
 					{/* <p>Filetype: {selectedFile.type}</p> */}
 					{/* <p>
 						lastModifiedDate:{' '}

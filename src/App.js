@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useEffect, useCallback, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
@@ -18,8 +18,10 @@ import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
 import AuthorsLinks from './containers/AuthorsLinks'
 import AuthorContainer from './containers/AuthorContainer'
 import ManageLogin from './containers/ManageLogin'
-import Modal from '../src/components/Modal'
+import Modal from './components/modal/Modal'
+import { ModalContext } from './components/modal/ModalContext'
 // import auth from './components/security/auth'
+
 
 
 function App() {
@@ -29,14 +31,15 @@ function App() {
   const dispatch = useDispatch()
   const current_user = useSelector((state) => state.users.current_user)
   const users = useSelector((state) => state.users.users)
-  // const [users, setUsers] = useState([])
   const posts = useSelector((state) => state.posts.posts)
   const loading = useSelector((state) => state.posts.message)
   console.log(posts)
   const token = localStorage.getItem('token')
 
-  const [displayModeModal, setDisplayModeModal] = useState("hidden")
-  const [modalMessage, setModalMessage] = useState([])
+  // const [displayModeModal, setDisplayModeModal] = useState("hidden")
+  // const [modalMessage, setModalMessage] = useState([])
+
+  const { displayModeModal, modalMessage, retrieveModalState } = useContext(ModalContext)
   
   
   const Buttons = useCallback(() => {
@@ -73,14 +76,14 @@ function App() {
   }, [dispatch])
 
 
-  const retrieveModalState = useCallback ((messageArray, time=3000) => {
-      const message = messageArray.map((message,index) => {
-        return <li key={index}>{message}</li>
-      })
-      setModalMessage(message)
-      setDisplayModeModal("")
-      setTimeout(() => { setDisplayModeModal('hidden')}, time)
-  },[])
+  // const retrieveModalState = useCallback ((messageArray, time=3000) => {
+  //     const message = messageArray.map((message,index) => {
+  //       return <li key={index}>{message}</li>
+  //     })
+  //     setModalMessage(message)
+  //     setDisplayModeModal("")
+  //     setTimeout(() => { setDisplayModeModal('hidden')}, time)
+  // },[])
 
   console.log(users)
 

@@ -1,15 +1,27 @@
 import axios from 'axios'
 import auth from '../components/security/auth'
 
+// export function fetchPosts(endpoint) {
+//     return async (dispatch) => {
+//         dispatch({type: 'LOADING_POSTS', payload: "Loading posts..." })
+//         const response = await axios.get(endpoint)
+//             .catch(error => {
+//                 console.log(error)
+//                 auth.logout()
+//             })
+//         dispatch({type: 'FETCH_POSTS', payload: response.data })
+//     }
+// }
 export function fetchPosts(endpoint) {
     return async (dispatch) => {
         dispatch({type: 'LOADING_POSTS', payload: "Loading posts..." })
-        const response = await axios.get(endpoint)
-            .catch(error => {
-                console.log(error)
-                auth.logout()
-            })
-        dispatch({type: 'FETCH_POSTS', payload: response.data })
+        try {
+            const response = await axios.get(endpoint)
+            dispatch({type: 'FETCH_POSTS', payload: response.data })
+        } catch(error) {
+            console.log(error)
+            auth.logout()
+        }        
     }
 }
 

@@ -151,7 +151,7 @@ export default function ProfileForm(props) {
                         inputRef={el => inputFieldRef.current[2] = el}
                     /> */}
                     <div style={{ gridArea: 'profileImage'}}>
-                        <ProfileImageService user = {props.user} retrieveImageState = {retrieveImageState} showSaveButton={showSaveButton} />
+                        <ProfileImageService user = {props.user} retrieveImageState = {retrieveImageState} showSaveButton={showSaveButton} {...props} />
                     </div>
                 </div>
                 { !showSaveButton ? (

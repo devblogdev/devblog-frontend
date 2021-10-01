@@ -1,20 +1,8 @@
 import React, { useEffect, useContext } from 'react';
-// import { useSelector } from 'react-redux'
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
-import { purple } from '@material-ui/core/colors';
 import ProfileImage from '../decorators/ProfileImage';
+import { RemoveImageButton } from '../decorators/Buttons';
 import { ActivationContext } from '../users/ActivationContext';
-
-
-const RemoveImageButton = withStyles((theme) => ({
-    root: {
-      backgroundColor: purple[600],
-      '&:hover': {
-        backgroundColor: purple[800],
-      },
-    },
-  }))(Button);
 
 
 export default function ProfileImageService({retrieveImageState, user, showSaveButton, ...props}) {
@@ -22,9 +10,13 @@ export default function ProfileImageService({retrieveImageState, user, showSaveB
 	// const [selectedFile, setSelectedFile] = useState(null);
 	// const [isFilePicked, setIsFilePicked] = useState(false)
     // const [preview, setPreview] = useState()
-    // const profileImages = useSelector((state) => state.images.profileImages)
     
-    const { preview, setPreview, isFilePicked, setIsFilePicked } = useContext(ActivationContext)
+    const { 
+        preview, 
+        setPreview, 
+        isFilePicked, 
+        setIsFilePicked,
+    } = useContext(ActivationContext)
     
 
     useEffect(() => {
@@ -49,8 +41,11 @@ export default function ProfileImageService({retrieveImageState, user, showSaveB
     }
     
 	const changeHandler = (event) => {
-        if (event.target.files[0]) {
+        const file = event.target.files[0]
+        if (file) {
+            // debugger
             // setSelectedFile(event.target.files[0]);
+            if (file.size > 1500000) return props.retrieveModalState(["Max file size is 1.5 MB"])
             setIsFilePicked(true);
             retrieveImageState(event.target.files[0]) 
             setPreview(URL.createObjectURL(event.target.files[0]))

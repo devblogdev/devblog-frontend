@@ -9,6 +9,7 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import rootReducer from './reducers/index'
 import axios from 'axios'
+import { ModalProvider } from './components/modal/ModalContext';
 
 
 // axios.defaults.baseURL= 'http://localhost:3000'
@@ -19,7 +20,9 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 
 ReactDOM.render(
   <Provider store = {store} >
-    <App />
+    <ModalProvider>
+      <App />
+    </ModalProvider>
   </Provider>,
   document.getElementById('root')
 );
