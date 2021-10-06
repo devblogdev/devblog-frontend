@@ -109,7 +109,7 @@ const PostEditor3 = (props) => {
             dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
             dispatch(addPost(endpoint, postData, props))    
         }
-        debugger
+        // debugger
         if (noTitle(data, postExtraction)) {
           props.retrieveModalState(["Posts need to include an H1 title"])
           window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )

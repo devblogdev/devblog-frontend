@@ -6,5 +6,6 @@ export const AllowedEmbedWebsites  = [
     'playcode.io', 
     'jsbin.com', 
     'codeshare.io', 
+    'gist.github.com',
     'github.com',
 ]
