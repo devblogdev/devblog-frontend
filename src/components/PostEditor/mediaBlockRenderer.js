@@ -50,22 +50,22 @@ export const mediaBlockRenderer = block => {
       return null
   }
 
-  const CodeSnippet = props => {
-      if (!!props.src) {
-          return (
-              <script 
-                    src={props.src} 
-                    title = 'Wysiwyg Embedded Content'
-                    frameBorder="0"  
-                    style={{
-                            height:'auto',
-                             width:'100%', 
-                    }}
-              />
-          )
-      }
-      return null
-  }
+//   const CodeSnippet = props => {
+//       if (!!props.src) {
+//           return (
+//               <script 
+//                     src={props.src} 
+//                     title = 'Wysiwyg Embedded Content'
+//                     frameBorder="0"  
+//                     style={{
+//                             height:'auto',
+//                              width:'100%', 
+//                     }}
+//               />
+//           )
+//       }
+//       return null
+//   }
 //   const CodeSnippet = props => {
 //       if (!!props.src) {
 //           return (
@@ -114,7 +114,7 @@ export const mediaBlockRenderer = block => {
     else if ( type === 'EMBEDDED_LINK')(
         // If src starts with the character '<', it means it is probably a code snippet with a script tag
         src && src[0] === "<" ? (
-            media = <CodeSnippet src={entity.getData().src.split("=")[1].split(">")[0]} />  // extract the http address from src
+            media = <Iframe src={entity.getData().src.split("=")[1].split(">")[0]} />  // extract the http address from src
         ) : (
             media = <Iframe src={entity.getData().src} />
         )
