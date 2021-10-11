@@ -109,7 +109,6 @@ const PostEditor3 = (props) => {
             dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
             dispatch(addPost(endpoint, postData, props))    
         }
-        // debugger
         if (noTitle(data, postExtraction)) {
           props.retrieveModalState(["Posts need to include an H1 title"])
           window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
@@ -309,7 +308,8 @@ const PostEditor3 = (props) => {
   // This will be used to replace the dummy state created by 'loadedInitialEditorState' above
   // This ensures that the editor does not break when refreshing the page on a draft or post
   const reinitializeState = useCallback ((argument) => {
-    const blocksFromHTML = htmlToDraft(argument.body);
+    // const blocksFromHTML = htmlToDraft(argument.body);
+    const blocksFromHTML = htmlToDraft(argument?.body);
     const { contentBlocks, entityMap} = blocksFromHTML
     const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
     const result = EditorState.createWithContent(contentState)
@@ -366,6 +366,7 @@ const PostEditor3 = (props) => {
       if(url.indexOf(domain) > -1 ) { boolean = true}
     })
     if (boolean) return url 
+    // if (boolean) return 'https://gist-it.appspot.com/https://gist.github.com/mmartinezluis/b0ee57fc92ee0771d8230af0f3ca98ab' 
     return retrieveModalState([
       "Only the following domains are allowed for embedded websites:", 
       ...AllowedEmbedWebsites,
@@ -386,11 +387,7 @@ const PostEditor3 = (props) => {
       if (file.size > 1500000) return reject(retrieveModalState(['Max file size is 1.5 MB']))
       axios.post("https://api.imgur.com/3/image", file, config).then((res) => {
         console.log(res);
-        resolve({ data: { link: res.data.data.link + `-${res.data.data.deletehash}` } } )
-        // For future imporvement, need to include the delteHash key by its own:
-            // resolve({ data: { link: res.data.data.link, deleteHash: res.data.data.deletehash } } )
-        // mediaBlockRenderer()
-        // debugger
+        resolve({ data: { link: res.data.data.link + `deleteHash${res.data.data.deletehash}` } } )
       }).catch(error => {
         console.log(error)
         reject()

@@ -16,11 +16,12 @@ const S3ImageService2 = ({ retrieveImageState, user, ...props}) => {
             if (user.posts) {
                 const post = user.posts.find( post => `${post.id}` === props.match.params.postID)
                 if (post.images[0]) {
+                // if (post?.images[0]) {
                     // If the post editor is being loaded with a draft or a post, 
-                    // and if the draft or post contains an image,
+                    // and if the draft or post contains a cover image,
                     // load the image file ('setSelectedFile'), 
                     // pass the file to the post editor ('retrieveImageState'),
-                    // display the image file info ('setIsFilePicked')
+                    // and display the image file info ('setIsFilePicked')
                     setSelectedFile(post.images[0])
                     retrieveImageState(post.images[0])
                     setIsFilePicked(true)
