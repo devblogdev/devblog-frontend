@@ -381,11 +381,6 @@ const PostEditor3 = (props) => {
           Authorization: "Bearer " + process.env.REACT_APP_IMGUR_ACCESS_TOKEN
         },
       };
-      // DELETE COMMENTED LINES
-      // const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-      // const postExtraction = extractTitle(data)
-      // Below line not needed as the saving validations will verify that posts have an H1 title
-      // if (noTitle(data, postExtraction)) return reject(retrieveModalState(['Posts need to include an H1 title before image upload']))
       if (file.size > 1500000) return reject(retrieveModalState(['Max file size is 1.5 MB']))
       axios.post("https://api.imgur.com/3/image", file, config).then((res) => {
         console.log(res);
