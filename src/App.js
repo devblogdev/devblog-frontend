@@ -20,7 +20,9 @@ import AuthorContainer from './containers/AuthorContainer'
 import ManageLogin from './containers/ManageLogin'
 import Modal from './components/modal/Modal'
 import { ModalContext } from './components/modal/ModalContext'
+import { Helmet } from 'react-helmet'
 // import auth from './components/security/auth'
+
 
 
 
@@ -90,6 +92,29 @@ function App() {
   return (
     <Router>
       <div className="App">
+
+        <Helmet>
+            {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
+            {/* <!-- COMMON TAGS --> */}
+            <title>DevBlog</title>
+            {/* <!-- Search Engine --> */}
+            <meta name="description" content="Blog website for coding related posts" />
+            <meta name="image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
+            {/* <!-- Schema.org for Google --> */}
+            <meta itemprop="name" content="DevBlog" />
+            <meta itemprop="description" content="Blog website for coding related posts. " />
+            <meta itemprop="image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
+            {/* <!-- Open Graph general (Facebook, Pinterest & Google+) --> */}
+            <meta name="og:title" content="DevBlog" />
+            <meta name="og:description" content="Blog website for coding related posts. " />
+            <meta name="og:image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
+            <meta name="og:url" content="https://luisdevblog.netlify.app" />
+            <meta name="og:site_name" content="DevBlog" />
+            <meta name="og:type" content="website" />
+            {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
+
+        </Helmet>
+
         <div className="Nav-addon"></div>
         <NavBar button ={Buttons()} />
         <Modal displayModeModal = {displayModeModal} modalMessage = {modalMessage}/>
