@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import FilteredHtml from '../utilities/FilteredHtml'
+import { Helmet } from 'react-helmet'
 // import Interweave from 'interweave'
 
 
@@ -45,6 +46,25 @@ const  Post = ({match, posts, user, users}) => {
 
     return(
         <div >
+            <Helmet>
+                {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
+                {/* <!-- COMMON TAGS --> */}
+                <title>{post?.title + " | DevBlog" }</title>
+                {/* <!-- Search Engine --> */}
+                <meta name="description" content={post?.abstract} />
+                <meta name="image" content={postPicture?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
+                {/* <!-- Schema.org for Google --> */}
+                <meta itemprop="name" content={post?.title} />
+                <meta itemprop="description" content={post?.abstract} />
+                <meta itemprop="image" content={postPicture?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
+                {/* <!-- Open Graph general (Facebook, Pinterest & Google+) --> */}
+                <meta name="og:title" content={post?.title} />
+                <meta name="og:description" content={post?.abstract} />
+                <meta name="og:image" content={postPicture?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
+                <meta name="og:url" content={"https://luisdevblog.netlify.app/" + post?.id } />
+                <meta name="og:site_name" content="DevBlog" />
+                {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
+            </Helmet>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
                 <div>{editButton}</div>  
                 <div style={{textAlign: 'right'}}>{date}</div>

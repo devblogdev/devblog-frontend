@@ -5,6 +5,7 @@ import ImgCardMedia from './decorators/ImgCardMedia'
 import ProfileImage from './decorators/ProfileImage'
 import { Route } from 'react-router-dom'
 import AuthorBio from './AuthorBio'
+import { Helmet } from "react-helmet"
 
 
 // import Avatar from '@material-ui/core/Avatar';
@@ -25,6 +26,25 @@ const Author = ({match, author}) => {
 
     return (
         <div>
+            <Helmet>
+                {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
+                {/* <!-- COMMON TAGS --> */}
+                <title>{ `${author?.first_name} ${author?.last_name} | DevBlog`} </title>
+                {/* <!-- Search Engine --> */}
+                <meta name="description" content={author?.bio.about || "Author at DevBlog"} />
+                <meta name="image" content={author?.images[0]?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
+                {/* <!-- Schema.org for Google --> */}
+                <meta itemprop="name" content= { `${author?.first_name} ${author?.last_name} | DevBlog`} />
+                <meta itemprop="description" content={author?.bio.about || "Author at DevBlog"} />
+                <meta itemprop="image" content={author?.images[0]?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
+                {/* <!-- Open Graph general (Facebook, Pinterest & Google+) --> */}
+                <meta name="og:title" content={ `${author?.first_name} ${author?.last_name} | DevBlog`} />
+                <meta name="og:description" content={author?.bio.about || "Author at DevBlog"} />
+                <meta name="og:image" content={author?.images[0]?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
+                <meta name="og:url" content={"https://luisdevblog.netlify.app/" + author?.id } />
+                <meta name="og:site_name" content="DevBlog" />
+                {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
+            </Helmet>
             <div>
                 <ProfileImage 
                     imgSource= {author?.images[0]?.url || null}
