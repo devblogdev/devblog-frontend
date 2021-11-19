@@ -98,7 +98,7 @@ function App() {
             {/* <!-- COMMON TAGS --> */}
             <title>DevBlog</title>
             {/* <!-- Search Engine --> */}
-            <meta name="description" content="Blog website for coding related posts" />
+            <meta name="description" content="Blog website for coding related posts/" />
             <meta name="image" content="https://user-images.githubusercontent.com/75151961/142552680-369cf146-fe13-443d-b1ca-a0e0b86c53d7.png" />
             {/* <!-- Schema.org for Google --> */}
             <meta itemprop="name" content="DevBlog" />

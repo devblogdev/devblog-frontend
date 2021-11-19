@@ -49,7 +49,7 @@ const  Post = ({match, posts, user, users}) => {
             <Helmet>
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
                 {/* <!-- COMMON TAGS --> */}
-                <title>{post?.title + " | DevBlog" }</title>
+                <title>{post?.title + " | Posts | DevBlog" }</title>
                 {/* <!-- Search Engine --> */}
                 <meta name="description" content={post?.abstract} />
                 <meta name="image" content={postPicture?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />

@@ -29,7 +29,7 @@ const Author = ({match, author}) => {
             <Helmet>
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
                 {/* <!-- COMMON TAGS --> */}
-                <title>{ `${author?.first_name} ${author?.last_name} | DevBlog`} </title>
+                <title>{ `${author?.first_name} ${author?.last_name} | Authors | DevBlog`} </title>
                 {/* <!-- Search Engine --> */}
                 <meta name="description" content={author?.bio.about || "Author at DevBlog"} />
                 <meta name="image" content={author?.images[0]?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
