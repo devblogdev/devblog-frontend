@@ -32,7 +32,7 @@ const Author = ({match, author}) => {
                 <title>{ `${author?.first_name} ${author?.last_name} | Authors | DevBlog`} </title>
                 {/* <!-- Search Engine --> */}
                 <meta name="description" content={author?.bio.about || "Author at DevBlog"} />
-                <meta name="image" content={author?.images[0]?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
+                <meta name="image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
                 {/* <!-- Schema.org for Google --> */}
                 <meta itemprop="name" content= { `${author?.first_name} ${author?.last_name} | DevBlog`} />
                 <meta itemprop="description" content={author?.bio.about || "Author at DevBlog"} />

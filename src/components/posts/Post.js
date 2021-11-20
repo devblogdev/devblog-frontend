@@ -48,6 +48,12 @@ const  Post = ({match, posts, user, users}) => {
         <div >
             <Helmet>
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
+                {/* LINKEDIN */}
+                <meta property='og:title' content={post?.title + " | Posts | DevBlog" }/>
+                <meta property='og:image' content= {postPicture?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
+                <meta property='og:description' content={post?.abstract} />
+                <meta property='og:url' content={"https://luisdevblog.netlify.app/" + post?.id } />
+                {/* LINKEDIN */}
                 {/* <!-- COMMON TAGS --> */}
                 <title>{post?.title + " | Posts | DevBlog" }</title>
                 {/* <!-- Search Engine --> */}
