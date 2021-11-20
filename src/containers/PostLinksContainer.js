@@ -14,6 +14,12 @@ export default function PostLinksContainer({match, posts}) {
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
                 {/* <!-- COMMON TAGS --> */}
                 <title>Posts | DevBlog </title>
+                {/* LINKEDIN */}
+                <meta property='og:title' content= "Posts List | DevBlog" />
+                <meta property='og:image' content="https://user-images.githubusercontent.com/75151961/142552680-369cf146-fe13-443d-b1ca-a0e0b86c53d7.png" />
+                <meta property='og:description' content="DevBlog Posts" />
+                <meta property='og:url' content="https://luisdevblog.netlify.app/posts" />
+                {/* LINKEDIN */}
                 {/* <!-- Search Engine --> */}
                 <meta name="description" content="DevBlog Posts" />
                 <meta name="image" content="https://user-images.githubusercontent.com/75151961/142552680-369cf146-fe13-443d-b1ca-a0e0b86c53d7.png" />
