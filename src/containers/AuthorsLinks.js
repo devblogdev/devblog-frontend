@@ -49,12 +49,6 @@ export default function AuthorsLinks({match, authors}) {
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
                 {/* <!-- COMMON TAGS --> */}
                 <title>Authors | DevBlog </title>
-                {/* LINKEDIN */}
-                <meta property='og:title' content= "Authors List | DevBlog***" />
-                <meta property='og:image' content="https://user-images.githubusercontent.com/75151961/142552680-369cf146-fe13-443d-b1ca-a0e0b86c53d7.png" />
-                <meta property='og:description' content="DevBlog Authors***" />
-                <meta property='og:url' content="https://luisdevblog.netlify.app/authors" />
-                {/* LINKEDIN */}
                 {/* <!-- Search Engine --> */}
                 <meta name="description" content="DevBlog Authors" />
                 <meta name="image" content="https://user-images.githubusercontent.com/75151961/142552680-369cf146-fe13-443d-b1ca-a0e0b86c53d7.png" />
@@ -68,6 +62,12 @@ export default function AuthorsLinks({match, authors}) {
                 <meta name="og:image" content="https://user-images.githubusercontent.com/75151961/142552680-369cf146-fe13-443d-b1ca-a0e0b86c53d7.png" />
                 <meta name="og:url" content="https://luisdevblog.netlify.app/authors" />
                 <meta name="og:site_name" content="DevBlog" />
+                {/* LINKEDIN */}
+                <meta property='og:title' content= "Authors List | DevBlog***" />
+                <meta property='og:image' content="https://user-images.githubusercontent.com/75151961/142552680-369cf146-fe13-443d-b1ca-a0e0b86c53d7.png" />
+                <meta property='og:description' content="DevBlog Authors***" />
+                <meta property='og:url' content="https://luisdevblog.netlify.app/authors" />
+                {/* LINKEDIN */}
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
             <h1>Authors List</h1>

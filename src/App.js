@@ -106,6 +106,11 @@ function App() {
             <meta name="og:image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
             <meta name="og:url" content="https://luisdevblog.netlify.app" />
             <meta name="og:site_name" content="DevBlog" />
+            {/* <!-- Open Graph for LinkedIn & Microsoft --> */}
+            <meta property='og:title' content="DevBlog" />
+            <meta property='og:image' content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
+            <meta property='og:description' content="Blog website for coding related posts" />
+            <meta property='og:url' content= "https://luisdevblog.netlify.app" />
             {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
         </Helmet>
 

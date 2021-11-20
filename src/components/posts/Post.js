@@ -48,12 +48,6 @@ const  Post = ({match, posts, user, users}) => {
         <div >
             <Helmet>
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
-                {/* LINKEDIN */}
-                <meta property='og:title' content={post?.title + " | Posts | DevBlog" }/>
-                <meta property='og:image' content= {postPicture?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
-                <meta property='og:description' content={post?.abstract} />
-                <meta property='og:url' content={"https://luisdevblog.netlify.app/" + post?.id } />
-                {/* LINKEDIN */}
                 {/* <!-- COMMON TAGS --> */}
                 <title>{post?.title + " | Posts | DevBlog" }</title>
                 {/* <!-- Search Engine --> */}
@@ -69,6 +63,12 @@ const  Post = ({match, posts, user, users}) => {
                 <meta name="og:image" content={postPicture?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
                 <meta name="og:url" content={"https://luisdevblog.netlify.app/" + post?.id } />
                 <meta name="og:site_name" content="DevBlog" />
+                {/* LINKEDIN */}
+                <meta prefix="og: http://ogp.me/ns#" property='og:title' content={post?.title + " | Posts | DevBlog" }/>
+                <meta prefix="og: http://ogp.me/ns#" property='og:image' content= {postPicture?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
+                <meta prefix="og: http://ogp.me/ns#" property='og:description' content={post?.abstract} />
+                <meta prefix="og: http://ogp.me/ns#" property='og:url' content={"https://luisdevblog.netlify.app/" + post?.id } />
+                {/* LINKEDIN */}
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
