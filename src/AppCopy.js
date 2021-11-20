@@ -15,8 +15,9 @@ import ProtectedRoute from './components/protectedRoute/protectedRoute';
 import ProfileContainer from './containers/ProfileContainer'
 import PostEditor3 from './components/posts/PostEditor3'
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
-import AuthorsLinks from './containers/AuthorsLinks'
-import AuthorContainer from './containers/AuthorContainer'
+// import AuthorsLinks from './containers/AuthorsLinks'
+import AuthorsLinksCopy from './containers/AuthorsLinksCopy'
+// import AuthorContainer from './containers/AuthorContainer'
 import ManageLogin from './containers/ManageLogin'
 import Modal from './components/modal/Modal'
 import { ModalContext } from './components/modal/ModalContext'
@@ -26,7 +27,7 @@ import { Helmet } from 'react-helmet'
 
 
 
-function App() {
+function AppCopy() {
 
   console.log('App.js was rendered')
 
@@ -168,17 +169,10 @@ function App() {
                 path={`/posts/:postID`} 
                 render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} user={current_user} users = {users} />} 
             />
+       
             <Route
-                path={'/authors/:authorID'}
-                render= {routerProps => <AuthorContainer {...routerProps} authors={users} />}
-            />
-             {/* <Route
-                path={'/authors/:authorID'}
-                render= {routerProps => <AuthorContainer {...routerProps} authors={users} />}
-            /> */}
-            <Route
-                exact path="/authors"
-                render= {routerProps => <AuthorsLinks {...routerProps} authors={users} />}
+                path="/authors"
+                render= {routerProps => <AuthorsLinksCopy {...routerProps} authors={users} />}
             />
             <Route
                 exact path="/login"
@@ -195,4 +189,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppCopy;

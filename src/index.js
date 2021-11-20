@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // import { hydrate, render } from "react-dom";
 import './index.css';
-import App from './App';
+// import App from './App';
+import AppCopy from './AppCopy';
 
 // import reportWebVitals from './reportWebVitals';
 
@@ -23,7 +24,7 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 ReactDOM.render(
   <Provider store = {store} >
     <ModalProvider>
-      <App />
+      <AppCopy />
     </ModalProvider>
   </Provider>,
   document.getElementById('root')
