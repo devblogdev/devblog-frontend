@@ -172,10 +172,10 @@ function App() {
                 path={'/authors/:authorID'}
                 render= {routerProps => <AuthorContainer {...routerProps} authors={users} />}
             />
-             {/* <Route
+             <Route
                 path={'/authors/:authorID'}
                 render= {routerProps => <AuthorContainer {...routerProps} authors={users} />}
-            /> */}
+            />
             <Route
                 exact path="/authors"
                 render= {routerProps => <AuthorsLinks {...routerProps} authors={users} />}
