@@ -28,14 +28,11 @@ import { Helmet } from 'react-helmet'
 
 function App() {
 
-  console.log('App.js was rendered')
-
   const dispatch = useDispatch()
   const current_user = useSelector((state) => state.users.current_user)
   const users = useSelector((state) => state.users.users)
   const posts = useSelector((state) => state.posts.posts)
   const loading = useSelector((state) => state.posts.message)
-  console.log(posts)
   const token = localStorage.getItem('token')
 
   // const [displayModeModal, setDisplayModeModal] = useState("hidden")
@@ -87,7 +84,6 @@ function App() {
   //     setTimeout(() => { setDisplayModeModal('hidden')}, time)
   // },[])
 
-  console.log(users)
 
   return (
     <Router>
