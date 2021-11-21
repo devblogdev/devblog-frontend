@@ -15,7 +15,7 @@ export default function AuthorsLinks({match, authors}) {
                             marginBottom: '8px',
                         }}
                     >
-                        <Link to={`${match.url}/${author.id}`} style={{ textDecoration: 'none' }} >
+                        <Link rel="canonical" to={`${match.url}/${author.id}`} style={{ textDecoration: 'none' }} >
                             <div
                                 style={{
                                     display: 'grid',
