@@ -61,13 +61,13 @@ const  Post = ({match, posts, user, users}) => {
                 <meta name="og:title" content={post?.title} />
                 <meta name="og:description" content={post?.abstract} />
                 <meta name="og:image" content={postPicture?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
-                <meta name="og:url" content={"https://luisdevblog.netlify.app/" + post?.id } />
+                <meta name="og:url" content={"https://luisdevblog.netlify.app/posts/" + post?.id } />
                 <meta name="og:site_name" content="DevBlog" />
                 {/* LINKEDIN */}
                 <meta prefix="og: http://ogp.me/ns#" property='og:title' content={post?.title + " | Posts | DevBlog" }/>
                 <meta prefix="og: http://ogp.me/ns#" property='og:image' content= {postPicture?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
                 {/* <meta prefix="og: http://ogp.me/ns#" property='og:description' content={post?.abstract} /> */}
-                <meta prefix="og: http://ogp.me/ns#" property='og:url' content={"https://luisdevblog.netlify.app/" + post?.id } />
+                <meta prefix="og: http://ogp.me/ns#" property='og:url' content={"https://luisdevblog.netlify.app/posts/" + post?.id } />
                 {/* LINKEDIN */}
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>

@@ -41,13 +41,13 @@ const Author = ({match, author}) => {
                 <meta name="og:title" content={ `${author?.first_name} ${author?.last_name} | Authors | DevBlog`} />
                 <meta name="og:description" content={author?.bio.about || "Author at DevBlog"} />
                 <meta name="og:image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
-                <meta name="og:url" content={"https://luisdevblog.netlify.app/" + author?.id } />
+                <meta name="og:url" content={"https://luisdevblog.netlify.app/authors/" + author?.id } />
                 <meta name="og:site_name" content="DevBlog" />
                 {/* LINKEDIN */}
                 <meta property='og:title' content={ `${author?.first_name} ${author?.last_name} | Authors | DevBlog`} />
                 <meta property='og:image' content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
                 {/* <meta property='og:description' content={author?.bio.about || "Author at DevBlog"} /> */}
-                <meta property='og:url' content={"https://luisdevblog.netlify.app/" + author?.id } />
+                <meta property='og:url' content={"https://luisdevblog.netlify.app/authors/" + author?.id } />
                 {/* LINKEDIN */}
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
