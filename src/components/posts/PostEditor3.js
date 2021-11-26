@@ -272,7 +272,7 @@ const PostEditor3 = (props) => {
         // const contentState = editorState.getCurrentContent();
         // saveRaw(contentState);
     }
-  
+
     
     // If editing a draft or post, this callback is used in 'useEffect' hook below to obtain the draft or post data
     const loadedDraftOrPost = useCallback( () => {         

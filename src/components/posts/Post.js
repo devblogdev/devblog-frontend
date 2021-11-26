@@ -82,7 +82,7 @@ const  Post = ({match, posts, user, users}) => {
             {/* <img src = { post.images && post?.images[0]?.url} alt= {post.images && post?.images[0]?.alt} className="image"/> */}
             <img src = {postPicture?.url} alt= {postPicture?.alt} className="image"/>
             {/* <Interweave  content={post.body} /> */}
-            <FilteredHtml content= {post.body} />
+            <FilteredHtml content= {post.body || "Loading post..."} />
         </div>
     )
 }
