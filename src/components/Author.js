@@ -44,10 +44,10 @@ const Author = ({match, author}) => {
                 <meta name="og:url" content={"https://luisdevblog.netlify.app/authors/" + author?.id } />
                 <meta name="og:site_name" content="DevBlog" />
                 {/* LINKEDIN */}
-                <meta property='og:title' content={ `${author?.first_name} ${author?.last_name} | Authors | DevBlog`} />
-                <meta property='og:image' content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
+                <meta prefix="og: http://ogp.me/ns#" property='og:title' content={ `${author?.first_name} ${author?.last_name} | Authors | DevBlog`} />
+                <meta prefix="og: http://ogp.me/ns#" property='og:image' content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
                 {/* <meta property='og:description' content={author?.bio.about || "Author at DevBlog"} /> */}
-                <meta property='og:url' content={"https://luisdevblog.netlify.app/authors/" + author?.id } />
+                <meta prefix="og: http://ogp.me/ns#" property='og:url' content={"https://luisdevblog.netlify.app/authors/" + author?.id } />
                 {/* LINKEDIN */}
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
