@@ -1,6 +1,6 @@
 import React from 'react'
 import sanitizeHtml from 'sanitize-html'
-import { AllowedEmbedWebsites } from '../postEditor/allowedWebsites'
+import { AllowedEmbedWebsites } from '../PostEditor/allowedWebsites'
 
 // allow the default tags from 'sanitizeHtml' dependency; allow the iframe and img tags;
 // restrict the allowed attributes for the iframe, img, a, and span tags

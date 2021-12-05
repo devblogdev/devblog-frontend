@@ -13,7 +13,7 @@ import Home from './containers/Home';
 import PostLinksContainer from './containers/PostLinksContainer';
 import ProtectedRoute from './components/protectedRoute/protectedRoute';
 import ProfileContainer from './containers/ProfileContainer';
-import PostEditor3 from './components/postEditor/PostEditor3';
+import PostEditor3 from './components/PostEditor/PostEditor3';
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer';
 import AuthorsLinks from './containers/AuthorsLinks';
 import AuthorContainer from './containers/AuthorContainer';
