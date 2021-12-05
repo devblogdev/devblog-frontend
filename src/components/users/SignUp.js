@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // MATERIAL UI DEPENDENCIES
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -18,6 +18,9 @@ import { NavLink } from 'react-router-dom'
 import { useInput } from '../hooks/input-hook'
 import { createOrLoginUser } from '../../actions/userActions'
 import { useDispatch } from 'react-redux'
+import DevBlogLogoFrame from '../logo/DevBlogLogoFrame';
+import DevBlogLogoWhiteColor from '../logo/DevBlogLogoWhiteColor';
+
 
 
 
@@ -131,9 +134,17 @@ export default function SignUp(props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        {/* <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
-        </Avatar>
+        </Avatar> */}
+        <DevBlogLogoFrame 
+          child= {<DevBlogLogoWhiteColor />}
+          border = "solid 1px"
+          backgroundMinor = "whitesmoke"
+          shape = "15px"
+          height = "80px"
+          width = "100px"
+        />
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
