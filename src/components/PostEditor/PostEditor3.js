@@ -26,11 +26,11 @@ import  S3ImageService2  from '../images/S3ImageService2'
 import { manageImageForNewDraftOrPost } from '../../actions/imageActions'
 import { manageImageForDraftOrPost } from '../../actions/imageActions'
 import { extractTitle } from '../../actions/postEditorHelper'
-import { noBody, noTitle } from '../PostEditor/ValdationPostEditor';
+import { noBody, noTitle } from './ValdationPostEditor';
 import axios from 'axios'
 import { ModalContext } from '../modal/ModalContext'
-import { AllowedEmbedWebsites } from '../utilities/allowedWebsites';
-import { mediaBlockRenderer } from '../PostEditor/mediaBlockRenderer';
+import { AllowedEmbedWebsites } from './allowedWebsites';
+import { mediaBlockRenderer } from './mediaBlockRenderer';
 
 // import  titleBlockRenderer from './entities//titleBlockRenderer'
 

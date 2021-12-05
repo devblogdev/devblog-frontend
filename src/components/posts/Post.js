@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import FilteredHtml from '../utilities/FilteredHtml'
+import FilteredHtml from './FilteredHtml'
 import { Helmet } from 'react-helmet'
 // import Interweave from 'interweave'
 
