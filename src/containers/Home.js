@@ -5,26 +5,31 @@ import { Link } from 'react-router-dom'
 import ImgCardMedia from '../components/decorators/ImgCardMedia'
 import ExternalImgCardMedia from '../components/decorators/ExternalImgCardMedia'
 
-// MAIN COMPONENT; FUNCTIONAL COMPONENT
+
 const Home = (props) => {
     
     const dispatch = useDispatch()
     
     useEffect(() => {
         console.log(props)
+        // The "/logout" route renders the Home component
         if (props.match.url === "/logout") {
+            // If the Home component is rendered because the user clicked on Logout, logout the user and update
+            // the url from the user to equal the home page url
             dispatch({type: 'LOGOUT_USER'})
             props.history.replace('/')
         } 
         else if (props.location.state?.from.pathname === '/profile') {
+            // If the user is not logged in and clicks on "My Profile" on the navbar, the user will be automatically returned
+            // to the home page; check whether the Home component was rendered because the user clicked on "My Profile" while not authenticated;
+            // if that is the case, display a message to let user know to log in and update the url to reflect the homepage url
             props.history.replace('/')
             props.retrieveModalState(["Please login to access this feature"])
         } 
     })
 
     const published = props.posts.filter( post => post.status === "published")
-    // const published = props.posts.slice()
-
+    
     const mainPost = useCallback(() => {
         if (published.length > 0) {
           return  <Link to={`/posts/${published[0].id}`} style={{ textDecoration: 'none' }}>
@@ -52,7 +57,6 @@ const Home = (props) => {
 
     return (
         <div className='home'>
-            
             <div className="mainPost">
             <h1>Welcome to DevBlog</h1>
                 <h4>{props.loading}</h4>
@@ -64,8 +68,6 @@ const Home = (props) => {
             <div className="remainderPosts">
                 {remainderPosts}
             </div>
-            
-            {/* <PostList posts ={props.posts} {...props} />  */}
          </div>
     )
 }

@@ -50,7 +50,9 @@ function DemoTabs(props) {
   const { deactivate } = useContext(ActivationContext)
   // When the user clicks on the "MY INFO" tab, disable (deactivate) the textfields in the MY INFO tab
   // (in the event the user did not click on 'Cancel' before leaving the MY INFO tab)
-  const handleFocus = () => deactivate()
+  const handleFocus = () => deactivate()    
+  // Here the "deactivate()" function from ActivationContext toggles the "active" ActivationContext variable present in the ProfileForm.js component to deactivate the buttons
+  // AND the textfields present in the profile form when the user leaves the "MY INFO" tab in the UI under which the profile form is rendered
   return (
     <AppBar position="static">
       <Tabs
@@ -93,7 +95,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
 
   useEffect(() => {
       dispatch(authorization())
-      console.log("Authorization called in profile")
+      console.log("Authorization called in ProfileContainer.js")
   },[dispatch])
 
   const loadedDrafts = useCallback ( () => user.posts?.filter( post => post.status === "draft").map((post,index) => {

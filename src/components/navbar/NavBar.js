@@ -71,7 +71,7 @@ export default function NavBar(props) {
             </NavLink>
           </Typography>
 
-              {/* Loing/Logout button */}
+              {/* Loing/Logout button; the bottom comes from App.js as a props */}
               {props.button}
 
         </Toolbar>
