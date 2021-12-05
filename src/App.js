@@ -1,26 +1,26 @@
-import React, { useEffect, useCallback, useContext } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useCallback, useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import { NavLink } from 'react-router-dom'
-import { authorization } from './actions/securityActions'
-import { fetchPosts } from './actions/postsAndCommentsActions'
-import {fetchUsers} from './actions/userActions'
-import NavBar from './components/navbar/NavBar'
-import Home from './containers/Home'
+import { NavLink } from 'react-router-dom';
+import { authorization } from './actions/securityActions';
+import { fetchPosts } from './actions/postsAndCommentsActions';
+import {fetchUsers} from './actions/userActions';
+import NavBar from './components/navbar/NavBar';
+import Home from './containers/Home';
 import PostLinksContainer from './containers/PostLinksContainer';
 import ProtectedRoute from './components/protectedRoute/protectedRoute';
-import ProfileContainer from './containers/ProfileContainer'
-import PostEditor3 from './components/postEditor/PostEditor3'
-import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer'
-import AuthorsLinks from './containers/AuthorsLinks'
-import AuthorContainer from './containers/AuthorContainer'
-import ManageLogin from './containers/ManageLogin'
-import Modal from './components/modal/Modal'
-import { ModalContext } from './components/modal/ModalContext'
-import { Helmet } from 'react-helmet'
+import ProfileContainer from './containers/ProfileContainer';
+import PostEditor3 from './components/postEditor/PostEditor3';
+import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer';
+import AuthorsLinks from './containers/AuthorsLinks';
+import AuthorContainer from './containers/AuthorContainer';
+import ManageLogin from './containers/ManageLogin';
+import Modal from './components/modal/Modal';
+import { ModalContext } from './components/modal/ModalContext';
+import { Helmet } from 'react-helmet';
 // import auth from './components/security/auth'
 
 
