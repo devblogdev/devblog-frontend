@@ -4,9 +4,6 @@ import FilteredHtml from './FilteredHtml'
 import { Helmet } from 'react-helmet'
 // import Interweave from 'interweave'
 
-
-
-
 const  Post = ({match, posts, user, users}) => {
 
     const [post, setPost] = useState({})
@@ -14,15 +11,12 @@ const  Post = ({match, posts, user, users}) => {
     const [editButton, setEditButton] = useState()
     const [postPicture, setPostPicture] = useState({})
 
-
     useEffect(() => { 
         if (posts.length > 0) {
             setPost( () => posts.find(({id}) => `${id}` === match.params.postID)
             )
         }
     },[posts, match.params.postID]);
-
-    // console.log(post)
 
     useEffect(() => { 
         if ( Object.keys(user).length > 0 ) {
@@ -32,7 +26,6 @@ const  Post = ({match, posts, user, users}) => {
         }
         if ( Object.keys(post).length > 0 ) {
             setPostPicture(post.images[0])
-            // console.log(post.images[0])
             let timeSplit = post.creation_time.split(",")
             if (timeSplit[1].trim() === `${new Date().getFullYear()}`) {
                 setDate(timeSplit[0]) 
@@ -41,9 +34,6 @@ const  Post = ({match, posts, user, users}) => {
     },[post, user]);
 
     // const author = users.find( author => post.user_id === author.id )
-
-
-
     return(
         <div >
             <Helmet>
