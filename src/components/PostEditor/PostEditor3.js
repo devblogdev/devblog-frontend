@@ -1,13 +1,6 @@
-// Changes compared to PostEditor2: 
-// * customized editor toolbar to show less buttons; 
-// * added the 'handledPastedText' empty function that normalizes the font size, font family, and
-// background color of pasted text
-
 import React, { useState, useCallback, useEffect, useContext, useRef } from 'react';
-
 import { useDispatch } from 'react-redux';
 import { EditorState, ContentState } from 'draft-js';
-// import { DefaultDraftBlockRenderMap } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertToRaw } from 'draft-js';  
@@ -17,7 +10,6 @@ import { convertFromHTML } from 'draft-convert';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 // import { Map } from 'immutable'
-// import DOMPurify from 'dompurify';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { GreenButton, DangerButton } from '../decorators/Buttons'
@@ -25,15 +17,13 @@ import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsAct
 import  S3ImageService2  from '../images/S3ImageService2'
 import { manageImageForNewDraftOrPost } from '../../actions/imageActions'
 import { manageImageForDraftOrPost } from '../../actions/imageActions'
-import { extractTitle } from '../../actions/postEditorHelper'
-import { noBody, noTitle } from './ValdationPostEditor';
+import { extractTitle } from './postEditorHelper'
+import { noBody, noTitle } from './validPost';
 import axios from 'axios'
 import { ModalContext } from '../modal/ModalContext'
 import { AllowedEmbedWebsites } from './allowedWebsites';
 import { mediaBlockRenderer } from './mediaBlockRenderer';
-
-// import  titleBlockRenderer from './entities//titleBlockRenderer'
-
+import { editorLabels } from './editorLabels';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -42,28 +32,30 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-
-//   FUNCTIONAL COMPONENT
+//   FUNCTIONAL COMPONENT; MAIN COMPONENT
 const PostEditor3 = (props) => {
 
     const dispatch = useDispatch()
 
     const classes = useStyles();
     
-    
     // --------------------- CRUD ACTIONS START ------------------------------------
 
         // --------------- Image Data Retrieval START-------------------
     // This variable is set when the user selects a picture to upload
     const [imageState, setImageState] = useState()
-    // This function is passed to S3ImageService2 component at bottom; it is activated when the user selects an image
+    // This function is passed to the child S3ImageService2 component in return block; it is activated when the user selects an image for upload
     const retrieveImageState = useCallback ((file) => {
         setImageState(file)
     },[])
-
         // --------------- Image Data Retrieval END-------------------
 
-    // FUNCTIONS FOR POST EDITOR BUTTONS START
+    
+    //<------------- FUNCTIONS FOR POST EDITOR BUTTONS START ------------->
+      // Special note: the below post editor functions may seem repetitive; however, I highly recommend to keep individual definitions
+      // for each function as there are four/five different cases for saving/updating a post; when a problem arises regarding a case, you can
+      // go directly to the function that handles that specific case; if the functions are merged, it will be hard to debug the code 
+      // as your changes may affect more than one case, potentially leading to more problems rather than solutions
 
     // saves a NEW draft and keeps it as a draft
     const saveDraft = (event) => {
@@ -91,8 +83,6 @@ const PostEditor3 = (props) => {
         } else {
           resolveImageThenResolvePost()
         }
-        
-        
     }
 
     // saves a NEW draft and automatically publishes it; no longer a draft, now a published post
@@ -119,7 +109,6 @@ const PostEditor3 = (props) => {
           resolveImageThenResolvePost()
           window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         }
-        
     }
 
     // updates an already created draft
@@ -195,10 +184,12 @@ const PostEditor3 = (props) => {
         resolveImageThenResolvePost()
     }
 
-    // FUNCTION FOR POST EDITOR BUTTONS END
+    // <------------- FUNCTIONS FOR POST EDITOR BUTTONS END ------------->
 
     // POST EDITOR BUTTONS
+
         //   ------------ NEW POST  ---------------
+        // Saves a new  draft and keepts it as a draft
     const saveAsDraftButton = <Button 
                                 onClick={saveDraft}
                                 color="primary" variant="contained" component="span"
@@ -206,6 +197,7 @@ const PostEditor3 = (props) => {
                               >Save as Draft
                               </Button>
 
+        // Saves a new draft and immediately publishes it; no longer a draft, now a published post
     const publishNewButton = <GreenButton 
                                 onClick={savePost}
                                 color="primary" variant="contained" component="span"
@@ -215,7 +207,7 @@ const PostEditor3 = (props) => {
                               </GreenButton>  
 
     //   ------------ DRAFT POST ---------------
-        //   Updating a draft post
+        //   Updating a draft post and keeping it as a draft
     const saveButton = <Button 
                           onClick={(event) => updateDraft(event)}
                           color="primary" variant="contained" component="span"
@@ -233,6 +225,7 @@ const PostEditor3 = (props) => {
                                </GreenButton>  
     
     //   ------------ PUBLISHED POST  ---------------
+        // Updates an already published post
     const saveAndPublishButton = <GreenButton 
                                     onClick={updatePost}
                                     color="primary" variant="contained" component="span"
@@ -241,7 +234,7 @@ const PostEditor3 = (props) => {
                                   >Save and Publish
                                   </GreenButton>
     
-    //   ------------ Delete draft or post  ---------------
+    //   ------------ DELETE DRAFT OR POST  ---------------
     const deleteButton = <DangerButton 
                            onClick={removePost}
                            disableElevation
@@ -254,10 +247,10 @@ const PostEditor3 = (props) => {
     
     // --------------------- POST EDITOR START ------------------------
     
-      // A NIGHTMARE!!! 
+                // GET READY FOR THIS!!!!! 
       
     // If editing a draft or post, the below line provides dummy content for the editor to start with while the draft or post data is loaded
-    const [draftOrPost, setDraftOrPost] = useState({body: "<p>Loding content...</p>"})
+    const [draftOrPost, setDraftOrPost] = useState({body: "<p>Loading content...</p>"})
     
     // DO NOT DELTE THE BELOW CONST; MIGHT BE NEEDED AT SOME POINT
     // const saveRaw = (currentContent) => {
@@ -273,18 +266,10 @@ const PostEditor3 = (props) => {
         // saveRaw(contentState);
     }
 
-    
     // If editing a draft or post, this callback is used in 'useEffect' hook below to obtain the draft or post data
     const loadedDraftOrPost = useCallback( () => {         
       return props.user.posts.find( post => `${post.id}` === props.match.params.postID)
     },[props.user, props.match])
-
-    // const loadedDraftOrPost = useCallback( () => {       
-    //   const determine = props.user.posts.find( post => `${post.id}` === props.match.params.postID)
-    //   if (determine) {
-    //       return determine
-    //   } return draftOrPost
-    // },[props.user, props.match])
 
     // Sets the buttons depending on whether we have a new draft, a draft, or a published post
     let buttons
@@ -299,23 +284,21 @@ const PostEditor3 = (props) => {
       }
     }
   
-  // Loads the editor with the dummy content provided in 'draftOrPost' state variable
+  // Loads the editor with the "dummy content" provided in 'draftOrPost' state variable
   // This is needed to ensure that the editor does not break when refreshing the page on a draft or post
-  // A total painstaking process to arrive to this
+  // A total painstaking process to arrive to this; took me many, many hours to come up with this solutio to stabilize the editor
   const loadedInitialEditorState = useCallback( () => (EditorState.createWithContent(convertFromHTML(draftOrPost.body))),[draftOrPost])
 
   // Takes the incoming draft or post and defines a new Editor state using the draft or post
   // This will be used to replace the dummy state created by 'loadedInitialEditorState' above
   // This ensures that the editor does not break when refreshing the page on a draft or post
   const reinitializeState = useCallback ((argument) => {
-    // const blocksFromHTML = htmlToDraft(argument.body);
     const blocksFromHTML = htmlToDraft(argument?.body);
-    const { contentBlocks, entityMap} = blocksFromHTML
+    const { contentBlocks, entityMap} = blocksFromHTML;
     const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-    const result = EditorState.createWithContent(contentState)
-    return result
+    const stateWithRealPost = EditorState.createWithContent(contentState);
+    return stateWithRealPost;
   },[])
-
 
   const editor = useRef(null)
 
@@ -333,16 +316,13 @@ const PostEditor3 = (props) => {
   },[props.user, props.match, loadedDraftOrPost, reinitializeState, draftOrPost], () => setTimeout(() => editor.current.focus(),0)
   )
 
-
   // If a new draft, create a blank editor with "Title" as the first line
   // If editing a draft or post, load the editor with some dummy state 'loadedInitialEditorState()';
-  // the dummy state will be later replaced in 'useEffect' hook
+  // the dummy state will be later replaced in 'useEffect' hook above
   // This is needed for the editor not to break when refreshing the page while editing a draft or post
-  // A total painstaking process to arrive to this
   const [editorState, setEditorState] = useState( 
     () => {
-      if(props.match.url === "/profile/drafts/new") {
-        // return EditorState.createEmpty()        
+      if(props.match.url === "/profile/drafts/new") {    
         return reinitializeState({body: "<h1>Title</h1>"})
       } else {
         return loadedInitialEditorState()
@@ -351,12 +331,10 @@ const PostEditor3 = (props) => {
   );
 
   const handlePastedText = (text, styles, editorState) => {
-    // debugger
     // INCREDIBLE: leaving this function empty normalizes the pasted text's font size and background color, while keeping 
     // special features, such as bullet points, links, monospace, ...
-        // setEditorState(removeEditorStyles(text, editorState))
+    // setEditorState(removeEditorStyles(text, editorState))
   }
-
 
   const { retrieveModalState } = useContext(ModalContext)
 
@@ -391,16 +369,6 @@ const PostEditor3 = (props) => {
       });
     });
   }
-
-  
-  // const setEditorReference = (ref) => {
-  //   editor.current.focus()
-  //   this.editroReference = ref;
-  //   ref.focus()
-  // }
-  
-
-
   
   // --------------------- POST EDITOR END ------------------------
         
@@ -410,7 +378,7 @@ const PostEditor3 = (props) => {
       <header className="posteditor-header">
         Post Editor
       </header>
-      {/* Renders the post editor */}
+      {/* "Edtitor" Renders the post editor */}
       <Editor 
         // ref={editor}
         editorState={editorState}
@@ -454,17 +422,14 @@ const PostEditor3 = (props) => {
             }
         }}
         blockRendererFn = {mediaBlockRenderer}
-        // editorRef = {setEditorReference}
-        
       />
-      {/* Renders the "Save, Publish,Delete, etc." buttons below post editor */}
+      {/* Renders the Save As Draft, Publish, Save, Save and Publish, and Delete buttons below post editor */}
       {buttons.map( (button, index) => 
         <React.Fragment key={index}>
             {button}
         </React.Fragment> 
        )}
-        {/* Renders the "Upload a cover image" button; it is a full compponent */}
-        {/* <S3ImageService2 retrieveImageState = {retrieveImageState} user = {props.user} {...props} /> */}
+        {/* Renders the "Upload A Cover Image" button; this button is a full compponent by itself */}
         <S3ImageService2 retrieveImageState={retrieveImageState} user = {props.user} {...props} />
     </div>
   )
@@ -480,47 +445,3 @@ function myBlockStyleFn(contentBlock) {
       return 'superFancyBlockquote';
     }
   }
-
-
-const editorLabels = {
-  // Generic
-  'generic.add': 'Add',
-  'generic.cancel': 'Cancel',
-  // BlockType
-  // 'components.controls.blocktype.h1': 'Heading 1',
-  // 'components.controls.blocktype.blockquote': 'Blockquote',
-  'components.controls.blocktype.code': 'Code Block',
-  // 'components.controls.blocktype.blocktype': 'Block Type',
-  'components.controls.blocktype.normal': 'Normal',
-  // Inline
-  'components.controls.inline.bold': 'Bold',
-  'components.controls.inline.italic': 'Italic',
-  'components.controls.inline.underline': 'Underline',
-  'components.controls.inline.strikethrough': 'Strikethrough',
-  'components.controls.inline.monospace': 'Monospace',
-  'components.controls.inline.superscript': 'Superscript',
-  'components.controls.inline.subscript': 'Subscript',
-  // List
-  'components.controls.list.list': 'List',
-  'components.controls.list.unordered': 'Unordered',
-  'components.controls.list.ordered': 'Ordered',
-  // Image
-  'components.controls.image.image': 'Image',
-  'components.controls.image.fileUpload': 'File Upload',
-  'components.controls.image.byURL': 'URL',
-  'components.controls.image.dropFileText': 'Drop the file or click to upload',
-}
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
