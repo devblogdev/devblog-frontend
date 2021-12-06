@@ -3,5 +3,5 @@ Changing the folder name "PostEditor" to a lowercase version ("postEditor", "pos
 will cause errors during production build as there will be modules with the names
 "PostEditor" AND "postEditor"; some compiling programs do not differentiate between
 the lowercase and uppercase names; for example, when pushing "postEditor" to GitHub,
-the actual folder name will be "PostEditor", which will lead to some files not be found
-during the production deployment cause the production build to fail
+the actual folder name will be "PostEditor", which will lead to some files not being found
+during the production deployment making the production build to fail

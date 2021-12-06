@@ -1,70 +1,23 @@
-# Getting Started with Create React App
+# DevBlog
+Welcome to [DevBlog](https://devblog.dev/). DevBlog is a rich, complex, and evolving app for coding-related blog posts. DevBlog's front end is powered by React JS, with Redux as state management. Its [backend](https://github.com/mmartinezluis/devblog-backend-postgres) is a Ruby on Rails API. DevBlog's most powerful tool is its Draft JS Wysiwyg editor, which supports rich-text editing, such as inline code, code snippets, blockquotes, uploading images, and embedding iframes. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+DevBlog integrates an evolving ecosystem of APIs and cloud services that power its functionalities, which include Amazon Web Services S3, Amazon Web Services EC2, the Imgur API, and the New York Times API. 
 
-## Available Scripts
+DevBlog performs high degree filtering of HTML through the sanitize-html package to safely render HTML content on its pages. 
 
-In the project directory, you can run:
+DevBlog is currently optimized for social media sharing, that is, you can copy any link from the website and paste it in a social media platform, and a preview iamge and title will be generated related to the contents of the pasted link. 
 
-### `yarn start`
+## Functionalities
+In DevBlog, users can browse the website's posts list, authors list, blog posts, and authors profile pages, all without the need of loggin in. Login is only required for creating blog posts and updating your profile page. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+When you publish in DevBlog, your post will be shown as the main post in the homepage, and it will be placed at the top of the posts list. In addition, your name will be moved to the top of the authors list. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Through their profile page, users have access to their drafts, published posts, and their profile form. In their profile form, users can share their contact info, complete an about section, and/or upload a profile iamge, all of which will be visible to the visitors of the website when clicking on an author's name. 
 
-### `yarn test`
+Users can write a post and save it as a draft, or publish it immediately. Posts saved as drafts can be pubblished at any given time. Posts and drafts can be updated at any given time. In addition, users can upload a cover image for their blog posts, and include more images in the body of blog posts. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Progress
+DevBlog is continously evolving. The next on the way major integrations for DevBlog include OmniAuth via Google, Facebook, and/or other platforms; integrating a comments editor, and displaying of comments for blog posts. 
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Installion
+Installation instructions for running this app locally wil lbe coming soon. 
