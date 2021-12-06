@@ -26,11 +26,11 @@ export default function AuthorsLinks({match, authors}) {
                                             `
                                 }}
                             >
-                            <div style={{ fontSize: '21px' } }>
-                                <li>
-                                    {author.first_name} {author.last_name} 
-                                </li> 
-                            </div>
+                                <div style={{ fontSize: '21px' } }>
+                                    <li>
+                                        {author.first_name} {author.last_name} 
+                                    </li> 
+                                </div>
                                 <ProfileImage 
                                     imgSource= {author?.images[0]?.url || null} 
                                     first_name = {author.first_name} 

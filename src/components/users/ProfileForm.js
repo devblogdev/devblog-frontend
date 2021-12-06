@@ -11,7 +11,6 @@ import { updateUser } from '../../actions/userActions';
 import { manageImageForDraftOrPost } from '../../actions/imageActions'
 
 
-
 const useStyles = makeStyles(theme => ({
     root: {
       display: 'grid',
@@ -37,22 +36,38 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
+// ProfileForm is rendered in containers/ProfileContainer.js
+// In the UI, the ProfileForm is shown under the "My Info" tab
 export default function ProfileForm(props) {
 
     const classes = useStyles();
     const { user } = props;
     const dispatch = useDispatch();
 
+    // "activate" is used to activate the buttons and the textfields present in the ProfileForm when the user clicks on the "Edit" button
+    // "deactivate" is used to deactivate the buttons and the textfields present in the ProfileForm when the user clicks on "Cancel"
+        // Both the "activate" and "deactivate" functions set the "active" useState variable in ActivationContext.js
+    // The "restoreProfileImage" function is used to undo any changes the user may have made to the profile image in ProfileForm upon clicking on "Cancel"
+        // the "restoreProfileImage" function sets the "preview" useState variable in ActivationContext.js
+    // The "showProfileImage" function shows the user's profile image if one is present when clicking on "Cnacel"
+        // example: the user has a profile image, user clicks on "Edit", then user removes the image; and then clicks on "Cancel"; at this point the original image is restored 
     const { activate, deactivate, restoreProfileImage, showProfileImage } = useContext(ActivationContext);
 
     const [imageState, setImageState] = useState();
 
+    // This function is passed to the child ProfileImageService component; it stores the user profile image if user has one;
+    // the function is called when the ProfileImageService component is rnedered AND the user has an image on record, OR when the 
+    // user selects a file for upload
     const retrieveImageState = useCallback ((file) => {
         setImageState(file)
     },[])
 
+    // The "showSaveButton" boolean is used to change the buttons shown to user; if user clicks on "Edit"
+    // the "Save" button (component: GreenButton) and the "Cancel" button (component: DangerButton) are shown;
+    // if the user clicks on "Save", the "Save" and "Cancel" buttons are hidden
     const [showSaveButton, setShowSaveButton] = useState(false)
 
+    // This is an uncontrolled component; that's why useRef hook is used
     const inputFieldRef = useRef([])
     const publicFields = ['contact', 'about']
     inputFieldRef.current = new Array(publicFields.length)

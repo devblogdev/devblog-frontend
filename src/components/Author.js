@@ -6,8 +6,6 @@ import ProfileImage from './decorators/ProfileImage'
 import { Route } from 'react-router-dom'
 import AuthorBio from './AuthorBio'
 import { Helmet } from "react-helmet"
-
-
 // import Avatar from '@material-ui/core/Avatar';
 
 const Author = ({match, author}) => {
