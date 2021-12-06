@@ -21,10 +21,6 @@ import ManageLogin from './containers/ManageLogin';
 import Modal from './components/modal/Modal';
 import { ModalContext } from './components/modal/ModalContext';
 import { Helmet } from 'react-helmet';
-// import auth from './components/security/auth'
-
-
-
 
 function App() {
 
@@ -74,7 +70,6 @@ function App() {
     console.log('Posts dispatcher was called')
   }, [dispatch])
 
-
   // const retrieveModalState = useCallback ((messageArray, time=3000) => {
   //     const message = messageArray.map((message,index) => {
   //       return <li key={index}>{message}</li>
@@ -83,7 +78,6 @@ function App() {
   //     setDisplayModeModal("")
   //     setTimeout(() => { setDisplayModeModal('hidden')}, time)
   // },[])
-
 
   return (
     <Router>

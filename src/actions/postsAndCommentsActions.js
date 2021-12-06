@@ -1,17 +1,6 @@
 import axios from 'axios'
 import auth from '../components/security/auth'
 
-// export function fetchPosts(endpoint) {
-//     return async (dispatch) => {
-//         dispatch({type: 'LOADING_POSTS', payload: "Loading posts..." })
-//         const response = await axios.get(endpoint)
-//             .catch(error => {
-//                 console.log(error)
-//                 auth.logout()
-//             })
-//         dispatch({type: 'FETCH_POSTS', payload: response.data })
-//     }
-// }
 export function fetchPosts(endpoint) {
     return async (dispatch) => {
         dispatch({type: 'LOADING_POSTS', payload: "Loading posts..." })
@@ -40,7 +29,7 @@ export function addPost(endpoint, postData, routerAndModal=null){
             .then( response => {
                 console.log(response)
                 // whenever a user publishes a NEW post, move the user to the top of authors list
-                // WARNING: **
+                // WARNING: **(comments below)
                 dispatch( {type: "MOVE_AUTHOR_TO_TOP", payload: {previous_status: undefined, current: response.data} })
                 dispatch( {type: 'ADD_POST', payload: response.data})
                 dispatch( {type: "ADD_POST_TO_USER", payload: response.data})
@@ -61,7 +50,7 @@ export function addPost(endpoint, postData, routerAndModal=null){
         dispatch({type: 'LOGOUT_USER'})
     }
 }
-// ** Order matters: 'MOVE_AUTHOR_TO_TOP' will add the current user to the authors list if the user does not already have published posts at the time of publishing;
+// ** Warning: Order matters: 'MOVE_AUTHOR_TO_TOP' will add the current user to the authors list if the user does not already have published posts at the time of publishing;
 // this action will update the 'users' array in 'usersReducer.js'; then 'ADD_POST' will update the 'posts' array in 'PostsAndCommentsReducer.js'; this later update
 // triggers the 'authorPost' function in Author.js, which finds all the ppsts for the clicked author name;
 // if the order is reversed, the 'posts' array will be updated first and the 'authorPost' function will run
