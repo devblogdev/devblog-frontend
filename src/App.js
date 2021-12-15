@@ -22,6 +22,7 @@ import Modal from './components/modal/Modal';
 import { ModalContext } from './components/modal/ModalContext';
 import { Helmet } from 'react-helmet';
 
+
 function App() {
 
   const dispatch = useDispatch()
@@ -58,16 +59,16 @@ function App() {
   },[token])
 
   useEffect(() => {
-    dispatch(authorization())
+    dispatch(authorization())   // Note: 'authorization' affects one state variable: state.users.current_user; this triggers 1 render of App component (and the whole App as well); if user is not logged in, then no rerender is triggered
     Buttons()
     console.log('Auhorization dispatcher was called')
   }, [dispatch, Buttons])
 
   useEffect(() => {
     const endpoint = "/posts"
-    dispatch(fetchPosts(endpoint))
-    dispatch(fetchUsers("/users"))
-    console.log('Posts dispatcher was called')
+    dispatch(fetchPosts(endpoint))    // Note: 'fetchPosts' affects two state varibles: state.posts.posts and state.posts.message; this will trigger 2 renders of App component (and the whole App as well)
+    dispatch(fetchUsers("/users"))    // Note: 'fecthUsers' affects oene state variable: state.users.users; this triggers 1 render of App component (and the whole App as well)
+    console.log('Posts dispatcher was called')   // Total renders after the useEffects: 5 (1 normal render, and 4 renders from the dispatchers (if user is logged in; otherwise 4 total renders))
   }, [dispatch])
 
   // const retrieveModalState = useCallback ((messageArray, time=3000) => {
@@ -78,7 +79,7 @@ function App() {
   //     setDisplayModeModal("")
   //     setTimeout(() => { setDisplayModeModal('hidden')}, time)
   // },[])
-
+  console.log("App was Rendered")
   return (
     <Router>
       <div className="App">
@@ -110,6 +111,7 @@ function App() {
 
         <div className="Nav-addon"></div>
         <NavBar button ={Buttons()} />
+        {/* 'Modal' is the general messaging system of the app; Modal is not used for displaying meesages while a component is loading, instead, the posts' 'message' variable is used for this purpose, found in reducers/PostsAndComentsReducer.js */}
         <Modal displayModeModal = {displayModeModal} modalMessage = {modalMessage}/>
         <Container 
           className="main"
@@ -177,6 +179,10 @@ function App() {
             />
             <Route
                 exact path="/signup"
+                render={routerProps => <ManageLogin {...routerProps} retrieveModalState = {retrieveModalState} /> }
+            />   
+            <Route
+                path="/registration-confirmation"
                 render={routerProps => <ManageLogin {...routerProps} retrieveModalState = {retrieveModalState} /> }
             />   
           </Switch>

@@ -70,6 +70,7 @@ export default function SignUp(props) {
   const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput("")
   const { value: email, bind: bindEmail, reset: resetEmail } = useInput("")
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput("")
+  const { value: passwordConfirm, bind: bindPasswordConfirm, reset: resetPasswordConfirm } = useInput("")
 
 
   const nameValidation = (fieldName, fieldValue) => {
@@ -103,6 +104,9 @@ export default function SignUp(props) {
     if (password.trim().length < 5) {
       return `Password needs to be at least five characters`;
     }
+    if (password !== passwordConfirm) {
+      return "Password and Password confirmation must match"
+    }
     return null;
   };
 
@@ -119,13 +123,14 @@ export default function SignUp(props) {
         setDisplayErrors(true)
       }
       else {
-        const endpoint = "/users"
+        const endpoint = "/users" 
         const userData = { first_name: firstName, last_name: lastName, email, password}
         dispatch(createOrLoginUser(endpoint, userData, props ))
         resetFirstName()
         resetLastName()
         resetEmail()
         resetPassword()
+        resetPasswordConfirm()
         setDisplayErrors(false)
       }
   }
@@ -205,6 +210,19 @@ export default function SignUp(props) {
                 {...bindPassword}
               />
               <p className="errorField">{displayErrors && errors.password}</p>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="passwordConfrm"
+                label="Password Confirmation"
+                type="password"
+                id="passwordConfirm"
+                autoComplete="current-password"
+                {...bindPasswordConfirm}
+              />
             </Grid>
             <Grid item xs={12}>
               {/* <FormControlLabel

@@ -6,10 +6,20 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
         // debugger
         axios.post(endpoint, {user: userData})
         .then(response => {
-            localStorage.setItem('token', response.data.jwt)
-            console.log(response)
-            dispatch({type: 'SET_USER', payload: response.data.user })
-            routerAndModal.history.push('/')
+            // If the user is signing up via email, redirect to email confirmation page
+            if(endpoint === "/users"){
+                routerAndModal.history.push('/registration-confirmation')
+                console.log(response)
+                dispatch({type: "SET_CONFIRMATION_TEXT", payload: response.data.email })
+            }
+            // If the user is loggin in locally or via Omniauth, set the user and redirect to home page
+            else {
+                localStorage.setItem('token', response.data.jwt)
+                console.log(response)
+                dispatch({type: 'SET_USER', payload: response.data.user })
+                routerAndModal.history.push('/')
+                routerAndModal.retrieveModalState(["You have been successfully logged in"])
+            }
         })
         .catch(error => {
             // debugger

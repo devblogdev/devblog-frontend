@@ -7,7 +7,8 @@ export default function usersReducer(
         // info for a user object in 'users' is visible to all page visitors
         users: [],
         // 'current_user'is the logged in user; this user is private and contains three additional keys compared to 'users': email, private (a hash), posts (an array of drafts and published posts)
-        current_user: {}
+        current_user: {},
+        confirmation_text: ""
     }, action) {
 
         let post 
@@ -22,6 +23,12 @@ export default function usersReducer(
         case 'SET_USER':
             auth.login();
             return {...state, current_user: action.payload }
+        
+        case "SET_CONFIRMATION_TEXT":
+            return{...state, confirmation_text: action.payload}
+
+        case "CLEAR_CONFIRMATION_TEXT":
+            return{...state, confirmation_text: ""}
         
         case 'ADD_USERS':
             console.log(action.payload)
