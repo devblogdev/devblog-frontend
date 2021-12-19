@@ -9,7 +9,7 @@ export const ModalProvider = ({ children }) => {
     const [modalMessage, setModalMessage] = useState([])
 
 
-    const retrieveModalState = useCallback ((messageArray, time=3000) => {
+    const retrieveModalState = useCallback ((messageArray=[], time=3000) => {
         const message = messageArray.map((message,index) => {
           return <li key={index}>{message}</li>
         })
