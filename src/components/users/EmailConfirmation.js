@@ -8,7 +8,7 @@ import { ModalContext } from '../modal/ModalContext';
 function EmailConfirmation() {
 
     const posts = useSelector((state) => state.posts.posts)
-    const confirmationText = useSelector((state) => state.users.confirmation_text)
+    const confirmationEmail = useSelector((state) => state.users.confirmation_email)
     const {retrieveModalState } = useContext(ModalContext)
     const dispatch = useDispatch()
 
@@ -46,11 +46,12 @@ function EmailConfirmation() {
         // below API call is made before the posts variable is updated, then the below call will run multiple times instead of one time
         if(Object.keys(params).length && counter > 10 && posts.length && timerId.current === 11) {
             console.log("in API")
-            axios.post(`/registration-confirmation/${params.relative}`)
+            axios.post(`/registration-confirmation/${params.confirm_token}`)
             .then( (response) => {
                 console.log(response)
                 localStorage.setItem('token', response.data.jwt)
                 dispatch({type: 'SET_USER', payload: response.data.user })
+                dispatch({type: 'CLEAR_CONFIRMATION_EMAIL' })
                 startCounter();
             })
             .catch(error => {
@@ -78,7 +79,7 @@ function EmailConfirmation() {
                 <blockquote>
                     <br/>
                     <br/>
-                    <strong>An email confirmation link has been sent to {confirmationText}</strong>.<br/>
+                    <strong>An email confirmation link has been sent to {confirmationEmail}</strong>.<br/>
                     Please check your inbox to finish the registration process.<br/>
                     The link will expire after 10 minutes.
                 </blockquote>

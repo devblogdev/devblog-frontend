@@ -185,6 +185,10 @@ function App() {
                 path="/registration-confirmation"
                 render={routerProps => <ManageLogin {...routerProps} retrieveModalState = {retrieveModalState} /> }
             />   
+            <Route
+                path="/password-reset"
+                render={routerProps => <ManageLogin {...routerProps} retrieveModalState = {retrieveModalState} /> }
+            />   
           </Switch>
         </Container>  
       </div>

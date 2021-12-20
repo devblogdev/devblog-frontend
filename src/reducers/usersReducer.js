@@ -8,7 +8,7 @@ export default function usersReducer(
         users: [],
         // 'current_user'is the logged in user; this user is private and contains three additional keys compared to 'users': email, private (a hash), posts (an array of drafts and published posts)
         current_user: {},
-        confirmation_text: ""
+        confirmation_email: ""
     }, action) {
 
         let post 
@@ -24,11 +24,11 @@ export default function usersReducer(
             auth.login();
             return {...state, current_user: action.payload }
         
-        case "SET_CONFIRMATION_TEXT":
-            return{...state, confirmation_text: action.payload}
+        case "SET_CONFIRMATION_EMAIL":
+            return{...state, confirmation_email: action.payload}
 
-        case "CLEAR_CONFIRMATION_TEXT":
-            return{...state, confirmation_text: ""}
+        case "CLEAR_CONFIRMATION_EMAIL":
+            return{...state, confirmation_email: ""}
         
         case 'ADD_USERS':
             console.log(action.payload)

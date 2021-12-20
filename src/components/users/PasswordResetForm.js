@@ -22,14 +22,12 @@ import DevBlogLogoFrame from '../logo/DevBlogLogoFrame';
 import DevBlogLogoWhiteColor from '../logo/DevBlogLogoWhiteColor';
 
 
-
-
 // MATERIAL UI FUNCTION 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://luisdevblog.netlify.app">
+      <Link color="inherit" href="https://devblog.dev">
         DevBlog
       </Link>{' '}
       {new Date().getFullYear()}
@@ -60,42 +58,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // MAIN FUNCTION; FUNCTIONAL COMPONENT
-export default function SignUp(props) {
+export default function PasswordResetForm({email}) {
   const classes = useStyles();
   const dispatch = useDispatch()
   const [displayErrors, setDisplayErrors] = useState(false)
 
   // CONSTANTS FOR INPUT CUSTOM HOOK
-  const { value: firstName, bind: bindFirstName, reset: resetFirstName } = useInput("")
-  const { value: lastName, bind: bindLastName, reset: resetLastName } = useInput("")
-  const { value: email, bind: bindEmail, reset: resetEmail } = useInput("")
+//   const { value: email, bind: bindEmail, reset: resetEmail } = useInput("")
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput("")
   const { value: passwordConfirm, bind: bindPasswordConfirm, reset: resetPasswordConfirm } = useInput("")
-
-
-  const nameValidation = (fieldName, fieldValue) => {
-    if (fieldValue.trim() === '') {
-      return `${fieldName} is required`;
-    }
-    if (/[^a-zA-Z -]/.test(fieldValue)) {
-      return 'Invalid characters';
-    }
-    return null;
-  };
-
-  const emailValidation = email => {
-    if (
-      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-        email,
-      )
-    ) {
-      return null;
-    }
-    if (email.trim() === '') {
-      return 'Email is required';
-    }
-    return 'Please enter a valid email';
-  };
 
   const passwordValidation = (password) => {
     if (password.trim() === '') {
@@ -111,9 +82,6 @@ export default function SignUp(props) {
   };
 
   const errors = {
-      firstName: nameValidation("First name", firstName),
-      lastName: nameValidation("Last name", lastName),
-      email: emailValidation(email),
       password: passwordValidation(password)
   }
     
@@ -123,12 +91,9 @@ export default function SignUp(props) {
         setDisplayErrors(true)
       }
       else {
-        const endpoint = "/users" 
-        const userData = { first_name: firstName, last_name: lastName, email, password}
+        const endpoint = "/password-reset/email" 
+        const userData = { email, password}
         dispatch(createOrLoginUser(endpoint, userData, props ))
-        resetFirstName()
-        resetLastName()
-        resetEmail()
         resetPassword()
         resetPasswordConfirm()
         setDisplayErrors(false)
@@ -155,48 +120,6 @@ export default function SignUp(props) {
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-                {...bindFirstName}
-              />
-              <p className="errorField">{displayErrors && errors.firstName}</p>
-            </Grid>
-            
-            {/* {typing} */}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-                {...bindLastName}
-              />
-              <p className="errorField">{displayErrors && errors.lastName}</p>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                {...bindEmail}
-              />
-             <p className="errorField">{displayErrors && errors.email}</p>
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -223,12 +146,6 @@ export default function SignUp(props) {
                 autoComplete="current-password"
                 {...bindPasswordConfirm}
               />
-            </Grid>
-            <Grid item xs={12}>
-              {/* <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              /> */}
             </Grid>
           </Grid>
           <Button

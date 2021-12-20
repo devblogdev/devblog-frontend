@@ -10,7 +10,10 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
             if(endpoint === "/users"){
                 routerAndModal.history.push('/registration-confirmation')
                 console.log(response)
-                dispatch({type: "SET_CONFIRMATION_TEXT", payload: response.data.email })
+                dispatch({type: "SET_CONFIRMATION_EMAIL", payload: response.data.email })
+            } else if(endpoint === "/password-reset") {
+                console.log(response)
+                dispatch({type: "SET_CONFIRMATION_EMAIL", payload: response.data.email })
             }
             // If the user is loggin in locally or via Omniauth, set the user and redirect to home page
             else {

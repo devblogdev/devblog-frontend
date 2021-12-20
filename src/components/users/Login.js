@@ -151,17 +151,17 @@ export default function Login(props) {
           >
             Login
           </Button>
-          <Grid container>
-            <Grid item xs>
-              {/* <Link href="#" variant="body2">
-                Forgot password?
-              </Link> */}
-            </Grid>
+          <Grid container justifyContent="flex-end">            
             <Grid item>
               <NavLink to="/signup" variant="body2">
               {"Don't have an account? Sign Up"}
               </NavLink>
             </Grid>
+            {/* <Grid item>
+              <NavLink to="/password-reset" variant="body2">
+              {"Forgot password?"}
+              </NavLink>
+            </Grid>             */}
           </Grid>
         </form>
       </div>
