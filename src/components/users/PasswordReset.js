@@ -1,29 +1,73 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'
-// import { ModalContext } from '../modal/ModalContext';
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom';
 import PasswordResetEmailForm from './PasswordResetEmailForm';
+import PasswordResetForm from './PasswordResetForm';
+import axios from 'axios';
+
 
 function PasswordReset() {
+    const params = useParams()
+    const [message, setMessage] = useState();
+    const [tempEmail, setTempEmail] = useState();
 
-    // const posts = useSelector((state) => state.posts.posts)
-    const confirmationEmail = useSelector((state) => state.users.confirmation_email)
-    // const {retrieveModalState } = useContext(ModalContext)
+    const updateMessage = (argument) => {
+        setMessage(argument)
+    }
 
-    // const history = useHistory();
-    const params = useParams();
-        
-    if(Object.keys(params).length === 0) {
+    useEffect(() => {
+        if(params.confirm_token){
+            axios.post(`/password-reset/${params.confirm_token}`)
+                .then((response) => {
+                    setTempEmail(response.data.email)
+                })
+                .catch(error => {
+                    setMessage (
+                        <blockquote>
+                            <br/>
+                            <br/>
+                            <strong>
+                                This link is no longer active for password reset.
+                            </strong> 
+                        </blockquote>
+                    )
+                })
+        }
+    }, [params.confirm_token]);
+
+    if(tempEmail && message) {    // If the user submits the password reset form and response is successful, replace the form with the success message
         return (
-            <div><PasswordResetEmailForm /></div>
+            <React.Fragment>
+                {message}
+            </React.Fragment>
         )
-    } else if(confirmationEmail.length) {
-        return(
-            <blockquote>
-            <br/>
-            <br/>
-            <strong>A password reset link has been sent to {confirmationEmail}</strong> 
-        </blockquote>
+    }
+
+    else if(tempEmail) {     // If the user is in '/password-reset/confirm_token' path and an email was recieved from the API, display the reset password form
+        return (
+            <React.Fragment>
+                <PasswordResetForm updateMessage= {updateMessage} email = {tempEmail}/>
+            </React.Fragment>
+        )
+    }
+    // else if(!tempEmail && params.confirm_token){   // If the user submits the password reset form, and there is an error, replace the form with the error message
+    //     return (
+    //         <React.Fragment>
+    //             {message}
+    //         </React.Fragment>
+    //     )
+    // }
+    else if(!message) {     // If the user is in the '/password-reset' path and the message has not been set, display the password reset email form
+        return (
+            <React.Fragment>
+                <PasswordResetEmailForm updateMessage= {updateMessage} />
+            </React.Fragment>
+        )
+    }
+    else {          // If the user is in the '/password-reset' path and the message has been set, replace the password reset email form with the message;
+        return(     // the message can be a success message or an error message
+            <React.Fragment>
+                {message}
+            </React.Fragment>
         )
     }
 }

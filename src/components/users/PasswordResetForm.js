@@ -6,35 +6,17 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 // import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 // APP DEPENDENCIES
-import { NavLink } from 'react-router-dom'
 import { useInput } from '../hooks/input-hook'
-import { createOrLoginUser } from '../../actions/userActions'
-import { useDispatch } from 'react-redux'
 import DevBlogLogoFrame from '../logo/DevBlogLogoFrame';
 import DevBlogLogoWhiteColor from '../logo/DevBlogLogoWhiteColor';
+import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
-
-// MATERIAL UI FUNCTION 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://devblog.dev">
-        DevBlog
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 // MATERIAL UI STYLES
 const useStyles = makeStyles((theme) => ({
@@ -58,13 +40,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // MAIN FUNCTION; FUNCTIONAL COMPONENT
-export default function PasswordResetForm({email}) {
+export default function PasswordResetForm({updateMessage, email}) {
+
   const classes = useStyles();
-  const dispatch = useDispatch()
   const [displayErrors, setDisplayErrors] = useState(false)
 
   // CONSTANTS FOR INPUT CUSTOM HOOK
-//   const { value: email, bind: bindEmail, reset: resetEmail } = useInput("")
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput("")
   const { value: passwordConfirm, bind: bindPasswordConfirm, reset: resetPasswordConfirm } = useInput("")
 
@@ -87,26 +68,43 @@ export default function PasswordResetForm({email}) {
     
   const handleSubmit = (event) => {
       event.preventDefault();
-      if (Object.values(errors).find( field => field !== null)) {
+      if (errors.password) {
         setDisplayErrors(true)
       }
       else {
-        const endpoint = "/password-reset/email" 
-        const userData = { email, password}
-        dispatch(createOrLoginUser(endpoint, userData, props ))
+        const endpoint = "/reset-password"
+        axios.post(endpoint, { password, email })
+            .then((response) => {
+                console.log(response)
+                updateMessage(
+                    <blockquote>
+                        <br/>
+                        <br/>
+                        <strong>Your password has been successfully reset. Go to <NavLink to="/login"> login.</NavLink></strong>  
+                    </blockquote>
+                )
+            })
+            .catch(error => {
+                console.log(error)
+                updateMessage(
+                    <blockquote>
+                        <br/>
+                        <br/>
+                        <strong>There was an error resetting your password. Please try the process again.</strong>  
+                    </blockquote>
+                )
+            })
         resetPassword()
         resetPasswordConfirm()
         setDisplayErrors(false)
       }
   }
+  console.log(email)
   
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        {/* <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar> */}
         <DevBlogLogoFrame 
           child= {<DevBlogLogoWhiteColor />}
           border = "solid 1px"
@@ -115,9 +113,7 @@ export default function PasswordResetForm({email}) {
           height = "80px"
           width = "100px"
         />
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
+        Write your new password:
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -126,7 +122,7 @@ export default function PasswordResetForm({email}) {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="New password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
@@ -140,7 +136,7 @@ export default function PasswordResetForm({email}) {
                 required
                 fullWidth
                 name="passwordConfrm"
-                label="Password Confirmation"
+                label="New password confirmation"
                 type="password"
                 id="passwordConfirm"
                 autoComplete="current-password"
@@ -155,20 +151,10 @@ export default function PasswordResetForm({email}) {
             color="primary"
             className={classes.submit}
           >
-            Sign Up 
+            Reset Password
           </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <NavLink to="/login" variant="body2">
-                Already have an account? Log in
-              </NavLink>
-            </Grid>
-          </Grid>
         </form>
       </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
     </Container>
   );
 }

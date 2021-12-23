@@ -157,11 +157,11 @@ export default function Login(props) {
               {"Don't have an account? Sign Up"}
               </NavLink>
             </Grid>
-            {/* <Grid item>
+            <Grid item>
               <NavLink to="/password-reset" variant="body2">
               {"Forgot password?"}
               </NavLink>
-            </Grid>             */}
+            </Grid>            
           </Grid>
         </form>
       </div>
