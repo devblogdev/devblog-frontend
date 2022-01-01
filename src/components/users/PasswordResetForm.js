@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// MAIN FUNCTION; FUNCTIONAL COMPONENT
+// Resets the password
 export default function PasswordResetForm({updateMessage, email}) {
 
   const classes = useStyles();
@@ -78,8 +78,7 @@ export default function PasswordResetForm({updateMessage, email}) {
                 console.log(response)
                 updateMessage(
                     <blockquote>
-                        <br/>
-                        <br/>
+                        <br/><br/>
                         <strong>Your password has been successfully reset. Go to <NavLink to="/login"> login.</NavLink></strong>  
                     </blockquote>
                 )
@@ -88,8 +87,7 @@ export default function PasswordResetForm({updateMessage, email}) {
                 console.log(error)
                 updateMessage(
                     <blockquote>
-                        <br/>
-                        <br/>
+                        <br/><br/>
                         <strong>There was an error resetting your password. Please try the process again.</strong>  
                     </blockquote>
                 )

@@ -153,8 +153,9 @@ export default function Login(props) {
           </Button>
           <Grid container justifyContent="flex-end">            
             <Grid item>
+            Don't have an account?
               <NavLink to="/signup" variant="body2">
-              {"Don't have an account? Sign Up"}
+              {" Sign Up"}
               </NavLink>
             </Grid>
             <Grid item>

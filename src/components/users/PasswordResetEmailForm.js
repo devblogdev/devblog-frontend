@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 // APP DEPENDENCIES
+import { NavLink } from 'react-router-dom'
 import { useInput } from '../hooks/input-hook'
 import DevBlogLogoFrame from '../logo/DevBlogLogoFrame';
 import DevBlogLogoWhiteColor from '../logo/DevBlogLogoWhiteColor';
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// MAIN FUNCTION; FUNCTIONAL COMPONENT
+// Sends link to reset password
 export default function PasswordResetEmailForm(props) {
   const classes = useStyles();
   const [displayErrors, setDisplayErrors] = useState(false)
@@ -65,14 +66,16 @@ export default function PasswordResetEmailForm(props) {
       }
       else {
         const endpoint = "/password-reset" 
+        // "email" is the email written by the user in the form
         axios.post(endpoint, { email }) 
             .then((response) => {
                 console.log(response)
                 props.updateMessage(
                     <blockquote>
-                        <br/>
-                        <br/>
-                        <strong>A password reset link has been sent to {email}. Please check your inbox. </strong> 
+                        <br/><br/>
+                        <strong>A password reset link has been sent to {email}.</strong><br/> 
+                        Please check your inbox.<br/> 
+                        The link will expire after 10 minutes.
                     </blockquote>
                 )
             })
@@ -80,12 +83,13 @@ export default function PasswordResetEmailForm(props) {
                 console.log(error)
                 props.updateMessage(
                     <blockquote>
-                        <br/>
-                        <br/>
+                        <br/><br/>
                         <strong>
                             The provided email has not been registered at DevBlog or 
-                            the email was registered using a third party account.
+                            the email was registered using a third party account, in which case no password reset is needed. 
+                            Go to <NavLink to="/login">login</NavLink>.
                         </strong>
+                            <p>Error: {error.response.status} {error.response.statusText}</p>
                     </blockquote>
                 )
             })

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom'
 import axios from 'axios';
 import { ModalContext } from '../modal/ModalContext';
+import { NavLink } from 'react-router-dom'
 
 // This is a tricky component; if you get it wrong, you will have a infinte 'setInterval' running in the app or mutlitple setIntervals running
 function EmailConfirmation() {
@@ -20,6 +21,27 @@ function EmailConfirmation() {
     const [ message, setMessage ] = useState(<h3>Processing your email ...</h3>)
 
 
+    
+    const afterSignup = () => {
+        // If user submits sign up form, the confirmationEmail variable will be set; if afterwards user refreshes the page, confirmationEmail wll be blank and hence the second return block will be rendered
+        if(confirmationEmail) {
+            return (
+                <blockquote>
+                    <br/><br/>
+                    <strong>An email confirmation link has been sent to {confirmationEmail}.</strong><br/>
+                    Please check your inbox to finish the registration process.<br/>
+                    The link will expire after 15 minutes.
+                </blockquote>
+            )
+        }
+        return (
+            <blockquote>
+                <br/><br/>
+                <strong>Please <NavLink to="/signup">sign up</NavLink> to confirm your email.</strong>
+            </blockquote>
+        )
+    }
+
     const startCounter = useCallback(() => {
         if(timerId.current !== 11) {return;}
         timerId.current = 
@@ -31,8 +53,7 @@ function EmailConfirmation() {
     const redirectMessage = useCallback(() => {
         return (
             <blockquote>
-                <br/>
-                <br/>
+                <br/><br/>
                 <strong>Your email has been confirmed!!!</strong>  <br/>
                 You will be redirected to the main page in {counter} seconds <br/>
             </blockquote>
@@ -45,7 +66,6 @@ function EmailConfirmation() {
         // 'posts.length' is very important; the 'posts' state variable is the last one to be updated when refreshing the page; hence, if the 
         // below API call is made before the posts variable is updated, then the below call will run multiple times instead of one time
         if(Object.keys(params).length && counter > 10 && posts.length && timerId.current === 11) {
-            console.log("in API")
             axios.post(`/registration-confirmation/${params.confirm_token}`)
             .then( (response) => {
                 console.log(response)
@@ -56,13 +76,19 @@ function EmailConfirmation() {
             })
             .catch(error => {
                 console.log(error)
-                setMessage(() => <p><br/><br/>Sorry, the email address could not be confirmed. Please try registering again.</p>)
+                setMessage(
+                    <blockquote>
+                        <br/><br/>
+                        <p>Sorry, the email address could not be confirmed or the email confirmation link has expired. Please try <NavLink to="/signup">registering</NavLink> again.</p>
+                        <p>Error: {error.response.status} {error.response.statusText}</p>
+                    </blockquote>
+                ) 
             })
         }
         
         if(counter < 11) setMessage( () => redirectMessage())
         return function cleanup(){ 
-            if(counter < 2) {
+            if(counter < 3) {
                 clearInterval(timerId.current)
                 setTimeout(() => {
                     history.push("/")
@@ -75,15 +101,13 @@ function EmailConfirmation() {
     
     return(
         <div>
+            {/* If the current url is "registration-confirmation" (no relative path), display a confirmation link message; if the user refreshes the page, remove the confirmation message and ask user to sign up instead */}
             {Object.keys(params).length === 0 ? (
-                <blockquote>
-                    <br/>
-                    <br/>
-                    <strong>An email confirmation link has been sent to {confirmationEmail}</strong>.<br/>
-                    Please check your inbox to finish the registration process.<br/>
-                    The link will expire after 10 minutes.
-                </blockquote>
+                <React.Fragment>
+                    {afterSignup()}
+                </React.Fragment>
             ) : (
+                // If the current url includes a relative path: "registration-confirmation/somepath", display sucess message or error message depending on API call response from useEffect hook
                 <React.Fragment>
                     {message}
                 </React.Fragment>

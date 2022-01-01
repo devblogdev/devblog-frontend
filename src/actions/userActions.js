@@ -6,15 +6,16 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
         // debugger
         axios.post(endpoint, {user: userData})
         .then(response => {
-            // If the user is signing up via email, redirect to email confirmation page
+            // If the user is signing up via email, redirect to registration-confirmation page
             if(endpoint === "/users"){
+                dispatch({type: "SET_CONFIRMATION_EMAIL", payload: response.data.email })
                 routerAndModal.history.push('/registration-confirmation')
                 console.log(response)
-                dispatch({type: "SET_CONFIRMATION_EMAIL", payload: response.data.email })
-            } else if(endpoint === "/password-reset") {
-                console.log(response)
-                dispatch({type: "SET_CONFIRMATION_EMAIL", payload: response.data.email })
             }
+            // } else if(endpoint === "/password-reset") {
+            //     console.log(response)
+            //     dispatch({type: "SET_CONFIRMATION_EMAIL", payload: response.data.email })
+            // }
             // If the user is loggin in locally or via Omniauth, set the user and redirect to home page
             else {
                 localStorage.setItem('token', response.data.jwt)
