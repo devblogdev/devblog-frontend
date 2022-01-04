@@ -97,7 +97,7 @@ function App() {
             <meta itemprop="image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
             {/* <!-- Open Graph general (Facebook, Pinterest & Google+) --> */}
             <meta name="og:title" content="DevBlog" />
-            <meta name="og:description" content="Blog website for coding related posts. " />
+            <meta name="og:description" content="Blog website for coding-related posts. Browse all of the website's resources for free; login to create blog posts and customize your author page." />
             <meta name="og:image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
             <meta name="og:url" content="https://luisdevblog.netlify.app" />
             <meta name="og:site_name" content="DevBlog" />
