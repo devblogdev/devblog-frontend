@@ -98,6 +98,7 @@ export default function Login(props) {
   }
   
   const responseGoogle = (data) => {
+    // debugger
     console.log(data);
     if(!data.error){
       const user = googleUser(data)
@@ -199,6 +200,8 @@ export default function Login(props) {
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
         cookiePolicy={'single_host_origin'}
+        isSignedIn= {false}
+        prompt='consent'
       />
       <Box mt={8}>
         <Copyright />
