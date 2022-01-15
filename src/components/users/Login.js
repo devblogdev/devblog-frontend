@@ -98,13 +98,12 @@ export default function Login(props) {
   }
   
   const responseGoogle = (data) => {
-    // debugger
-    console.log(data);
+    // console.log(data);
     if(!data.error){
       const user = googleUser(data)
       axios.post("/omniauth/google/callback", user)
         .then( response => {
-          console.log(response)
+          // console.log(response)
           localStorage.setItem('token', response.data.jwt)
           dispatch({type: 'SET_USER', payload: response.data.user })
           props.history.push('/')
