@@ -1,12 +1,11 @@
 export default function imagesReducer(
     state = {
-        profileImages: []
+        markedForDestruction: []
     }, action) {
-        
-        if (action.type === 'ADD_IMAGES') {
+        if (action.type === 'ADD_IMAGE_FOR_DESTRUCTION') {
             return {
                 ...state,
-                profileImages: action.payload
+                markedForDestruction: [...state.markedForDestruction, action.payload]
             }
         } return state
 }

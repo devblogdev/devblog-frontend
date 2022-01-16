@@ -1,6 +1,6 @@
 import S3 from 'react-aws-s3'
-import axios from 'axios'
-import auth from '../components/security/auth'
+// import axios from 'axios'
+// import auth from '../components/security/auth'
 import ShortUniqueId from 'short-unique-id';
 
 const suid = new ShortUniqueId({ length: 16 });
@@ -104,16 +104,21 @@ export function manageImageForDraftOrPost(currentPostOrUser, imageState, isProfi
 }
 
 
-export function fetchProfileImages(endpoint) {
-    return async (dispatch) => {
-        await axios.get(endpoint)
-        .then( response => {
-            console.log(response.data)
-            dispatch({type: 'ADD_IMAGES', payload: response.data })
-        })
-        .catch(error => {
-            auth.logout()
-            console.log(error.response)
-        })
-    }
+// THE BELOW FUNCTION IS NOT NEEEDED AS USERS ARE RETRIEVED ALONG WITH THEIR PROFILE IMAGE FROM THE BACKEND API
+// export function fetchProfileImages(endpoint) {
+//     return async (dispatch) => {
+//         await axios.get(endpoint)
+//         .then( response => {
+//             console.log(response.data)
+//             dispatch({type: 'ADD_IMAGES', payload: response.data })
+//         })
+//         .catch(error => {
+//             auth.logout()
+//             console.log(error.response)
+//         })
+//     }
+// }
+
+export function addPostBodyImageForDestruction(key){
+    dispatchEvent({ type: "ADD_IMAGE_FOR_DESTRUCTION", payload: key})
 }

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { EditorState, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { convertToRaw } from 'draft-js';  
+import { convertToRaw, getDefaultKeyBinding } from 'draft-js';  
 // import { convertFromRaw } from 'draft-js'; //do not delete this line; can be used for future improvement
 import { convertFromHTML } from 'draft-convert';
 // import { convertToHTML } from 'draft-convert';
@@ -15,8 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { GreenButton, DangerButton } from '../decorators/Buttons'
 import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsActions';
 import  S3ImageService2  from '../images/S3ImageService2'
-import { manageImageForNewDraftOrPost } from '../../actions/imageActions'
-import { manageImageForDraftOrPost } from '../../actions/imageActions'
+import { addPostBodyImageForDestruction, manageImageForNewDraftOrPost, manageImageForDraftOrPost } from '../../actions/imageActions'
 import { extractTitle } from './postEditorHelper'
 import { noBody, noTitle } from './validPost';
 import axios from 'axios'
@@ -362,12 +361,20 @@ const PostEditor3 = (props) => {
       if (file.size > 1500000) return reject(retrieveModalState(['Max file size is 1.5 MB']))
       axios.post("https://api.imgur.com/3/image", file, config).then((res) => {
         console.log(res);
-        resolve({ data: { link: res.data.data.link + `deleteHash${res.data.data.deletehash}` } } )
+        addPostBodyImageForDestruction(res.data.data.deleteHash)
+        resolve({ data: { link: res.data.data.link + `-${res.data.data.deletehash}` } } )
       }).catch(error => {
         console.log(error)
         reject()
       });
     });
+  }
+
+  function deleteImageOnBackspace(event) {
+    // if(event.keyCode === 8){
+    //   return console.log("editorState")
+    // }
+    return getDefaultKeyBinding(event)
   }
   
   // --------------------- POST EDITOR END ------------------------
@@ -422,6 +429,12 @@ const PostEditor3 = (props) => {
             }
         }}
         blockRendererFn = {mediaBlockRenderer}
+        onDelete = { (event, editorState) => {
+          debugger
+          console.log(event)
+        }}
+        keyBindingFn = { deleteImageOnBackspace }
+        
       />
       {/* Renders the Save As Draft, Publish, Save, Save and Publish, and Delete buttons below post editor */}
       {buttons.map( (button, index) => 
