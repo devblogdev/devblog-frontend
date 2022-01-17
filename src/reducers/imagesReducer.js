@@ -1,11 +1,32 @@
 export default function imagesReducer(
     state = {
-        markedForDestruction: []
+        currentDraftOrPostBodyImages: new Set(),
+        finalStateDraftOrPostBodyImages: new Set(),
     }, action) {
-        if (action.type === 'ADD_IMAGE_FOR_DESTRUCTION') {
+        if(action.type === "REGISTER_IMAGES") {
             return {
                 ...state,
-                markedForDestruction: [...state.markedForDestruction, action.payload]
+                currentDraftOrPostBodyImages: action.payload
             }
-        } return state
+        }
+        else if(action.type === "REGISTER_NEW_MAGE") {
+            return {
+                ...state,
+                currentDraftOrPostBodyImages: state.currentDraftOrPostBodyImages.add(action.payload)
+            }
+        }
+        else if(action.type === "REGISTER_FINAL_STATE_IMAGES") {
+            return {
+                ...state,
+                finalStateDraftOrPostBodyImages: action.payload
+            }
+        }
+        else if(action.type === "UNREGISTER_IMAGES") {
+            return {
+                ...state,
+                currentDraftOrPostBodyImages: new Set(),
+                finalStateDraftOrPostBodyImages: new Set()
+            }
+        }
+        return state
 }

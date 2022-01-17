@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ProfileImage from '../components/decorators/ProfileImage'
 import { Helmet } from 'react-helmet'
+import { scheduleImagesForDestruction } from '../components/PostEditor/customFunctions/customFunctions'
 
-export default function AuthorsLinks({match, authors}) {
+export default function AuthorsLinksContainer({match, location, authors, imagesProps}) {
+
+    const previousPath = location.state?.from.pathname
+    const { currentDraftOrPostBodyImages, finalStateDraftOrPostBodyImages } = imagesProps
+
+    useEffect( () => {
+        if(previousPath === "/profile/drafts/new" || previousPath.includes("/posts/edit/")) {
+            scheduleImagesForDestruction(currentDraftOrPostBodyImages, finalStateDraftOrPostBodyImages)
+        }
+    },[previousPath, currentDraftOrPostBodyImages, finalStateDraftOrPostBodyImages])
+ 
 
     const authorsList = 
             authors.map( (author, index) =>  {

@@ -119,6 +119,4 @@ export function manageImageForDraftOrPost(currentPostOrUser, imageState, isProfi
 //     }
 // }
 
-export function addPostBodyImageForDestruction(key){
-    dispatchEvent({ type: "ADD_IMAGE_FOR_DESTRUCTION", payload: key})
-}
+

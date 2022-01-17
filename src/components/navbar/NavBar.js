@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 // APP DEPENDENCIES
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 // import blue from '@material-ui/core/colors/blue';
 
 // MATERIAL UI STYLES
@@ -29,6 +29,7 @@ export default function NavBar(props) {
     
   const classes = useStyles();
   // const color = blue[700];
+  const location = useLocation();
 
   return (
     <div className={classes.root}>
@@ -46,19 +47,25 @@ export default function NavBar(props) {
              <NavLink 
                 to="/"
                 style={{color: 'white', textDecoration: 'none'}} 
-            >DevBlog   
+            > DevBlog  
             </NavLink>
           </Typography>
           <Typography variant="h6" className={classes.title}>
              <NavLink 
-                to="/posts"
+                to={{
+                  pathname: '/posts',
+                  state: { from: location}
+                }}
                 style={{color: 'white', textDecoration: 'none'}} 
             >All Posts   
             </NavLink>
           </Typography>
           <Typography variant="h6" className={classes.title}>
              <NavLink 
-                to="/authors"
+                to={{
+                  pathname: '/authors',
+                  state: { from: location}
+                }}
                 style={{color: 'white', textDecoration: 'none'}} 
             >Authors
             </NavLink>
@@ -71,7 +78,7 @@ export default function NavBar(props) {
             </NavLink>
           </Typography>
 
-              {/* Loing/Logout button; the bottom comes from App.js as a props */}
+              {/* Login/Logout button; the bottom comes from App.js as a props */}
               {props.button}
 
         </Toolbar>

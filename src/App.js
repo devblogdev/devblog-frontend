@@ -15,7 +15,7 @@ import ProtectedRoute from './components/protectedRoute/protectedRoute';
 import ProfileContainer from './containers/ProfileContainer';
 import PostEditor3 from './components/PostEditor/PostEditor3';
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer';
-import AuthorsLinks from './containers/AuthorsLinks';
+import AuthorsLinksContainer from './containers/AuthorsLinksContainer';
 import AuthorContainer from './containers/AuthorContainer';
 import ManageLogin from './containers/ManageLogin';
 import Modal from './components/modal/Modal';
@@ -24,16 +24,18 @@ import { Helmet } from 'react-helmet';
 
 
 function App() {
-
+  console.log("whre are you coming from?")
   const dispatch = useDispatch()
   const current_user = useSelector((state) => state.users.current_user)
   const users = useSelector((state) => state.users.users)
   const posts = useSelector((state) => state.posts.posts)
   const loading = useSelector((state) => state.posts.message)
   const token = localStorage.getItem('token')
-
+  const currentDraftOrPostBodyImages = useSelector((state) => state.images.currentDraftOrPostBodyImages)
+  const finalStateDraftOrPostBodyImages = useSelector((state) => state.images.finalStateDraftOrPostBodyImages)
   // const [displayModeModal, setDisplayModeModal] = useState("hidden")
   // const [modalMessage, setModalMessage] = useState([])
+  const imagesProps = { currentDraftOrPostBodyImages, finalStateDraftOrPostBodyImages }
 
   const { displayModeModal, modalMessage, retrieveModalState } = useContext(ModalContext)
   
@@ -47,15 +49,15 @@ function App() {
                 style={{color: 'white', textDecoration: 'none'}} 
             > <Button color="inherit">Logout</Button>
             </NavLink>
-      } else {
-          button =
-              <NavLink 
-                  to="/login"
-                  style={{color: 'white', textDecoration: 'none'}} 
-                > <Button color="inherit">Login</Button>
-              </NavLink>
-      }
-      return button
+    } else {
+        button =
+            <NavLink 
+                to="/login"
+                style={{color: 'white', textDecoration: 'none'}} 
+              > <Button color="inherit">Login</Button>
+            </NavLink>
+    }
+    return button
   },[token])
 
   useEffect(() => {
@@ -120,11 +122,11 @@ function App() {
           <Switch>
             <Route
                 exact path="/"
-                render = {routerProps => <Home {...routerProps} posts = {posts} loading = {loading} retrieveModalState = {retrieveModalState} /> }
+                render = {routerProps => <Home {...routerProps} posts = {posts} loading = {loading} retrieveModalState = {retrieveModalState} imagesProps = {imagesProps} /> }
             />
             <Route
                 exact path="/posts"
-                render = {routerProps => <PostLinksContainer {...routerProps} posts = {posts} /> }
+                render = {routerProps => <PostLinksContainer {...routerProps} posts = {posts} imagesProps = {imagesProps} /> }
             />
             <Route
                 exact path="/logout"
@@ -136,6 +138,7 @@ function App() {
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
+                imagesProps = {imagesProps}
             />
             <ProtectedRoute
                 path ="/profile/drafts/new"
@@ -171,7 +174,7 @@ function App() {
             />
             <Route
                 exact path="/authors"
-                render= {routerProps => <AuthorsLinks {...routerProps} authors={users} />}
+                render= {routerProps => <AuthorsLinksContainer {...routerProps} authors={users} imagesProps = {imagesProps} />}
             />
             <Route
                 exact path="/login"
