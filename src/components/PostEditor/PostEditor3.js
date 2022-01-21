@@ -15,8 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { GreenButton, DangerButton } from '../decorators/Buttons'
 import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsActions';
 import  S3ImageService2  from '../images/S3ImageService2'
-import { manageImageForNewDraftOrPost } from '../../actions/imageActions'
-import { manageImageForDraftOrPost } from '../../actions/imageActions'
+import { manageImageForNewDraftOrPost, manageImageForDraftOrPost } from '../../actions/imageActions'
 import { extractTitle } from './postEditorHelper'
 import { noBody, noTitle } from './validPost';
 import axios from 'axios'
@@ -24,6 +23,7 @@ import { ModalContext } from '../modal/ModalContext'
 import { AllowedEmbedWebsites } from './allowedWebsites';
 import { mediaBlockRenderer } from './mediaBlockRenderer';
 import { editorLabels } from './editorLabels';
+import { registerDraftOrPostBodyImages } from './customFunctions/customFunctions';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -294,11 +294,13 @@ const PostEditor3 = (props) => {
   // This ensures that the editor does not break when refreshing the page on a draft or post
   const reinitializeState = useCallback ((argument) => {
     const blocksFromHTML = htmlToDraft(argument?.body);
-    const { contentBlocks, entityMap} = blocksFromHTML;
+    const { contentBlocks, entityMap} = blocksFromHTML;   
     const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+    // This is a parenthesis: Below registerDraftOrPostBodyImages function is used to keep track of the loaded draft or post body images
+    if(props.match.url !== "/profile/drafts/new") dispatch( registerDraftOrPostBodyImages ( convertToRaw(contentState), {type: "initial"} ) )
     const stateWithRealPost = EditorState.createWithContent(contentState);
     return stateWithRealPost;
-  },[])
+  },[dispatch, props.match.url])
 
   const editor = useRef(null)
 
@@ -310,25 +312,21 @@ const PostEditor3 = (props) => {
         setDraftOrPost(content)
         // replaces the inital dummy content with the content from the draft or post
         setEditorState(reinitializeState(content))
-        // editor.current.focus()
       }
     }
-  },[props.user, props.match, loadedDraftOrPost, reinitializeState, draftOrPost], () => setTimeout(() => editor.current.focus(),0)
-  )
+  },[props.user, props.match, loadedDraftOrPost, reinitializeState, draftOrPost])
 
   // If a new draft, create a blank editor with "Title" as the first line
   // If editing a draft or post, load the editor with some dummy state 'loadedInitialEditorState()';
   // the dummy state will be later replaced in 'useEffect' hook above
   // This is needed for the editor not to break when refreshing the page while editing a draft or post
-  const [editorState, setEditorState] = useState( 
-    () => {
+  const [editorState, setEditorState] = useState( () => {
       if(props.match.url === "/profile/drafts/new") {    
         return reinitializeState({body: "<h1>Title</h1>"})
       } else {
         return loadedInitialEditorState()
       }
-    }
-  );
+  });
 
   const handlePastedText = (text, styles, editorState) => {
     // INCREDIBLE: leaving this function empty normalizes the pasted text's font size and background color, while keeping 
@@ -344,7 +342,6 @@ const PostEditor3 = (props) => {
       if(url.indexOf(domain) > -1 ) { boolean = true}
     })
     if (boolean) return url 
-    // if (boolean) return 'https://gist-it.appspot.com/https://gist.github.com/mmartinezluis/b0ee57fc92ee0771d8230af0f3ca98ab' 
     return retrieveModalState([
       "Only the following domains are allowed for embedded websites:", 
       ...AllowedEmbedWebsites,
@@ -355,19 +352,27 @@ const PostEditor3 = (props) => {
   function uploadImageCallback(file) {
     return new Promise((resolve, reject) => {
       const config = {
-        headers: {
-          Authorization: "Bearer " + process.env.REACT_APP_IMGUR_ACCESS_TOKEN
-        },
+        headers: { Authorization: "Bearer " + process.env.REACT_APP_IMGUR_ACCESS_TOKEN }
       };
       if (file.size > 1500000) return reject(retrieveModalState(['Max file size is 1.5 MB']))
       axios.post("https://api.imgur.com/3/image", file, config).then((res) => {
         console.log(res);
-        resolve({ data: { link: res.data.data.link + `deleteHash${res.data.data.deletehash}` } } )
+        const source = res.data.data.link + "-" + res.data.data.deletehash
+        dispatch({ type: "REGISTER_NEW_IMAGE", payload: source })
+        resolve({ data: { link: source } } )
       }).catch(error => {
         console.log(error)
         reject()
       });
     });
+  }
+
+  function handleOnBlur(){
+      console.log("exited editor")
+      dispatch( registerDraftOrPostBodyImages ( 
+          convertToRaw(editorState.getCurrentContent()), {type: "final"}
+        ) 
+      )
   }
   
   // --------------------- POST EDITOR END ------------------------
@@ -380,7 +385,7 @@ const PostEditor3 = (props) => {
       </header>
       {/* "Edtitor" Renders the post editor */}
       <Editor 
-        // ref={editor}
+        ref={editor}
         editorState={editorState}
         onEditorStateChange={handleEditorChange}
         wrapperClassName="wrapper-class"
@@ -422,6 +427,7 @@ const PostEditor3 = (props) => {
             }
         }}
         blockRendererFn = {mediaBlockRenderer}
+        onBlur= { handleOnBlur }        
       />
       {/* Renders the Save As Draft, Publish, Save, Save and Publish, and Delete buttons below post editor */}
       {buttons.map( (button, index) => 

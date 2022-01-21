@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 // MATERIAL UI DEPENDENCIES
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -19,7 +19,10 @@ import { createOrLoginUser } from '../../actions/userActions'
 import DevBlogLogoWhiteColor from '../logo/DevBlogLogoWhiteColor';
 import DevBlogLogoFrame from '../logo/DevBlogLogoFrame';
 import { grey } from '@material-ui/core/colors'
-
+import GoogleLogin from 'react-google-login';
+import { googleUser } from './googleOAuth/googleUser';
+import axios from 'axios';
+import { ModalContext } from '../modal/ModalContext';
 
 
 // MATERIAL UI FUNCTION
@@ -67,6 +70,8 @@ export default function Login(props) {
   const [displayErrors, setDisplayErrors] = useState(false)
   const dispatch = useDispatch()
 
+  const { retrieveModalState } = useContext(ModalContext)
+
 
   const fieldValidator = (field, fieldName) => {
     if (field.trim() === '') {
@@ -90,6 +95,28 @@ export default function Login(props) {
       setPassword("")
       setDisplayErrors(false)
     }
+  }
+  
+  const responseGoogle = (data) => {
+    // console.log(data);
+    if(!data.error){
+      const user = googleUser(data)
+      axios.post("/omniauth/google/callback", user)
+        .then( response => {
+          // console.log(response)
+          localStorage.setItem('token', response.data.jwt)
+          dispatch({type: 'SET_USER', payload: response.data.user })
+          props.history.push('/')
+          retrieveModalState(["You have been successfully logged in"])
+        }).catch( error => {
+          console.log(error)
+          const errorMessage = error?.response?.data?.message
+          if(errorMessage) {retrieveModalState(errorMessage, 9000);}
+          else retrieveModalState(error.message)
+        })
+      } else {
+        console.log(data.error)
+      }
   }
   
   return (
@@ -138,10 +165,6 @@ export default function Login(props) {
             onChange = { event => setPassword(event.target.value)}
           />
           {displayErrors && fieldValidator(password, "Password")}
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          /> */}
           <Button
             type="submit"
             fullWidth
@@ -166,6 +189,19 @@ export default function Login(props) {
           </Grid>
         </form>
       </div>
+      
+      <br/>
+      <hr/>
+      {/* Google button */}
+      <GoogleLogin
+        clientId= {process.env.REACT_APP_GOOGLE_CLIENT_ID}
+        buttonText="Login with Google"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={'single_host_origin'}
+        isSignedIn= {false}
+        prompt='consent'
+      />
       <Box mt={8}>
         <Copyright />
       </Box>

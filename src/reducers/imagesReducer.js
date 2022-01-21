@@ -1,12 +1,32 @@
 export default function imagesReducer(
     state = {
-        profileImages: []
+        currentDraftOrPostBodyImages: new Set(),
+        finalStateDraftOrPostBodyImages: new Set(),
     }, action) {
-        
-        if (action.type === 'ADD_IMAGES') {
+        if(action.type === "REGISTER_IMAGES") {
             return {
                 ...state,
-                profileImages: action.payload
+                currentDraftOrPostBodyImages: action.payload
             }
-        } return state
+        }
+        else if(action.type === "REGISTER_NEW_MAGE") {
+            return {
+                ...state,
+                currentDraftOrPostBodyImages: state.currentDraftOrPostBodyImages.add(action.payload)
+            }
+        }
+        else if(action.type === "REGISTER_FINAL_STATE_IMAGES") {
+            return {
+                ...state,
+                finalStateDraftOrPostBodyImages: action.payload
+            }
+        }
+        else if(action.type === "UNREGISTER_IMAGES") {
+            return {
+                ...state,
+                currentDraftOrPostBodyImages: new Set(),
+                finalStateDraftOrPostBodyImages: new Set()
+            }
+        }
+        return state
 }
