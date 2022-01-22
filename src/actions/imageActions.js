@@ -1,7 +1,11 @@
 import S3 from 'react-aws-s3'
-// import axios from 'axios'
+import axios from 'axios'
 // import auth from '../components/security/auth'
 import ShortUniqueId from 'short-unique-id';
+import { difference } from '../components/utilities/setsFunctions';
+
+// CODE FOR MANAGING IMAGES IN AMAZON S3 BUCKET; MANAGES POSTS' COVER IMAGE AND USER PROFILE IMAGE
+// <----- END ------->
 
 const suid = new ShortUniqueId({ length: 16 });
 
@@ -103,20 +107,81 @@ export function manageImageForDraftOrPost(currentPostOrUser, imageState, isProfi
     } return []
 }
 
+// <----- END ------->
 
-// THE BELOW FUNCTION IS NOT NEEEDED AS USERS ARE RETRIEVED ALONG WITH THEIR PROFILE IMAGE FROM THE BACKEND API
-// export function fetchProfileImages(endpoint) {
-//     return async (dispatch) => {
-//         await axios.get(endpoint)
-//         .then( response => {
-//             console.log(response.data)
-//             dispatch({type: 'ADD_IMAGES', payload: response.data })
-//         })
-//         .catch(error => {
-//             auth.logout()
-//             console.log(error.response)
-//         })
-//     }
-// }
+
+// CODE FOR MANAGING POST'S BODY IMAGES WHEN UPLOADED USING THE POST EDITOR'S UPLOAD IMAGE FEATURE;
+// IMAGES ARE UPLOADED TO AN IMGUR BUCKET; CODE SENDS IMAGES' URLS TO RUBY ON RAILS BACKEND SO BACKEND TAKES CARE OF DESTROYING THE IMAGES IN IMGUR BUCKET
+// CODE ALSO MANAGEES THE IMAGES REDUX STORE
+// <----- START ------->
+
+
+// helper function
+export function extractBodyImages(data) {
+    const entityMapArray = Object.values(data.entityMap);
+    const imagesUrls = new Set();
+    if(entityMapArray.length) {
+        entityMapArray.forEach( entity => {
+            if(entity.type === "IMAGE") {
+                const src = entity.data.src
+                if (src.includes("i.imgur.com/")) {
+                    imagesUrls.add(src)
+                }
+            }
+        })
+    }
+    return imagesUrls;
+}
+
+export function registerDraftOrPostBodyImages(data, state) {
+    return async (dispatch) => {
+        console.log("register images called")
+        const images = extractBodyImages(data);   //'images' is a Set, not an array
+        // if(images.size) {
+        if(images.size) {
+            if(state.type === "initial") {
+                dispatch({ type: "REGISTER_IMAGES", payload: images } )
+                dispatch({ type: "REGISTER_FINAL_STATE_IMAGES", payload: images } )
+                console.log(images)
+                console.log(`${images.size} images registered in initial and final states`) 
+            } 
+            else if(state.type === "final") {
+                dispatch({ type: "REGISTER_FINAL_STATE_IMAGES", payload: images } )
+                console.log(`${images.size} images registered in final state`) 
+            }
+            
+        } else  {
+            console.log("No images registered")
+        }
+    }
+}
+
+
+export function scheduleImagesForDestruction(initialStateImages, finalStateImages) {
+    const initial = initialStateImages;
+    const final = finalStateImages;
+    // if there are registered images
+    if (initial.size) {
+        return new Promise((resolve, reject) => {            
+            setTimeout( () => {
+                const markedForDestruction = difference(initial, final);
+                console.log(markedForDestruction)
+                if (markedForDestruction) {                           // convert the set into an array
+                    axios.post("/images/schedule-for-destion", {urls: [...markedForDestruction]})
+                        .then(resp => resolve(console.log(resp)))
+                        .catch(error => resolve(console.log(error)))
+                } 
+                else {
+                    resolve(console.log("No scheduled images for destruciton"))
+                }
+            }, 1000)
+            console.log("hello!!!!")
+        })
+    }
+    else console.log("No scheduled images for destruciton")
+}
+
+// <----- END ------->
+
 
 

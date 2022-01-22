@@ -15,7 +15,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { GreenButton, DangerButton } from '../decorators/Buttons'
 import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsActions';
 import  S3ImageService2  from '../images/S3ImageService2'
-import { manageImageForNewDraftOrPost, manageImageForDraftOrPost } from '../../actions/imageActions'
+import { 
+  manageImageForNewDraftOrPost, 
+  manageImageForDraftOrPost, 
+  extractBodyImages, 
+  registerDraftOrPostBodyImages, 
+  scheduleImagesForDestruction 
+} from '../../actions/imageActions'
 import { extractTitle } from './postEditorHelper'
 import { noBody, noTitle } from './validPost';
 import axios from 'axios'
@@ -23,7 +29,7 @@ import { ModalContext } from '../modal/ModalContext'
 import { AllowedEmbedWebsites } from './allowedWebsites';
 import { mediaBlockRenderer } from './mediaBlockRenderer';
 import { editorLabels } from './editorLabels';
-import { extractBodyImages, registerDraftOrPostBodyImages, scheduleImagesForDestruction } from './customFunctions/customFunctions';
+// import { extractBodyImages, registerDraftOrPostBodyImages, scheduleImagesForDestruction } from './customFunctions/customFunctions';
 
 
 const useStyles = makeStyles((theme) => ({
