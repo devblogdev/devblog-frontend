@@ -25,17 +25,26 @@ import { Helmet } from 'react-helmet';
 
 function App() {
   console.log("whre are you coming from?")
+  
   const dispatch = useDispatch()
   const current_user = useSelector((state) => state.users.current_user)
   const users = useSelector((state) => state.users.users)
   const posts = useSelector((state) => state.posts.posts)
   const loading = useSelector((state) => state.posts.message)
   const token = localStorage.getItem('token')
-  const currentDraftOrPostBodyImages = useSelector((state) => state.images.currentDraftOrPostBodyImages)
-  const finalStateDraftOrPostBodyImages = useSelector((state) => state.images.finalStateDraftOrPostBodyImages)
+
+  // FATAL ERROR: Do not load the variables from the images reducer here in app component;
+  // when an action is dispatched to change these variables, the effect will propagte throughout the 
+  // whole app (will cause app component to rerender). this can lead to infinte loops.
+  // The most notable effect will be in the post editor component; when editing a previously saved post, dispatching 
+  // an action from within the post editor component to change the images redux variabls will 
+  // cause the app to rerender, and the editor will rerender as well, causing the code inside the
+  // useEffect in editor to be executed again..., result: the editor will be reinitialized with the contents
+  // with which it was loaded first time; all the edits will be lost.
+
+
   // const [displayModeModal, setDisplayModeModal] = useState("hidden")
   // const [modalMessage, setModalMessage] = useState([])
-  const imagesProps = { currentDraftOrPostBodyImages, finalStateDraftOrPostBodyImages }
 
   const { displayModeModal, modalMessage, retrieveModalState } = useContext(ModalContext)
   
@@ -70,6 +79,7 @@ function App() {
     const endpoint = "/posts"
     dispatch(fetchPosts(endpoint))    // Note: 'fetchPosts' affects two state varibles: state.posts.posts and state.posts.message; this will trigger 2 renders of App component (and the whole App as well)
     dispatch(fetchUsers("/users"))    // Note: 'fecthUsers' affects oene state variable: state.users.users; this triggers 1 render of App component (and the whole App as well)
+    // dispatch({type: "REGISTER_IMAGES", payload: {id: 1, title: "HELLO"}})
     console.log('Posts dispatcher was called')   // Total renders after the useEffects: 5 (1 normal render, and 4 renders from the dispatchers (if user is logged in; otherwise 4 total renders))
   }, [dispatch])
 
@@ -122,11 +132,11 @@ function App() {
           <Switch>
             <Route
                 exact path="/"
-                render = {routerProps => <Home {...routerProps} posts = {posts} loading = {loading} retrieveModalState = {retrieveModalState} imagesProps = {imagesProps} /> }
+                render = {routerProps => <Home {...routerProps} posts = {posts} loading = {loading} retrieveModalState = {retrieveModalState} /> }
             />
             <Route
                 exact path="/posts"
-                render = {routerProps => <PostLinksContainer {...routerProps} posts = {posts} imagesProps = {imagesProps} /> }
+                render = {routerProps => <PostLinksContainer {...routerProps} posts = {posts} /> }
             />
             <Route
                 exact path="/logout"
@@ -138,7 +148,6 @@ function App() {
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
-                imagesProps = {imagesProps}
             />
             <ProtectedRoute
                 path ="/profile/drafts/new"
@@ -174,7 +183,7 @@ function App() {
             />
             <Route
                 exact path="/authors"
-                render= {routerProps => <AuthorsLinksContainer {...routerProps} authors={users} imagesProps = {imagesProps} />}
+                render= {routerProps => <AuthorsLinksContainer {...routerProps} authors={users} />}
             />
             <Route
                 exact path="/login"

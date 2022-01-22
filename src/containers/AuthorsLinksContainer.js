@@ -3,17 +3,23 @@ import { Link } from 'react-router-dom'
 import ProfileImage from '../components/decorators/ProfileImage'
 import { Helmet } from 'react-helmet'
 import { scheduleImagesForDestruction } from '../components/PostEditor/customFunctions/customFunctions'
+import { useSelector } from 'react-redux'
 
-export default function AuthorsLinksContainer({match, location, authors, imagesProps}) {
+
+export default function AuthorsLinksContainer({match, location, authors }) {
 
     const previousPath = location.state?.from.pathname
-    const { currentDraftOrPostBodyImages, finalStateDraftOrPostBodyImages } = imagesProps
+    const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages)
+    const final = useSelector((state) => state.images.finalStateDraftOrPostBodyImages)
 
     useEffect( () => {
-        if(previousPath === "/profile/drafts/new" || previousPath.includes("/posts/edit/")) {
-            scheduleImagesForDestruction(currentDraftOrPostBodyImages, finalStateDraftOrPostBodyImages)
+        console.log("authros container")
+        if(previousPath === "/profile/drafts/new" || previousPath?.includes("/posts/edit/")) {
+            // FATAL ERROR: do not dispatch an action here that updates the 'initial' or 'final' redux variables
+            // doing so will cause the component to rerender and make the code in useEffect to run again, causing an infinite loop 
+            scheduleImagesForDestruction(initial, final)
         }
-    },[previousPath, currentDraftOrPostBodyImages, finalStateDraftOrPostBodyImages])
+    },[previousPath, initial, final] )
  
 
     const authorsList = 

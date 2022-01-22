@@ -8,7 +8,8 @@ export default function usersReducer(
         users: [],
         // 'current_user'is the logged in user; this user is private and contains three additional keys compared to 'users': email, private (a hash), posts (an array of drafts and published posts)
         current_user: {},
-        confirmation_email: ""
+        // confirmation_email: ""
+        confirmation_email: new Set()
     }, action) {
 
         let post 

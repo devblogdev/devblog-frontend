@@ -28,7 +28,7 @@ const S3ImageService2 = ({ retrieveImageState, user, ...props}) => {
                 }
             }
         }
-    },[retrieveImageState, props.match, user.posts, setSelectedFile, setIsFilePicked])
+    },[retrieveImageState, props.match, user.posts])
 
     const reset = () => {
         setSelectedFile()

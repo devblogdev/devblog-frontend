@@ -1,9 +1,9 @@
 export default function imagesReducer(
     state = {
         currentDraftOrPostBodyImages: new Set(),
-        finalStateDraftOrPostBodyImages: new Set(),
+        finalStateDraftOrPostBodyImages: new Set()
     }, action) {
-        if(action.type === "REGISTER_IMAGES") {
+        if(action.type === "REGISTER_IMAGES") {            
             return {
                 ...state,
                 currentDraftOrPostBodyImages: action.payload
