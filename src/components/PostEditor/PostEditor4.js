@@ -29,6 +29,7 @@ import { ModalContext } from '../modal/ModalContext'
 import { AllowedEmbedWebsites } from './allowedWebsites';
 import { mediaBlockRenderer } from './mediaBlockRenderer';
 import { editorLabels } from './editorLabels';
+import { union } from '../utilities/setsFunctions';
 // import { extractBodyImages, registerDraftOrPostBodyImages, scheduleImagesForDestruction } from './customFunctions/customFunctions';
 
 
@@ -156,19 +157,18 @@ const PostEditor4 = (props) => {
         const contentState = convertToRaw(editorState.getCurrentContent());
         const final = extractBodyImages(contentState);
         console.log(final);
-        // const data = convertToHTML(editorState.getCurrentContent());
         const data = draftToHtml(contentState);
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const postExtraction = extractTitle(data)
         const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[1]?.slice(1), status: "published"}
-        console.log(extractTitle(data))
-        console.log(imageState)
-        const bodyImages = { scheduleImagesForDestruction, initial, final }
+        const initialAll = union(initial.oldImages, initial.newImages)
+        console.log(initialAll)
+        const bodyImages = { scheduleImagesForDestruction, initialAll, final }
         const resolveImageThenResolvePost = async () => {
             dispatch({type: 'LOADING_POSTS', payload: "Managing image..."})
-            const imageData = await manageImageForDraftOrPost(currentPost, imageState);
-            let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
+            const coverImageData = await manageImageForDraftOrPost(currentPost, imageState);
+            let postData = Object.assign({}, rawPostData, {images_attributes: coverImageData})
             console.log(postData)
             dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
             dispatch(editPost(endpoint, postData, props, bodyImages))
@@ -281,7 +281,7 @@ const PostEditor4 = (props) => {
         // saveRaw(contentState);
     }
 
-        // [ USING "useCallback" will make "loadedDraftOrPost" to change on every render in first useFeect block; use useMemo instaed ]
+        // Comment: [ USING "useCallback" will make "loadedDraftOrPost" to change on every render in first useFeect block; use useMemo instaed ]
     // const loadedDraftOrPost = useCallback( () => {         
     //   return props.user.posts?.find( post => `${post.id}` === props.match.params.postID)
     // },[props.user, props.match])
@@ -407,14 +407,14 @@ const PostEditor4 = (props) => {
     });
   }
 
-  const handleOnBlur = useCallback ( () => {
-      console.log("exited editor")
-      const contentState = editorState.getCurrentContent();
-      dispatch( registerDraftOrPostBodyImages ( 
-          convertToRaw(contentState), {type: "final"}
-        ) 
-      )
-  },[dispatch, editorState])
+  // const handleOnBlur = useCallback ( () => {
+  //     console.log("exited editor")
+  //     const contentState = editorState.getCurrentContent();
+  //     dispatch( registerDraftOrPostBodyImages ( 
+  //         convertToRaw(contentState), {type: "final"}
+  //       ) 
+  //     )
+  // },[dispatch, editorState])
   
   // --------------------- POST EDITOR END ------------------------
         
@@ -468,7 +468,7 @@ const PostEditor4 = (props) => {
             }
         }}
         blockRendererFn = {mediaBlockRenderer}
-        onBlur= { handleOnBlur }        
+        // onBlur= { handleOnBlur }        
       />
       {/* Renders the Save As Draft, Publish, Save, Save and Publish, and Delete buttons below post editor */}
       {buttons.map( (button, index) => 

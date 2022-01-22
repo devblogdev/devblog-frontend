@@ -5,7 +5,7 @@ import ShortUniqueId from 'short-unique-id';
 import { difference } from '../components/utilities/setsFunctions';
 
 // CODE FOR MANAGING IMAGES IN AMAZON S3 BUCKET; MANAGES POSTS' COVER IMAGE AND USER PROFILE IMAGE
-// <----- END ------->
+    // <----- START ------->
 
 const suid = new ShortUniqueId({ length: 16 });
 
@@ -107,14 +107,13 @@ export function manageImageForDraftOrPost(currentPostOrUser, imageState, isProfi
     } return []
 }
 
-// <----- END ------->
+    // <----- END ------->
 
 
 // CODE FOR MANAGING POST'S BODY IMAGES WHEN UPLOADED USING THE POST EDITOR'S UPLOAD IMAGE FEATURE;
 // IMAGES ARE UPLOADED TO AN IMGUR BUCKET; CODE SENDS IMAGES' URLS TO RUBY ON RAILS BACKEND SO BACKEND TAKES CARE OF DESTROYING THE IMAGES IN IMGUR BUCKET
 // CODE ALSO MANAGEES THE IMAGES REDUX STORE
-// <----- START ------->
-
+    // <----- START ------->
 
 // helper function
 export function extractBodyImages(data) {
@@ -137,11 +136,9 @@ export function registerDraftOrPostBodyImages(data, state) {
     return async (dispatch) => {
         console.log("register images called")
         const images = extractBodyImages(data);   //'images' is a Set, not an array
-        // if(images.size) {
         if(images.size) {
             if(state.type === "initial") {
                 dispatch({ type: "REGISTER_IMAGES", payload: images } )
-                dispatch({ type: "REGISTER_FINAL_STATE_IMAGES", payload: images } )
                 console.log(images)
                 console.log(`${images.size} images registered in initial and final states`) 
             } 
@@ -156,16 +153,16 @@ export function registerDraftOrPostBodyImages(data, state) {
     }
 }
 
-
 export function scheduleImagesForDestruction(initialStateImages, finalStateImages) {
     const initial = initialStateImages;
     const final = finalStateImages;
+    console.log("Initial statte images in images schdeuler", initial)
     // if there are registered images
     if (initial.size) {
         return new Promise((resolve, reject) => {            
             setTimeout( () => {
                 const markedForDestruction = difference(initial, final);
-                console.log(markedForDestruction)
+                console.log("Marked for destruction", markedForDestruction)
                 if (markedForDestruction) {                           // convert the set into an array
                     axios.post("/images/schedule-for-destion", {urls: [...markedForDestruction]})
                         .then(resp => resolve(console.log(resp)))

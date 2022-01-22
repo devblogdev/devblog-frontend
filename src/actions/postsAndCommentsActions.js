@@ -75,6 +75,9 @@ export function editPost(endpoint, postData, routerAndModal=null, bodyImages){
             await axios.put(`${endpoint}`, {post: postData} , axiosConfig)
               .then( response => {
                 console.log(response)
+                const { scheduleImagesForDestruction, initialAll, final } = bodyImages;
+                scheduleImagesForDestruction(initialAll, final);
+                
                 // WARNING: **
                 dispatch( {type: "MOVE_AUTHOR_TO_TOP", payload: {previous_status: postData.status, current: response.data} })
                 dispatch( {type: 'EDIT_POST', payload: response.data})
@@ -86,8 +89,7 @@ export function editPost(endpoint, postData, routerAndModal=null, bodyImages){
                     routerAndModal.history.push('/profile')
                     routerAndModal.retrieveModalState(["Draft successfully saved"])
                 }
-                // const { scheduleImagesForDestruction, initial, final } = bodyImages;
-                // scheduleImagesForDestruction(initial, final);
+           
               })
               .catch(error => {
                 console.log(error);
