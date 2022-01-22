@@ -62,7 +62,7 @@ export function addPost(endpoint, postData, routerAndModal=null){
 
 // 'editPost' handles three cases: 1) user edits an existiing draft and saves it as a draft; 2) user edits an existing draft and publishes the draft
                              //    3) user updates an existing post
-export function editPost(endpoint, postData, routerAndModal=null){
+export function editPost(endpoint, postData, routerAndModal=null, bodyImages){
     const token = localStorage.getItem('token')
     const axiosConfig = {
         headers: {
@@ -86,6 +86,8 @@ export function editPost(endpoint, postData, routerAndModal=null){
                     routerAndModal.history.push('/profile')
                     routerAndModal.retrieveModalState(["Draft successfully saved"])
                 }
+                // const { scheduleImagesForDestruction, initial, final } = bodyImages;
+                // scheduleImagesForDestruction(initial, final);
               })
               .catch(error => {
                 console.log(error);

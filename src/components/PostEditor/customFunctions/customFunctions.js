@@ -1,8 +1,8 @@
-// import axios from "axios";
+import axios from "axios";
 import { difference } from "../../utilities/setsFunctions";
 
 // helper function
-const extractBodyImages = (data)=> {
+export function extractBodyImages(data) {
     const entityMapArray = Object.values(data.entityMap);
     const imagesUrls = new Set();
     if(entityMapArray.length) {
@@ -20,15 +20,19 @@ const extractBodyImages = (data)=> {
 
 export function registerDraftOrPostBodyImages(data, state) {
     return async (dispatch) => {
-        const images = extractBodyImages(data);
+        console.log("register images called")
+        const images = extractBodyImages(data);   //'images' is a Set, not an array
+        // if(images.size) {
         if(images.size) {
             if(state.type === "initial") {
-                dispatch({ type: "REGISTER_IMAGES", payload: images} )
-                console.log(`${images.length} images registered in initla state`) 
+                dispatch({ type: "REGISTER_IMAGES", payload: images } )
+                dispatch({ type: "REGISTER_FINAL_STATE_IMAGES", payload: images } )
+                console.log(images)
+                console.log(`${images.size} images registered in initial and final states`) 
             } 
             else if(state.type === "final") {
-                dispatch({ type: "REGISTER_FINAL_STATE_IMAGES", payload: images} )
-                console.log(`${images.length} images registered in final state`) 
+                dispatch({ type: "REGISTER_FINAL_STATE_IMAGES", payload: images } )
+                console.log(`${images.size} images registered in final state`) 
             }
             
         } else  {
@@ -41,28 +45,24 @@ export function registerDraftOrPostBodyImages(data, state) {
 export function scheduleImagesForDestruction(initialStateImages, finalStateImages) {
     const initial = initialStateImages;
     const final = finalStateImages;
-    console.log(initial);
-    console.log(final);
-    return new Promise((resolve, reject) => {
-        // if there are registered images
-        if (initial.size) {
+    // if there are registered images
+    if (initial.size) {
+        return new Promise((resolve, reject) => {            
             setTimeout( () => {
                 const markedForDestruction = difference(initial, final);
                 console.log(markedForDestruction)
-                if (markedForDestruction.size) {                    // convert the set into an array
-                    // axios.post("/images/schedule-for-destruction", {urls: [...markedForDestruction]})
-                    //     .then(resp => resolve(console.log(resp)))
-                    //     .catch(error => reject(console.log(error)))
+                if (markedForDestruction) {                           // convert the set into an array
+                    axios.post("/images/schedule-for-destion", {urls: [...markedForDestruction]})
+                        .then(resp => resolve(console.log(resp)))
+                        .catch(error => resolve(console.log(error)))
                 } 
                 else {
                     resolve(console.log("No scheduled images for destruciton"))
                 }
-    
             }, 1000)
-
-        }
-        else resolve(console.log("No scheduled images for destruciton"))
-        
-    })
+            console.log("hello!!!!")
+        })
+    }
+    else console.log("No scheduled images for destruciton")
 }
 

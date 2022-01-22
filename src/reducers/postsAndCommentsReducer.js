@@ -23,7 +23,6 @@ export default function postsAndCommentsReducer(
                 }
 
             case 'FETCH_POSTS':
-                // debugger
                 return {
                     ...state,
                     loading: false,
@@ -67,7 +66,7 @@ export default function postsAndCommentsReducer(
                 postId = action.payload
                 postIndex = state.posts.findIndex( post => post.id === postId)
                 if (postIndex > -1) {
-                    return {
+                    return {    
                         ...state, 
                         message: "",
                         posts: [
