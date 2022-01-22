@@ -13,7 +13,7 @@ import Home from './containers/Home';
 import PostLinksContainer from './containers/PostLinksContainer';
 import ProtectedRoute from './components/protectedRoute/protectedRoute';
 import ProfileContainer from './containers/ProfileContainer';
-import PostEditor3 from './components/PostEditor/PostEditor3';
+import PostEditor4 from './components/PostEditor/PostEditor4';
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer';
 import AuthorsLinksContainer from './containers/AuthorsLinksContainer';
 import AuthorContainer from './containers/AuthorContainer';
@@ -35,7 +35,7 @@ function App() {
 
   // FATAL ERROR: Do not load the variables from the images reducer here in app component;
   // when an action is dispatched to change these variables, the effect will propagte throughout the 
-  // whole app (will cause app component to rerender). this can lead to infinte loops.
+  // whole app (will cause app component to rerender). This can lead to infinte loops.
   // The most notable effect will be in the post editor component; when editing a previously saved post, dispatching 
   // an action from within the post editor component to change the images redux variabls will 
   // cause the app to rerender, and the editor will rerender as well, causing the code inside the
@@ -151,7 +151,7 @@ function App() {
             />
             <ProtectedRoute
                 path ="/profile/drafts/new"
-                component = {PostEditor3}
+                component = {PostEditor4}
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
@@ -159,7 +159,7 @@ function App() {
             />
             <ProtectedRoute
                 path ="/profile/drafts/:postID"
-                component = {PostEditor3}
+                component = {PostEditor4}
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
@@ -167,7 +167,7 @@ function App() {
             />
             <ProtectedRoute
                 path ="/posts/edit/:postID"
-                component = {PostEditor3}
+                component = {PostEditor4}
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
