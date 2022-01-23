@@ -33,7 +33,7 @@ export function addPost(endpoint, postData, routerAndModal=null){
                 dispatch( {type: "MOVE_AUTHOR_TO_TOP", payload: {previous_status: undefined, current: response.data} })
                 dispatch( {type: 'ADD_POST', payload: response.data})
                 dispatch( {type: "ADD_POST_TO_USER", payload: response.data})
-                
+                // WARNING: **(comments below)
                 if (response.data.status === "published" ){
                     routerAndModal.history.push(`/posts/${response.data.id}`)
                     routerAndModal.retrieveModalState(["Post successfully published"])
@@ -75,13 +75,12 @@ export function editPost(endpoint, postData, routerAndModal=null, bodyImages){
             await axios.put(`${endpoint}`, {post: postData} , axiosConfig)
               .then( response => {
                 console.log(response)
-                const { scheduleImagesForDestruction, initialAll, final } = bodyImages;
-                scheduleImagesForDestruction(initialAll, final);
-                
+                // dispatch( {type: "UNREGISTER_IMAGES"})
                 // WARNING: **
                 dispatch( {type: "MOVE_AUTHOR_TO_TOP", payload: {previous_status: postData.status, current: response.data} })
                 dispatch( {type: 'EDIT_POST', payload: response.data})
                 dispatch( {type: "EDIT_USER_POST", payload: response.data})
+                // WARNING: **
                 if (response.data.status === "published") {
                     routerAndModal.history.push(`/posts/${response.data.id}`)
                     routerAndModal.retrieveModalState(["Post successfully published"])
@@ -89,7 +88,10 @@ export function editPost(endpoint, postData, routerAndModal=null, bodyImages){
                     routerAndModal.history.push('/profile')
                     routerAndModal.retrieveModalState(["Draft successfully saved"])
                 }
-           
+                // IMPORTANT: The 'scheduleImagesForDestruction' needs to be run last as if it is placed above and an error occurs (it makes an API call), 
+                // the remainder code will stop executing, leaving the user inside the post editor when clikcing on 'Save', 'Publish' or other buttons
+                const { scheduleImagesForDestruction, initialAll, final } = bodyImages;
+                scheduleImagesForDestruction(initialAll, final);
               })
               .catch(error => {
                 console.log(error);
@@ -99,7 +101,7 @@ export function editPost(endpoint, postData, routerAndModal=null, bodyImages){
         dispatch({type: 'LOGOUT_USER'})
     }
 }
-// ** See note included in 'addPost'
+// WARMING: ** See note included below 'addPost'
 
 export function deletePost(endpoint, postData, routerAndModal=null){
     const token = localStorage.getItem('token')

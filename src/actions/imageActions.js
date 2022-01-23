@@ -164,7 +164,7 @@ export function scheduleImagesForDestruction(initialStateImages, finalStateImage
                 const markedForDestruction = difference(initial, final);
                 console.log("Marked for destruction", markedForDestruction)
                 if (markedForDestruction) {                           // convert the set into an array
-                    axios.post("/images/schedule-for-destion", {urls: [...markedForDestruction]})
+                    axios.post("/images/schedule-for-destruction", {urls: [...markedForDestruction]})
                         .then(resp => resolve(console.log(resp)))
                         .catch(error => resolve(console.log(error)))
                 } 
