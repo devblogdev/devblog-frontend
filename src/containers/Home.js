@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import PostList from '../components/posts/PostList';
 import { Link } from 'react-router-dom'
 import ImgCardMedia from '../components/decorators/ImgCardMedia'
@@ -9,6 +9,7 @@ import ExternalImgCardMedia from '../components/decorators/ExternalImgCardMedia'
 const Home = (props) => {
     
     const dispatch = useDispatch()
+    const loadingMessage = useSelector((state) => state.posts.message)
     
     useEffect(() => {
         console.log(props)
@@ -59,7 +60,8 @@ const Home = (props) => {
         <div className='home'>
             <div className="mainPost">
             <h1>Welcome to DevBlog</h1>
-                <h4>{props.loading}</h4>
+                {/* <h4>{props.loading}</h4> */}
+                <h4>{loadingMessage}</h4>
                 {mainPost()} 
             </div>
             <div className="featuredPosts">

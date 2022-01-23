@@ -14,7 +14,7 @@ export default function postsAndCommentsReducer(
         let likeIndex
         
         switch(action.type) {
-            case 'LOADING_POSTS':
+            case 'LOADING':
                 return {
                     ...state,
                     loading: true,

@@ -46,6 +46,8 @@ const PostEditor4 = (props) => {
 
     const classes = useStyles();
 
+    const loadingMessage = useSelector((state) => state.posts.message)
+
     // 'initial' is a redux variable used to track the Imgur bucket body images of draft or post at time of render in post eiddtor
     const initial = useSelector( (state) => state.images.currentDraftOrPostBodyImages)
     
@@ -82,11 +84,12 @@ const PostEditor4 = (props) => {
         // "manageImageForNewDraftOrPost" below return a Promise; to get the data out of the promise we need to
         // wrap the function in an async/await block to wait until the promise is resolved
         const resolveImageThenResolvePost = async () => {
-            dispatch({type: 'LOADING_POSTS', payload: "Managing image..."})
-            const imageData = await manageImageForNewDraftOrPost(imageState);
-            let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
+            dispatch({type: 'LOADING', payload: "Managing image..."})
+            const coverImageData = await manageImageForNewDraftOrPost(imageState);
+            // Note: the key 'images_attributes' should not be changed as it is used by backend to process the cover image;
+            let postData = Object.assign({}, rawPostData, {images_attributes: coverImageData})
             console.log(postData)
-            dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
+            dispatch({type: 'LOADING', payload: "Managing post..."})
             dispatch(addPost(endpoint, postData, props, bodyImages))    
         }
         if (noTitle(data, postExtraction)) {
@@ -113,11 +116,12 @@ const PostEditor4 = (props) => {
         console.log(initialAll)
         const bodyImages = { scheduleImagesForDestruction, initialAll, final }
         const resolveImageThenResolvePost = async () => {
-            dispatch({type: 'LOADING_POSTS', payload: "Managing image..."})
-            const imageData = await manageImageForNewDraftOrPost(imageState);
-            let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
+            dispatch({type: 'LOADING', payload: "Managing image..."})
+            const coverImageData = await manageImageForNewDraftOrPost(imageState);
+            // Note: the key 'images_attributes' should not be changed as it is used by backend to process the cover image;
+            let postData = Object.assign({}, rawPostData, {images_attributes: coverImageData})
             console.log(postData)
-            dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
+            dispatch({type: 'LOADING', payload: "Managing post..."})
             dispatch(addPost(endpoint, postData, props, bodyImages))    
         }
         if (noTitle(data, postExtraction)) {
@@ -144,11 +148,12 @@ const PostEditor4 = (props) => {
         console.log(initialAll)
         const bodyImages = { scheduleImagesForDestruction, initialAll, final }
         const resolveImageThenResolvePost = async () => {
-            dispatch({type: 'LOADING_POSTS', payload: "Managing image..."})
-            const imageData = await manageImageForDraftOrPost(currentPost, imageState);
-            let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
+            dispatch({type: 'LOADING', payload: "Managing image..."})
+            const coverImageData = await manageImageForDraftOrPost(currentPost, imageState);
+            // Note: the key 'images_attributes' should not be changed as it is used by backend to process the cover image;
+            let postData = Object.assign({}, rawPostData, {images_attributes: coverImageData})
             console.log(postData)
-            dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
+            dispatch({type: 'LOADING', payload: "Managing post..."})
             dispatch(editPost(endpoint, postData, props, bodyImages ))
         }
         if (noTitle(data, postExtraction)) {
@@ -176,11 +181,12 @@ const PostEditor4 = (props) => {
         console.log(initialAll)
         const bodyImages = { scheduleImagesForDestruction, initialAll, final }
         const resolveImageThenResolvePost = async () => {
-            dispatch({type: 'LOADING_POSTS', payload: "Managing image..."})
+            dispatch({type: 'LOADING', payload: "Managing image..."})
             const coverImageData = await manageImageForDraftOrPost(currentPost, imageState);
+            // Note: the key 'images_attributes' should not be changed as it is used by backend to process the cover image;
             let postData = Object.assign({}, rawPostData, {images_attributes: coverImageData})
             console.log(postData)
-            dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
+            dispatch({type: 'LOADING', payload: "Managing post..."})
             dispatch(editPost(endpoint, postData, props, bodyImages))
         }
         if (noTitle(data, postExtraction)) {
@@ -431,7 +437,8 @@ const PostEditor4 = (props) => {
         
   return (
     <div className="App postEditor">
-      <div>{props.loading}</div>
+      {/* <div>{props.loading}</div> */}
+      <div>{loadingMessage}</div>
       <header className="posteditor-header">
         Post Editor
       </header>

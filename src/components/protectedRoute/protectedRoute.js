@@ -2,7 +2,7 @@ import { Route, Redirect } from 'react-router-dom'
 import { ActivationProvider } from '../users/ActivationContext'
 
 
-const ProtectedRoute = ({ component: Component, user: current_user, posts: published, retrieveModalState: RetrieveModalState, loading: Loading, ...rest}) => {
+const ProtectedRoute = ({ component: Component, user: current_user, posts: published, retrieveModalState: RetrieveModalState, ...rest}) => {
     console.log(rest)
     return (
         <ActivationProvider>
@@ -11,7 +11,7 @@ const ProtectedRoute = ({ component: Component, user: current_user, posts: publi
                 const token = localStorage.getItem('token')
                 console.log(props)
                 if (token) {
-                    return <Component {...props} user={current_user} posts={published} retrieveModalState={RetrieveModalState} loading={Loading} token />
+                    return <Component {...props} user={current_user} posts={published} retrieveModalState={RetrieveModalState} token />
                 }
                 else {
                     return <Redirect to={

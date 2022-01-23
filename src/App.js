@@ -30,12 +30,12 @@ function App() {
   const current_user = useSelector((state) => state.users.current_user)
   const users = useSelector((state) => state.users.users)
   const posts = useSelector((state) => state.posts.posts)
-  const loading = useSelector((state) => state.posts.message)
+  // const loading = useSelector((state) => state.posts.message)
   const token = localStorage.getItem('token')
 
   // FATAL ERROR: Do not load the variables from the images reducer here in app component;
   // when an action is dispatched to change these variables, the effect will propagte throughout the 
-  // whole app (will cause app component to rerender). This can lead to infinte loops.
+  // whole app (will cause app component to rerender). This can lead to infinte loops when these variables are updated in an useEffect block (such as 2nd useEffect in Post Editor).
   // The most notable effect will be in the post editor component; when editing a previously saved post, dispatching 
   // an action from within the post editor component to change the images redux variabls will 
   // cause the app to rerender, and the editor will rerender as well, causing the code inside the
@@ -132,7 +132,7 @@ function App() {
           <Switch>
             <Route
                 exact path="/"
-                render = {routerProps => <Home {...routerProps} posts = {posts} loading = {loading} retrieveModalState = {retrieveModalState} /> }
+                render = {routerProps => <Home {...routerProps} posts = {posts} retrieveModalState = {retrieveModalState} /> }
             />
             <Route
                 exact path="/posts"
@@ -155,7 +155,7 @@ function App() {
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
-                loading = {loading}
+                // loading = {loading}
             />
             <ProtectedRoute
                 path ="/profile/drafts/:postID"
@@ -163,7 +163,7 @@ function App() {
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
-                loading = {loading}
+                // loading = {loading}
             />
             <ProtectedRoute
                 path ="/posts/edit/:postID"
@@ -171,7 +171,7 @@ function App() {
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
-                loading = {loading}
+                // loading = {loading}
             />
             <Route 
                 path={`/posts/:postID`} 
