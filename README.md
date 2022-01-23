@@ -20,4 +20,4 @@ Users can write a post and save it as a draft, or publish it immediately. Posts 
 DevBlog is continously evolving. The next on the way major integrations for DevBlog include OmniAuth via Google, Facebook, and/or other platforms; integrating a comments editor, and displaying of comments for blog posts. 
 
 ## Installation
-Installation instructions for running this app locally will be coming soon. 
+Installation instructions for running this app locally will be coming soon.

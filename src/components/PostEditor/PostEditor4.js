@@ -70,11 +70,15 @@ const PostEditor4 = (props) => {
 
     // saves a NEW draft and keeps it as a draft
     const saveDraft = (event) => {
-        const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+        const contentState = convertToRaw(editorState.getCurrentContent());
+        const final = extractBodyImages(contentState);
+        console.log(final);
+        const data = draftToHtml(contentState);
         const endpoint = "/draft" 
         const postExtraction = extractTitle(data)
         const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[1]?.slice(1), status: "draft"}
-        console.log(imageState)
+        const initialAll = initial.newImages
+        const bodyImages = { scheduleImagesForDestruction, initialAll, final }
         // "manageImageForNewDraftOrPost" below return a Promise; to get the data out of the promise we need to
         // wrap the function in an async/await block to wait until the promise is resolved
         const resolveImageThenResolvePost = async () => {
@@ -83,7 +87,7 @@ const PostEditor4 = (props) => {
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
             dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
-            dispatch(addPost(endpoint, postData, props))    
+            dispatch(addPost(endpoint, postData, props, bodyImages))    
         }
         if (noTitle(data, postExtraction)) {
           props.retrieveModalState(["Posts need to include an H1 title"])
@@ -98,57 +102,63 @@ const PostEditor4 = (props) => {
 
     // saves a NEW draft and automatically publishes it; no longer a draft, now a published post
     const savePost = () => {
-        const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+        const contentState = convertToRaw(editorState.getCurrentContent());
+        const final = extractBodyImages(contentState);
+        console.log(final);
+        const data = draftToHtml(contentState);
         const endpoint = "/publish" 
         const postExtraction = extractTitle(data)
         const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[1]?.slice(1), status: "published"}
+        const initialAll = initial.newImages
+        console.log(initialAll)
+        const bodyImages = { scheduleImagesForDestruction, initialAll, final }
         const resolveImageThenResolvePost = async () => {
             dispatch({type: 'LOADING_POSTS', payload: "Managing image..."})
             const imageData = await manageImageForNewDraftOrPost(imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
             dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
-            dispatch(addPost(endpoint, postData, props))    
+            dispatch(addPost(endpoint, postData, props, bodyImages))    
         }
         if (noTitle(data, postExtraction)) {
           props.retrieveModalState(["Posts need to include an H1 title"])
-          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else if (noBody(postExtraction)) {
           props.retrieveModalState(["Posts need to include a body"])
-          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else {
           resolveImageThenResolvePost()
-          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         }
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
     }
 
     // updates an already created draft
     const updateDraft = () => {
-        const data = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+        const contentState = convertToRaw(editorState.getCurrentContent());
+        const final = extractBodyImages(contentState);
+        console.log(final);
+        const data = draftToHtml(contentState);
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const postExtraction = extractTitle(data)
         const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[1]?.slice(1), status: "draft"}
-        console.log(extractTitle(data))
-        console.log(imageState)
+        const initialAll = union(initial.oldImages, initial.newImages)
+        console.log(initialAll)
+        const bodyImages = { scheduleImagesForDestruction, initialAll, final }
         const resolveImageThenResolvePost = async () => {
             dispatch({type: 'LOADING_POSTS', payload: "Managing image..."})
             const imageData = await manageImageForDraftOrPost(currentPost, imageState);
             let postData = Object.assign({}, rawPostData, {images_attributes: imageData})
             console.log(postData)
             dispatch({type: 'LOADING_POSTS', payload: "Managing post..."})
-            dispatch(editPost(endpoint, postData, props ))
+            dispatch(editPost(endpoint, postData, props, bodyImages ))
         }
         if (noTitle(data, postExtraction)) {
           props.retrieveModalState(["Posts need to include an H1 title"])
-          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else if (noBody(postExtraction)) {
           props.retrieveModalState(["Posts need to include a body"])
-          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else {
           resolveImageThenResolvePost()
-          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         }
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
     }
 
     // Two things: –updates an existing draft and changes it into a post (basically, pubslihes the draft); 
@@ -175,14 +185,12 @@ const PostEditor4 = (props) => {
         }
         if (noTitle(data, postExtraction)) {
           props.retrieveModalState(["Posts need to include an H1 title"])
-          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else if (noBody(postExtraction)) {
           props.retrieveModalState(["Posts need to include a body"])
-          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         } else {
           resolveImageThenResolvePost()
-          window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
         }
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth'} )
     }
 
     // deletes an existing draft or post
@@ -191,9 +199,12 @@ const PostEditor4 = (props) => {
         const endpoint = `/posts/${postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         console.log(currentPost)
+        const initialAll = union(initial.oldImages, initial.newImages)
+        console.log(initialAll)
+        const bodyImages = { scheduleImagesForDestruction, initialAll }
         const resolveImageThenResolvePost = async () => {
             await manageImageForDraftOrPost(currentPost);
-            dispatch(deletePost(endpoint, currentPost, props))
+            dispatch(deletePost(endpoint, currentPost, props, bodyImages))
         }
         resolveImageThenResolvePost()
     }

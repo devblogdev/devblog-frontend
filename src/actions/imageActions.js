@@ -140,7 +140,7 @@ export function registerDraftOrPostBodyImages(data, state) {
             if(state.type === "initial") {
                 dispatch({ type: "REGISTER_IMAGES", payload: images } )
                 console.log(images)
-                console.log(`${images.size} images registered in initial and final states`) 
+                console.log(`${images.size} images registered in initial states`) 
             } 
             else if(state.type === "final") {
                 dispatch({ type: "REGISTER_FINAL_STATE_IMAGES", payload: images } )
