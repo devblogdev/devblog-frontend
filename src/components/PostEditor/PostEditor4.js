@@ -371,6 +371,8 @@ const PostEditor4 = (props) => {
       dispatch( registerDraftOrPostBodyImages ( convertToRaw(contentState), {type: "initial"} ) )
       }
     }
+    // When loading the editor in new draft, ceanup the images redux variables, specially the newImages key
+    else dispatch({ type: "UNREGISTER_IMAGES"})
   },[props.match.url, props.user, dispatch, generateContentState, loadedDraftOrPost])
 
   // If a new draft, create a blank editor with "Title" as the first line

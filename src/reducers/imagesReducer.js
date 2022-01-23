@@ -14,7 +14,8 @@ export default function imagesReducer(
                 ...state,
                     currentDraftOrPostBodyImages: {
                         ...state.currentDraftOrPostBodyImages,
-                            oldImages: action.payload
+                            oldImages: action.payload,
+                            newImages: new Set()
                 }
             }
         }
