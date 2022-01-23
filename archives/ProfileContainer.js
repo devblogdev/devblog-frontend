@@ -86,6 +86,7 @@ const useStyles = makeStyles ((theme) => ({
   },
 }));
 
+//  Container before implementing interlocking sytem for posts' body images
 export default function ProfileContainer({ user, posts, token, ...routerProps}) {
 
   const dispatch = useDispatch()
@@ -107,7 +108,6 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
     ),[posts, user])
 
   useEffect(() => {
-    console.log("Second useFeect in profile container alled")
       setDrafts(loadedDrafts())
       setPublished(loadedPublished())
   },[loadedDrafts, loadedPublished])
@@ -118,7 +118,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
     setValue(newValue);    
   };
 
-  console.log("Profile container rendered")
+  console.log(user)
 
   return (
     <Container>

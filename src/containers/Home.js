@@ -6,7 +6,6 @@ import ExternalImgCardMedia from '../components/decorators/ExternalImgCardMedia'
 import { scheduleImagesForDestruction } from '../actions/imageActions';
 
 
-// const Home = (props) => {
 const Home = ({match, location, history, posts, retrieveModalState}) => {
     
     const dispatch = useDispatch()
@@ -17,16 +16,16 @@ const Home = ({match, location, history, posts, retrieveModalState}) => {
     useEffect(() => {
         // The "/logout" route renders the Home component
         console.log("useEffect in home called")
-        console.log(previousPath)
         if (match.url === "/logout") {
             if(initial.size) scheduleImagesForDestruction(initial, new Set()) 
             // If the Home component is rendered because the user clicked on Logout, logout the user and update the url from the user to equal the home page url
             dispatch({type: 'LOGOUT_USER'})
             history.replace('/')
         } 
-        else if (previousPath === '/unauthorized') {
+        else if (history.location.state?.from === '/unauthorized') {
             // If the user is not logged in and clicks on "My Profile" on the navbar, the user will be automatically returned to the home page; 
             history.replace('/')
+            // retrieveModalState(["Please login to access this feature"])
             retrieveModalState(["Please login to access this feature"])
         } 
         if( (previousPath?.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.size ) scheduleImagesForDestruction(initial, new Set()) 
