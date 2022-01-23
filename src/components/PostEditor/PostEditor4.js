@@ -339,7 +339,7 @@ const PostEditor4 = (props) => {
   // This ensures that the editor does not break when refreshing the page while editing a draft or post
   const reinitializeState = useCallback ((argument) => {
     const contentState = generateContentState(argument)
-    console.log("reinivitae state called")
+    console.log("reinitialize state called")
     const stateWithRealPost = EditorState.createWithContent(contentState);
     return stateWithRealPost;
   },[generateContentState])

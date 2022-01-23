@@ -1,25 +1,23 @@
-import React from 'react'
-// import React, { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ProfileImage from '../components/decorators/ProfileImage'
 import { Helmet } from 'react-helmet'
-// import { scheduleImagesForDestruction } from '../components/PostEditor/customFunctions/customFunctions'
-// import { useSelector } from 'react-redux'
+import { scheduleImagesForDestruction } from '../actions/imageActions'
+import { useSelector } from 'react-redux'
+
 
 
 export default function AuthorsLinksContainer({match, location, authors }) {
 
-    // const previousPath = location.state?.from.pathname
-    // const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages)
+    const previousPath = location.state?.from.pathname
+    const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages)
     
-    // useEffect( () => {
-    //     console.log("authors container")
-    //     if( (previousPath === "/profile/drafts/new" || previousPath?.includes("/posts/edit/") && initial.newImages.size)) { 
-    //          scheduleImagesForDestruction(initial.newImages, new Set()) 
-    //     }
-    //     // FATAL ERROR: do not dispatch an action here that updates the 'initial' or 'final' redux variables included in the dependency array of this useFeect
-    //     // doing so will cause the component to rerender and make the code in useEffect to run again, causing an infinite loop 
-    // },[previousPath, initial] )
+    useEffect( () => {
+        console.log("authors container")
+        if( (previousPath.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.newImages.size ) scheduleImagesForDestruction(initial.newImages, new Set()) 
+        // FATAL ERROR: do not dispatch an action here that updates the 'initial' redux variables included in the dependency array of this useFeect
+        // doing so will cause the component to rerender and make the code in useEffect to run again, causing an infinite loop 
+    },[previousPath, initial] )
  
 
     const authorsList = 
