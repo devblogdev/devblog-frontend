@@ -12,28 +12,25 @@ const Home = ({match, location, history, posts, retrieveModalState}) => {
     const dispatch = useDispatch()
     const loadingMessage = useSelector((state) => state.posts.message)
     const previousPath = location.state?.from.pathname
-    const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages)
+    const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages.newImages)
     
     useEffect(() => {
         // The "/logout" route renders the Home component
         console.log("useEffect in home called")
         console.log(previousPath)
         if (match.url === "/logout") {
-            if(initial.newImages.size) scheduleImagesForDestruction(initial.newImages, new Set()) 
-            // If the Home component is rendered because the user clicked on Logout, logout the user and update
-            // the url from the user to equal the home page url
+            if(initial.size) scheduleImagesForDestruction(initial, new Set()) 
+            // If the Home component is rendered because the user clicked on Logout, logout the user and update the url from the user to equal the home page url
             dispatch({type: 'LOGOUT_USER'})
             history.replace('/')
         } 
-        else if (previousPath === '/profile') {
-            // If the user is not logged in and clicks on "My Profile" on the navbar, the user will be automatically returned
-            // to the home page; check whether the Home component was rendered because the user clicked on "My Profile" while not authenticated;
-            // if that is the case, display a message to let user know to log in and update the url to reflect the homepage url
+        else if (previousPath === '/unauthorized') {
+            // If the user is not logged in and clicks on "My Profile" on the navbar, the user will be automatically returned to the home page; 
             history.replace('/')
             retrieveModalState(["Please login to access this feature"])
         } 
-        if( (previousPath?.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.newImages.size ) scheduleImagesForDestruction(initial.newImages, new Set()) 
-    },[dispatch, history, match.url, previousPath, initial.newImages, retrieveModalState])
+        if( (previousPath?.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.size ) scheduleImagesForDestruction(initial, new Set()) 
+    },[dispatch, history, match.url, previousPath, initial, retrieveModalState])
 
     const published = posts.filter( post => post.status === "published")
     
