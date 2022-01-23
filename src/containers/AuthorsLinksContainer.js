@@ -14,7 +14,7 @@ export default function AuthorsLinksContainer({match, location, authors }) {
     
     useEffect( () => {
         console.log("authors container")
-        if( (previousPath.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.newImages.size ) scheduleImagesForDestruction(initial.newImages, new Set()) 
+        if( (previousPath?.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.newImages.size ) scheduleImagesForDestruction(initial.newImages, new Set()) 
         // FATAL ERROR: do not dispatch an action here that updates the 'initial' redux variables included in the dependency array of this useFeect
         // doing so will cause the component to rerender and make the code in useEffect to run again, causing an infinite loop 
     },[previousPath, initial] )
