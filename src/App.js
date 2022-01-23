@@ -24,31 +24,30 @@ import { Helmet } from 'react-helmet';
 
 
 function App() {
-  console.log("whre are you coming from?")
   
   const dispatch = useDispatch()
+  // Note: 'current_user' is an importnat variable; attempted to remove it from App.js to reduce and place it where it directly on the 
+  // components where it is used to reduce the number of rerenders; however, this caused errors in the post editor (post editor does not load); kee it here for now
   const current_user = useSelector((state) => state.users.current_user)
   const users = useSelector((state) => state.users.users)
   const posts = useSelector((state) => state.posts.posts)
-  // const loading = useSelector((state) => state.posts.message)
   const token = localStorage.getItem('token')
 
-  // FATAL ERROR: Do not load the variables from the images reducer here in app component;
+  // FATAL ERROR: DO NOT LOAD the variables from the images reducer here in app component;
   // when an action is dispatched to change these variables, the effect will propagte throughout the 
-  // whole app (will cause app component to rerender). This can lead to infinte loops when these variables are updated in an useEffect block (such as 2nd useEffect in Post Editor).
-  // The most notable effect will be in the post editor component; when editing a previously saved post, dispatching 
-  // an action from within the post editor component to change the images redux variabls will 
-  // cause the app to rerender, and the editor will rerender as well, causing the code inside the
-  // useEffect in editor to be executed again..., result: the editor will be reinitialized with the contents
-  // with which it was loaded first time; all the edits will be lost.
+  // whole app (will cause app component to rerender). This can lead to infinte loops: Real example: the 2nd useEffect block
+  // in Post Editor component changes the images redux variable(s); if these variables are required in here in app.js, you will get an infinite loop
+  // as the change from useEffect block will cause app component to rerender, then post component rerenders, and then useEffect block is called again.
+  // Another effect will be in the post editor component; when editing a previously saved post, dispatching 
+  // an action from within the post editor component to change the images redux variabls VIA AN EVENT LISTTERNER (such as onBlur) 
+  // will cause the app to rerender, and the editor will rerender as well, causing the code inside the first
+  // useEffect block in editor to be executed again..., result: the editor will be reinitialized with the contents
+  // with which it was loaded first time, cuasing all the edits to be lost.
 
-
-  // const [displayModeModal, setDisplayModeModal] = useState("hidden")
-  // const [modalMessage, setModalMessage] = useState([])
 
   const { displayModeModal, modalMessage, retrieveModalState } = useContext(ModalContext)
   
-  
+
   const Buttons = useCallback(() => {
     let button
     if (token) {
@@ -79,18 +78,10 @@ function App() {
     const endpoint = "/posts"
     dispatch(fetchPosts(endpoint))    // Note: 'fetchPosts' affects two state varibles: state.posts.posts and state.posts.message; this will trigger 2 renders of App component (and the whole App as well)
     dispatch(fetchUsers("/users"))    // Note: 'fecthUsers' affects oene state variable: state.users.users; this triggers 1 render of App component (and the whole App as well)
-    // dispatch({type: "REGISTER_IMAGES", payload: {id: 1, title: "HELLO"}})
     console.log('Posts dispatcher was called')   // Total renders after the useEffects: 5 (1 normal render, and 4 renders from the dispatchers (if user is logged in; otherwise 4 total renders))
   }, [dispatch])
 
-  // const retrieveModalState = useCallback ((messageArray, time=3000) => {
-  //     const message = messageArray.map((message,index) => {
-  //       return <li key={index}>{message}</li>
-  //     })
-  //     setModalMessage(message)
-  //     setDisplayModeModal("")
-  //     setTimeout(() => { setDisplayModeModal('hidden')}, time)
-  // },[])
+
   console.log("App was Rendered")
   return (
     <Router>
@@ -155,7 +146,6 @@ function App() {
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
-                // loading = {loading}
             />
             <ProtectedRoute
                 path ="/profile/drafts/:postID"
@@ -163,7 +153,6 @@ function App() {
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
-                // loading = {loading}
             />
             <ProtectedRoute
                 path ="/posts/edit/:postID"
@@ -171,11 +160,10 @@ function App() {
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
-                // loading = {loading}
             />
             <Route 
                 path={`/posts/:postID`} 
-                render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} user={current_user} users = {users} />} 
+                render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} users = {users} user={current_user} />} 
             />
             <Route
                 path={'/authors/:authorID'}

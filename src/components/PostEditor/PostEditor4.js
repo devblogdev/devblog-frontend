@@ -47,7 +47,7 @@ const PostEditor4 = (props) => {
     const classes = useStyles();
 
     const loadingMessage = useSelector((state) => state.posts.message)
-
+    
     // 'initial' is a redux variable used to track the Imgur bucket body images of draft or post at time of render in post eiddtor
     const initial = useSelector( (state) => state.images.currentDraftOrPostBodyImages)
     
