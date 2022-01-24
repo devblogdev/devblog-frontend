@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 
+// This hook is used for debugging; it not used in production
 export default function useWhyDidYouUpdate(name, props) {
   // Get a mutable ref object where we can store props ...
   // ... for comparison next time this hook runs.

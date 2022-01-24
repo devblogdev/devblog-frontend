@@ -32,7 +32,6 @@ export default function usersReducer(
             return{...state, confirmation_email: ""}
         
         case 'ADD_USERS':
-            console.log(action.payload)
             return { ...state, users: action.payload }
 
         case 'LOGOUT_USER':

@@ -88,7 +88,6 @@ const PostEditor4 = (props) => {
             const coverImageData = await manageImageForNewDraftOrPost(imageState);
             // Note: the key 'images_attributes' should not be changed as it is used by backend to process the cover image;
             let postData = Object.assign({}, rawPostData, {images_attributes: coverImageData})
-            console.log(postData)
             dispatch({type: 'LOADING', payload: "Managing post..."})
             dispatch(addPost(endpoint, postData, props, bodyImages))    
         }
@@ -120,7 +119,6 @@ const PostEditor4 = (props) => {
             const coverImageData = await manageImageForNewDraftOrPost(imageState);
             // Note: the key 'images_attributes' should not be changed as it is used by backend to process the cover image;
             let postData = Object.assign({}, rawPostData, {images_attributes: coverImageData})
-            console.log(postData)
             dispatch({type: 'LOADING', payload: "Managing post..."})
             dispatch(addPost(endpoint, postData, props, bodyImages))    
         }
@@ -152,7 +150,6 @@ const PostEditor4 = (props) => {
             const coverImageData = await manageImageForDraftOrPost(currentPost, imageState);
             // Note: the key 'images_attributes' should not be changed as it is used by backend to process the cover image;
             let postData = Object.assign({}, rawPostData, {images_attributes: coverImageData})
-            console.log(postData)
             dispatch({type: 'LOADING', payload: "Managing post..."})
             dispatch(editPost(endpoint, postData, props, bodyImages ))
         }
@@ -185,7 +182,6 @@ const PostEditor4 = (props) => {
             const coverImageData = await manageImageForDraftOrPost(currentPost, imageState);
             // Note: the key 'images_attributes' should not be changed as it is used by backend to process the cover image;
             let postData = Object.assign({}, rawPostData, {images_attributes: coverImageData})
-            console.log(postData)
             dispatch({type: 'LOADING', payload: "Managing post..."})
             dispatch(editPost(endpoint, postData, props, bodyImages))
         }
@@ -204,7 +200,6 @@ const PostEditor4 = (props) => {
         const postID = props.match.params.postID
         const endpoint = `/posts/${postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
-        console.log(currentPost)
         const initialAll = union(initial.oldImages, initial.newImages)
         console.log(initialAll)
         const bodyImages = { scheduleImagesForDestruction, initialAll }
@@ -415,7 +410,6 @@ const PostEditor4 = (props) => {
       };
       if (file.size > 1500000) return reject(retrieveModalState(['Max file size is 1.5 MB']))
       axios.post("https://api.imgur.com/3/image", file, config).then((res) => {
-        console.log(res);
         const source = res.data.data.link + "-" + res.data.data.deletehash
         dispatch({ type: "REGISTER_NEW_IMAGE", payload: source })
         resolve({ data: { link: source } } )

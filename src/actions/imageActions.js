@@ -38,7 +38,6 @@ const uploadImage =  async (file, isProfileImage) => {
                 url: response.location,
                 s3key: response.key
             }]
-            console.log(images_attributes)
             return images_attributes
         } catch(error) { 
             console.log(error) 
@@ -77,7 +76,6 @@ const updateImage = async (postImage, imageData) => {
             url: postImage.url,
             s3key: postImage.s3key
         }]
-        console.log(images_attributes)
         return images_attributes
     } return []
 }
@@ -139,7 +137,6 @@ export function registerDraftOrPostBodyImages(data, state) {
         if(images.size) {
             if(state.type === "initial") {
                 dispatch({ type: "REGISTER_IMAGES", payload: images } )
-                console.log(images)
                 console.log(`${images.size} images registered in initial states`) 
             } 
             else if(state.type === "final") {
@@ -165,7 +162,7 @@ export function scheduleImagesForDestruction(initialStateImages, finalStateImage
                 console.log("Marked for destruction", markedForDestruction)
                 if (markedForDestruction) {                           // convert the set into an array
                     axios.post("/images/schedule-for-destruction", {urls: [...markedForDestruction]})
-                        .then(resp => resolve(console.log(resp)))
+                        .then(resp => resolve(console.log("Image destruction scheduliing successful")))
                         .catch(error => resolve(console.log(error)))
                 } 
                 else {

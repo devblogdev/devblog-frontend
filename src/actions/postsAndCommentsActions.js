@@ -27,7 +27,6 @@ export function addPost(endpoint, postData, routerAndModal=null, bodyImages ){
         return async (dispatch) => {
            await axios.post(`${endpoint}`, {post: postData} , axiosConfig)
             .then( response => {
-                console.log(response)
                 dispatch( {type: "UNREGISTER_IMAGES"})
                 // WARNING: **(comments below)
                 // MOVE_AUTHOR_TO_TOP: whenever a user publishes a NEW post, move the user to the top of authors list
@@ -79,7 +78,6 @@ export function editPost(endpoint, postData, routerAndModal=null, bodyImages){
         return async(dispatch) => {
             await axios.put(`${endpoint}`, {post: postData} , axiosConfig)
               .then( response => {
-                console.log(response)
                 dispatch( {type: "UNREGISTER_IMAGES"})
                 // WARNING: **
                 dispatch( {type: "MOVE_AUTHOR_TO_TOP", payload: {previous_status: postData.status, current: response.data} })
@@ -120,7 +118,6 @@ export function deletePost(endpoint, postData, routerAndModal=null, bodyImages){
         return async (dispatch) => {
             await axios.delete(`${endpoint}`, axiosConfig)
               .then( response => {
-                console.log(response)
                 dispatch( {type: "UNREGISTER_IMAGES"})
                 if (postData.status === "published") {
                     routerAndModal.history.push("/profile")

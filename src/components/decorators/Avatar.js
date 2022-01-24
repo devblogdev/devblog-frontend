@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
-
+//THIS COMPONENT IS NOT USED IN THE APP
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',

@@ -10,7 +10,6 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
             if(endpoint === "/users"){
                 dispatch({type: "SET_CONFIRMATION_EMAIL", payload: response.data.email })
                 routerAndModal.history.push('/registration-confirmation')
-                console.log(response)
             }
             // } else if(endpoint === "/password-reset") {
             //     console.log(response)
@@ -19,7 +18,6 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
             // If the user is loggin in locally or via Omniauth, set the user and redirect to home page
             else {
                 localStorage.setItem('token', response.data.jwt)
-                console.log(response)
                 dispatch({type: 'SET_USER', payload: response.data.user })
                 routerAndModal.history.push('/')
                 routerAndModal.retrieveModalState(["You have been successfully logged in"])
@@ -69,7 +67,6 @@ export function updateUser(endpoint, userData, routerAndModal=null){
         return async(dispatch) => {
             await axios.put(`${endpoint}`, {user: userData} , axiosConfig)
               .then( response => {
-                console.log(response)
                 dispatch( {type: "UPDATE_USER_PRIVATE", payload: response.data})
                 dispatch( {type: 'UPDATE_USER_PUBLIC', payload: response.data})
                 routerAndModal.retrieveModalState(["Profile successfully updated"])
