@@ -14,7 +14,7 @@ export function extractTitle(data) {
     // Example: "<h1>My Post</h1><p>Post body...</p>"
     // result --> [">My Post", ">Post body..."]
     let result = data.match(/(?:>).*?(?=<)/g);
-    console.log(result);
+    // console.log(result);
     return result
 }
 

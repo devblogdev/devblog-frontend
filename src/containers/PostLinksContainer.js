@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { useSelector } from 'react-redux'
+import { scheduleImagesForDestruction } from '../actions/imageActions'
 
-export default function PostLinksContainer({match, posts}) {
+export default function PostLinksContainer({match, location, posts}) {
+
+    const previousPath = location.state?.from.pathname
+    const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages.newImages)
+    
+    useEffect( () => {
+        console.log("posts links useEffect called")
+        if( (previousPath?.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.size ) scheduleImagesForDestruction(initial, new Set()) 
+        // FATAL ERROR: do not dispatch an action here that updates the 'initial' redux variables included in the dependency array of this useFeect
+        // doing so will cause the component to rerender and make the code in useEffect to run again, causing an infinite loop 
+    },[previousPath, initial] )
     
     const published = posts.filter( post => post.status === "published").map((post,index) => 
         <li key={index}><Link rel="canonical" to= {`${match.url}/${post.id}`}>{post.title} </Link></li>

@@ -45,7 +45,10 @@ export default function NavBar(props) {
           </IconButton>
           <Typography variant="h6" className={classes.title}>
              <NavLink 
-                to="/"
+                  to={{
+                    pathname: '/',
+                    state: { from: location}
+                  }}
                 style={{color: 'white', textDecoration: 'none'}} 
             > DevBlog  
             </NavLink>
@@ -72,7 +75,10 @@ export default function NavBar(props) {
           </Typography>
           <Typography variant="h6" className={classes.title}>
             <NavLink 
-                to="/profile" 
+                to={{
+                  pathname: '/profile',
+                  state: { from: location}
+                }}
                 style={{color: 'white', textDecoration: 'none'}} 
             >My Profile
             </NavLink>

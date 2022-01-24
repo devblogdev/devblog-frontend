@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useContext } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { authorization } from '../actions/securityActions'
 import PropTypes from 'prop-types';
@@ -14,7 +14,6 @@ import Button from '@material-ui/core/Button';
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import ProfileForm from '../components/users/ProfileForm'
 import { ActivationContext } from '../components/users/ActivationContext';
-import { scheduleImagesForDestruction } from '../actions/imageActions';
 
 
 
@@ -87,6 +86,7 @@ const useStyles = makeStyles ((theme) => ({
   },
 }));
 
+//  Container before implementing interlocking sytem for posts' body images
 export default function ProfileContainer({ user, posts, token, ...routerProps}) {
 
   const dispatch = useDispatch()
@@ -94,19 +94,10 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
   const [drafts, setDrafts] = useState([])
   const [published, setPublished] = useState([])
 
-  const previousPath = routerProps.location.state?.from.pathname
-  const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages.newImages)
-
   useEffect(() => {
       dispatch(authorization())
       console.log("Authorization called in ProfileContainer.js")
   },[dispatch])
- 
-  useEffect( () => {
-      if( (previousPath?.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.size ) scheduleImagesForDestruction(initial, new Set()) 
-      // FATAL ERROR: do not dispatch an action here that updates the 'initial' redux variables included in the dependency array of this useFeect
-      // doing so will cause the component to rerender and make the code in useEffect to run again, causing an infinite loop 
-  },[previousPath, initial] )
 
   const loadedDrafts = useCallback ( () => user.posts?.filter( post => post.status === "draft").map((post,index) => {
       return <li key={index}><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.title}</Link></li>}
@@ -117,7 +108,6 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
     ),[posts, user])
 
   useEffect(() => {
-    console.log("Second useFeect in profile container called")
       setDrafts(loadedDrafts())
       setPublished(loadedPublished())
   },[loadedDrafts, loadedPublished])
@@ -128,7 +118,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
     setValue(newValue);    
   };
 
-  console.log("Profile container rendered")
+  console.log(user)
 
   return (
     <Container>

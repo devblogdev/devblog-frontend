@@ -14,7 +14,7 @@ export default function postsAndCommentsReducer(
         let likeIndex
         
         switch(action.type) {
-            case 'LOADING_POSTS':
+            case 'LOADING':
                 return {
                     ...state,
                     loading: true,
@@ -23,7 +23,6 @@ export default function postsAndCommentsReducer(
                 }
 
             case 'FETCH_POSTS':
-                // debugger
                 return {
                     ...state,
                     loading: false,
@@ -46,8 +45,6 @@ export default function postsAndCommentsReducer(
                 post = action.payload
                 postId = action.payload.id
                 postIndex = state.posts.findIndex( post => post.id === postId)
-                console.log(post)
-                console.log(postIndex)
                  // If the post is in the public bucket (published), update the post [-1 meanns result not found]
                 if (postIndex > -1) {
                     return {
@@ -67,7 +64,7 @@ export default function postsAndCommentsReducer(
                 postId = action.payload
                 postIndex = state.posts.findIndex( post => post.id === postId)
                 if (postIndex > -1) {
-                    return {
+                    return {    
                         ...state, 
                         message: "",
                         posts: [

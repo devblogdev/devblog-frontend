@@ -69,7 +69,6 @@ export default function PasswordResetEmailForm(props) {
         // "email" is the email written by the user in the form
         axios.post(endpoint, { email }) 
             .then((response) => {
-                console.log(response)
                 props.updateMessage(
                     <blockquote>
                         <br/><br/>

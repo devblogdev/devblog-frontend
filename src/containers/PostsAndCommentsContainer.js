@@ -4,7 +4,7 @@ import Post from '../components/posts/Post'
 export default function PostsAndCommentsContainer(props) {
     return (
         <div className="postPage standardSize">
-             <Post {...props} posts = {props.posts} users={props.users} />
+             <Post {...props} posts = {props.posts} users={props.users} user={props.user} />
         </div>
     )
 }

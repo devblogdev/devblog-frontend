@@ -81,7 +81,7 @@ export function authorization(endpoint=null, routerAndModal=null ) {
         return async (dispatch) => {
             try {
                 const response = await axios.get(`${url}`, axiosConfig)
-                console.log(response)
+                console.log("Security action called")
                 dispatch({type:'SET_USER', payload: response.data})  
             } catch(error) {
                 // dispatch({type: 'LOGOUT_USER'})

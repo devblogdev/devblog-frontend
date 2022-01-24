@@ -68,7 +68,6 @@ function EmailConfirmation() {
         if(Object.keys(params).length && counter > 10 && posts.length && timerId.current === 11) {
             axios.post(`/registration-confirmation/${params.confirm_token}`)
             .then( (response) => {
-                console.log(response)
                 localStorage.setItem('token', response.data.jwt)
                 dispatch({type: 'SET_USER', payload: response.data.user })
                 dispatch({type: 'CLEAR_CONFIRMATION_EMAIL' })

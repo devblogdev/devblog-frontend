@@ -10,7 +10,7 @@ export const ModalProvider = ({ children }) => {
 
 
     const retrieveModalState = useCallback ((messageArray=[], time=3000) => {
-        const message = messageArray.map((message,index) => {
+        const message = messageArray?.map((message,index) => {
           return <li key={index}>{message}</li>
         })
         setModalMessage(message)
@@ -23,7 +23,7 @@ export const ModalProvider = ({ children }) => {
             { 
                 displayModeModal,
                 modalMessage,
-                retrieveModalState,
+                retrieveModalState
             }
         } >
             { children }

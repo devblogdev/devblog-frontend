@@ -13,7 +13,7 @@ import Home from './containers/Home';
 import PostLinksContainer from './containers/PostLinksContainer';
 import ProtectedRoute from './components/protectedRoute/protectedRoute';
 import ProfileContainer from './containers/ProfileContainer';
-import PostEditor3 from './components/PostEditor/PostEditor3';
+import PostEditor4 from './components/PostEditor/PostEditor4';
 import PostsAndCommentsContainer from './containers/PostsAndCommentsContainer';
 import AuthorsLinksContainer from './containers/AuthorsLinksContainer';
 import AuthorContainer from './containers/AuthorContainer';
@@ -24,22 +24,30 @@ import { Helmet } from 'react-helmet';
 
 
 function App() {
-  console.log("whre are you coming from?")
+  
   const dispatch = useDispatch()
+  // Note: 'current_user' is an importnat variable; attempted to remove it from App.js to reduce and place it where it directly on the 
+  // components where it is used to reduce the number of rerenders; however, this caused errors in the post editor (post editor does not load); kee it here for now
   const current_user = useSelector((state) => state.users.current_user)
   const users = useSelector((state) => state.users.users)
   const posts = useSelector((state) => state.posts.posts)
-  const loading = useSelector((state) => state.posts.message)
   const token = localStorage.getItem('token')
-  const currentDraftOrPostBodyImages = useSelector((state) => state.images.currentDraftOrPostBodyImages)
-  const finalStateDraftOrPostBodyImages = useSelector((state) => state.images.finalStateDraftOrPostBodyImages)
-  // const [displayModeModal, setDisplayModeModal] = useState("hidden")
-  // const [modalMessage, setModalMessage] = useState([])
-  const imagesProps = { currentDraftOrPostBodyImages, finalStateDraftOrPostBodyImages }
+
+  // FATAL ERROR: DO NOT LOAD the variables from the images reducer here in app component;
+  // when an action is dispatched to change these variables, the effect will propagte throughout the 
+  // whole app (will cause app component to rerender). This can lead to infinte loops: Real example: the 2nd useEffect block
+  // in Post Editor component changes the images redux variable(s); if these variables are required in here in app.js, you will get an infinite loop
+  // as the change from useEffect block will cause app component to rerender, then post component rerenders, and then useEffect block is called again.
+  // Another effect will be in the post editor component; when editing a previously saved post, dispatching 
+  // an action from within the post editor component to change the images redux variabls VIA AN EVENT LISTTERNER (such as onBlur) 
+  // will cause the app to rerender, and the editor will rerender as well, causing the code inside the first
+  // useEffect block in editor to be executed again..., result: the editor will be reinitialized with the contents
+  // with which it was loaded first time, cuasing all the edits to be lost.
+
 
   const { displayModeModal, modalMessage, retrieveModalState } = useContext(ModalContext)
   
-  
+
   const Buttons = useCallback(() => {
     let button
     if (token) {
@@ -73,14 +81,7 @@ function App() {
     console.log('Posts dispatcher was called')   // Total renders after the useEffects: 5 (1 normal render, and 4 renders from the dispatchers (if user is logged in; otherwise 4 total renders))
   }, [dispatch])
 
-  // const retrieveModalState = useCallback ((messageArray, time=3000) => {
-  //     const message = messageArray.map((message,index) => {
-  //       return <li key={index}>{message}</li>
-  //     })
-  //     setModalMessage(message)
-  //     setDisplayModeModal("")
-  //     setTimeout(() => { setDisplayModeModal('hidden')}, time)
-  // },[])
+
   console.log("App was Rendered")
   return (
     <Router>
@@ -122,11 +123,11 @@ function App() {
           <Switch>
             <Route
                 exact path="/"
-                render = {routerProps => <Home {...routerProps} posts = {posts} loading = {loading} retrieveModalState = {retrieveModalState} imagesProps = {imagesProps} /> }
+                render = {routerProps => <Home {...routerProps} posts = {posts} retrieveModalState = {retrieveModalState} /> }
             />
             <Route
                 exact path="/posts"
-                render = {routerProps => <PostLinksContainer {...routerProps} posts = {posts} imagesProps = {imagesProps} /> }
+                render = {routerProps => <PostLinksContainer {...routerProps} posts = {posts} /> }
             />
             <Route
                 exact path="/logout"
@@ -138,35 +139,31 @@ function App() {
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
-                imagesProps = {imagesProps}
             />
             <ProtectedRoute
                 path ="/profile/drafts/new"
-                component = {PostEditor3}
+                component = {PostEditor4}
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
-                loading = {loading}
             />
             <ProtectedRoute
                 path ="/profile/drafts/:postID"
-                component = {PostEditor3}
+                component = {PostEditor4}
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
-                loading = {loading}
             />
             <ProtectedRoute
                 path ="/posts/edit/:postID"
-                component = {PostEditor3}
+                component = {PostEditor4}
                 user = {current_user}
                 posts = {posts}
                 retrieveModalState = {retrieveModalState}
-                loading = {loading}
             />
             <Route 
                 path={`/posts/:postID`} 
-                render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} user={current_user} users = {users} />} 
+                render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} users = {users} user={current_user} />} 
             />
             <Route
                 path={'/authors/:authorID'}
@@ -174,7 +171,7 @@ function App() {
             />
             <Route
                 exact path="/authors"
-                render= {routerProps => <AuthorsLinksContainer {...routerProps} authors={users} imagesProps = {imagesProps} />}
+                render= {routerProps => <AuthorsLinksContainer {...routerProps} authors={users} />}
             />
             <Route
                 exact path="/login"

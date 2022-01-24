@@ -123,8 +123,6 @@ export default function ProfileForm(props) {
         }
         resolveImageThenResolveUser()
     }
-    console.log(user)
-    console.log(imageState)
 
 
     

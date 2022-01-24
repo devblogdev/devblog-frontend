@@ -75,7 +75,6 @@ export default function PasswordResetForm({updateMessage, email}) {
         const endpoint = "/reset-password"
         axios.post(endpoint, { password, email })
             .then((response) => {
-                console.log(response)
                 updateMessage(
                     <blockquote>
                         <br/><br/>
@@ -97,7 +96,6 @@ export default function PasswordResetForm({updateMessage, email}) {
         setDisplayErrors(false)
       }
   }
-  console.log(email)
   
   return (
     <Container component="main" maxWidth="xs">
