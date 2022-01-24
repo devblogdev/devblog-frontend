@@ -5,15 +5,13 @@ import { Helmet } from 'react-helmet'
 import { scheduleImagesForDestruction } from '../actions/imageActions'
 import { useSelector } from 'react-redux'
 
-
-
 export default function AuthorsLinksContainer({match, location, authors }) {
 
     const previousPath = location.state?.from.pathname
     const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages.newImages)
     
     useEffect( () => {
-        console.log("authors container")
+        console.log("authors container useEffect called")
         // 'previousPath' is undefined when page first loads; add '?' to prevent app from crashing
         if( (previousPath?.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.size ) scheduleImagesForDestruction(initial, new Set()) 
         // FATAL ERROR: do not dispatch an action here that updates the 'initial' redux variables included in the dependency array of this useFeect
