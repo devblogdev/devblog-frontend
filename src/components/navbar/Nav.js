@@ -55,7 +55,7 @@ export default function Navbar(props) {
                                 My profile
                             </Link>
                         </li>
-                        <li className='nav-item nav-links' onClick={closeMobileMenu}>
+                        <li className='nav-item nav-links-mobile' onClick={closeMobileMenu}>
                             
                                 {props.button}
                             
