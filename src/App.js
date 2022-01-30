@@ -8,7 +8,8 @@ import { NavLink } from 'react-router-dom';
 import { authorization } from './actions/securityActions';
 import { fetchPosts } from './actions/postsAndCommentsActions';
 import {fetchUsers} from './actions/userActions';
-import NavBar from './components/navbar/NavBar';
+// import NavBar from './components/navbar/NavBar';
+import Nav from './components/navbar/Nav';
 import Home from './containers/Home';
 import PostLinksContainer from './containers/PostLinksContainer';
 import ProtectedRoute from './components/protectedRoute/protectedRoute';
@@ -112,8 +113,7 @@ function App() {
             {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
         </Helmet>
 
-        <div className="Nav-addon"></div>
-        <NavBar button ={Buttons()} />
+        <Nav button ={Buttons()} />
         {/* 'Modal' is the general messaging system of the app; Modal is not used for displaying meesages while a component is loading, instead, the posts' 'message' variable is used for this purpose, found in reducers/PostsAndComentsReducer.js */}
         <Modal displayModeModal = {displayModeModal} modalMessage = {modalMessage}/>
         <Container 

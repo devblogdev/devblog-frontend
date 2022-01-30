@@ -1,4 +1,5 @@
 import React from 'react';
+import './NavBar.css';
 // MATERIAL UI DEPENDENCIES 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -40,10 +41,12 @@ export default function NavBar(props) {
         }}
       >
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+
+          <IconButton edge="start" className="hamburger" color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+
+          <Typography variant="h6" className="menu-item">
              <NavLink 
                   to={{
                     pathname: '/',
@@ -53,7 +56,8 @@ export default function NavBar(props) {
             > DevBlog  
             </NavLink>
           </Typography>
-          <Typography variant="h6" className={classes.title}>
+
+          <Typography variant="h6" className="menu-item">
              <NavLink 
                 to={{
                   pathname: '/posts',
@@ -63,7 +67,8 @@ export default function NavBar(props) {
             >All Posts   
             </NavLink>
           </Typography>
-          <Typography variant="h6" className={classes.title}>
+
+          <Typography variant="h6" className="menu-item">
              <NavLink 
                 to={{
                   pathname: '/authors',
@@ -73,7 +78,8 @@ export default function NavBar(props) {
             >Authors
             </NavLink>
           </Typography>
-          <Typography variant="h6" className={classes.title}>
+
+          <Typography variant="h6" className="menu-item">
             <NavLink 
                 to={{
                   pathname: '/profile',
@@ -83,9 +89,11 @@ export default function NavBar(props) {
             >My Profile
             </NavLink>
           </Typography>
-
+          
+          <Typography variant="h6" className="login-logout-button">
               {/* Login/Logout button; the bottom comes from App.js as a props */}
               {props.button}
+          </Typography>
 
         </Toolbar>
       </AppBar>
