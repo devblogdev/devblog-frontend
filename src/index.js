@@ -16,7 +16,7 @@ import { ModalProvider } from './components/modal/ModalContext';
 
 
 // axios.defaults.baseURL= 'http://localhost:3000'
-axios.defaults.baseURL= process.env.REACT_APP_BASE_API_URL
+axios.defaults.baseURL= process.env.REACT_APP_BASE_API_URL || "http://localhost:3000"
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 

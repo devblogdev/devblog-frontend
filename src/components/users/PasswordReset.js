@@ -35,7 +35,7 @@ function PasswordReset() {
         }
     }, [params.confirm_token]);
 
-    if(tempEmail && message) {    // If the user submits the password reset form and response is successful, replace the form with the success message
+    if(tempEmail && message) {    // When the user submits the password reset form, replace the form with the message from the server; it can ba a success message or an error message
         return (
             <React.Fragment>
                 {message}
