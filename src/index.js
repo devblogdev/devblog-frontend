@@ -15,7 +15,8 @@ import axios from 'axios'
 import { ModalProvider } from './components/modal/ModalContext';
 
 
-// axios.defaults.baseURL= 'http://localhost:3000'
+// Sets the base URL used by the Ruby on Rails API that serves this app
+// In development, the Ruby on Rails API that serves this app is started at port 3000
 axios.defaults.baseURL= process.env.REACT_APP_BASE_API_URL || "http://localhost:3000"
 
 const store = createStore(rootReducer, applyMiddleware(thunk))

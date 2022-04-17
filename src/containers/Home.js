@@ -31,6 +31,8 @@ const Home = ({match, location, history, posts, retrieveModalState}) => {
         if( (previousPath?.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.size ) scheduleImagesForDestruction(initial, new Set()) 
     },[dispatch, history, match.url, previousPath, initial, retrieveModalState])
 
+    
+
     const published = posts.filter( post => post.status === "published")
     
     const mainPost = useCallback(() => {
@@ -57,7 +59,7 @@ const Home = ({match, location, history, posts, retrieveModalState}) => {
                     <ExternalImgCardMedia key={index} post = {post} imageHeight={'140'} />
                </a>
         })
-
+        
     return (
         <div className='home'>
             <div className="mainPost">

@@ -1,0 +1,12 @@
+This app should preferrably be started at port 8000 when in development mode;
+the Ruby on Rails backend API that serves this app is configured to receive calls
+from 'localhost:8000'; using a different port in this app will cause a CORS 
+(cross-origin resource sharing) error; the UI (user interface) will still 
+render, but no posts will be rendered. If a different port in development 
+mode wants to be used, then the fallback port set for axios' baseUrl in src/index.js
+needs to be the same fallback port set in the Ruby on Rails API in config/application.rb
+and in config/initiliazers/cors.rb
+
+Therefore, it is recommended to initialize this app as follows:
+
+    PORT=8000 npm start
