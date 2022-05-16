@@ -26,12 +26,11 @@ class S3Client {
             }
         }
 
-
         let xhr = new XMLHttpRequest();
         xhr.open(method, requestUrl, true);
         xhr.setRequestHeader('Content-type', 'application/json');
-        for(let configKey in this.config){
-            xhr.setRequestHeader(configKey, this.config[configKey]);
+        for(let headerKey in headers){
+            xhr.setRequestHeader(headerKey, headers[headerKey]);
         }
         
         xhr.onreadystatechange = function() {
@@ -57,8 +56,10 @@ class S3Client {
     
     // Perform sanity check for instance constructor properties
     uploadFile(file) {
-        // Connect to S3
-        // Use http2 mdoule + XMLS
+        this.request(this.config, S3Client.baseUrl, 'POST', {}, file, function(statusCode, responseReturned){
+            console.log(statusCode);
+            console.log(responseReturned);
+        });
     }
 
     // CRUD ACTIONS
