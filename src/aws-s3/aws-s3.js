@@ -1,19 +1,29 @@
-const hhtp2 = require ('http2');
-
-"Creating a Node Js AWS-S2 Software Development Kit"
 class S3Client {
 
-    constructor (
-        {
-            hostUrl, 
-            apiKey
+    static baseUrl = "aws-s3-baseUrl"
+
+    constructor ({ bucketName, region, accessKeyId, secretAccessKey }) {
+        this.config = {};
+        this.config["bucketName"] = bucketName
+        this.config["region"] = region
+        this.config["accessKeyId"] = accessKeyId
+        this.config["secretAccessKey"] = secretAccessKey
+    }
+
+    request(method, requestUrl) {
+        let xhr = new XMLHttpRequest();
+        xhr.open(method, requestUrl, true);
+        xhr.setRequestHeader('Content-type', 'application/json');
+        for(let configKey in this.config){
+            xhr.setRequestHeader(configKey, this.config[configKey]);
         }
-        // call initialize emthod during instantiation
-    )
+        
+    }
+    
     // Perform sanity check for instance constructor properties
-    initialize(){
+    uploadFile(file) {
         // Connect to S3
-        // Use httpw mdoule + XMLS
+        // Use http2 mdoule + XMLS
     }
 
     // CRUD ACTIONS
