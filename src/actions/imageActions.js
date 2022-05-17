@@ -18,6 +18,9 @@ const config = {
 
 const ReactS3Client = new S3(config)
 
+// Testing my own AWS S3 client
+const S3Client = new S3Client(config);
+
 const token = localStorage.getItem('token')
 
 const uploadImage =  async (file, isProfileImage) => {
@@ -27,7 +30,13 @@ const uploadImage =  async (file, isProfileImage) => {
         try {
             let response
             if (!isProfileImage) {
-                response = await ReactS3Client.uploadFile(file)
+                // response = await ReactS3Client.uploadFile(file)
+                try {
+                    response = await S3Client.uploadFile(file)
+                } catch(e) {
+                    console.log(e)
+                }
+                
             } else {
                 response = await ReactS3Client.uploadFile(file, `profileimages/${suid()}`)
             }
