@@ -14,7 +14,8 @@ class S3Client {
 
     request(headers, path, method, queryStringObject, payload, callback) {
 
-        let requestUrl = path + '?';
+        // let requestUrl = path + '?';
+        let requestUrl = path;
         let counter = 0;
         for(let queryKey in queryStringObject){
             if(queryStringObject.hasOwnProperty(queryKey)){
