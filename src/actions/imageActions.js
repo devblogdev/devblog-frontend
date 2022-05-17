@@ -3,7 +3,7 @@ import axios from 'axios'
 // import auth from '../components/security/auth'
 import ShortUniqueId from 'short-unique-id';
 import { difference } from '../components/utilities/setsFunctions';
-
+import S3Client from "../aws-s3/aws-s3"
 // CODE FOR MANAGING IMAGES IN AMAZON S3 BUCKET; MANAGES POSTS' COVER IMAGE AND USER PROFILE IMAGE
     // <----- START ------->
 
@@ -19,7 +19,7 @@ const config = {
 const ReactS3Client = new S3(config)
 
 // Testing my own AWS S3 client
-const S3Client = new S3Client(config);
+const MyS3Client = new S3Client(config);
 
 const token = localStorage.getItem('token')
 
@@ -32,7 +32,7 @@ const uploadImage =  async (file, isProfileImage) => {
             if (!isProfileImage) {
                 // response = await ReactS3Client.uploadFile(file)
                 try {
-                    response = await S3Client.uploadFile(file)
+                    response = await MyS3Client.uploadFile(file)
                 } catch(e) {
                     console.log(e)
                 }

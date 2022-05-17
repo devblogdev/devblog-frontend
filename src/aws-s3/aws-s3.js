@@ -19,7 +19,7 @@ class S3Client {
         for(let queryKey in queryStringObject){
             if(queryStringObject.hasOwnProperty(queryKey)){
                 counter++;
-                if(counte > 1){
+                if(counter > 1){
                     requestUrl+= '&';
                 }
                 requestUrl+= queryKey + '=' +queryStringObject[queryKey];
@@ -34,7 +34,7 @@ class S3Client {
         }
         
         xhr.onreadystatechange = function() {
-            if(xhr.readyState == XMLHttpRequest.DONE) {
+            if(xhr.readyState === XMLHttpRequest.DONE) {
                 let statusCode = xhr.status;
                 let responseReturned = xhr.responseText;
 
@@ -78,5 +78,7 @@ class S3Client {
     delete(payload){
 
     }
-
 }
+
+module.exports = S3Client;
+
