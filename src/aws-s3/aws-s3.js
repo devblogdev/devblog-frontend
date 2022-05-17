@@ -9,7 +9,7 @@ class S3Client {
         this.config["accessKeyId"] = accessKeyId
         this.config["secretAccessKey"] = secretAccessKey
 
-        S3Client.baseUrl = 'https://' + bucketName + '.' + region + '.amazonaws.com/'
+        S3Client.baseUrl = 'https://' + bucketName + '.s3-' + region + '.amazonaws.com/'
     }
 
     request(headers, path, method, queryStringObject, payload, callback) {
@@ -29,10 +29,10 @@ class S3Client {
 
         let xhr = new XMLHttpRequest();
         xhr.open(method, requestUrl, true);
-        xhr.setRequestHeader('Content-type', 'application/json');
-        for(let headerKey in headers){
-            xhr.setRequestHeader(headerKey, headers[headerKey]);
-        }
+        xhr.setRequestHeader('Content-type', 'multipart/form-data; boundary=----WebKitFormBoundaryaCfPK5HqGtJVh6eO');
+        // for(let headerKey in headers){
+        //     xhr.setRequestHeader(headerKey, headers[headerKey]);
+        // }
         
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
@@ -51,7 +51,8 @@ class S3Client {
             }
         }
 
-        let payloadString = JSON.stringify(payload);
+        // let payloadString = JSON.stringify(payload);
+        let payloadString = payload;
         xhr.send(payloadString);
     }
     
