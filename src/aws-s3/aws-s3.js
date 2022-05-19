@@ -1,8 +1,9 @@
 
+
 class S3Client {
-
+    static crypto = require('crypto');
     static baseUrl = ""
-
+    
     constructor ({ bucketName, region, accessKeyId, secretAccessKey }) {
         this.config = {};
         this.config["bucketName"] = bucketName
@@ -35,6 +36,7 @@ class S3Client {
         //     xhr.setRequestHeader(headerKey, headers[headerKey]);
         // }
         
+        /*
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
                 let statusCode = xhr.status;
@@ -51,6 +53,7 @@ class S3Client {
 
             }
         }
+        */
 
         let payloadString = JSON.stringify(payload);
         // let payloadString = Buffer.from(payload, 'base64');
@@ -93,11 +96,32 @@ class S3Client {
         */          
 
 
+        // Example Signature Calculation
+        let object = {
+            "AWSAccessKeyId": "AKIAIOSFODNN7EXAMPLE",
+            "AWSSecretAccessKey": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            "region": "us-east-1",
+            "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
+            "aws-service": "s3"
+        };
 
+        let stringToSign = "AWS4-HMAC-SHA256" + "20130524T000000Z" + "20130524/us-east-1/s3/aws4_request" + "3bfa292879f6447bbcda7001decf97f4a54dc650c8942174ae0a9121cf58ad04"
 
+        // Calculating the SigningKey
+        let c = S3Client.crypto;
+        // c ( algorithm, key, ..rest(string))
+        const dateKey = c.createHmac('sha256', "AWS4" + object.AWSSecretAccessKey).update("20130524");
+        const dateRegionKey = c.createHmac('sha256', dateKey).update(object['region']);
+        const dateRegionServiceKey = c.createHmac('sha256', dateRegionKey).update(object['aws-service']);
+        const signingKey = c.createHmac('sha256', dateRegionServiceKey).update('aws4_request');
+        // signing key = HMAC-SHA256(HMAC-SHA256(HMAC-SHA256(HMAC-SHA256("AWS4" + "<YourSecretAccessKey>","20130524"),"us-east-1"),"s3"),"aws4_request")
 
-        console.log(payload);
-        xhr.send(payloadString);
+        const signature = c.createHmac('sha256', signingKey).update(stringToSign).digest('hex');
+
+        
+
+        console.log(signature);
+        // xhr.send(payloadString);
     }
     
     // Perform sanity check for instance constructor properties
