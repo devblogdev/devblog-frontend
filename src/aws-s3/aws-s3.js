@@ -2,6 +2,7 @@
 
 class S3Client {
     static crypto = require('crypto');
+    static crypto2  = require('crypto-js')
     static baseUrl = ""
     
     constructor ({ bucketName, region, accessKeyId, secretAccessKey }) {
@@ -118,10 +119,46 @@ class S3Client {
 
         const signature = c.createHmac('sha256', signingKey).update(stringToSign).digest('hex');
 
-        
-
-        console.log(signature);
+        let d = S3Client.crypto2;
+        const m = d.HmacSHA256("message", "key");
+        const n  = d.HmacSHA256("message", "key");
+        const j = c.createHmac('sha256', "key").update("message")
+        const k = c.createHmac('sha256', "key").update("message")
+        // console.log(m);
+        // console.log(n);
+        // console.log(j);
+        // console.log(k);
+        // console.log(new Date())
+        // console.log(signature);
         // xhr.send(payloadString);
+
+
+        const policy = Buffer.from(
+            JSON.stringify(
+                { 
+                    "expiration": "2015-12-30T12:00:00.000Z",
+                    "conditions": [
+                        {"bucket": "sigv4examplebucket"},
+                        ["starts-with", "$key", "user/user1/"],
+                        {"acl": "public-read"},
+                        {"success_action_redirect": "http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html"},
+                        ["starts-with", "$Content-Type", "image/"],
+                        {"x-amz-meta-uuid": "14365123651274"},
+                        {"x-amz-server-side-encryption": "AES256"},
+                        ["starts-with", "$x-amz-meta-tag", ""],
+                        {"x-amz-credential": "AKIAIOSFODNN7EXAMPLE/20151229/us-east-1/s3/aws4_request"},
+                        {"x-amz-algorithm": "AWS4-HMAC-SHA256"},
+                        {"x-amz-date": "20151229T000000Z" }
+                    ] 
+                }
+            )
+        ).toString('base64').replace(/\n|\r/, "")
+
+
+        console.log(policy)
+
+
+
     }
     
     // Perform sanity check for instance constructor properties
