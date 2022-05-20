@@ -105,14 +105,14 @@ class S3Client {
             "aws-service": "s3"
         };
 
-        let stringToSign = "AWS4-HMAC-SHA256" + "20130524T000000Z" + "20130524/us-east-1/s3/aws4_request" + "3bfa292879f6447bbcda7001decf97f4a54dc650c8942174ae0a9121cf58ad04"
+        let stringToSign = `AWS4-HMAC-SHA256\n20130524T000000Z\n20130524/us-east-1/s3/aws4_request\n3bfa292879f6447bbcda7001decf97f4a54dc650c8942174ae0a9121cf58ad04`
 
         // Calculating the SigningKey
         let c = S3Client.crypto;
         // c ( algorithm, key, ..rest(string))
-        const dateKey = c.createHmac('sha256', "AWS4" + object.AWSSecretAccessKey).update("20130524");
+        const dateKey = c.createHmac('sha256', "AWS4" + object.AWSSecretAccessKey).update("20130524").digest('hex');
         const dateRegionKey = c.createHmac('sha256', dateKey).update(object['region']);
-        const dateRegionServiceKey = c.createHmac('sha256', dateRegionKey).update(object['aws-service']);
+        const dateRegionServiceKey = c.createHmac('sha256', dateRegionKey).update('s3');
         const signingKey = c.createHmac('sha256', dateRegionServiceKey).update('aws4_request');
         // signing key = HMAC-SHA256(HMAC-SHA256(HMAC-SHA256(HMAC-SHA256("AWS4" + "<YourSecretAccessKey>","20130524"),"us-east-1"),"s3"),"aws4_request")
 
