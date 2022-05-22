@@ -16,56 +16,10 @@ class S3Client {
         this.config["region"] = region
         this.config["accessKeyId"] = accessKeyId
         this.config["secretAccessKey"] = secretAccessKey
-
-        S3Client.baseUrl = 'https://' + bucketName + '.s3-' + region + '.amazonaws.com/'
+        S3Client.baseUrl = 'https://' + bucketName + '.s3.' + region + '.amazonaws.com/'
     }
 
     request(headers, path, method, queryStringObject, payload, callback) {
-
-        // let requestUrl = path + '?';
-        let requestUrl = path;
-        let counter = 0;
-        for(let queryKey in queryStringObject){
-            if(queryStringObject.hasOwnProperty(queryKey)){
-                counter++;
-                if(counter > 1){
-                    requestUrl+= '&';
-                }
-                requestUrl+= queryKey + '=' +queryStringObject[queryKey];
-            }
-        }
-
-        let xhr = new XMLHttpRequest();
-        xhr.open(method, requestUrl, true);
-        xhr.setRequestHeader('Content-type', 'multipart/form-data; boundary=----WebKitFormBoundaryaCfPK5HqGtJVh6eO');
-        // for(let headerKey in headers){
-        //     xhr.setRequestHeader(headerKey, headers[headerKey]);
-        // }
-        
-        /*
-        xhr.onreadystatechange = function() {
-            if(xhr.readyState === XMLHttpRequest.DONE) {
-                let statusCode = xhr.status;
-                let responseReturned = xhr.responseText;
-
-                if(callback){
-                    try{
-                        let parsedResponse = JSON.parse(responseReturned);
-                        callback(statusCode, parsedResponse);
-                    } catch(e){
-                        callback(statusCode, false);
-                    }
-                }
-
-            }
-        }
-        */
-
-        let payloadString = JSON.stringify(payload);
-        // let payloadString = Buffer.from(payload, 'base64');
-
-        // Create a form to send to AWS S3
-        // let form = new FormData();
         
         // AWS S3 Documentation: https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html
         // Form fields for HTTP POST request to AWS S3
@@ -101,9 +55,7 @@ class S3Client {
         * 
         */          
 
-
         // Creating the stringToSign using the bucket Policy
-
         const tenMinutes = 6e5;
         const isoDate = (new Date(new Date().getTime() + tenMinutes)).toISOString();
         const date = isoDate.split("T")[0].split("-").join("");  // yyyymmdd
@@ -151,15 +103,13 @@ class S3Client {
             )
         ).toString('base64').replace(/\n|\r/, "")
 
-
         // Calculating the SigningKey
-
         let c = S3Client.crypto;
         // c ( algorithm, key, ..rest(string))
-        const dateKey = c.createHmac('sha256', "AWS4" + this.config.secretAccessKey).update(date).digest();
-        const dateRegionKey = c.createHmac('sha256', dateKey).update(this.config.region).digest();
-        const dateRegionServiceKey = c.createHmac('sha256', dateRegionKey).update('s3').digest();
-        const signingKey = c.createHmac('sha256', dateRegionServiceKey).update('aws4_request').digest();
+        const dateKey = c.createHmac('sha256', "AWS4" + this.config.secretAccessKey).update(date);
+        const dateRegionKey = c.createHmac('sha256', dateKey).update(this.config.region);
+        const dateRegionServiceKey = c.createHmac('sha256', dateRegionKey).update('s3');
+        const signingKey = c.createHmac('sha256', dateRegionServiceKey).update('aws4_request');
         // signing key = HMAC-SHA256(HMAC-SHA256(HMAC-SHA256(HMAC-SHA256("AWS4" + "<YourSecretAccessKey>","20130524"),"us-east-1"),"s3"),"aws4_request")
         const signature = c.createHmac('sha256', signingKey).update(policy).digest('hex');
                 
@@ -171,30 +121,91 @@ class S3Client {
         const p = d.HmacSHA256("aws4_request", t);
 
         const signature2 = d.HmacSHA256(policy, p).toString(d.enc.Hex);
-
-
         // console.log(signature, signature2)
-    
-        const w = d.HmacSHA256("message", "key")
-        const j = c.createHmac('sha256', "key").update("message")
-        console.log(j, w);
-        debugger
-        // const k = c.createHmac('sha256', "key").update("message")
-        // console.log(m);
-        // console.log(n);
-        // console.log(j);
-        // console.log(k);
-        // console.log(new Date())
-        // console.log(signature);
-        // xhr.send(payloadString);
+        // const w = d.HmacSHA256("message", "key")
+        // const j = c.createHmac('sha256', "key").update("message")
+        // console.log(j, w);
 
+        // Create a form to send to AWS S3
+        let formData = new FormData();
+        formData.append('key', "")
+        formData.append('acl', 'public-read')
+        formData.append('content-type',"")
+        formData.append('x-amz-meta-uuid', '14365123651274')
+        formData.append('x-amz-server-side-encryption', 'AES256')
+        formData.append('x-amz-credential', `${this.config.accessKeyId}/${date}/${this.config.region}/s3/aws4_request`)
+        formData.append('x-amz-algorithm', 'AWS4-HMAC-SHA256')
+        formData.append('x-amz-date', formattedIso)
+        formData.append('x-amz-meta-tag', "")
+        formData.append('policy', policy)
+        formData.append('x-amz-signature', signature)
+        formData.append('file', payload)
+
+
+    //     <form action="http://sigv4examplebucket.s3.amazonaws.com/" method="post"
+    //     enctype="multipart/form-data">
+    //        Key to upload:
+    //        <input type="input"  name="key" value="user/user1/${filename}" /><br />
+    //        <input type="hidden" name="acl" value="public-read" />
+    //        <input type="hidden" name="success_action_redirect" value="http://
+    //    sigv4examplebucket.s3.amazonaws.com/successful_upload.html" />
+    //        Content-Type:
+    //        <input type="input"  name="Content-Type" value="image/jpeg" /><br />
+    //        <input type="hidden" name="x-amz-meta-uuid" value="14365123651274" />
+    //        <input type="hidden" name="x-amz-server-side-encryption" value="AES256" />
+    //        <input type="text"   name="X-Amz-Credential" value="AKIAIOSFODNN7EXAMPLE/20151229/us-
+    //    east-1/s3/aws4_request" />
+    //        <input type="text"   name="X-Amz-Algorithm" value="AWS4-HMAC-SHA256" />
+    //        <input type="text"   name="X-Amz-Date" value="20151229T000000Z" />
+    //    Tags for File:
+    //    <input type="input" name="x-amz-meta-tag" value="" /><br />
+    //    <input type="hidden" name="Policy" value='<Base64-encoded policy string>' /> 
+    //    <input type="hidden" name="X-Amz-Signature" value="<signature-value>" /> File:
+    //    <input type="file" name="file" /> <br />
+    //    </from>
+
+        // let requestUrl = path + '?';
+        let requestUrl = path;
+        let counter = 0;
+        for(let queryKey in queryStringObject){
+            if(queryStringObject.hasOwnProperty(queryKey)){
+                counter++;
+                if(counter > 1){
+                    requestUrl+= '&';
+                }
+                requestUrl+= queryKey + '=' +queryStringObject[queryKey];
+            }
+        }
+
+        
+        let xhr = new XMLHttpRequest();
+        xhr.open(method, requestUrl, true);
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState === XMLHttpRequest.DONE) {
+                let statusCode = xhr.status;
+                let responseReturned = xhr.responseText;
+                if(callback){
+                    try{
+                        let parsedResponse = JSON.parse(responseReturned);
+                        callback(statusCode, parsedResponse);
+                    } catch(e){
+                        callback(statusCode, false);
+                    }
+                }
+            }
+        }
+        // let payloadString = JSON.stringify(payload);
+        // Send the payload as JSON
+        xhr.send(payload);
+        
     }
     
     // Perform sanity check for instance constructor properties
     uploadFile(file) {
         this.request(this.config, S3Client.baseUrl, 'POST', {}, file, function(statusCode, responseReturned){
-            // console.log(statusCode);
-            // console.log(responseReturned);
+            console.log(statusCode);
+            console.log(responseReturned);
+            return responseReturned;
         });
     }
 
