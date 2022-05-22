@@ -68,8 +68,8 @@ class S3Client {
                     expiration: isoDate,
                     conditions: [
                         {"bucket": this.config.bucketName},
-                        ["starts-with", "$key", ""],
                         {"acl": "public-read"},
+                        ["starts-with", "$key", ""],
                         ["starts-with", "$Content-Type", ""],
                         {"x-amz-meta-uuid": "14365123651274"},
                         {"x-amz-server-side-encryption": "AES256"},
@@ -106,10 +106,10 @@ class S3Client {
         // Calculating the SigningKey
         let c = S3Client.crypto;
         // c ( algorithm, key, ..rest(string))
-        const dateKey = c.createHmac('sha256', "AWS4" + this.config.secretAccessKey).update(date);
-        const dateRegionKey = c.createHmac('sha256', dateKey).update(this.config.region);
-        const dateRegionServiceKey = c.createHmac('sha256', dateRegionKey).update('s3');
-        const signingKey = c.createHmac('sha256', dateRegionServiceKey).update('aws4_request');
+        const dateKey = c.createHmac('sha256', "AWS4" + this.config.secretAccessKey).update(date).digest();
+        const dateRegionKey = c.createHmac('sha256', dateKey).update(this.config.region).digest();
+        const dateRegionServiceKey = c.createHmac('sha256', dateRegionKey).update('s3').digest();
+        const signingKey = c.createHmac('sha256', dateRegionServiceKey).update('aws4_request').digest();
         // signing key = HMAC-SHA256(HMAC-SHA256(HMAC-SHA256(HMAC-SHA256("AWS4" + "<YourSecretAccessKey>","20130524"),"us-east-1"),"s3"),"aws4_request")
         const signature = c.createHmac('sha256', signingKey).update(policy).digest('hex');
                 
@@ -128,9 +128,9 @@ class S3Client {
 
         // Create a form to send to AWS S3
         let formData = new FormData();
-        formData.append('key', "")
+        formData.append('key', payload.name)
         formData.append('acl', 'public-read')
-        formData.append('content-type',"")
+        formData.append('content-type', payload.type)
         formData.append('x-amz-meta-uuid', '14365123651274')
         formData.append('x-amz-server-side-encryption', 'AES256')
         formData.append('x-amz-credential', `${this.config.accessKeyId}/${date}/${this.config.region}/s3/aws4_request`)
@@ -176,7 +176,7 @@ class S3Client {
                 requestUrl+= queryKey + '=' +queryStringObject[queryKey];
             }
         }
-
+        console.log(payload)
         
         let xhr = new XMLHttpRequest();
         xhr.open(method, requestUrl, true);
@@ -186,8 +186,8 @@ class S3Client {
                 let responseReturned = xhr.responseText;
                 if(callback){
                     try{
-                        let parsedResponse = JSON.parse(responseReturned);
-                        callback(statusCode, parsedResponse);
+                        // let parsedResponse = JSON.parse(responseReturned);
+                        callback(statusCode, responseReturned);
                     } catch(e){
                         callback(statusCode, false);
                     }
@@ -196,8 +196,9 @@ class S3Client {
         }
         // let payloadString = JSON.stringify(payload);
         // Send the payload as JSON
-        xhr.send(payload);
+        xhr.send(formData);
         
+       
     }
     
     // Perform sanity check for instance constructor properties
@@ -207,6 +208,14 @@ class S3Client {
             console.log(responseReturned);
             return responseReturned;
         });
+    }
+
+    static generateKey(dirNmae, file) {
+        // if user does nto specify a file name
+        // this.crypto.randomBytes(11).toString('hex')
+        // if user specifies file name, need to sanity check file name; replace the below special characters with empty space
+        // https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html
+        // file.name.replaceAll(/[ \\ } ^ \] % \[ ` # \| > " < ~ ' \n \r &{ ]/g, "")
     }
 
     // CRUD ACTIONS
