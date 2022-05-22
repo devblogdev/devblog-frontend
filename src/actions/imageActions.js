@@ -23,24 +23,46 @@ const MyS3Client = new S3Client(config);
 
 const token = localStorage.getItem('token');
 
+const uploadImage =  async (file, isProfileImage) => {
+    // Upload the image to Amazon S3 bucket
+    // if (file && token) {
+    if (true) {
+        console.log("upload image called")
+        try {
+            if (!isProfileImage) {
+                // response = await ReactS3Client.uploadFile(file)
+                await MyS3Client.uploadFile(file)
+            } else {
+                await ReactS3Client.uploadFile(file, `profileimages/${suid()}`)
+            }
+            return []
+        } catch(error) { 
+            console.log(error) 
+            return []
+        }
+    } return []
+}
+
 // const uploadImage =  async (file, isProfileImage) => {
 //     // Upload the image to Amazon S3 bucket
-//     // if (file && token) {
-//     if (true) {
+//     if (file && token) {
 //         console.log("upload image called")
 //         try {
+//             let response
 //             if (!isProfileImage) {
-//                 // response = await ReactS3Client.uploadFile(file)
-//                 try {
-//                     MyS3Client.uploadFile(file)
-//                 } catch(e) {
-//                     console.log(e)
-//                 }
-                
+//                 response = await ReactS3Client.uploadFile(file)              
 //             } else {
-//                 await ReactS3Client.uploadFile(file, `profileimages/${suid()}`)
+//                 response = await ReactS3Client.uploadFile(file, `profileimages/${suid()}`)
 //             }
 //             // 'images_attributes' array will be later processed by Rails backend API; do not change the name 'images_attributes', it is required by Rails API
+//             const images_attributes = [{
+//                 name: file.name,
+//                 size: file.size,
+//                 url: response.location,
+//                 s3key: response.key
+//             }]
+//             console.log(response);
+//             // return images_attributes
 //             return []
 //         } catch(error) { 
 //             console.log(error) 
@@ -48,32 +70,6 @@ const token = localStorage.getItem('token');
 //         }
 //     } return []
 // }
-
-const uploadImage =  async (file, isProfileImage) => {
-    // Upload the image to Amazon S3 bucket
-    if (file && token) {
-        console.log("upload image called")
-        try {
-            let response
-            if (!isProfileImage) {
-                response = await ReactS3Client.uploadFile(file)              
-            } else {
-                response = await ReactS3Client.uploadFile(file, `profileimages/${suid()}`)
-            }
-            // 'images_attributes' array will be later processed by Rails backend API; do not change the name 'images_attributes', it is required by Rails API
-            const images_attributes = [{
-                name: file.name,
-                size: file.size,
-                url: response.location,
-                s3key: response.key
-            }]
-            return images_attributes
-        } catch(error) { 
-            console.log(error) 
-            return []
-        }
-    } return []
-}
 
 const deleteImage = async (postImage) => {
     // Delete the image from Amazon S3 bucket
