@@ -10,8 +10,8 @@ import S3Client from "../aws-s3/aws-s3"
 const suid = new ShortUniqueId({ length: 16 });
 
 const config = {
-    bucketName: process.env.REACT_APP_S3_BUCKET,
-    // bucketName: "ddd",
+    // bucketName: process.env.REACT_APP_S3_BUCKET,
+    bucketName: "",
     region: process.env.REACT_APP_REGION,
     accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
     secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
@@ -20,7 +20,7 @@ const config = {
 const ReactS3Client = new S3(config)
 
 // Testing my own AWS S3 client
-const MyS3Client = new S3Client(undefined);
+const MyS3Client = new S3Client(config);
 
 const token = localStorage.getItem('token');
 
@@ -32,7 +32,7 @@ const uploadImage =  async (file, isProfileImage) => {
         try {
             if (!isProfileImage) {
                 // response = await ReactS3Client.uploadFile(file)
-                await MyS3Client.uploadFile(file)
+                MyS3Client.uploadFile(file)
             } else {
                 await ReactS3Client.uploadFile(file, `profileimages/${suid()}`)
             }
