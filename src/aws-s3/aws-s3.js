@@ -44,11 +44,19 @@ class S3Client {
 
             return new Promise((resolve, reject) => {
                 this._request(this.config.baseUrl, 'POST', formData, function(statusCode, xhr){
-                    console.log(statusCode);
-                    console.log(xhr);
-                    console.log(this);
-                    console.log(this.config);
-                    return reject({bucket: this.config.bucketName, key: fileName, location: this.config.baseUrl + "/" +  fileName, status: statusCode });
+                    if(statusCode >= 200 && statusCode <= 207) {
+                        return resolve({
+                            bucket: this.config.bucketName, 
+                            key: fileName, 
+                            location: this.config.baseUrl + "/" +  fileName, 
+                            status: statusCode 
+                        });
+                    }
+                    return reject({
+                        message: xhr.responseText, 
+                        status: xhr.status, 
+                        statusText: xhr.statusText
+                    });
                 }.bind(this));
             })
         } catch(error) {
