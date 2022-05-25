@@ -41,12 +41,14 @@ class S3Client {
             formData.append("policy", policy)
             formData.append("x-amz-signature", signature)
             formData.append("file", file)
-                
+            
             this._request(this.config.baseUrl, 'POST', formData, function(statusCode, xhr){
                 console.log(statusCode);
                 console.log(xhr);
+                console.log(this);
+                console.log(this.config);
                 return  {bucket: this.config.bucketName, key: fileName, location: this.config.baseUrl + "/" +  fileName, status: statusCode };
-            });
+            }.bind(this));
         } catch(error) {
             console.log(error);
             return
@@ -71,9 +73,6 @@ class S3Client {
     _request(uri, method, payload, callback) {
         let xhr = new XMLHttpRequest();
         xhr.open(method, uri, true);
-
-        xhr.onprogress();
-
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
                 let statusCode = xhr.status;
@@ -106,7 +105,7 @@ class S3Client {
 
     _generatePolicy(isoDate, date, formattedIso) {
         // Note: The optional "encoding" parameter from "Buffer.from(string[,enconding])" defaults to utf8
-        const policy = Buffer.from(
+        return Buffer.from(
             JSON.stringify(
                 { 
                     expiration: isoDate,
@@ -124,13 +123,14 @@ class S3Client {
                     ] 
                 }
             )
-        ).toString('base64').replaceAll(/[$\n\r]/g, "")
-        return policy;
+        )
+        .toString('base64')
+        .replaceAll(/[$\n\r]/g, "")
     }
 
     _generateSignature(date, policy) {
           // Calculating the SigningKey
-          let c = S3Client.crypto;
+          let c = this.constructor.crypto;
           // c ( algorithm, key, ..rest(string))
           const dateKey = c.createHmac('sha256', "AWS4" + this.config.secretAccessKey).update(date).digest();
           const dateRegionKey = c.createHmac('sha256', dateKey).update(this.config.region).digest();
@@ -148,7 +148,7 @@ class S3Client {
             parsed = helpers.parseKey(key)
             if(!key.includes(".")) parsed = parsed + "." + extension
         } else {
-           parsed = S3Client.crypto.randomBytes(11).toString('hex') + "." + extension
+           parsed = this.constructor.crypto.randomBytes(11).toString('hex') + "." + extension
         }
         return parsed;
     }
