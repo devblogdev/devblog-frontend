@@ -65,11 +65,12 @@ class S3Client {
         }
     }
 
-    deleteFile(key){
+    deleteFile(key, dirName){
         try {
             this._sanityCheckConfig(); 
             if(typeof(key) !== "string" || !key.trim().length) throw new Error("'key' must be a nonempty string");
-            this._request(this.config.baseUrl + "/" + key, "DELETE", undefined, (statusCode, xhr) => {
+            if(dirName && (typeof dirName !== "string" || !dirName.length)) throw new Error("If included, 'dirName' must be a nonempty string");
+            this._request(this.config.baseUrl + "/" + (dirName ? dirName + "/" : "") + key, "DELETE", undefined, (statusCode, xhr) => {
                 console.log(statusCode);
                 console.log(xhr);
                 return statusCode;
@@ -168,7 +169,9 @@ class S3Client {
 const helpers = {};
 helpers.parseKey = function(key) {
     // https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html
-    return key.replaceAll(/[\\{}^%\]">[~<#|]/g, "").replaceAll(" ", "").replaceAll("'", "&apos;").replaceAll("&", "&amp;").replaceAll(/\r/g, "&#13;").replaceAll(/\n/g, "&#10;")
+    let parsed = key.replaceAll(/[\\{}^%\]">[~<#|/]/g, "").replaceAll(" ", "").replaceAll("'", "&apos;").replaceAll("&", "&amp;").replaceAll(/\r/g, "&#13;").replaceAll(/\n/g, "&#10;")
+    if(!parsed.length) throw new Error("A 'key' may not be composed of special characters only as some are scaped, which may ressult in an empty key")
+    return parsed;
 }
 
 module.exports = S3Client;

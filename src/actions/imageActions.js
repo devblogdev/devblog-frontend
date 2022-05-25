@@ -77,12 +77,15 @@ const uploadImage =  async (file, isProfileImage) => {
 const deleteImage = async (postImage) => {
     // Delete the image from Amazon S3 bucket
     if (token) {
-        console.log("delete image called")
-        await ReactS3Client.deleteFile(postImage.s3key)
+        console.log("'Delete image' called")
+        // await ReactS3Client.deleteFile(postImage.s3key)
+        //     .catch((error) => {
+        //         console.error('Error:', error);
+        //     });
+        await MyS3Client.deleteFile(postImage.s3key)
             .catch((error) => {
                 console.error('Error:', error);
             });
-        console.log("Delete image from S3 was called")
         // This empty array response will be later processed by Rails backend API; an empty erray will let Rails know 
         // that the 'images_attributes' array is empty and, therefore, if there is an image on the associated post or user, the image object will be deleted
         return []
