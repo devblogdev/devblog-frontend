@@ -51,7 +51,7 @@ const uploadImage =  async (file, isProfileImage) => {
             let response
             if (!isProfileImage) {
                 // response = await ReactS3Client.uploadFile(file)   
-                response = MyS3Client.uploadFile(file);           
+                response = await MyS3Client.uploadFile(file);           
             } else {
                 response = await ReactS3Client.uploadFile(file, `profileimages/${suid()}`)
             }

@@ -41,14 +41,16 @@ class S3Client {
             formData.append("policy", policy)
             formData.append("x-amz-signature", signature)
             formData.append("file", file)
-            
-            this._request(this.config.baseUrl, 'POST', formData, function(statusCode, xhr){
-                console.log(statusCode);
-                console.log(xhr);
-                console.log(this);
-                console.log(this.config);
-                return  {bucket: this.config.bucketName, key: fileName, location: this.config.baseUrl + "/" +  fileName, status: statusCode };
-            }.bind(this));
+
+            return new Promise((resolve, reject) => {
+                this._request(this.config.baseUrl, 'POST', formData, function(statusCode, xhr){
+                    console.log(statusCode);
+                    console.log(xhr);
+                    console.log(this);
+                    console.log(this.config);
+                    return reject({bucket: this.config.bucketName, key: fileName, location: this.config.baseUrl + "/" +  fileName, status: statusCode });
+                }.bind(this));
+            })
         } catch(error) {
             console.log(error);
             return
