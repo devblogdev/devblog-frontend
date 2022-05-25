@@ -10,8 +10,8 @@ import S3Client from "../aws-s3/aws-s3"
 const suid = new ShortUniqueId({ length: 16 });
 
 const config = {
-    // bucketName: process.env.REACT_APP_S3_BUCKET,
-    bucketName: "",
+    bucketName: process.env.REACT_APP_S3_BUCKET,
+    // bucketName: "",
     region: process.env.REACT_APP_REGION,
     accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
     secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY

@@ -6,7 +6,6 @@
 // and "Example: Browser-Based Upload using HTTP POST (Using AWS Signature Version 4)"
 class S3Client {
     static crypto = require('crypto');
-    static crypto2  = require('crypto-js');
     
     // constructor ({ bucketName, region, accessKeyId, secretAccessKey, baseUrl, monitorProgress= false, parseFileName = true  }) {
     constructor (config) {
@@ -43,10 +42,10 @@ class S3Client {
             formData.append("x-amz-signature", signature)
             formData.append("file", file)
                 
-            this.request(this.config.baseUrl, 'POST', {}, file, function(statusCode, xhr){
+            this._request(this.config.baseUrl, 'POST', formData, function(statusCode, xhr){
                 console.log(statusCode);
                 console.log(xhr);
-                return statusCode;
+                return  {bucket: this.config.bucketName, key: fileName, location: this.config.baseUrl + "/" +  fileName, status: statusCode };
             });
         } catch(error) {
             console.log(error);
@@ -54,13 +53,11 @@ class S3Client {
         }
     }
 
-    deleteFile(key, dirName){
+    deleteFile(key){
         try {
             this._sanityCheckConfig(); 
             if(typeof(key) !== "string" || !key.trim().length) throw new Error("'key' must be a nonempty string");
-            if(dirName && (typeof(dirName) !== "string" || !dirName.trim().length)) throw new Error("If included, 'dirName' must be a nonempty string");
-            const path = (dirName ? dirName + "/" : "") + key
-            this.request(this.config.baseUrl + path, "DELETE", undefined, (statusCode, xhr) => {
+            this._request(this.config.baseUrl + "/" + key, "DELETE", undefined, (statusCode, xhr) => {
                 console.log(statusCode);
                 console.log(xhr);
                 return statusCode;
@@ -71,9 +68,12 @@ class S3Client {
         }
     }
 
-    request(uri, method, payload, callback) {
+    _request(uri, method, payload, callback) {
         let xhr = new XMLHttpRequest();
         xhr.open(method, uri, true);
+
+        xhr.onprogress();
+
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
                 let statusCode = xhr.status;
