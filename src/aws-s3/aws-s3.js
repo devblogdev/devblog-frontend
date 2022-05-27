@@ -60,8 +60,7 @@ class S3Client {
                 }.bind(this));
             })
         } catch(error) {
-            console.log(error);
-            return
+            return Promise.reject(error)
         }
     }
 
@@ -111,7 +110,7 @@ class S3Client {
     _sanityCheckPayload(payload) {
         if(!payload.file) throw new Error("A file must must be provided");
         if(payload.key && (typeof(payload.key) !== "string" || !payload.key.trim().length)) throw new Error("If included, the 'key' argumant must be a string");
-        if(payload.dirName && (typeof(payloaddirName) !== "string" || !payload.dirName.trim().length)) throw new Error("If included, the 'dirName' argument must be a nonempty string");
+        if(payload.dirName && (typeof(payload.dirName) !== "string" || !payload.dirName.trim().length)) throw new Error("If included, the 'dirName' argument must be a nonempty string");
     }
 
     _generatePolicy(isoDate, date, formattedIso) {
@@ -169,7 +168,26 @@ class S3Client {
 const helpers = {};
 helpers.parseKey = function(key) {
     // https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html
-    let parsed = key.replaceAll(/[\\{}^%\]">[~<#|/]/g, "").replaceAll(" ", "").replaceAll("'", "&apos;").replaceAll("&", "&amp;").replaceAll(/\r/g, "&#13;").replaceAll(/\n/g, "&#10;")
+    const transpose = {
+        ",": "%2c",
+        ";": "%3B",
+        ":": "%3A",
+        "@": "%40",
+        "/": "%2F",
+        "'": "&apos;",
+        "&": "&amp;",
+        "\r": "&#13;",
+        "\n": "&#10;"
+    }
+    let parsed = key
+        .replaceAll(/[{`}^%\]">[~<#|/=@?$]/g, "")   // scape these characters
+        // then replace below characters
+        .replaceAll(/[\r\n&,;:@/']/g, (match) => {
+            return transpose[match] || match        
+        })
+        // then scape white space and backslash
+        .replaceAll(/[\s\\]/g, "")
+    // let parsed = key.replaceAll(/[\r{\n`}\\^%\]">[~<#|/=@?$]/g, "").replaceAll(",", "%2c").replaceAll(/[;:]/g, "-").replaceAll("'", "&apos;").replaceAll("&", "&amp;")
     if(!parsed.length) throw new Error("A 'key' may not be composed of special characters only as some are scaped, which may ressult in an empty key")
     return parsed;
 }

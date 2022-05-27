@@ -14,8 +14,8 @@ const config = {
     // bucketName: "fdfdf",
     region: process.env.REACT_APP_REGION,
     accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
-    // secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
-    secretAccessKey: "hi"
+    secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
+    // secretAccessKey: "hi"
 }
 
 const ReactS3Client = new S3(config)
@@ -53,7 +53,7 @@ const uploadImage =  async (file, isProfileImage) => {
             let response
             if (!isProfileImage) {
                 // response = await ReactS3Client.uploadFile(file)   
-                response = await MyS3Client.uploadFile(file);           
+                response = await MyS3Client.uploadFile(file, file.name);           
             } else {
                 response = await ReactS3Client.uploadFile(file, `profileimages/${suid()}`)
             }
