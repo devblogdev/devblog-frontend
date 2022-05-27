@@ -69,14 +69,19 @@ class S3Client {
             this._sanityCheckConfig(); 
             if(typeof(key) !== "string" || !key.trim().length) throw new Error("'key' must be a nonempty string");
             if(dirName && (typeof dirName !== "string" || !dirName.length)) throw new Error("If included, 'dirName' must be a nonempty string");
-            this._request(this.config.baseUrl + "/" + (dirName ? dirName + "/" : "") + key, "DELETE", undefined, (statusCode, xhr) => {
-                console.log(statusCode);
-                console.log(xhr);
-                return statusCode;
+            return new Promise((resolve, reject) => {
+                this._request(this.config.baseUrl + "/" + (dirName ? dirName + "/" : "") + key, "DELETE", undefined, function(statusCode, xhr) {
+                    console.log(statusCode);
+                    console.log(xhr);
+                    return resolve({
+                        key: (dirName ? dirName + "/" : "") + key, 
+                        status: statusCode,
+                        xhr: xhr
+                    });
+                })
             })
         } catch(error){
-            console.log(error);
-            return
+            return Promise.reject(error);
         }
     }
 
@@ -156,11 +161,10 @@ class S3Client {
         const extension = file.type.split("/")[1];
         if(key) {
             parsed = helpers.parseKey(key)
-            if(!key.includes(".")) parsed = parsed + "." + extension
         } else {
-           parsed = this.constructor.crypto.randomBytes(11).toString('hex') + "." + extension
+            parsed = this.constructor.crypto.randomBytes(11).toString('hex') 
         }
-        return parsed;
+        return parsed + "." + extension
     }
 
 }
@@ -185,7 +189,7 @@ helpers.parseKey = function(key) {
         .replaceAll(/[\r\n&,;:@/']/g, (match) => {
             return transpose[match] || match        
         })
-        // then scape white space and backslash
+        // then scape white spaces and backslashes
         .replaceAll(/[\s\\]/g, "")
     // let parsed = key.replaceAll(/[\r{\n`}\\^%\]">[~<#|/=@?$]/g, "").replaceAll(",", "%2c").replaceAll(/[;:]/g, "-").replaceAll("'", "&apos;").replaceAll("&", "&amp;")
     if(!parsed.length) throw new Error("A 'key' may not be composed of special characters only as some are scaped, which may ressult in an empty key")
