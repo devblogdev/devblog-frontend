@@ -45,6 +45,7 @@ class S3Client {
             return new Promise((resolve, reject) => {
                 this._request(this.config.baseUrl, 'POST', formData, function(statusCode, xhr){
                     if(statusCode >= 200 && statusCode <= 207) {
+                        console.log(xhr)
                         return resolve({
                             bucket: this.config.bucketName, 
                             key: fileName, 
@@ -96,7 +97,9 @@ class S3Client {
                 }
             }
         }
-        xhr.send(payload);    
+        if(method === "POST") {
+            xhr.send(payload);
+        } else xhr.send();
     }
     
     _sanityCheckConfig() {
@@ -157,14 +160,15 @@ class S3Client {
     }
 
     _generateKey(file, key) {
-        let parsed;
+        let newKey;
         const extension = file.type.split("/")[1];
         if(key) {
-            parsed = helpers.parseKey(key)
+            newKey = helpers.parseKey(key);
+            if(!key.includes(".")) newKey = newKey + "." + extension;
         } else {
-            parsed = this.constructor.crypto.randomBytes(11).toString('hex') 
+            newKey = this.constructor.crypto.randomBytes(11).toString('hex') + "." + extension
         }
-        return parsed + "." + extension
+        return newKey 
     }
 
 }
@@ -172,28 +176,11 @@ class S3Client {
 const helpers = {};
 helpers.parseKey = function(key) {
     // https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html
-    const transpose = {
-        ",": "%2c",
-        ";": "%3B",
-        ":": "%3A",
-        "@": "%40",
-        "/": "%2F",
-        "'": "&apos;",
-        "&": "&amp;",
-        "\r": "&#13;",
-        "\n": "&#10;"
-    }
-    let parsed = key
-        .replaceAll(/[{`}^%\]">[~<#|/=@?$]/g, "")   // scape these characters
-        // then replace below characters
-        .replaceAll(/[\r\n&,;:@/']/g, (match) => {
-            return transpose[match] || match        
-        })
-        // then scape white spaces and backslashes
-        .replaceAll(/[\s\\]/g, "")
-    // let parsed = key.replaceAll(/[\r{\n`}\\^%\]">[~<#|/=@?$]/g, "").replaceAll(",", "%2c").replaceAll(/[;:]/g, "-").replaceAll("'", "&apos;").replaceAll("&", "&amp;")
-    if(!parsed.length) throw new Error("A 'key' may not be composed of special characters only as some are scaped, which may ressult in an empty key")
-    return parsed;
+    // Some safe_characters in Amazon S3: "&", "$", "@", "'", ",", ";"; these characters get URI encoded in the object's URL, but are 
+    // scape these characters, then scape backslashes
+    let parsed = key.replaceAll(/[{`}^%\]">[~<|#/=?+:\s]/g, "").replaceAll(/[\\]/g, "")
+    if(!parsed.length) throw new Error("A 'key' may not be composed of special characters only as some are scaped, which may ressult in an empty (invalid) key")
+    return parsed
 }
 
 module.exports = S3Client;
