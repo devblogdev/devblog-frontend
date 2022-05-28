@@ -87,8 +87,17 @@ class S3Client {
     }
 
     _request(uri, method, payload, callback) {
+
         let xhr = new XMLHttpRequest();
+
+        if(method === "POST" && this.config.onUploadProgress){
+            xhr.upload.onprogress = function(event) {
+                this.config.onUploadProgress(event.loaded, event.total)
+            }.bind(this)
+        }
+
         xhr.open(method, uri, true);
+
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
                 let statusCode = xhr.status;
@@ -109,8 +118,8 @@ class S3Client {
         if(typeof(this.config.secretAccessKey) !== "string" || !this.config.secretAccessKey.trim().length ) throw new Error("'secretAccessKey' must be a nonempty string");
         // Optional params
         if(this.config.baseUrl && (typeof(this.config.baseUrl) !== "string" || !this.config.baseUrl.trim().length)){ throw new Error("If included, 'baseUrl' must be a nonempty string") } else this.config.baseUrl = 'https://' + this.config.bucketName + '.s3.' + this.config.region + '.amazonaws.com';         
-        if(this.config.parseFileName !== undefined && typeof(this.config.parseFileName) !== "boolean"){ throw new Error("If included, 'parseFileName' must be a boolean") } else this.config.parseFileName = true;
-        if(this.config.monitorProgress !== undefined && typeof(this.config.monitorProgress) !== "boolean"){ throw new Error("If included, 'parseFileName' must be a boolean") } else this.config.monitorProgress = true; 
+        if(this.config.parseFileName && typeof(this.config.parseFileName) !== "boolean"){ throw new Error("If included, 'parseFileName' must be a boolean") } else this.config.parseFileName = true;
+        if(this.config.onUploadProgress && typeof(this.config.onUploadProgress) !== "function"){ throw new Error("If included, 'onUploadProgress' must be a function") } 
     }
 
     _sanityCheckPayload(payload) {
