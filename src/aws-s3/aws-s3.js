@@ -5,9 +5,9 @@
 // subsections "Broswer-Based uploads Using HTTP-POST", "Calculating a Signature", "POST Policy", 
 // and "Example: Browser-Based Upload using HTTP POST (Using AWS Signature Version 4)"
 class S3Client {
+    
     static crypto = require('crypto');
     
-    // constructor ({ bucketName, region, accessKeyId, secretAccessKey, baseUrl, monitorProgress= false, parseFileName = true  }) {
     constructor (config) {
         this.config = config; 
     }
@@ -24,8 +24,8 @@ class S3Client {
 
             const policy = this._generatePolicy(isoDate, date, formattedIso);
             const signature = this._generateSignature(date, policy);
-            const rawKey = this._generateKey(file, key);
-            const fileName = dirName ? dirName + "/" + rawKey : rawKey;
+            const newKey = this.config.parseFileName ? this._generateKey(file, key) : key
+            const fileName = dirName ? dirName + "/" + newKey : newKey;
             
             // Create a form to send to AWS S3
             let formData = new FormData();
