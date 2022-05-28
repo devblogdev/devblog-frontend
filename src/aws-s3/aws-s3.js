@@ -97,9 +97,7 @@ class S3Client {
                 }
             }
         }
-        if(method === "POST") {
-            xhr.send(payload);
-        } else xhr.send();
+        xhr.send(payload);
     }
     
     _sanityCheckConfig() {
@@ -175,8 +173,8 @@ class S3Client {
 
 const helpers = {};
 helpers.parseKey = function(key) {
-    // https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html
-    // Some safe_characters in Amazon S3: "&", "$", "@", "'", ",", ";"; these characters get URI encoded in the object's URL, but are 
+    // AWS S3 documentaion provides a list of safe/unsave characters: https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html
+    // The following characters were tested and are safe to use in Amazon S3: "&", "$", "@", "'", ",", ";"; 
     // scape these characters, then scape backslashes
     let parsed = key.replaceAll(/[{`}^%\]">[~<|#/=?+:\s]/g, "").replaceAll(/[\\]/g, "")
     if(!parsed.length) throw new Error("A 'key' may not be composed of special characters only as some are scaped, which may ressult in an empty (invalid) key")
