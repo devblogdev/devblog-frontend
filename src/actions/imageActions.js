@@ -8,14 +8,15 @@ import S3Client from "../aws-s3/aws-s3"
     // <----- START ------->
 
 const suid = new ShortUniqueId({ length: 16 });
-const onUploadProgress = (loaded, total) => console.log('Loaded ' + loaded + 'out of ' + total )
+// const onUploadProgress = (loaded, total) => console.log('Loaded ' + loaded + 'out of ' + total )
 const config = {
     bucketName: process.env.REACT_APP_S3_BUCKET,
     // bucketName: "fdfdf",
     region: process.env.REACT_APP_REGION,
     accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
     secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
-    onUploadProgress: (loaded, total) => onUploadProgress(loaded, total)
+    // onUploadProgress: (loaded, total) => onUploadProgress(loaded, total)
+    onUploadProgress: "hello"
 }
 
 const ReactS3Client = new S3(config)
