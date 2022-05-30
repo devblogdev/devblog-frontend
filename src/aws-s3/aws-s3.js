@@ -27,7 +27,8 @@ class S3Client {
 
             const policy = this._generatePolicy(isoDate, date, formattedIso);
             const signature = this._generateSignature(date, policy);
-            const newKey = this.config.parseFileName ? this._generateKey(file, key) : key
+            // const newKey = this.config.parseFileName ? this._generateKey(file, key) : key
+            const newKey = this._generateKey(file, key)
             const fileName = dirName ? dirName + "/" + newKey : newKey;
             
             // Create a form to send to AWS S3
@@ -61,8 +62,11 @@ class S3Client {
                         status: xhr.status, 
                         statusText: xhr.statusText
                     });
-                }.bind(this));
-            })
+                }.bind(this))
+            }).then(
+                data => data,
+                error => error
+            )
         } catch(error) {
             return Promise.reject(error)
         }
@@ -171,14 +175,14 @@ class S3Client {
         let newKey, s;
         if(this.config.parsingFunction && (typeof(s = this.config.parsingFunction(key)) !== "string" || !s.length)) throw new Error("The function for the 'parsingFunction' key must return a nonempty string")
         // if there is a key, and it inlcudes a period, then if there is a parsingFunction, make 'newKey' equal to the return value of the parsingFunction, otherwise make 'newKey' equal to the return value of the 'helpers.parseKey' function
-        newKey = key && key.includes('.')
-            ? this.config.parsingFunction ? s : helpers.parseKey(key)
+        newKey = key && key.includes('.') 
+            ? (
+                ( this.config.parseFileName && ((this.config.parsingFunction && s) || helpers.parseKey(key)) ) ||
+                key
+              )
             : ( 
-                // below expression is equivalent to: ( a || b ) + "." + file.type.split("/")[1]
-                // if there is a key at all, then make 'newKey' equal to the return value of the 'parsingFunction' (if defined) or the return value of the 'helpers.parseKey' function; if there is no key, make 'newKey' equal to the return value of the randomBytes method
-                // after providing a value for newKey, add the file extension to it
-                ( key && ((this.config.parsingFunction && s) || helpers.parseKey(key)) )  || 
-                // this.constructor.crypto.randomBytes(11).toString('hex')
+                ( key && this.config.parseFileName && ((this.config.parsingFunction && s) || helpers.parseKey(key)) )  || 
+                key ||
                 crypto.randomBytes(11).toString('hex')
                ) + "." + file.type.split("/")[1];
         return newKey;   

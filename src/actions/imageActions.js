@@ -4,6 +4,7 @@ import axios from 'axios'
 import ShortUniqueId from 'short-unique-id';
 import { difference } from '../components/utilities/setsFunctions';
 import S3Client  from "../aws-s3/aws-s3"
+// import S3Client  from "aws-s3-js"
 // CODE FOR MANAGING IMAGES IN AMAZON S3 BUCKET; MANAGES POSTS' COVER IMAGE AND USER PROFILE IMAGE
     // <----- START ------->
 
@@ -11,13 +12,15 @@ const suid = new ShortUniqueId({ length: 16 });
 // const onUploadProgress = (loaded, total) => console.log('Loaded ' + loaded + 'out of ' + total )
 const config = {
     bucketName: process.env.REACT_APP_S3_BUCKET,
-    // bucketName: "fdfdf",
+    // bucketName: "hi",
     region: process.env.REACT_APP_REGION,
     accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
     secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
-    // onUploadProgress: (loaded, total) => onUploadProgress(loaded, total)
-    // onUploadProgress: ()
-    // parsingFunction: (key) => key + "hello"
+    parseFilename: false
+    // bucketName: "dfdf",
+    // region: "dfdfd",
+    // accessKeyId: "dfdfd",
+    // secretAccessKey: "dfdf"
 }
 
 const ReactS3Client = new S3(config)
@@ -55,7 +58,7 @@ const uploadImage =  async (file, isProfileImage) => {
             let response
             if (!isProfileImage) {
                 // response = await ReactS3Client.uploadFile(file)   
-                response = await MyS3Client.uploadFile(file, file.name);           
+                response = await MyS3Client.uploadFile(file);           
             } else {
                 response = await ReactS3Client.uploadFile(file, `profileimages/${suid()}`)
             }
