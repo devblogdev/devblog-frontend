@@ -3,7 +3,7 @@ import axios from 'axios'
 // import auth from '../components/security/auth'
 import ShortUniqueId from 'short-unique-id';
 import { difference } from '../components/utilities/setsFunctions';
-import S3Client from "../aws-s3/aws-s3"
+import S3Client  from "../aws-s3/aws-s3"
 // CODE FOR MANAGING IMAGES IN AMAZON S3 BUCKET; MANAGES POSTS' COVER IMAGE AND USER PROFILE IMAGE
     // <----- START ------->
 
