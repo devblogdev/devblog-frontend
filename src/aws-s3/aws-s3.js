@@ -5,11 +5,11 @@
 // subsections "Broswer-Based uploads Using HTTP-POST", "Calculating a Signature", "POST Policy", 
 // and "Example: Browser-Based Upload using HTTP POST (Using AWS Signature Version 4)"
 
-// const { allowedNodeEnvironmentFlags } = require('process');
+const crypto = require('crypto');
 
 class S3Client {
 
-    static crypto = require('crypto');
+    // static crypto = require('crypto');
     
     constructor (config) {
         this.config = config; 
@@ -90,17 +90,13 @@ class S3Client {
     }
 
     _request(uri, method, payload, callback) {
-
         let xhr = new XMLHttpRequest();
-
         if(method === "POST" && this.config.onUploadProgress){
             xhr.upload.onprogress = function(event) {
                 this.config.onUploadProgress(event.loaded, event.total)
             }.bind(this)
         }
-
         xhr.open(method, uri, true);
-
         xhr.onreadystatechange = function() {
             if(xhr.readyState === XMLHttpRequest.DONE) {
                 let statusCode = xhr.status;
@@ -123,7 +119,7 @@ class S3Client {
         if(this.config.baseUrl && (typeof(this.config.baseUrl) !== "string" || !this.config.baseUrl.trim().length)){ throw new Error("If included, 'baseUrl' must be a nonempty string") } else this.config.baseUrl = (this.config.baseUrl || 'https://' + this.config.bucketName + '.s3.' + this.config.region + '.amazonaws.com');         
         if(this.config.parseFileName && typeof(this.config.parseFileName) !== "boolean"){ throw new Error("If included, 'parseFileName' must be a boolean") } else this.config.parseFileName = true;
         if(this.config.onUploadProgress && typeof(this.config.onUploadProgress) !== "function") throw new Error("If included, the value for the 'onUploadProgress' key must be a function");
-        if(this.config.parsingFunction && typeof(this.config.parsingFunction) !== "function") throw new Error("If included, the value for the 'parsingFunction' key must a function returning a nonempty string")
+        if(this.config.parsingFunction && typeof(this.config.parsingFunction) !== "function") throw new Error("If included, the value for the 'parsingFunction' key must be a function returning a nonempty string")
     }
 
     _sanityCheckPayload(payload) {
@@ -159,7 +155,8 @@ class S3Client {
 
     _generateSignature(date, policy) {
           // Calculating the SigningKey
-          let c = this.constructor.crypto;
+        //   let c = this.constructor.crypto;
+          let c = crypto;
           // c ( algorithm, key, ..rest(string))
           const dateKey = c.createHmac('sha256', "AWS4" + this.config.secretAccessKey).update(date).digest();
           const dateRegionKey = c.createHmac('sha256', dateKey).update(this.config.region).digest();
@@ -180,8 +177,9 @@ class S3Client {
                 // below expression is equivalent to: ( a || b ) + "." + file.type.split("/")[1]
                 // if there is a key at all, then make 'newKey' equal to the return value of the 'parsingFunction' (if defined) or the return value of the 'helpers.parseKey' function; if there is no key, make 'newKey' equal to the return value of the randomBytes method
                 // after providing a value for newKey, add the file extension to it
-                ( (key && this.config.parsingFunction && s) || (key && helpers.parseKey(key)) ) ||
-                this.constructor.crypto.randomBytes(11).toString('hex')
+                ( key && ((this.config.parsingFunction && s) || helpers.parseKey(key)) )  || 
+                // this.constructor.crypto.randomBytes(11).toString('hex')
+                crypto.randomBytes(11).toString('hex')
                ) + "." + file.type.split("/")[1];
         return newKey;   
     }

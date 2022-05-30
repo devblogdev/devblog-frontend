@@ -17,7 +17,7 @@ const config = {
     secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
     // onUploadProgress: (loaded, total) => onUploadProgress(loaded, total)
     // onUploadProgress: ()
-    parsingFunction: (key) => key + "hello"
+    // parsingFunction: (key) => key + "hello"
 }
 
 const ReactS3Client = new S3(config)
