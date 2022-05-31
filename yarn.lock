@@ -2622,10 +2622,10 @@
     "postcss" "^7.0.32"
     "postcss-value-parser" "^4.1.0"
 
-"aws-s3-js@^1.0.6":
-  "integrity" "sha512-CJbqLvQRyzM/bN6MG3jSrMcA2PTiPGmxs4iwelZtZ1kYFrGCSzLive31sF9xDUmurPooyLUMxYwcvBQGrbXmvA=="
-  "resolved" "https://registry.npmjs.org/aws-s3-js/-/aws-s3-js-1.0.6.tgz"
-  "version" "1.0.6"
+"aws-s3-js@^1.0.8":
+  "integrity" "sha512-uxA8USmoG1NbI3zN+LHfeoKqhbxbW2uWYyP6SEW3ufOo1mWWTkcqotP85y/KxGZ0+E++CbYOEqjOhlI9nW3SdQ=="
+  "resolved" "https://registry.npmjs.org/aws-s3-js/-/aws-s3-js-1.0.8.tgz"
+  "version" "1.0.8"
 
 "axe-core@^4.3.5":
   "integrity" "sha512-gd1kmb21kwNuWr6BQz8fv6GNECPBnUasepcoLbekws23NVBLODdsClRZ+bQ8+9Uomf3Sm3+Vwn0oYG9NvwnJCw=="

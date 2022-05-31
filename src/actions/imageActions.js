@@ -3,8 +3,8 @@ import axios from 'axios'
 // import auth from '../components/security/auth'
 import ShortUniqueId from 'short-unique-id';
 import { difference } from '../components/utilities/setsFunctions';
-import S3Client  from "../aws-s3/aws-s3"
-// import S3Client  from "aws-s3-js"
+// import S3Client  from "../aws-s3/aws-s3"
+import S3Client  from "aws-s3-js"
 // CODE FOR MANAGING IMAGES IN AMAZON S3 BUCKET; MANAGES POSTS' COVER IMAGE AND USER PROFILE IMAGE
     // <----- START ------->
 
@@ -15,8 +15,7 @@ const config = {
     // bucketName: "hi",
     region: process.env.REACT_APP_REGION,
     accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
-    secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
-    parseFilename: false
+    secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
     // bucketName: "dfdf",
     // region: "dfdfd",
     // accessKeyId: "dfdfd",
@@ -58,7 +57,7 @@ const uploadImage =  async (file, isProfileImage) => {
             let response
             if (!isProfileImage) {
                 // response = await ReactS3Client.uploadFile(file)   
-                response = await MyS3Client.uploadFile(file);           
+                response = await MyS3Client.uploadFile(file, file.name);           
             } else {
                 response = await ReactS3Client.uploadFile(file, `profileimages/${suid()}`)
             }
