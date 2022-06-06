@@ -2622,10 +2622,10 @@
     "postcss" "^7.0.32"
     "postcss-value-parser" "^4.1.0"
 
-"aws-s3-js@^1.0.55":
-  "integrity" "sha512-pPNurv62nI1WNFadCqzYQg5IeymZRs3T7aUC1a4qFupssyzoW9XlYsNmtF09JWSfJEI6mEPbzOtAUkSHnOK/ZQ=="
-  "resolved" "https://registry.npmjs.org/aws-s3-js/-/aws-s3-js-1.0.55.tgz"
-  "version" "1.0.55"
+"aws-s3-js@^1.0.56":
+  "integrity" "sha512-j/Xy54Qfj6M92OVDBbWrXSCefkoyCZmOJMkgxcRTxvnhEyeT9vrhoTfWanet/hM+LEsKaw81R26UYbWy5zTdYg=="
+  "resolved" "https://registry.npmjs.org/aws-s3-js/-/aws-s3-js-1.0.56.tgz"
+  "version" "1.0.56"
   dependencies:
     "buffer" "6.0.3"
     "crypto-es" "1.2.7"
