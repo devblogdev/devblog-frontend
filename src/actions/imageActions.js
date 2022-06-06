@@ -4,7 +4,8 @@ import axios from 'axios'
 import ShortUniqueId from 'short-unique-id';
 import { difference } from '../components/utilities/setsFunctions';
 // import S3Client  from "../aws-s3/aws-s3"
-import S3Client  from "aws-s3-js"
+import awsS3Js  from "aws-s3-js";
+
 // CODE FOR MANAGING IMAGES IN AMAZON S3 BUCKET; MANAGES POSTS' COVER IMAGE AND USER PROFILE IMAGE
     // <----- START ------->
 
@@ -12,20 +13,15 @@ const suid = new ShortUniqueId({ length: 16 });
 // const onUploadProgress = (loaded, total) => console.log('Loaded ' + loaded + 'out of ' + total )
 const config = {
     bucketName: process.env.REACT_APP_S3_BUCKET,
-    // bucketName: "hi",
     region: process.env.REACT_APP_REGION,
     accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
     secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
-    // bucketName: "dfdf",
-    // region: "dfdfd",
-    // accessKeyId: "dfdfd",
-    // secretAccessKey: "dfdf"
 }
 
 const ReactS3Client = new S3(config)
 
 // Testing my own AWS S3 client
-const MyS3Client = new S3Client(config);
+const MyS3Client = new awsS3Js(config);
 
 const token = localStorage.getItem('token');
 
@@ -99,7 +95,7 @@ const updateImage = async (postImage, imageData) => {
     // Update the image in Amazon S3 bucket
     if (token) {
         console.log("update image called")
-        await ReactS3Client.uploadFile(imageData, postImage.s3key)
+        await MyS3Client.uploadFile(imageData, postImage.s3key)
         .catch(error => { 
             console.log(error) 
             return [postImage]

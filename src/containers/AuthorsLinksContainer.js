@@ -18,7 +18,7 @@ export default function AuthorsLinksContainer({match, location, authors }) {
         // doing so will cause the component to rerender and make the code in useEffect to run again, causing an infinite loop 
     },[previousPath, initial] )
  
-
+    
     const authorsList = 
             authors.map( (author, index) =>  {
                return (
