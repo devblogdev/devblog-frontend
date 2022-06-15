@@ -2405,11 +2405,6 @@
   "resolved" "https://registry.npmjs.org/ansi-styles/-/ansi-styles-5.2.0.tgz"
   "version" "5.2.0"
 
-"any-base@^1.1.0":
-  "integrity" "sha512-uMgjozySS8adZZYePpaWs8cxB9/kdzmpX6SgJZ+wbz1K5eYk5QMYDVJaZKhxyIHUdnnJkfR7SVgStgH7LkGUyg=="
-  "resolved" "https://registry.npmjs.org/any-base/-/any-base-1.1.0.tgz"
-  "version" "1.1.0"
-
 "anymatch@^2.0.0":
   "integrity" "sha512-5teOsQWABXHHBFP9y3skS5P3d/WfWXpv3FUpy+LorMrNYaT9pI4oLMQX7jzQ2KklNpGpWHzdCXTDT2Y3XGlZBw=="
   "resolved" "https://registry.npmjs.org/anymatch/-/anymatch-2.0.0.tgz"
@@ -2622,10 +2617,10 @@
     "postcss" "^7.0.32"
     "postcss-value-parser" "^4.1.0"
 
-"aws-s3-js@^1.0.56":
-  "integrity" "sha512-j/Xy54Qfj6M92OVDBbWrXSCefkoyCZmOJMkgxcRTxvnhEyeT9vrhoTfWanet/hM+LEsKaw81R26UYbWy5zTdYg=="
-  "resolved" "https://registry.npmjs.org/aws-s3-js/-/aws-s3-js-1.0.56.tgz"
-  "version" "1.0.56"
+"aws-s3-js@^1.3.1":
+  "integrity" "sha512-pzdDoz40tQOt9mLQVTFIxZ+p0kVrt6E5ZniWtecCSibMs7v+WUgbBBofetfKXBujWh0JVHTyqmZWr7ix9ncLMQ=="
+  "resolved" "https://registry.npmjs.org/aws-s3-js/-/aws-s3-js-1.3.1.tgz"
+  "version" "1.3.1"
   dependencies:
     "buffer" "6.0.3"
     "crypto-es" "1.2.7"
@@ -3822,11 +3817,6 @@
   "integrity" "sha512-UUqiVJ2gUuZFmbFsKmud3uuLcNP2+Opt+5ysmljycFCyhA0+T16XJmo1ev/t5kMChMqWh7IEvURNCqsg+SjZGQ=="
   "resolved" "https://registry.npmjs.org/crypto-es/-/crypto-es-1.2.7.tgz"
   "version" "1.2.7"
-
-"crypto-js@^3.1.9-1":
-  "integrity" "sha512-DIT51nX0dCfKltpRiXV+/TVZq+Qq2NgF4644+K7Ttnla7zEzqc+kjJyiB96BHNyUTBxyjzRcZYpUdZa+QAqi6Q=="
-  "resolved" "https://registry.npmjs.org/crypto-js/-/crypto-js-3.3.0.tgz"
-  "version" "3.3.0"
 
 "crypto-random-string@^1.0.0":
   "integrity" "sha1-ojD2T1aDEOFJgAmUB5DsmVRbyn4="
@@ -9629,14 +9619,6 @@
     "regenerator-runtime" "^0.13.7"
     "whatwg-fetch" "^3.4.1"
 
-"react-aws-s3@^1.5.0":
-  "integrity" "sha512-ib8JvNFlWaQyFfXvDXNeQCsGsHAHJswQgtA1MbpIU5sCSXZVeqoRVlvexyzjPjJGy8KDnbyYEB9PQ2Rw96g8Ug=="
-  "resolved" "https://registry.npmjs.org/react-aws-s3/-/react-aws-s3-1.5.0.tgz"
-  "version" "1.5.0"
-  dependencies:
-    "crypto-js" "^3.1.9-1"
-    "short-uuid" "^3.1.0"
-
 "react-dev-utils@^11.0.3":
   "integrity" "sha512-dx0LvIGHcOPtKbeiSUM4jqpBl3TcY7CDjZdfOIcKeznE7BWr9dg0iPG90G5yfVQ+p/rGNMXdbfStvzQZEVEi4A=="
   "resolved" "https://registry.npmjs.org/react-dev-utils/-/react-dev-utils-11.0.4.tgz"
@@ -10645,14 +10627,6 @@
   "integrity" "sha512-oLF1NCmtbiTWl2SqdXZQbo5KM1b7axdp0RgQLq8qCBBLoq+o3A5wmLrNM6bZIh54/a8BJ3l69kTXuxwZ+XCYuw=="
   "resolved" "https://registry.npmjs.org/short-unique-id/-/short-unique-id-4.4.4.tgz"
   "version" "4.4.4"
-
-"short-uuid@^3.1.0":
-  "integrity" "sha512-7dI69xtJYpTIbg44R6JSgrbDtZFuZ9vAwwmnF/L0PinykbFrhQ7V8omKsQcVw1TP0nYJ7uQp1PN6/aVMkzQFGQ=="
-  "resolved" "https://registry.npmjs.org/short-uuid/-/short-uuid-3.1.1.tgz"
-  "version" "3.1.1"
-  dependencies:
-    "any-base" "^1.1.0"
-    "uuid" "^3.3.2"
 
 "side-channel@^1.0.4":
   "integrity" "sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw=="

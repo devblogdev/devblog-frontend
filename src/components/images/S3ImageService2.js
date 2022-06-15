@@ -39,7 +39,7 @@ const S3ImageService2 = ({ retrieveImageState, user, ...props}) => {
 	const changeHandler = (event) => {
         const file = event.target.files[0]
         if (file) {
-            if (file.size > 15000000) return retrieveModalState(["Max file size is 1.5 MB"])
+            if (file.size > 1500000) return retrieveModalState(["Max file size is 1.5 MB"])
             setSelectedFile(event.target.files[0]);
             setIsFilePicked(true);
             retrieveImageState(event.target.files[0])

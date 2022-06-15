@@ -1,16 +1,10 @@
-import S3 from 'react-aws-s3'
 import axios from 'axios'
-// import auth from '../components/security/auth'
-import ShortUniqueId from 'short-unique-id';
 import { difference } from '../components/utilities/setsFunctions';
-// import S3Client  from "../aws-s3/aws-s3"
 import awsS3Js  from "aws-s3-js";
 
 // CODE FOR MANAGING IMAGES IN AMAZON S3 BUCKET; MANAGES POSTS' COVER IMAGE AND USER PROFILE IMAGE
     // <----- START ------->
 
-const suid = new ShortUniqueId({ length: 16 });
-// const onUploadProgress = (loaded, total) => console.log('Loaded ' + loaded + 'out of ' + total )
 const config = {
     bucketName: process.env.REACT_APP_S3_BUCKET,
     region: process.env.REACT_APP_REGION,
@@ -18,32 +12,9 @@ const config = {
     secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
 }
 
-const ReactS3Client = new S3(config)
-
-// Testing my own AWS S3 client
 const MyS3Client = new awsS3Js(config);
 
 const token = localStorage.getItem('token');
-
-// const uploadImage =  async (file, isProfileImage) => {
-//     // Upload the image to Amazon S3 bucket
-//     // if (file && token) {
-//     if (true) {
-//         console.log("upload image called")
-//         try {
-//             if (!isProfileImage) {
-//                 // response = await ReactS3Client.uploadFile(file)
-//                 response = MyS3Client.uploadFile(file)
-//             } else {
-//                 await ReactS3Client.uploadFile(file, `profileimages/${suid()}`)
-//             }
-//             return []
-//         } catch(error) { 
-//             console.log(error) 
-//             return []
-//         }
-//     } return []
-// }
 
 const uploadImage =  async (file, isProfileImage) => {
     // Upload the image to Amazon S3 bucket
@@ -52,10 +23,9 @@ const uploadImage =  async (file, isProfileImage) => {
         try {
             let response
             if (!isProfileImage) {
-                // response = await ReactS3Client.uploadFile(file)   
-                response = await MyS3Client.uploadFile(file, file.name);           
+                response = await MyS3Client.uploadFile(file);           
             } else {
-                response = await ReactS3Client.uploadFile(file, `profileimages/${suid()}`)
+                response = await MyS3Client.uploadFile(file, undefined, `profileimages`)
             }
             // 'images_attributes' array will be later processed by Rails backend API; do not change the name 'images_attributes', it is required by Rails API
             const images_attributes = [{
@@ -77,10 +47,6 @@ const deleteImage = async (postImage) => {
     // Delete the image from Amazon S3 bucket
     if (token) {
         console.log("'Delete image' called")
-        // await ReactS3Client.deleteFile(postImage.s3key)
-        //     .catch((error) => {
-        //         console.error('Error:', error);
-        //     });
         await MyS3Client.deleteFile(postImage.s3key)
             .catch((error) => {
                 console.error('Error:', error);

@@ -8,7 +8,7 @@
 const crypto = require('crypto');
 
 class S3Client {
-
+    
     // static crypto = require('crypto');
     
     constructor (config) {
