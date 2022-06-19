@@ -98,7 +98,7 @@ export default function Login(props) {
   }
   
   const responseGoogle = (data) => {
-    // console.log(data);
+    console.log(data);
     if(!data.error){
       const user = googleUser(data)
       axios.post("/omniauth/google/callback", user)
@@ -112,7 +112,6 @@ export default function Login(props) {
             //     exp: response.data.exp
             // }
           }
-          console.log(response)
           // dispatch({type: 'SET_USER', payload: response.data.user })
           dispatch({type: 'SET_USER', payload: payload })
           props.history.push('/')
