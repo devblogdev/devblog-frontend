@@ -8,6 +8,7 @@ export default function usersReducer(
         users: [],
         // 'current_user'is the logged in user; this user is private and contains three additional keys compared to 'users': email, private (a hash), posts (an array of drafts and published posts)
         current_user: {},
+        sessionToken: {},
         // confirmation_email: ""
         confirmation_email: new Set()
     }, action) {
@@ -23,7 +24,12 @@ export default function usersReducer(
 
         case 'SET_USER':
             auth.login();
-            return {...state, current_user: action.payload }
+            // return {...state, current_user: action.payload }
+            return {
+                ...state, 
+                    current_user: action.payload.user,
+                    sessionToken: action.payload.sessionToken 
+            }
         
         case "SET_CONFIRMATION_EMAIL":
             return{...state, confirmation_email: action.payload}

@@ -69,7 +69,15 @@ function EmailConfirmation() {
             axios.post(`/registration-confirmation/${params.confirm_token}`)
             .then( (response) => {
                 localStorage.setItem('token', response.data.jwt)
-                dispatch({type: 'SET_USER', payload: response.data.user })
+                const payload = {
+                    user: response.data.user,
+                    sessionToken: {
+                        token: response.data.jwt,
+                        exp: response.data.exp
+                    }
+                }
+                // dispatch({type: 'SET_USER', payload: response.data.user })
+                dispatch({type: 'SET_USER', payload: payload })
                 dispatch({type: 'CLEAR_CONFIRMATION_EMAIL' })
                 startCounter();
             })

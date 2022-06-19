@@ -17,8 +17,17 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
             // }
             // If the user is loggin in locally or via Omniauth, set the user and redirect to home page
             else {
+
                 localStorage.setItem('token', response.data.jwt)
-                dispatch({type: 'SET_USER', payload: response.data.user })
+                const payload = {
+                    user: response.data.user,
+                    sessionToken: {
+                        token: response.data.jwt,
+                        exp: response.data.exp
+                    }
+                }
+                // dispatch({type: 'SET_USER', payload: response.data.user })
+                dispatch({type: 'SET_USER', payload: payload })
                 routerAndModal.history.push('/')
                 routerAndModal.retrieveModalState(["You have been successfully logged in"])
             }
