@@ -24,7 +24,6 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
             }
         })
         .catch(error => {
-            // debugger
             auth.logout()
             console.log(error.response)
             routerAndModal.retrieveModalState(error.response.data.errors, 5000)

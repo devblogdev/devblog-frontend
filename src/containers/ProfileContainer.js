@@ -93,14 +93,14 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
   const classes = useStyles();
   const [drafts, setDrafts] = useState([])
   const [published, setPublished] = useState([])
+  const { history, retrieveModalState } = routerProps
 
   const previousPath = routerProps.location.state?.from.pathname
   const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages.newImages)
 
   useEffect(() => {
-      dispatch(authorization())
-      console.log("Authorization called in ProfileContainer.js")
-  },[dispatch])
+      dispatch(authorization(null, { history, retrieveModalState }))
+  },[dispatch, history, retrieveModalState])
  
   useEffect( () => {
       if( (previousPath?.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.size ) scheduleImagesForDestruction(initial, new Set()) 
@@ -117,7 +117,6 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
     ),[posts, user])
 
   useEffect(() => {
-    console.log("Second useFeect in profile container called")
       setDrafts(loadedDrafts())
       setPublished(loadedPublished())
   },[loadedDrafts, loadedPublished])

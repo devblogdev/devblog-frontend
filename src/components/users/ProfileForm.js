@@ -42,6 +42,7 @@ export default function ProfileForm(props) {
 
     const classes = useStyles();
     const { user } = props;
+    console.log(props)
     const dispatch = useDispatch();
 
     // "activate" is used to activate the buttons and the textfields present in the ProfileForm when the user clicks on the "Edit" button
@@ -141,7 +142,7 @@ export default function ProfileForm(props) {
                         name="contact" 
                         label="Contact Email" 
                         gridArea="contact" 
-                        defaultValue={user.bio.contact}  
+                        defaultValue={user.bio?.contact}  
                         inputRef={el => inputFieldRef.current[0] = el}
                         // inputRef={contact}
                         maxWidth= '215px'
@@ -151,7 +152,7 @@ export default function ProfileForm(props) {
                         label="About" 
                         gridArea='about' 
                         textArea={true} 
-                        defaultValue={user.bio.about} 
+                        defaultValue={user.bio?.about} 
                         inputRef={el => inputFieldRef.current[1] = el}
                         maxWidth= '256px'
                         // inputRef={about}

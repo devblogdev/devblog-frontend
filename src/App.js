@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
@@ -44,8 +44,9 @@ function App() {
   // useEffect block in editor to be executed again..., result: the editor will be reinitialized with the contents
   // with which it was loaded first time, cuasing all the edits to be lost.
 
-
+  
   const { displayModeModal, modalMessage, retrieveModalState } = useContext(ModalContext)
+  const history = useHistory()
   
 
   const Buttons = useCallback(() => {
@@ -69,10 +70,11 @@ function App() {
   },[token])
 
   useEffect(() => {
-    dispatch(authorization())   // Note: 'authorization' affects one state variable: state.users.current_user; this triggers 1 render of App component (and the whole App as well); if user is not logged in, then no rerender is triggered
+    // note: history does not load here (it is undefined); need to investigate reason
+    dispatch(authorization(null, { history, retrieveModalState }))   // Note: 'authorization' affects one state variable: state.users.current_user; this triggers 1 render of App component (and the whole App as well); if user is not logged in, then no rerender is triggered
     Buttons()
     console.log('Auhorization dispatcher was called')
-  }, [dispatch, Buttons])
+  }, [dispatch, Buttons, history, retrieveModalState])
 
   useEffect(() => {
     const endpoint = "/posts"

@@ -68,9 +68,10 @@ export function authentication() {
 
 // NEW CODE
 export function authorization(endpoint=null, routerAndModal=null ) {
-    const token = localStorage.getItem('token')
-    let url
-    endpoint ? url= endpoint : url= '/profile' 
+    const token = localStorage.getItem('token')    
+    // let url
+    // endpoint ? url= endpoint : url= '/profile' 
+    const url = endpoint || '/profile' 
     const axiosConfig = {
         headers: {
             'Content-Type': 'application/json',
@@ -80,12 +81,18 @@ export function authorization(endpoint=null, routerAndModal=null ) {
     if(token){
         return async (dispatch) => {
             try {
+                console.log("AUTHORIZATION CALLED")
                 const response = await axios.get(`${url}`, axiosConfig)
-                console.log("Security action called")
                 dispatch({type:'SET_USER', payload: response.data})  
             } catch(error) {
-                // dispatch({type: 'LOGOUT_USER'})
                 console.log(error)
+                routerAndModal?.history?.push("/")
+                if(routerAndModal?.retrieveModalState){
+                    if(error.response.status === 401){
+                        routerAndModal.retrieveModalState(["Your session has expired"])
+                    }
+                }
+                dispatch({type: 'LOGOUT_USER'})
             }     
         }
     } return (dispatch) => {

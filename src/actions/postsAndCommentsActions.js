@@ -48,6 +48,7 @@ export function addPost(endpoint, postData, routerAndModal=null, bodyImages ){
             })
             .catch(error => {
                 console.log(error);
+                // console.log(error.response.data.message);
             });
         }
     } return (dispatch) => {
