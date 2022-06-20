@@ -24,12 +24,12 @@ export default function usersReducer(
 
         case 'SET_USER':
             auth.login();
-            // return {...state, current_user: action.payload }
-            return {
-                ...state, 
-                    current_user: action.payload.user,
-                    sessionToken: action.payload.sessionToken 
-            }
+            return {...state, current_user: action.payload }
+            // return {
+            //     ...state, 
+            //         current_user: action.payload.user,
+            //         sessionToken: action.payload.sessionToken 
+            // }
         
         case "SET_CONFIRMATION_EMAIL":
             return{...state, confirmation_email: action.payload}

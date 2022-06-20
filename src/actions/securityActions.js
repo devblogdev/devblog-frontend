@@ -81,9 +81,16 @@ export function authorization(endpoint=null, routerAndModal=null ) {
     if(token){
         return async (dispatch) => {
             try {
-                console.log("AUTHORIZATION CALLED")
                 const response = await axios.get(`${url}`, axiosConfig)
+                // const payload = {
+                //     user: response.data.user,
+                //     sessionToken: {
+                //         token: response.data.jwt,
+                //         exp: response.data.exp
+                //     }
+                // }
                 dispatch({type:'SET_USER', payload: response.data})  
+                // dispatch({ type:'SET_USER', payload: payload })  
             } catch(error) {
                 console.log(error)
                 routerAndModal?.history?.push("/")
