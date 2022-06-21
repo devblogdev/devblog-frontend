@@ -15,12 +15,13 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
                 console.log(response)
                 localStorage.setItem('token', response.data.jwt)
                 const payload = {
-                    user: JSON.parse(response.data.user),
+                    user: typeof(response.data.user) === "object" ? response.data.user : JSON.parse(response.data.user),
                     sessionToken: {
                         token: response.data.jwt,
                         exp: response.data.exp
                     }
                 }
+                console.log(payload)
                 dispatch({type: 'SET_USER', payload: payload })
                 routerAndModal.history.push('/')
                 routerAndModal.retrieveModalState(["You have been successfully logged in"])
@@ -30,7 +31,7 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
             auth.logout()
             console.log(error)
             console.log(error.response)
-            routerAndModal.retrieveModalState(error.response.data.errors, 5000)
+            routerAndModal.retrieveModalState(error.response?.data.errors, 5000)
         })
     }
 }
