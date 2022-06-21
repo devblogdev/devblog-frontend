@@ -106,7 +106,7 @@ export default function Login(props) {
           // console.log(response)
           localStorage.setItem('token', response.data.jwt)
           const payload = {
-            user: JSON.parse(response.data.user)
+            user: typeof(response.data.user) === "object" ? response.data.user : JSON.parse(response.data.user)
           }
           // dispatch({type: 'SET_USER', payload: response.data.user })
           dispatch({type: 'SET_USER', payload: payload })
