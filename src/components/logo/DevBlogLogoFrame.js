@@ -1,21 +1,4 @@
 import React from 'react'
-// import { purple, grey, red, blueGrey, indigo } from '@material-ui/core/colors'
-// import { purple, blueGrey} from '@material-ui/core/colors'
-// import { makeStyles } from '@material-ui/core/styles';
-
-
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//         border: `solid  1px`,
-//         borderColor: `${purple[400]}`,
-//           "&:hover": {
-//             borderColor: `${purple[400]}`, 
-//         },
-//         backgroundColor: grey[400],
-//         backgroundColor:"gray",
-//         background: 'linear-gradient(rgba(192,192,192,1.0),transparent)',
-//     },
-//   }));
 
 export default function DevBlogLogoFrame( 
     { 
@@ -26,10 +9,7 @@ export default function DevBlogLogoFrame(
         shape, 
         height, 
         width 
-    } ) {
-
-    // const myclass = useStyles(border, borderHover)
-
+    }) {
     return (
         <div 
             style={{
@@ -41,7 +21,6 @@ export default function DevBlogLogoFrame(
             }}
         >
             <div  
-                // className= {myclass.root}
                 style= {{
                     boxSizing: 'border-box',
                     width: width || '220px',

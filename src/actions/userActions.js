@@ -11,11 +11,6 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
                 dispatch({type: "SET_CONFIRMATION_EMAIL", payload: response.data.email })
                 routerAndModal.history.push('/registration-confirmation')
             }
-            // } else if(endpoint === "/password-reset") {
-            //     console.log(response)
-            //     dispatch({type: "SET_CONFIRMATION_EMAIL", payload: response.data.email })
-            // }
-            // If the user is loggin in locally or via Omniauth, set the user and redirect to home page
             else {
                 console.log(response)
                 localStorage.setItem('token', response.data.jwt)
@@ -26,7 +21,6 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
                         exp: response.data.exp
                     }
                 }
-                // dispatch({type: 'SET_USER', payload: response.data.user })
                 dispatch({type: 'SET_USER', payload: payload })
                 routerAndModal.history.push('/')
                 routerAndModal.retrieveModalState(["You have been successfully logged in"])

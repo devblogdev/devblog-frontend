@@ -17,7 +17,6 @@ const ProtectedRoute = ({ component: Component, user: current_user, posts: publi
                             {
                                 pathname: '/',
                                 state: {
-                                    // from: props.location
                                     from: "/unauthorized"
                                 }
                             }

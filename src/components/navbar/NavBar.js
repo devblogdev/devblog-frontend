@@ -8,7 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 // APP DEPENDENCIES
 import { NavLink, useLocation } from 'react-router-dom'
-// import blue from '@material-ui/core/colors/blue';
 
 // MATERIAL UI STYLES
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 export default function NavBar(props) {
     
   const classes = useStyles();
-  // const color = blue[700];
   const location = useLocation();
 
   return (
