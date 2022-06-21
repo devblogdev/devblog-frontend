@@ -105,11 +105,11 @@ export default function Login(props) {
         .then( response => {
           // console.log(response)
           localStorage.setItem('token', response.data.jwt)
-          // const payload = {
-          //   user: response.data.user
-          // }
-          dispatch({type: 'SET_USER', payload: response.data.user })
-          // dispatch({type: 'SET_USER', payload: payload })
+          const payload = {
+            user: JSON.parse(response.data.user)
+          }
+          // dispatch({type: 'SET_USER', payload: response.data.user })
+          dispatch({type: 'SET_USER', payload: payload })
           props.history.push('/')
           retrieveModalState(["You have been successfully logged in"])
         }).catch( error => {

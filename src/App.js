@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
@@ -49,32 +49,46 @@ function App() {
   const history = useHistory()
   
 
-  const Buttons = useCallback(() => {
-    let button
+  // const Buttons = useMemo(() => {
+  //   if (token) {
+  //       return (
+  //           <NavLink 
+  //               to="/logout"
+  //               style={{color: 'white', textDecoration: 'none'}} 
+  //           > <Button color="inherit">Logout</Button>
+  //           </NavLink>
+  //       )
+  //   } return (
+  //           <NavLink 
+  //               to="/login"
+  //               style={{color: 'white', textDecoration: 'none'}} 
+  //             > <Button color="inherit">Login</Button>
+  //           </NavLink>
+  //   )
+  // },[token])
+  const Buttons = () => {
     if (token) {
-        button = 
+        return (
             <NavLink 
                 to="/logout"
                 style={{color: 'white', textDecoration: 'none'}} 
             > <Button color="inherit">Logout</Button>
             </NavLink>
-    } else {
-        button =
+        )
+    } return (
             <NavLink 
                 to="/login"
                 style={{color: 'white', textDecoration: 'none'}} 
               > <Button color="inherit">Login</Button>
             </NavLink>
-    }
-    return button
-  },[token])
+    )
+  }
 
   useEffect(() => {
     // note: history does not load here (it is undefined); need to investigate reason
     dispatch(authorization(null, { history, retrieveModalState }))   // Note: 'authorization' affects one state variable: state.users.current_user; this triggers 1 render of App component (and the whole App as well); if user is not logged in, then no rerender is triggered
-    Buttons()
     console.log('Auhorization dispatcher was called')
-  }, [dispatch, Buttons, history, retrieveModalState])
+  }, [dispatch, history, retrieveModalState])
 
   useEffect(() => {
     const endpoint = "/posts"
@@ -115,6 +129,7 @@ function App() {
         </Helmet>
 
         <div className="Nav-addon"></div>
+        {/* <NavBar button ={Buttons()} /> */}
         <NavBar button ={Buttons()} />
         {/* 'Modal' is the general messaging system of the app; Modal is not used for displaying meesages while a component is loading, instead, the posts' 'message' variable is used for this purpose, found in reducers/PostsAndComentsReducer.js */}
         <Modal displayModeModal = {displayModeModal} modalMessage = {modalMessage}/>

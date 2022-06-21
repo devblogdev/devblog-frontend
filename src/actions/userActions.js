@@ -19,21 +19,22 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
             else {
                 console.log(response)
                 localStorage.setItem('token', response.data.jwt)
-                // const payload = {
-                //     user: response.data.user,
-                //     sessionToken: {
-                //         token: response.data.jwt,
-                //         exp: response.data.exp
-                //     }
-                // }
-                dispatch({type: 'SET_USER', payload: response.data.user })
-                // dispatch({type: 'SET_USER', payload: payload })
+                const payload = {
+                    user: JSON.parse(response.data.user),
+                    sessionToken: {
+                        token: response.data.jwt,
+                        exp: response.data.exp
+                    }
+                }
+                // dispatch({type: 'SET_USER', payload: response.data.user })
+                dispatch({type: 'SET_USER', payload: payload })
                 routerAndModal.history.push('/')
                 routerAndModal.retrieveModalState(["You have been successfully logged in"])
             }
         })
         .catch(error => {
             auth.logout()
+            console.log(error)
             console.log(error.response)
             routerAndModal.retrieveModalState(error.response.data.errors, 5000)
         })
