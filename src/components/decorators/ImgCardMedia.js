@@ -77,7 +77,8 @@ export default function ImgCardMedia(props) {
         <Typography 
           variant='body2'
         >
-          {post.creation_time?.split(",")[0]}
+          {/* {post.creation_time?.split(",")[0]} */}
+          {post.creation_time}
         </Typography>
       </CardActions>
     </Card>

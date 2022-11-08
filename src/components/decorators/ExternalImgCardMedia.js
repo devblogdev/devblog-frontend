@@ -36,7 +36,7 @@ export default function ExternalImgCardMedia(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2" align="left">
-           <strong> {post.title} </strong>
+           <strong>{post.title}</strong>
           </Typography>
           <Typography variant="body2" color="textPrimary" component="p" align="left">
             {post.abstract}
@@ -53,7 +53,8 @@ export default function ExternalImgCardMedia(props) {
         <Typography 
           variant='body2'
         >
-          {post.creation_time?.split(",")[0]}
+          {/* {post.creation_time?.split(",")[0]} */}
+          {post.creation_time}
         </Typography>
       </CardActions>
     </Card>
