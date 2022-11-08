@@ -116,11 +116,11 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
   },[previousPath, initial] )
 
   const loadedDrafts = useCallback ( () => user.posts?.filter( post => post.status === "draft").map((post,index) => {
-      return <li key={index}><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.title}</Link></li>}
+      return <li key={index}><h3><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.title}</Link></h3></li>}
     ),[user.posts, routerProps.match.url])
 
   const loadedPublished = useCallback ( () => posts.filter( post => post.status === "published" && post.user_id === user.id).map((post,index) => 
-      <li key={index}><h4><Link to= {`/posts/${post.id}`}>{post.title}</Link></h4></li>
+      <li key={index}><h3><Link to= {`/posts/${post.id}`}>{post.title}</Link></h3></li>
     ),[posts, user])
 
   useEffect(() => {
@@ -153,7 +153,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
                 color="primary" variant="contained" component="span"
                 size="small"
                 disableElevation
-                style={{ marginBottom: '1rem'}}
+                style={{ marginBottom: '1rem', textDecoration: 'none'}}
               >
                 New Post
               </Button>

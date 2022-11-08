@@ -208,20 +208,26 @@ img:not([src]):not([srcset]) {
   color: #005b99;
 }
 
-.profile-container ul {
-  text-align: left;
-  padding-left: 20px;
+.profile-container {
+  margin: 0 auto;
+  max-width: 736px;
 }
 
-.profile-container li {
-  list-style-type: none;
-  margin-bottom: 10px;
+.profile-container ul {
+  text-align: left;
+  margin-left: 32px;
+  margin-top: 0;
 }
 
 .profile-container ul a {
   text-decoration: none;
   color: #005b99;
   font-weight: 500;
+}
+
+.profile-container li {
+  list-style-type: none;
+  margin-bottom: 10px;
 }
 
 
@@ -234,10 +240,6 @@ img:not([src]):not([srcset]) {
   .featuredPosts, .remainderPosts {
     grid-template-columns: 1fr 1fr
   } 
-  /* .postLinks {
-    margin-left: 4rem;
-    margin-right: 4rem;
-  } */
   .postListPage,
   .authorListPage {
     margin-left: 4rem;
@@ -262,6 +264,9 @@ img:not([src]):not([srcset]) {
     max-width: 736px;
     margin-left: 0rem;
     margin-right: 0rem;
+  }
+  .profile-container ul {
+    margin-left: 0;
   }
  }
 
