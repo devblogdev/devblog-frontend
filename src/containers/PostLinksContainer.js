@@ -48,7 +48,7 @@ export default function PostLinksContainer({match, location, posts}) {
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
             <h1>Posts List</h1>
-            {published}
+            <ul>{published}</ul>
         </div>
     )
 }

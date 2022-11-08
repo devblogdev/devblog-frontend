@@ -138,7 +138,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
 
   return (
     <Container>
-      <div className={classes.root}>
+      <div className={`${classes.root} profile-container`}>
         {/* <Typography id="demo-a11y-tabs-manual-label"> */}
           <h3>Welcome to your profile, {user.first_name}</h3>
         {/* </Typography> */}
@@ -158,11 +158,11 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
                 New Post
               </Button>
           </Link>
-          {drafts}
+          <ul>{drafts}</ul>
         </TabPanel>
 
         <TabPanel value={value} index={1} style={{textAlign: ''}}>
-          {published}
+          <ul>{published}</ul>
         </TabPanel>
 
         <TabPanel value={value} index={2}>
