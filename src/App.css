@@ -202,6 +202,10 @@ img:not([src]):not([srcset]) {
   margin-bottom: 2rem;
 }
 
+.postLinks h2 {
+  margin-bottom: 8px;
+}
+
 :is(.postLinks, .authorLinks) a {
   text-decoration: none;
   /* color: #663399; */
@@ -215,7 +219,6 @@ img:not([src]):not([srcset]) {
 
 .profile-container ul {
   text-align: left;
-  margin-left: 32px;
   margin-top: 0;
 }
 
@@ -265,9 +268,7 @@ img:not([src]):not([srcset]) {
     margin-left: 0rem;
     margin-right: 0rem;
   }
-  .profile-container ul {
-    margin-left: 0;
-  }
+
  }
 
 /* CODE STYLING START */

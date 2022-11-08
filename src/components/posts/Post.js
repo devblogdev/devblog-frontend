@@ -26,10 +26,12 @@ const  Post = ({match, posts, user, users}) => {
         }
         if ( Object.keys(post).length > 0 ) {
             setPostPicture(post.images[0])
-            let timeSplit = post.creation_time.split(",")
-            if (timeSplit[1].trim() === `${new Date().getFullYear()}`) {
-                setDate(timeSplit[0]) 
-            } else { setDate(post.creation_time) }
+            // let timeSplit = post.creation_time.split(",");
+            // if (timeSplit[1].trim() === `${new Date().getFullYear()}`) {
+                // setDate(timeSplit[0]) 
+            // } else { 
+                setDate(post.creation_time) 
+            // }
         }
     },[post, user]);
 
