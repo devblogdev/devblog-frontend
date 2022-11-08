@@ -116,11 +116,17 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
   },[previousPath, initial] )
 
   const loadedDrafts = useCallback ( () => user.posts?.filter( post => post.status === "draft").map((post,index) => {
-      return <li key={index}><h3><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.title}</Link></h3></li>}
-    ),[user.posts, routerProps.match.url])
+          return <li key={index}>
+                    <h3><Link to= {`${routerProps.match.url}/drafts/${post.id}`}>{post.title}</Link></h3>
+                    <span>{post.creation_time}</span>
+                 </li>
+        }),[user.posts, routerProps.match.url])
 
   const loadedPublished = useCallback ( () => posts.filter( post => post.status === "published" && post.user_id === user.id).map((post,index) => 
-      <li key={index}><h3><Link to= {`/posts/${post.id}`}>{post.title}</Link></h3></li>
+      <li key={index}>
+          <h3><Link to= {`/posts/${post.id}`}>{post.title}</Link></h3>
+          <span>{post.creation_time}</span>
+      </li>
     ),[posts, user])
 
   useEffect(() => {
