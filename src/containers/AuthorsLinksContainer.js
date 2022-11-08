@@ -40,9 +40,12 @@ export default function AuthorsLinksContainer({match, location, authors }) {
                                             `
                                 }}
                             >
-                                <div style={{ fontSize: '21px' } }>
+                                {/* <div style={{ fontSize: '21px' } }> */}
+                                <div>
                                     <li>
-                                        {author.first_name} {author.last_name} 
+                                        <h2>
+                                            {author.first_name} {author.last_name} 
+                                        </h2>
                                     </li> 
                                 </div>
                                 <ProfileImage 

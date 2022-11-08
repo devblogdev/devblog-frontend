@@ -190,6 +190,19 @@ img:not([src]):not([srcset]) {
   xxl: 1320px
 ); */
 
+.postLinks li {
+  list-style-type: none;
+  font-size: 1rem;
+  /* font-size: 22px; */
+  margin-bottom: 2rem;
+  
+}
+.postLinks a {
+  text-decoration: none;
+  color: #663399;
+  /* color: #005b99; */
+}
+
  /* MEDIUM SCREEN */
  @media screen and (max-width: 960px) {
   .home {
