@@ -16,6 +16,7 @@ export function authorization(endpoint=null, routerAndModal=null ) {
                 const payload = {
                     user: response.data
                 }
+                console.log("Authorization function called")
                 dispatch({ type:'SET_USER', payload: payload })  
             } catch(error) {
                 console.log(error)

@@ -18,6 +18,7 @@ const token = localStorage.getItem('token');
 
 const uploadImage =  async (file, isProfileImage) => {
     // Upload the image to Amazon S3 bucket
+    debugger
     if (file && token) {
         console.log("upload image called")
         try {

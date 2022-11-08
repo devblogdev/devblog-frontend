@@ -100,15 +100,18 @@ export default function Login(props) {
   const responseGoogle = (data) => {
     console.log(data);
     if(!data.error){
+      // for later usage: use this to have the server request an access token for user, thus the server can verify the credentials and logout the uswer if tokens have experied
+      // const { code } = data
+      // axios.post("/tokens", {code})
+      // for later usage
       const user = googleUser(data)
       axios.post("/omniauth/google/callback", user)
         .then( response => {
-          // console.log(response)
+          console.log(response)
           localStorage.setItem('token', response.data.jwt)
           const payload = {
             user: typeof(response.data.user) === "object" ? response.data.user : JSON.parse(response.data.user)
           }
-          // dispatch({type: 'SET_USER', payload: response.data.user })
           dispatch({type: 'SET_USER', payload: payload })
           props.history.push('/')
           retrieveModalState(["You have been successfully logged in"])
@@ -131,8 +134,6 @@ export default function Login(props) {
           child = { <DevBlogLogoWhiteColor /> }
           border = "solid 1px"
           backgroundMinor = { grey[500] }
-          // backgroundMinor = { blueGrey[100] }
-          // backgroundMinor = "whitesmoke"
           shape = "15px"
           height = "80px"
           width = "100px"
@@ -205,6 +206,8 @@ export default function Login(props) {
         cookiePolicy={'single_host_origin'}
         isSignedIn= {false}
         prompt='consent'
+        // responseType='code'
+        // accessType='offline'
       />
       <Box mt={8}>
         <Copyright />

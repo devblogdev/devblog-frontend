@@ -86,8 +86,8 @@ function App() {
 
   useEffect(() => {
     // note: history does not load here (it is undefined); need to investigate reason
+    console.log('Auhorization dispatcher in App.js was called')
     dispatch(authorization(null, { history, retrieveModalState }))   // Note: 'authorization' affects one state variable: state.users.current_user; this triggers 1 render of App component (and the whole App as well); if user is not logged in, then no rerender is triggered
-    console.log('Auhorization dispatcher was called')
   }, [dispatch, history, retrieveModalState])
 
   useEffect(() => {

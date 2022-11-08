@@ -99,7 +99,14 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
   const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages.newImages)
 
   useEffect(() => {
-      dispatch(authorization(null, { history, retrieveModalState }))
+      console.log("Authorization dispatcher in ProfileContainer was called")
+      // Note: the 'authorization' function is always called when page is reloaded (in app.js useEffect); 
+      // to avoid making two calls to 'authorization' on page reload when user is in the '/profile' page
+      // only call it when the user has already been set (that is, user is looged in and clicks on "My Profile" tab)
+      // which will revalidate the user credentials (the user token) for accessing the profile tab
+      // if(Object.keys(user).length) {
+        dispatch(authorization(null, { history, retrieveModalState }))
+      // }
   },[dispatch, history, retrieveModalState])
  
   useEffect( () => {
