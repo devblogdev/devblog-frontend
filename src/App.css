@@ -9,6 +9,7 @@
 
 h1,h2,h3,h4,h5,h6 {
   font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: normal;
 }
 
 .App-logo {
@@ -239,6 +240,7 @@ pre {
   background-color: rgba(242, 242, 242, 1);
   font-family: Menlo, Monaco, "Courier New", Courier, monospace;
   font-size: 16px;
+  overflow-x: scroll;
 }
 
 code {
