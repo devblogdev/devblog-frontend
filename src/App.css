@@ -4,7 +4,6 @@
   font-family: "Merriweather","Georgia",Cambria,"Times New Roman",Times,serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
-  /* line-height: 28px; */
   line-height: 1.625;
 }
 
@@ -24,8 +23,8 @@ h1,h2,h3,h4,h5,h6 {
   }
 }
 
-
-.App-header, .posteditor-header {
+.App-header, 
+.posteditor-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -64,7 +63,7 @@ h1,h2,h3,h4,h5,h6 {
   }
 }
 
-/* STYLES FOR POSTS TEXT EDITOR */
+/* STYLES FOR POSTS TEXT EDITOR START */
 .posteditor-header {
   min-height: 5vh;
   /* margin-bottom: 5vh; */
@@ -101,7 +100,7 @@ h1,h2,h3,h4,h5,h6 {
   
 }
 
-/* Prevnets the upload image box to overflow the editor container */
+/* Prevents the upload image box to overflow the editor container */
 .rdw-image-modal, .rdw-embedded-modal{
   left: -60px
 }
@@ -109,7 +108,7 @@ h1,h2,h3,h4,h5,h6 {
 .rdw-image-modal-size, .rdw-embedded-modal-size {
   visibility: hidden;;
 }
-/* STYLES FOR POSTS TEXT EDITOR */
+/* STYLES FOR POSTS TEXT EDITOR END */
 
 
 .Nav-addon {
@@ -164,7 +163,9 @@ img:not([src]):not([srcset]) {
   gap: 1.5rem 1.5rem;
 }
 
-.postPage {
+.postPage,
+.postListPage,
+.authorListPage {
   margin-top: 2rem;
   margin-left: 8rem;
   margin-right: 8rem;
@@ -191,29 +192,41 @@ img:not([src]):not([srcset]) {
   xxl: 1320px
 ); */
 
-:is(.postLinks, .profile-container) ul {
+:is(.postLinks, .authorLinks, .profile-container) ul {
   padding: 0;
 }
-.postLinks li {
+
+:is(.postLinks, .authorLinks) li {
   list-style-type: none;
   font-size: 0.9rem;
-  /* font-size: 22px; */
   margin-bottom: 2rem;
-  
 }
-.postLinks a {
+
+:is(.postLinks, .authorLinks) a {
   text-decoration: none;
-  color: #663399;
-  /* color: #005b99; */
+  /* color: #663399; */
+  color: #005b99;
+}
+
+.profile-container ul {
+  text-align: left;
+  padding-left: 20px;
 }
 
 .profile-container li {
   list-style-type: none;
+  margin-bottom: 10px;
+}
+
+.profile-container ul a {
+  text-decoration: none;
+  color: #005b99;
+  font-weight: 500;
 }
 
 
- /* MEDIUM SCREEN */
- @media screen and (max-width: 960px) {
+/* MEDIUM SCREEN */
+@media screen and (max-width: 960px) {
   .home {
     margin-left: 0rem;
     margin-right: 0rem;
@@ -221,28 +234,26 @@ img:not([src]):not([srcset]) {
   .featuredPosts, .remainderPosts {
     grid-template-columns: 1fr 1fr
   } 
-  /* .postPage {
-    max-width: 736px;
-    margin-left: 2rem;
-    margin-right: 2rem;
+  /* .postLinks {
+    margin-left: 4rem;
+    margin-right: 4rem;
   } */
-  .postLinks {
+  .postListPage,
+  .authorListPage {
     margin-left: 4rem;
     margin-right: 4rem;
   }
-  /* .postEditor {
-    max-width: 736px;
-    margin-left: 2rem;
-    margin-right: 2rem;
-  } */
  }
 
 /* SMALL SCREEN */
 @media screen and (max-width: 540px) {
-  .featuredPosts, .remainderPosts {
+  .featuredPosts, 
+  .remainderPosts {
     grid-template-columns: 1fr
   } 
-  .postPage {
+  .postPage,
+  .postListPage,
+  .authorListPage {
     max-width: 680px;
     margin-left: 8px;
     margin-right: 8px;

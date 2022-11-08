@@ -120,7 +120,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
     ),[user.posts, routerProps.match.url])
 
   const loadedPublished = useCallback ( () => posts.filter( post => post.status === "published" && post.user_id === user.id).map((post,index) => 
-      <li key={index}><Link to= {`/posts/${post.id}`}>{post.title}</Link></li>
+      <li key={index}><h4><Link to= {`/posts/${post.id}`}>{post.title}</Link></h4></li>
     ),[posts, user])
 
   useEffect(() => {

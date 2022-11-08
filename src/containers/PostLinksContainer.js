@@ -21,7 +21,7 @@ export default function PostLinksContainer({match, location, posts}) {
       )
       
     return (
-        <div className="postPage postLinks">
+        <div className="postListPage postLinks">
             <Helmet>
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
                 {/* <!-- COMMON TAGS --> */}

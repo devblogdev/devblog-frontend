@@ -40,7 +40,6 @@ export default function AuthorsLinksContainer({match, location, authors }) {
                                             `
                                 }}
                             >
-                                {/* <div style={{ fontSize: '21px' } }> */}
                                 <div>
                                     <li>
                                         <h2>
@@ -61,7 +60,7 @@ export default function AuthorsLinksContainer({match, location, authors }) {
             })  
             
     return (
-        <div className= 'postPage postLinks'>
+        <div className= 'authorListPage authorLinks'>
             <Helmet>
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
                 {/* <!-- COMMON TAGS --> */}
