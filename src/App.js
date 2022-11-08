@@ -26,8 +26,8 @@ import { Helmet } from 'react-helmet';
 function App() {
   
   const dispatch = useDispatch()
-  // Note: 'current_user' is an importnat variable; attempted to remove it from App.js to reduce and place it where it directly on the 
-  // components where it is used to reduce the number of rerenders; however, this caused errors in the post editor (post editor does not load); kee it here for now
+  // Note: 'current_user' is an importnat variable; attempted to remove it from App.js and place it where it directly on the 
+  // components where it is used to reduce the number of rerenders; however, this caused errors in the post editor (post editor does not load); keep it here for now
   const current_user = useSelector((state) => state.users.current_user)
   const users = useSelector((state) => state.users.users)
   const posts = useSelector((state) => state.posts.posts)
@@ -48,24 +48,6 @@ function App() {
   const { displayModeModal, modalMessage, retrieveModalState } = useContext(ModalContext)
   const history = useHistory()
   
-
-  // const Buttons = useMemo(() => {
-  //   if (token) {
-  //       return (
-  //           <NavLink 
-  //               to="/logout"
-  //               style={{color: 'white', textDecoration: 'none'}} 
-  //           > <Button color="inherit">Logout</Button>
-  //           </NavLink>
-  //       )
-  //   } return (
-  //           <NavLink 
-  //               to="/login"
-  //               style={{color: 'white', textDecoration: 'none'}} 
-  //             > <Button color="inherit">Login</Button>
-  //           </NavLink>
-  //   )
-  // },[token])
   const Buttons = () => {
     if (token) {
         return (

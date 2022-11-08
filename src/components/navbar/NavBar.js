@@ -81,10 +81,8 @@ export default function NavBar(props) {
             >My Profile
             </NavLink>
           </Typography>
-
               {/* Login/Logout button; the bottom comes from App.js as a props */}
               {props.button}
-
         </Toolbar>
       </AppBar>
     </div>

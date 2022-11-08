@@ -18,8 +18,13 @@ export default function PostLinksContainer({match, location, posts}) {
     
     const published = posts.filter( post => post.status === "published").map((post,index) => 
         <li key={index}>
-            <h2><Link rel="canonical" to= {`${match.url}/${post.id}`}>{post.title} </Link></h2>
-            <span>{post.creation_time} | {post.author_name}</span>
+            <article>
+                <header>
+                    <h2><Link rel="canonical" to= {`${match.url}/${post.id}`}>{post.title} </Link></h2>
+                    <span>{post.creation_time} | {post.author_name}</span>
+                </header>
+                <p>{post.abstract}</p>
+            </article>
         </li>
       )
       
