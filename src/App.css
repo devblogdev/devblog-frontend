@@ -171,9 +171,29 @@ img:not([src]):not([srcset]) {
   text-align: left;
 }
 
+.postPage .authorInfo {
+  display: flex;
+}
+
+.postPage .authorInfo > div:nth-child(2) {
+  padding-left: 12px;
+}
+
+.postPage .authorInfo a {
+  text-decoration: none;
+  color: #663399;
+}
+
+.postPage .authorInfo .editLink {
+  flex-grow: 1;
+  text-align: right;
+}
+
 .postPage .cover-image {
   display: flex;
   justify-content: center;
+  margin-top: 32px;
+  margin-bottom: 28px;
 }
 
 .standardSize {
@@ -222,7 +242,6 @@ img:not([src]):not([srcset]) {
 
 :is(.postLinks, .authorLinks) a {
   text-decoration: none;
-  /* color: #663399; */
   color: #005b99;
 }
 
@@ -296,6 +315,8 @@ pre {
   font-family: Menlo, Monaco, "Courier New", Courier, monospace;
   font-size: 16px;
   overflow-x: scroll;
+  line-height: 1.18;
+  margin-top: 40px;
 }
 
 code {

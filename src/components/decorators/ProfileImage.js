@@ -53,7 +53,8 @@ export default function ProfileImage( { imgSource = null, first_name = "D", last
             <div 
                 style={{
                     display: 'flex',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    alignItems: 'center'
                 }}
             >
                 <img 

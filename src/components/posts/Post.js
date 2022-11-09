@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import FilteredHtml from './FilteredHtml'
 import { Helmet } from 'react-helmet'
 import { extractBodySlidingWindow } from '../PostEditor/postEditorHelper'
+import ProfileImage from '../decorators/ProfileImage'
 // import Interweave from 'interweave'
 
 const  Post = ({match, posts, user, users}) => {
@@ -11,14 +12,17 @@ const  Post = ({match, posts, user, users}) => {
     const [date, setDate] = useState("")
     const [editButton, setEditButton] = useState()
     const [postPicture, setPostPicture] = useState({})
+    const author = useRef({});
 
     useEffect(() => { 
         if (posts.length > 0) {
-            setPost( () => posts.find(({id}) => `${id}` === match.params.postID)
-            )
+            const temp = posts.find(({id}) => `${id}` === match.params.postID);
+            setPost(temp);
+            // posts load after users, hence author can be set in this conditional (keep an eye, this could change at a later point)
+            author.current = users.find(({id}) => id === temp.user_id);
         }
-    },[posts, match.params.postID]);
-
+    },[posts, match.params.postID, users]);
+    
     useEffect(() => { 
         if ( Object.keys(user).length > 0 ) {
             if ( post.user_id === user.id ) {
@@ -27,18 +31,13 @@ const  Post = ({match, posts, user, users}) => {
         }
         if ( Object.keys(post).length > 0 ) {
             setPostPicture(post.images[0])
-            // let timeSplit = post.creation_time.split(",");
-            // if (timeSplit[1].trim() === `${new Date().getFullYear()}`) {
-                // setDate(timeSplit[0]) 
-            // } else { 
-                setDate(post.creation_time) 
-            // }
+            setDate(post.creation_time) 
         }
     },[post, user]);
 
     // const author = users.find( author => post.user_id === author.id )
     return(
-        <div >
+        <div className='postSection'>
             <Helmet>
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
                 {/* <!-- COMMON TAGS --> */}
@@ -64,23 +63,26 @@ const  Post = ({match, posts, user, users}) => {
                 {/* LINKEDIN */}
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
-                <div>{editButton}</div>  
-                <div style={{textAlign: 'right'}}>{date}</div>
-            </div>
-            <div style={{textAlign: 'right'}}>
-                {/* <Link to={`/authors/${author?.id}`}>{author?.first_name} {author?.last_name}</Link>  */}
-                <Link to={`/authors/${post?.user_id}`}>{post?.author_name}</Link> 
+ 
+            <div className="authorInfo">
+                <ProfileImage 
+                    imgSource= {(author.current.images && author.current.images[0]?.url) || null} 
+                    first_name = {author.current.first_name} 
+                    last_name = {author.current.last_name}
+                    size = "45px" 
+                />    
+                <div>
+                    <Link to={`/authors/${post?.user_id}`}>{post?.author_name}</Link> 
+                    <div>{date}</div>
+                </div>
+                <div className='editLink'>{editButton}</div>  
             </div>
             <h1>{post.title}</h1>
-            {/* <img src = { post.images && post?.images[0]?.url} alt= {post.images && post?.images[0]?.alt} className="image"/> */}
             {postPicture?.url 
                 ? <div className='cover-image'><img src = {postPicture?.url} alt= {postPicture?.alt} className="image"/></div>
                 : null
             }
             <FilteredHtml content= {extractBodySlidingWindow(post.body || "") || "Loading post..."} />
-            {/* <FilteredHtml content= {post.body || "Loading post..."} /> */}
-            
         </div>
     )
 }
