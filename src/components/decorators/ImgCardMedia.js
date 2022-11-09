@@ -27,7 +27,7 @@ export default function ImgCardMedia(props) {
   const classes = useStyles();
   const { post } = props
 
-  const abstract = `${post.abstract?.substring(0,200)} ...`
+  const abstract = `${post.abstract?.substring(0,185)} ...`
 
   return (
     <Card className={classes.root}>
