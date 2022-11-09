@@ -23,7 +23,7 @@ export default function PostLinksContainer({match, location, posts}) {
                     <h2><Link rel="canonical" to= {`${match.url}/${post.id}`}>{post.title} </Link></h2>
                     <span>{post.creation_time} | {post.author_name}</span>
                 </header>
-                <p>{post.abstract.slice(0,210)}</p>
+                <p>{post.abstract.length >= 210 ? post.abstract.slice(0,211) + "..." : post.abstract}</p>
             </article>
         </li>
       )
