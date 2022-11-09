@@ -60,7 +60,7 @@ export default function AuthorsLinksContainer({match, location, authors }) {
             })  
             
     return (
-        <div className= 'authorListPage authorLinks'>
+        <div className= 'authorListPage authorLinks standardSize'>
             <Helmet>
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
                 {/* <!-- COMMON TAGS --> */}

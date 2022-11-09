@@ -23,13 +23,13 @@ export default function PostLinksContainer({match, location, posts}) {
                     <h2><Link rel="canonical" to= {`${match.url}/${post.id}`}>{post.title} </Link></h2>
                     <span>{post.creation_time} | {post.author_name}</span>
                 </header>
-                <p>{post.abstract}</p>
+                <p>{post.abstract.slice(0,210)}</p>
             </article>
         </li>
       )
       
     return (
-        <div className="postListPage postLinks">
+        <div className="postListPage postLinks standardSize">
             <Helmet>
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
                 {/* <!-- COMMON TAGS --> */}

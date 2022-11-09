@@ -167,8 +167,6 @@ img:not([src]):not([srcset]) {
 .postListPage,
 .authorListPage {
   margin-top: 2rem;
-  margin-left: 8rem;
-  margin-right: 8rem;
   margin-bottom: 2rem;
   text-align: left;
 }
@@ -262,11 +260,6 @@ img:not([src]):not([srcset]) {
   .featuredPosts, .remainderPosts {
     grid-template-columns: 1fr 1fr
   } 
-  .postListPage,
-  .authorListPage {
-    margin-left: 4rem;
-    margin-right: 4rem;
-  }
  }
 
 /* SMALL SCREEN */
@@ -278,9 +271,8 @@ img:not([src]):not([srcset]) {
   .postPage,
   .postListPage,
   .authorListPage {
-    max-width: 680px;
-    margin-left: 8px;
-    margin-right: 8px;
+    margin-left: 4px;
+    margin-right: 4px;
   }
   .postEditor {
     max-width: 736px;
