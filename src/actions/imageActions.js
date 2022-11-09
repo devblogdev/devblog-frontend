@@ -18,7 +18,6 @@ const token = localStorage.getItem('token');
 
 const uploadImage =  async (file, isProfileImage) => {
     // Upload the image to Amazon S3 bucket
-    debugger
     if (file && token) {
         console.log("upload image called")
         try {
@@ -84,7 +83,6 @@ export function manageImageForNewDraftOrPost(imageData) {
 
 export function manageImageForDraftOrPost(currentPostOrUser, imageState, isProfileImage = false) {
     // This function may return a promise; promise is resolved in Post Editor
-    // debugger
     console.log("Image manager called")
     let images = currentPostOrUser.images
     let imageData = imageState

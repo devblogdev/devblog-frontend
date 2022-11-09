@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import FilteredHtml from './FilteredHtml'
 import { Helmet } from 'react-helmet'
+import { extractBodySlidingWindow } from '../PostEditor/postEditorHelper'
 // import Interweave from 'interweave'
 
 const  Post = ({match, posts, user, users}) => {
@@ -71,10 +72,15 @@ const  Post = ({match, posts, user, users}) => {
                 {/* <Link to={`/authors/${author?.id}`}>{author?.first_name} {author?.last_name}</Link>  */}
                 <Link to={`/authors/${post?.user_id}`}>{post?.author_name}</Link> 
             </div>
+            <h1>{post.title}</h1>
             {/* <img src = { post.images && post?.images[0]?.url} alt= {post.images && post?.images[0]?.alt} className="image"/> */}
-            <img src = {postPicture?.url} alt= {postPicture?.alt} className="image"/>
-            {/* <Interweave  content={post.body} /> */}
-            <FilteredHtml content= {post.body || "Loading post..."} />
+            {postPicture?.url 
+                ? <div className='cover-image'><img src = {postPicture?.url} alt= {postPicture?.alt} className="image"/></div>
+                : null
+            }
+            <FilteredHtml content= {extractBodySlidingWindow(post.body || "") || "Loading post..."} />
+            {/* <FilteredHtml content= {post.body || "Loading post..."} /> */}
+            
         </div>
     )
 }
