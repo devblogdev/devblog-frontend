@@ -171,6 +171,11 @@ img:not([src]):not([srcset]) {
   text-align: left;
 }
 
+.postPage .cover-image {
+  display: flex;
+  justify-content: center;
+}
+
 .standardSize {
   max-width: 680px;
   margin-left: auto;
