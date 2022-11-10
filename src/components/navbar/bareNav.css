@@ -16,7 +16,7 @@
 .nav > .nav-header > .nav-title {
     display: inline-block;
     font-size: 22px;
-    padding: 8px 10px 8px 20px;
+    padding: 8px 10px 8px 25px;
 }
 
 .nav > .nav-header > .nav-title a {
@@ -50,11 +50,8 @@
 }
 
 .nav > .nav-links > a:hover {
-    color: #efefef;
-}
-
-.nav > .nav-links > a:hover {
     background-color: rgba(0, 0, 0, 0.3);
+    color: #efefef;
 }
 
 .nav > #nav-check {
@@ -127,11 +124,11 @@
 .navLogo {
     min-width: 2px !important;
     width: 2px !important;
-    height: 8px !important;
+    height: 9px !important;
     margin: 2px 1px 0px 1px !important;
     border-radius: 2px !important;
 }
 
 .navLogo .MuiTypography-caption {
-    font-size: 6px;
+    font-size: 7px;
 }
