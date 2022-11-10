@@ -75,7 +75,7 @@
         top: 0px;
     }
     .nav > .nav-btn > label {
-        display: inline-block;
+        /* display: inline-block; */
         display: flex;
         flex-direction: column;
         align-items: center;
