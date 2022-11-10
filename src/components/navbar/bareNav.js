@@ -29,7 +29,7 @@ export const BareNav= (props) => {
                 </NavLink>
         )
     }
-    
+
     return (
         <div className="nav">
             <input 
@@ -47,10 +47,13 @@ export const BareNav= (props) => {
             </div>
             <div className="nav-header">
                 <div className="nav-title">
-                    <NavLink to={{
-                        pathname: '/',
-                        state: { from: location}
-                    }}> 
+                    <NavLink 
+                        to={{
+                            pathname: '/',
+                            state: { from: location}
+                        }}
+                        onClick={() => setMobileOpen(!mobileOpen)}
+                    > 
                         <DevBlogLogoFrame
                             child = { <DevBlogLogoWhiteColor navLogo={true} /> }
                             border = "solid 1px"

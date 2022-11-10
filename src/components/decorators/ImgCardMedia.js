@@ -66,9 +66,9 @@ export default function ImgCardMedia(props) {
         <Button size="small" color="primary">
           Share
         </Button>
-        <Button size="small" color="primary">
+        {/* <Button size="small" color="primary">
           Continue reading...
-        </Button>
+        </Button> */}
         <Typography
           variant='body2'
         >
