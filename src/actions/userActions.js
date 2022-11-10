@@ -12,7 +12,6 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
                 routerAndModal.history.push('/registration-confirmation')
             }
             else {
-                console.log(response)
                 localStorage.setItem('token', response.data.jwt)
                 const payload = {
                     user: typeof(response.data.user) === "object" ? response.data.user : JSON.parse(response.data.user),
@@ -21,7 +20,6 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
                         exp: response.data.exp
                     }
                 }
-                console.log(payload)
                 dispatch({type: 'SET_USER', payload: payload })
                 routerAndModal.history.push('/')
                 routerAndModal.retrieveModalState(["You have been successfully logged in"])

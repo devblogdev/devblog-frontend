@@ -98,7 +98,6 @@ export default function Login(props) {
   }
   
   const responseGoogle = (data) => {
-    console.log(data);
     if(!data.error){
       // for later usage: use this to have the server request an access token for user, thus the server can verify the credentials and logout the uswer if tokens have experied
       // const { code } = data
@@ -107,7 +106,6 @@ export default function Login(props) {
       const user = googleUser(data)
       axios.post("/omniauth/google/callback", user)
         .then( response => {
-          console.log(response)
           localStorage.setItem('token', response.data.jwt)
           const payload = {
             user: typeof(response.data.user) === "object" ? response.data.user : JSON.parse(response.data.user)
