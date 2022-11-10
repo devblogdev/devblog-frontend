@@ -113,7 +113,8 @@ h1,h2,h3,h4,h5,h6 {
 
 .Nav-addon {
   background-color:  #002984;
-  height: 1rem;;
+  /* background-color: black; */
+  height: 0.8rem;;
 }
 
 .main {

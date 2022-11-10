@@ -3,12 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import { NavLink } from 'react-router-dom';
 import { authorization } from './actions/securityActions';
 import { fetchPosts } from './actions/postsAndCommentsActions';
 import {fetchUsers} from './actions/userActions';
-import NavBar from './components/navbar/NavBar';
 import Home from './containers/Home';
 import PostLinksContainer from './containers/PostLinksContainer';
 import ProtectedRoute from './components/protectedRoute/protectedRoute';
@@ -21,6 +18,7 @@ import ManageLogin from './containers/ManageLogin';
 import Modal from './components/modal/Modal';
 import { ModalContext } from './components/modal/ModalContext';
 import { Helmet } from 'react-helmet';
+import { BareNav } from './components/navbar/bareNav';
 
 
 function App() {
@@ -31,7 +29,7 @@ function App() {
   const current_user = useSelector((state) => state.users.current_user)
   const users = useSelector((state) => state.users.users)
   const posts = useSelector((state) => state.posts.posts)
-  const token = localStorage.getItem('token')
+  
 
   // FATAL ERROR: DO NOT LOAD the variables from the images reducer here in app component;
   // when an action is dispatched to change these variables, the effect will propagte throughout the 
@@ -44,28 +42,9 @@ function App() {
   // useEffect block in editor to be executed again..., result: the editor will be reinitialized with the contents
   // with which it was loaded first time, cuasing all the edits to be lost.
 
-  
   const { displayModeModal, modalMessage, retrieveModalState } = useContext(ModalContext)
   const history = useHistory()
   
-  const Buttons = () => {
-    if (token) {
-        return (
-            <NavLink 
-                to="/logout"
-                style={{color: 'white', textDecoration: 'none'}} 
-            > <Button color="inherit">Logout</Button>
-            </NavLink>
-        )
-    } return (
-            <NavLink 
-                to="/login"
-                style={{color: 'white', textDecoration: 'none'}} 
-              > <Button color="inherit">Login</Button>
-            </NavLink>
-    )
-  }
-
   useEffect(() => {
     // note: history does not load here (it is undefined); need to investigate reason
     console.log('Auhorization dispatcher in App.js was called')
@@ -79,12 +58,10 @@ function App() {
     console.log('Posts dispatcher was called')   // Total renders after the useEffects: 5 (1 normal render, and 4 renders from the dispatchers (if user is logged in; otherwise 4 total renders))
   }, [dispatch])
 
-
   console.log("App was Rendered")
   return (
     <Router>
       <div className="App">
-        
         <Helmet>
             {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             {/* <!-- COMMON TAGS --> */}
@@ -109,10 +86,8 @@ function App() {
             <meta property='og:url' content= "https://luisdevblog.netlify.app" />
             {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
         </Helmet>
-
         <div className="Nav-addon"></div>
-        {/* <NavBar button ={Buttons()} /> */}
-        <NavBar button ={Buttons()} />
+        <BareNav />
         {/* 'Modal' is the general messaging system of the app; Modal is not used for displaying meesages while a component is loading, instead, the posts' 'message' variable is used for this purpose, found in reducers/PostsAndComentsReducer.js */}
         <Modal displayModeModal = {displayModeModal} modalMessage = {modalMessage}/>
         <Container 

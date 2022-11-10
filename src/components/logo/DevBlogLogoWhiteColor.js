@@ -2,7 +2,7 @@ import { WhiteBlue, WhiteGreen, WhiteRed } from "../decorators/Buttons";
 import { Typography } from '@material-ui/core';
 
 
-export default function DevBlogLogoWhiteColor() {
+export default function DevBlogLogoWhiteColor(props) {
     
     return (
         <div>
@@ -11,6 +11,7 @@ export default function DevBlogLogoWhiteColor() {
                     color ="primary" variant="contained" component="span"
                     disableElevation
                     size='small'
+                    className={props.navLogo ? "navLogo" : ""}
                 ><Typography variant="caption"> 
                     D
                 </Typography>
@@ -20,6 +21,7 @@ export default function DevBlogLogoWhiteColor() {
                     color ="primary" variant="contained" component="span"
                     disableElevation
                     size='small'
+                    className={props.navLogo ? "navLogo" : ""}
                 > <Typography variant="caption" >
                     V
                 </Typography>
@@ -30,7 +32,8 @@ export default function DevBlogLogoWhiteColor() {
                 <WhiteRed
                     color ="primary" variant="contained" component="span"
                     disableElevation
-                    size='small'
+                    size="small"
+                    className={props.navLogo ? "navLogo" : ""}
                 ><Typography variant="caption" >
                     B
                 </Typography>

@@ -114,9 +114,9 @@ export const PurePink = withStyles((theme) => ({
         backgroundColor: pink[500], 
       },
       margin: '2px',
-      minWidth: '40px',
+      minWidth: "40px",
       height: '20px',
-    },
+    }
   }))(Button);
 // Custom buttons used in DevBlogLogoWhiteColor component-END
 
