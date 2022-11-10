@@ -36,10 +36,10 @@ export const BareNav= (props) => {
                 type="checkbox" 
                 id="nav-check" 
                 checked={mobileOpen} 
-                onClick={() => setMobileOpen(!mobileOpen)}
+                onChange={() => setMobileOpen(!mobileOpen)}
             />
             <div className="nav-btn">
-                <label for="nav-check">
+                <label htmlFor="nav-check">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -52,7 +52,7 @@ export const BareNav= (props) => {
                             pathname: '/',
                             state: { from: location}
                         }}
-                        onClick={() => setMobileOpen(!mobileOpen)}
+                        onClick={() => setMobileOpen(false)}
                     > 
                         <DevBlogLogoFrame
                             child = { <DevBlogLogoWhiteColor navLogo={true} /> }

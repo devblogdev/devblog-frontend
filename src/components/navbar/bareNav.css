@@ -97,8 +97,6 @@
     .nav > .nav-links {
         position: absolute;
         display: block;
-        /* display: flex;
-        flex-direction: column; */
         width: 100%;
         background-color: #333;
         /* background-color: #3f51b5; */
