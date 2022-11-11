@@ -102,6 +102,7 @@
         overflow-y: hidden;
         top: 50px;
         left: 0px;
+        float: none;
     }
     .nav > .nav-links > a {
         display: block;
