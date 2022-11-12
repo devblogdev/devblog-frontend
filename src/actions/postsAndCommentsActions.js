@@ -3,7 +3,7 @@ import auth from '../components/security/auth'
 
 export function fetchPosts(endpoint) {
     return async (dispatch) => {
-        dispatch({type: 'LOADING', payload: "Loading posts..." })
+        dispatch({type: 'LOADING', payload: "Loading posts" })
         try {
             const response = await axios.get(endpoint)
             dispatch({type: 'FETCH_POSTS', payload: response.data })
