@@ -135,7 +135,8 @@ img:not([src]):not([srcset]) {
 }
 
 
-.home {
+.home,
+.authorPage {
   display: grid;
   grid-template-areas:
   "a"
@@ -170,6 +171,10 @@ img:not([src]):not([srcset]) {
   margin-top: 2rem;
   margin-bottom: 2rem;
   text-align: left;
+}
+
+.authorPage {
+  margin-top: 2rem;
 }
 
 .postPage .authorInfo {
@@ -278,7 +283,8 @@ img:not([src]):not([srcset]) {
 
 /* MEDIUM SCREEN */
 @media screen and (max-width: 960px) {
-  .home {
+  .home,
+  .authorPage {
     margin-left: 0rem;
     margin-right: 0rem;
   }

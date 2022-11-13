@@ -4,6 +4,7 @@ import ProfileImage from '../components/decorators/ProfileImage'
 import { Helmet } from 'react-helmet'
 import { scheduleImagesForDestruction } from '../actions/imageActions'
 import { useSelector } from 'react-redux'
+import CssLoader from '../components/cssLoader/cssLoader'
 
 export default function AuthorsLinksContainer({match, location, authors }) {
 
@@ -86,6 +87,7 @@ export default function AuthorsLinksContainer({match, location, authors }) {
                 {/* LINKEDIN */}
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
+            {!authors.length ? <CssLoader message="Loading authors" /> : null}
             <h1>Authors List</h1>
             {authorsList}
         </div>

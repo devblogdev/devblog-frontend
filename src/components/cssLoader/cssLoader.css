@@ -12,6 +12,7 @@
 }
 .loader-message h4 {
     margin: 0;
+    white-space: nowrap;
 }
 
 .dot-flashing {

@@ -6,6 +6,7 @@ import ProfileImage from './decorators/ProfileImage'
 import { Route } from 'react-router-dom'
 import AuthorBio from './AuthorBio'
 import { Helmet } from "react-helmet"
+import CssLoader from './cssLoader/cssLoader'
 // import Avatar from '@material-ui/core/Avatar';
 
 const Author = ({match, author}) => {
@@ -50,11 +51,14 @@ const Author = ({match, author}) => {
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
             <div>
-                <ProfileImage 
-                    imgSource= {author?.images[0]?.url || null}
-                    first_name= {author?.first_name}
-                    last_name={author?.last_name}
-                />
+                {!author 
+                    ? <CssLoader message="Loading author" />
+                    : <ProfileImage 
+                        imgSource= {author?.images[0]?.url || null}
+                        first_name= {author?.first_name}
+                        last_name={author?.last_name}
+                       />
+                }
                 <h2>{author?.first_name} {author?.last_name}</h2>
                 
                     {
