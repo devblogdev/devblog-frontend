@@ -6,7 +6,7 @@ import ProfileImage from './decorators/ProfileImage'
 import { Route } from 'react-router-dom'
 import AuthorBio from './AuthorBio'
 import { Helmet } from "react-helmet"
-import CssLoader from './cssLoader/cssLoader'
+// import CssLoader from './CssLoader/cssLoader'
 // import Avatar from '@material-ui/core/Avatar';
 
 const Author = ({match, author}) => {
@@ -52,7 +52,7 @@ const Author = ({match, author}) => {
             </Helmet>
             <div>
                 {!author 
-                    ? <CssLoader message="Loading author" />
+                    ? null //<CssLoader message="Loading author" />
                     : <ProfileImage 
                         imgSource= {author?.images[0]?.url || null}
                         first_name= {author?.first_name}

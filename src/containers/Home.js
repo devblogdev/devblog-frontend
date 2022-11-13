@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import ImgCardMedia from '../components/decorators/ImgCardMedia'
 import ExternalImgCardMedia from '../components/decorators/ExternalImgCardMedia'
 import { scheduleImagesForDestruction } from '../actions/imageActions';
-import CssLoader from '../components/cssLoader/cssLoader';
+// import CssLoader from '../components/CssLoader/cssLoader';
 
 
 const Home = ({match, location, history, posts, retrieveModalState}) => {
@@ -65,8 +65,8 @@ const Home = ({match, location, history, posts, retrieveModalState}) => {
         <div className='home'>
             <div className="mainPost">
             <h1>Welcome to DevBlog</h1>
-                {/* <h4>{loadingMessage}</h4> */}
-                {loadingMessage.length ? <CssLoader message={loadingMessage} /> : null}
+                <h4>{loadingMessage}</h4>
+                {/* {loadingMessage.length ? <CssLoader message={loadingMessage} /> : null} */}
                 {mainPost()} 
             </div>
             <div className="featuredPosts">

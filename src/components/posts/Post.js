@@ -4,7 +4,7 @@ import FilteredHtml from './FilteredHtml'
 import { Helmet } from 'react-helmet'
 import { extractBodySlidingWindow } from '../PostEditor/postEditorHelper'
 import ProfileImage from '../decorators/ProfileImage'
-import CssLoader from '../cssLoader/cssLoader'
+// import CssLoader from '../CssLoader/cssLoader'
 // import Interweave from 'interweave'
 
 const  Post = ({match, posts, user, users}) => {
@@ -83,7 +83,7 @@ const  Post = ({match, posts, user, users}) => {
                 ? <div className='cover-image'><img src = {postPicture?.url} alt= {postPicture?.alt} className="image"/></div>
                 : null
             }
-            {!post.body ? <CssLoader message="Loading post" /> : null}
+            {/* {!post.body ? <CssLoader message="Loading post" /> : null} */}
             <FilteredHtml content= {extractBodySlidingWindow(post.body || "") || ""} />
         </div>
     )
