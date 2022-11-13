@@ -10,7 +10,6 @@ import CssLoader from '../components/cssLoader/CssLoader';
 const Home = ({match, location, history, posts, retrieveModalState}) => {
     
     const dispatch = useDispatch()
-    const loadingMessage = useSelector((state) => state.posts.message)
     const previousPath = location.state?.from.pathname
     const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages.newImages)
     
@@ -65,8 +64,7 @@ const Home = ({match, location, history, posts, retrieveModalState}) => {
         <div className='home'>
             <div className="mainPost">
             <h1>Welcome to DevBlog</h1>
-                {/* <h4>{loadingMessage}</h4> */}
-                {loadingMessage.length ? <CssLoader message={loadingMessage} /> : null}
+                {!posts.length ? <CssLoader message="loading posts" /> : null}
                 {mainPost()} 
             </div>
             <div className="featuredPosts">
