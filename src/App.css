@@ -338,6 +338,23 @@ code {
   font-style: italic;
 }
 
+/* MODAL STYLES STRART */
+#modal {
+  flex-direction: column;
+  margin: 0;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 200;
+  left: 50%;
+  translate: -50% 0;
+  padding: 5px;
+}
+
+#modal li {
+  list-style-type: none;
+}
+/* MODAL STYLES END */
+
 
 
 

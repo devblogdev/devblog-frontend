@@ -1,25 +1,9 @@
-import React from 'react'
-
+import React from 'react';
 const Modal = (props) => {
-
-    const modalStyle = {
-        color: 'black',
-        display: "flex",
-        flexDirection: 'column',
-        margin: 0,
-        borderRadius: "5px",
-        visibility: props.displayModeModal
-      };
-    
     return (
-       <div
-          style={modalStyle}
-          id="modal"
-        >
+       <div id="modal"style={{ display: props.displayModeModal }} >
           {props.modalMessage}
        </div>
     )
-
 }
-
-export default Modal
+export default Modal;
