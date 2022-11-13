@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { useSelector } from 'react-redux'
 import { scheduleImagesForDestruction } from '../actions/imageActions'
-// import CssLoader from '../components/CssLoader/cssLoader'
+import CssLoader from '../components/cssLoader/CssLoader'
 
 export default function PostLinksContainer({match, location, posts}) {
 
@@ -56,7 +56,7 @@ export default function PostLinksContainer({match, location, posts}) {
                 {/* LINKEDIN */}
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
-            {/* {!posts.length ? <CssLoader message="Loading posts" /> : null} */}
+            {!posts.length ? <CssLoader message="Loading posts" /> : null}
             <h1>Posts List</h1>
             <ul>{published}</ul>
         </div>
