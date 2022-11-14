@@ -1,7 +1,4 @@
-<h1>
-<img src="https://user-images.githubusercontent.com/75151961/142570132-d4ce33f1-6108-46c3-9681-f883b92a9dc3.png" data-canonical-src="https://user-images.githubusercontent.com/75151961/142570132-d4ce33f1-6108-46c3-9681-f883b92a9dc3.png" width="70" height="57" alt="DevBlog logo" />
-DevBlog 
-</h1>
+# DevBlog 
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/75151961/201683056-f36c8175-dad9-4026-8003-c19abc3aa3aa.gif" data-canonical-src="https://user-images.githubusercontent.com/75151961/201683056-f36c8175-dad9-4026-8003-c19abc3aa3aa.gif" width="720" height="405" alt="DevBlog demo" />
