@@ -4,7 +4,7 @@ export const ModalContext = createContext()
 
 export const ModalProvider = ({ children }) => {
 
-    const [displayModeModal, setDisplayModeModal] = useState("nne")
+    const [displayModeModal, setDisplayModeModal] = useState("none")
     const [modalMessage, setModalMessage] = useState([])
 
     const retrieveModalState = useCallback ((messageArray=[], time=3000) => {
@@ -13,7 +13,10 @@ export const ModalProvider = ({ children }) => {
         })
         setModalMessage(message)
         setDisplayModeModal("flex")
-        setTimeout(() => { setDisplayModeModal('none')}, time)
+        setTimeout(() => { 
+            setDisplayModeModal('none');
+            setModalMessage([]);
+        }, time)
     },[])
 
     return (

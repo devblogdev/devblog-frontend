@@ -339,9 +339,10 @@ const PostEditor4 = (props) => {
     return stateWithRealPost;
   },[generateContentState])
 
-  const editor = useRef(null)
+  const editor = useRef(null);
 
   useEffect( () => {
+    console.log("use effect called in post editorrrrrrr")
     if (props.match.url !== "/profile/drafts/new") {
       if (props.user.posts) {
         // 'content' is the incoming draft or post
@@ -352,9 +353,8 @@ const PostEditor4 = (props) => {
         setEditorState(reinitializeState(content))
       }
     }
-  },[props.user, props.match, loadedDraftOrPost, reinitializeState], () => setTimeout(() => editor.current.focus(),0)
-  )
-
+  },[props.user, props.match, loadedDraftOrPost, reinitializeState])
+  
   // Below use effect registers the draft/post body images that belong to the Imgur API bucket from this app;
   // the data will be used to schedule the images for destruction in Imgur buecket when user deletes the image from post body and saves the post
   // or when user uploads an image, deletes it, and leaves the post editor without saving the post (image will be orphane; needs to be destroyed in bucket)
@@ -419,15 +419,6 @@ const PostEditor4 = (props) => {
       });
     });
   }
-
-  // const handleOnBlur = useCallback ( () => {
-  //     console.log("exited editor")
-  //     const contentState = editorState.getCurrentContent();
-  //     dispatch( registerDraftOrPostBodyImages ( 
-  //         convertToRaw(contentState), {type: "final"}
-  //       ) 
-  //     )
-  // },[dispatch, editorState])
   
   // --------------------- POST EDITOR END ------------------------
         
@@ -440,12 +431,17 @@ const PostEditor4 = (props) => {
       </header>
       {/* "Edtitor" Renders the post editor */}
       <Editor 
-        ref={editor}
+        editorRef={(ref) => {
+          if(!editor.current && ref) {
+            editor.current = ref;
+            setTimeout(() => editor.current.focus(),500);
+           } 
+        }}
         editorState={editorState}
         onEditorStateChange={handleEditorChange}
         wrapperClassName="wrapper-class"
-        editorClassName="editor-class"
-        toolbarClassName="toolbar-class"
+        editorClassName='editor-class'
+        toolbarClassName='toolbar-class'
         spellCheck = {true}
         handlePastedText = {handlePastedText}
         blockStyleFn={myBlockStyleFn}
@@ -482,16 +478,17 @@ const PostEditor4 = (props) => {
             }
         }}
         blockRendererFn = {mediaBlockRenderer}
-        // onBlur= { handleOnBlur }        
       />
-      {/* Renders the Save As Draft, Publish, Save, Save and Publish, and Delete buttons below post editor */}
-      {buttons.map( (button, index) => 
-        <React.Fragment key={index}>
-            {button}
-        </React.Fragment> 
-       )}
+      <div className='crud-buttons'>
+        {/* Renders the Save As Draft, Publish, Save, Save and Publish, and Delete buttons below post editor */}
+        {buttons.map( (button, index) => 
+          <React.Fragment key={index}>
+              {button}
+          </React.Fragment> 
+        )}
         {/* Renders the "Upload A Cover Image" button; this button is a full compponent by itself */}
         <S3ImageService2 retrieveImageState={retrieveImageState} user = {props.user} {...props} />
+      </div>
     </div>
   )
 }

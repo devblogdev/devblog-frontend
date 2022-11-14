@@ -7,7 +7,6 @@ import "./bareNav.css";
 // var w = window.innerWidth;
 // var h = window.innerHeight;
 export const BareNav= (props) => {
-    // console.log(w, h)
     const location = useLocation();
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const token = localStorage.getItem('token');

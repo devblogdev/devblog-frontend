@@ -84,8 +84,12 @@ h1,h2,h3,h4,h5,h6 {
   font-size: 18px;
   /* font-family: 'Hoefler Text', Georgia, serif; */
 }
+
 .toolbar-class {
-  border: 1px solid #ccc;
+  border: 1px solid #ccc !important;
+  position: sticky;
+  z-index: 80;
+  top: 0;
 }
 
 .postEditor {
@@ -97,7 +101,6 @@ h1,h2,h3,h4,h5,h6 {
   max-width: 736px;
   margin-left: auto;
   margin-right: auto;
-  
 }
 
 /* Prevents the upload image box to overflow the editor container */
@@ -108,6 +111,21 @@ h1,h2,h3,h4,h5,h6 {
 .rdw-image-modal-size, .rdw-embedded-modal-size {
   visibility: hidden;;
 }
+
+.crud-buttons {
+  position:relative;
+}
+.crud-buttons p {
+  margin: 0;
+}
+
+/* .crud-buttons.scroll {
+  position: sticky;
+  bottom: 0;
+  z-index: 80;
+  background-color: white;
+} */
+
 /* STYLES FOR POSTS TEXT EDITOR END */
 
 
@@ -340,6 +358,7 @@ code {
 
 /* MODAL STYLES STRART */
 #modal {
+  font-size: 16px;
   flex-direction: column;
   margin: 0;
   border-radius: 5px;
@@ -347,7 +366,9 @@ code {
   z-index: 200;
   left: 50%;
   translate: -50% 0;
-  padding: 5px;
+  padding: 3px 12px;
+  background-color: #607d8b;
+  color: white;
 }
 
 #modal li {
