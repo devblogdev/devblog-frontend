@@ -1,5 +1,6 @@
 # DevBlog
 <p align="center">
+<img src="https://user-images.githubusercontent.com/75151961/201683056-f36c8175-dad9-4026-8003-c19abc3aa3aa.gif" data-canonical-src="https://user-images.githubusercontent.com/75151961/201683056-f36c8175-dad9-4026-8003-c19abc3aa3aa.gif" width="480" height="270" alt="DevBlog demo" />
 ![DevBlog demo ](https://user-images.githubusercontent.com/75151961/201683056-f36c8175-dad9-4026-8003-c19abc3aa3aa.gif)
 </p>
 
