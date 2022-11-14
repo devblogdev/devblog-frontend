@@ -6,7 +6,7 @@
 
 Welcome to [DevBlog](https://devblog.dev/). DevBlog is a rich, complex, and evolving app for coding-related blog posts. DevBlog's front end is powered by React JS, along with Redux for state management. Its [backend](https://github.com/mmartinezluis/devblog-backend-postgres) is a Ruby on Rails API. DevBlog's most powerful tool is its Draft JS Wysiwyg editor, which supports rich-text editing, such as inline code, code snippets, blockquotes, uploading images, and embedding iframes. 
 
-DevBlog integrates an evolving ecosystem of APIs and cloud services that power its functionalities, which include Amazon Web Services S3, Amazon Web Services EC2, the Imgur API, and the New York Times API. 
+DevBlog integrates an evolving ecosystem of APIs and cloud services that power its functionalities, which include Amazon Web Services S3, the Imgur API, and the New York Times API. 
 
 DevBlog performs high degree filtering of HTML through the sanitize-html package to safely render HTML content on its pages. 
 
