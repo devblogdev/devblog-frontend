@@ -1,7 +1,4 @@
-<h1>
-    <img src="https://user-images.githubusercontent.com/75151961/142570132-d4ce33f1-6108-46c3-9681-f883b92a9dc3.png" data-canonical-src="https://user-images.githubusercontent.com/75151961/142570132-d4ce33f1-6108-46c3-9681-f883b92a9dc3.png" width="60" height="49" alt="DevBlog logo" />
-    DevBlog 
-</h1>
+## DevBlog 
 
 https://user-images.githubusercontent.com/75151961/202080569-100e6858-7ec7-4fbd-b876-a2019f9d27a4.mp4
 
