@@ -3,7 +3,7 @@
     DevBlog 
 </h1>
 
-https://user-images.githubusercontent.com/75151961/202075275-df190508-1b49-4416-9a91-6461152c64d3.mp4
+https://user-images.githubusercontent.com/75151961/202080569-100e6858-7ec7-4fbd-b876-a2019f9d27a4.mp4
 
 Welcome to [DevBlog](https://devblog.dev/). DevBlog is a rich, complex, and evolving app for coding-related blog posts. DevBlog's front end is powered by React JS, along with Redux for state management. Its [backend](https://github.com/mmartinezluis/devblog-backend-postgres) is a Ruby on Rails API. DevBlog's most powerful tool is its Draft JS Wysiwyg editor, which supports rich-text editing, such as inline code, code snippets, blockquotes, uploading images, and embedding iframes. 
 
