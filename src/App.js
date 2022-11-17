@@ -139,6 +139,10 @@ function App() {
                 path={`/posts/:postID`} 
                 render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} users = {users} user={current_user} />} 
             />
+            {/* <Route 
+                path={`/:author_slug/:post_slug`} 
+                render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} users = {users} user={current_user} />} 
+            /> */}
             <Route
                 path={'/authors/:authorID'}
                 render= {routerProps => <AuthorContainer {...routerProps} authors={users} />}
