@@ -69,13 +69,13 @@ const  Post = ({match, posts, user, users}) => {
             <div className="authorInfo">
                 <ProfileImage 
                     imgSource= {(author.current?.images[0]?.url) || null} 
-                    first_name = {author.current.first_name} 
-                    last_name = {author.current.last_name}
+                    first_name = {author.current?.first_name} 
+                    last_name = {author.current?.last_name}
                     size = "45px" 
                 />    
                 <div>
                     {/* <Link to={`/authors/${post.user_id}`}>{post.author_name}</Link>  */}
-                    <Link to={`/authors/${author.current.username}`}>{post.author_name}</Link> 
+                    <Link to={`/authors/${author.current?.username}`}>{post.author_name}</Link> 
                     <div>{post.creation_time}</div>
                 </div>
                 {user['id'] !== undefined && post.user_id === user.id 
