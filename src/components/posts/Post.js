@@ -90,7 +90,7 @@ const  Post = ({match, posts, user, users}) => {
             <FilteredHtml content= {extractBodySlidingWindow(post.body)} />
             <hr/>
             <DiscussionEmbed
-                shortname={process.env.DISQUS_SHORTNAME || ""}
+                shortname={process.env.REACT_APP_DISQUS_SHORTNAME || ""}
                 config={
                     {
                         url: `https://devblog.dev/${post.url}`,
