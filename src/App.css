@@ -203,7 +203,8 @@ img:not([src]):not([srcset]) {
   padding-left: 12px;
 }
 
-.postPage .authorInfo a {
+.postPage .authorInfo a,
+.bio-links a {
   text-decoration: none;
   color: #663399;
 }

@@ -60,7 +60,7 @@ const Author = ({match, author}) => {
                     last_name={author.last_name}
                 />
                 <h2>{author.first_name} {author.last_name}</h2>
-                <div>
+                <div className='bio-links'>
                     <div
                         style={{
                             display: 'flex',
