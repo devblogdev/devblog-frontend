@@ -36,7 +36,7 @@ const  Post = ({match, posts, user, users}) => {
     },[post, user]);
     
     if(post['id'] === undefined) return <CssLoader message="Loading post" />
-        
+
     return (
         <div className='postSection'>
             <Helmet>

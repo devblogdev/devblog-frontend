@@ -35,7 +35,8 @@ export function addPost(endpoint, postData, routerAndModal=null, bodyImages ){
                 dispatch( {type: "ADD_POST_TO_USER", payload: response.data})
                 // WARNING: **(comments below)
                 if (response.data.status === "published" ){
-                    routerAndModal.history.push(`/posts/${response.data.id}`)
+                    // routerAndModal.history.push(`/posts/${response.data.id}`)
+                    routerAndModal.history.push(`/${response.data.url}`)
                     routerAndModal.retrieveModalState(["Post successfully published"])
                 } else {
                     routerAndModal.history.push("/profile")
@@ -86,7 +87,8 @@ export function editPost(endpoint, postData, routerAndModal=null, bodyImages){
                 dispatch( {type: "EDIT_USER_POST", payload: response.data})
                 // WARNING: **
                 if (response.data.status === "published") {
-                    routerAndModal.history.push(`/posts/${response.data.id}`)
+                    // routerAndModal.history.push(`/posts/${response.data.id}`)
+                    routerAndModal.history.push(`/${response.data.url}`)
                     routerAndModal.retrieveModalState(["Post successfully published"])
                 } else {
                     routerAndModal.history.push('/profile')
