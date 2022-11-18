@@ -88,18 +88,20 @@ const  Post = ({match, posts, user, users}) => {
                 : null
             }
             <FilteredHtml content= {extractBodySlidingWindow(post.body)} />
-            <hr/>
-            <DiscussionEmbed
-                shortname={process.env.REACT_APP_DISQUS_SHORTNAME || ""}
-                config={
-                    {
-                        url: `https://devblog.dev/${post.url}`,
-                        identifier: `${post.url}`,
-                        title: post.title,
-                        language: 'en'
+            <div className='disqus-section'>
+                <hr />
+                <DiscussionEmbed
+                    shortname={process.env.REACT_APP_DISQUS_SHORTNAME || ""}
+                    config={
+                        {
+                            url: `https://devblog.dev/${post.url}`,
+                            identifier: `${post.url}`,
+                            title: post.title,
+                            language: 'en'
+                        }
                     }
-                }
-            />
+                />
+            </div>
         </div>
         )
         
