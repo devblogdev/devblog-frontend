@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet'
 import { extractBodySlidingWindow } from '../PostEditor/postEditorHelper'
 import ProfileImage from '../decorators/ProfileImage'
 import CssLoader from '../cssLoader/CssLoader';
-// import { DiscussionEmbed } from 'disqus-react';
+import { DiscussionEmbed } from 'disqus-react';
 // import Interweave from 'interweave'
 
 const  Post = ({match, posts, user, users}) => {
@@ -88,18 +88,18 @@ const  Post = ({match, posts, user, users}) => {
                 : null
             }
             <FilteredHtml content= {extractBodySlidingWindow(post.body)} />
-            {/* <hr/>
+            <hr/>
             <DiscussionEmbed
-                shortname='example-sj25zbath2'
+                shortname={process.env.DISQUS_SHORTNAME || ""}
                 config={
                     {
-                        url: `http://localhost:8000/posts/#!${post.id}`,
-                        identifier: `blikist_blobby`,
+                        url: `https://devblog.dev/${post.url}`,
+                        identifier: `${post.url}`,
                         title: post.title,
                         language: 'en'
                     }
                 }
-            /> */}
+            />
         </div>
         )
         
