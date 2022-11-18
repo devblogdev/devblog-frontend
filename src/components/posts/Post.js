@@ -74,7 +74,7 @@ const  Post = ({match, posts, user, users}) => {
                 />    
                 <div>
                     {/* <Link to={`/authors/${post.user_id}`}>{post.author_name}</Link>  */}
-                    <Link to={`/authors/${author.current.username}`}>{post.author_name}</Link> 
+                    <Link to={`/authors/${author.current?.username}`}>{post.author_name}</Link> 
                     <div>{post.creation_time}</div>
                 </div>
                 {user['id'] !== undefined && post.user_id === user.id 

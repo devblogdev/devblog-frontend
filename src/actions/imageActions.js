@@ -34,7 +34,7 @@ const uploadImage =  async (file, isProfileImage) => {
                 url: response.location,
                 s3key: response.key
             }]
-            console.log(response);
+            // console.log(response);
             return images_attributes
         } catch(error) { 
             console.log(error) 
