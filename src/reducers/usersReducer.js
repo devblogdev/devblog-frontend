@@ -118,8 +118,8 @@ export default function usersReducer(
                     }
                 // 'else' maeans the user does not currently have published posts and is publishing a post now; add the user to the top of the authors list
                 } else {
-                    // Grad the keys from the user that are included in the public bucket (id, first_name, last_name, bio, images); (shallow is not immutable)
-                    let shallow_use_copyr = Object.assign({}, {id: state.current_user.id, first_name: state.current_user.first_name}, {last_name: state.current_user.last_name}, {bio: state.current_user.bio}, {images: state.current_user.images})
+                    // Grad the keys from the user that are included in the public bucket (id, first_name, last_name, bio, images, username); (shallow is not immutable)
+                    let shallow_use_copyr = Object.assign({}, {id: state.current_user.id, first_name: state.current_user.first_name}, {last_name: state.current_user.last_name}, {bio: state.current_user.bio}, {images: state.current_user.images}, {username: state.current_user.username})
                     // Mkake a full independent copy of 'shallow_user_copy' (deep_shallow_copy is immutable)
                     let deep_user_copy = JSON.parse(JSON.stringify(shallow_use_copyr))
                     return {

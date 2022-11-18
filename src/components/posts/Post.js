@@ -20,10 +20,10 @@ const  Post = ({match, posts, user, users}) => {
     useEffect(() => { 
         if (posts.length > 0) {
             const temp = posts.find(({id, url}) => (author_slug && (author_slug + "/" + post_slug) === url) || `${id}` === postID);
-            setPost(temp);
             // posts load after users, hence author can be set in this conditional (keep an eye, this could change at a later point)
-            author.current = users.find(({id}) => id === temp.user_id);
+            author.current = (users.find(({id}) => id === temp.user_id));
             postPicture.current = temp.images[0];
+            setPost(temp); 
         }
     },[posts, postID, users, author_slug, post_slug]);
     
@@ -35,7 +35,8 @@ const  Post = ({match, posts, user, users}) => {
         }
     },[post, user]);
     
-    if(post['id'] === undefined) return <CssLoader message="Loading post" />
+    
+    if(post.id === undefined) return <CssLoader message="Loading post" />
 
     return (
         <div className='postSection'>
@@ -74,7 +75,7 @@ const  Post = ({match, posts, user, users}) => {
                 />    
                 <div>
                     {/* <Link to={`/authors/${post.user_id}`}>{post.author_name}</Link>  */}
-                    <Link to={`/authors/${author.current?.username}`}>{post.author_name}</Link> 
+                    <Link to={`/authors/${author.current.username}`}>{post.author_name}</Link> 
                     <div>{post.creation_time}</div>
                 </div>
                 {user['id'] !== undefined && post.user_id === user.id 

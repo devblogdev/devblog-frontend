@@ -30,7 +30,6 @@ function App() {
   const users = useSelector((state) => state.users.users)
   const posts = useSelector((state) => state.posts.posts)
   
-
   // FATAL ERROR: DO NOT LOAD the variables from the images reducer here in app component;
   // when an action is dispatched to change these variables, the effect will propagte throughout the 
   // whole app (will cause app component to rerender). This can lead to infinte loops: Real example: the 2nd useEffect block
