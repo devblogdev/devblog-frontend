@@ -34,10 +34,10 @@ const  Post = ({match, posts, user, users}) => {
             }
         }
     },[post, user]);
-    console.log(author)
-    return post['id'] === undefined ? 
-        <CssLoader message="Loading post" />
-        : 
+    
+    if(post['id'] === undefined) return <CssLoader message="Loading post" />
+        
+    return (
         <div className='postSection'>
             <Helmet>
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
@@ -54,13 +54,13 @@ const  Post = ({match, posts, user, users}) => {
                 <meta name="og:title" content={post.title} />
                 <meta name="og:description" content={post.abstract} />
                 <meta name="og:image" content={postPicture.current?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
-                <meta name="og:url" content={"https://luisdevblog.netlify.app/posts/" + post.id } />
+                <meta name="og:url" content={"https://devblog.dev/" + post.url } />
                 <meta name="og:site_name" content="DevBlog" />
                 {/* LINKEDIN */}
                 <meta prefix="og: http://ogp.me/ns#" property='og:title' content={post.title + " | Posts | DevBlog" }/>
                 <meta prefix="og: http://ogp.me/ns#" property='og:image' content= {postPicture.current?.url || "https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png"} />
                 {/* <meta prefix="og: http://ogp.me/ns#" property='og:description' content={post?.abstract} /> */}
-                <meta prefix="og: http://ogp.me/ns#" property='og:url' content={"https://luisdevblog.netlify.app/posts/" + post.id } />
+                <meta prefix="og: http://ogp.me/ns#" property='og:url' content={"https://devblog.dev/" + post.url } />
                 {/* LINKEDIN */}
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
@@ -73,7 +73,8 @@ const  Post = ({match, posts, user, users}) => {
                     size = "45px" 
                 />    
                 <div>
-                    <Link to={`/authors/${post.user_id}`}>{post.author_name}</Link> 
+                    {/* <Link to={`/authors/${post.user_id}`}>{post.author_name}</Link>  */}
+                    <Link to={`/authors/${author.current.username}`}>{post.author_name}</Link> 
                     <div>{post.creation_time}</div>
                 </div>
                 {user['id'] !== undefined && post.user_id === user.id 
@@ -100,6 +101,7 @@ const  Post = ({match, posts, user, users}) => {
                 }
             /> */}
         </div>
+        )
         
 }
 export default Post

@@ -15,87 +15,76 @@ const Author = ({match, author}) => {
     
     const authorPosts = useCallback(() => {
         if (posts.length > 0) {
-          return posts.filter( post => post.user_id === author?.id).map( (post, index) => {
-            return  <Link key={index} to={`/posts/${post.id}`} style={{ textDecoration: 'none' }}>
+          return posts.filter( post => post.user_id === author.id).map( (post, index) => {
+            // return  <Link key={index} to={`/posts/${post.id}`} style={{ textDecoration: 'none' }}>
+            return  <Link key={index} to={`/${post.url}`} style={{ textDecoration: 'none' }}>
                         <ImgCardMedia post={post} imageHeight={"140"}/>
                     </Link>     
           })
         }
     },[posts, author])
 
+    if(!author) return <CssLoader message="Loading author" />
+
     return (
         <div>
             <Helmet>
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
                 {/* <!-- COMMON TAGS --> */}
-                <title>{ `${author?.first_name} ${author?.last_name} | Authors | DevBlog`} </title>
+                <title>{ `${author.first_name} ${author.last_name} | Authors | DevBlog`} </title>
                 {/* <!-- Search Engine --> */}
-                <meta name="description" content={author?.bio.about || "Author at DevBlog"} />
+                <meta name="description" content={author.bio.about || "Author at DevBlog"} />
                 <meta name="image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
                 {/* <!-- Schema.org for Google --> */}
-                <meta itemprop="name" content= { `${author?.first_name} ${author?.last_name} | DevBlog`} />
-                <meta itemprop="description" content={author?.bio.about || "Author at DevBlog"} />
+                <meta itemprop="name" content= { `${author.first_name} ${author.last_name} | DevBlog`} />
+                <meta itemprop="description" content={author.bio.about || "Author at DevBlog"} />
                 <meta itemprop="image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
                 {/* <!-- Open Graph general (Facebook, Pinterest & Google+) --> */}
-                <meta name="og:title" content={ `${author?.first_name} ${author?.last_name} | Authors | DevBlog`} />
+                <meta name="og:title" content={ `${author.first_name} ${author.last_name} | Authors | DevBlog`} />
                 <meta name="og:description" content={author?.bio.about || "Author at DevBlog"} />
                 <meta name="og:image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
-                <meta name="og:url" content={"https://luisdevblog.netlify.app/authors/" + author?.id } />
+                <meta name="og:url" content={"https://devblog.dev/authors/" + author.username } />
                 <meta name="og:site_name" content="DevBlog" />
                 {/* LINKEDIN */}
-                <meta prefix="og: http://ogp.me/ns#" property='og:title' content={ `${author?.first_name} ${author?.last_name} | Authors | DevBlog`} />
+                <meta prefix="og: http://ogp.me/ns#" property='og:title' content={ `${author.first_name} ${author.last_name} | Authors | DevBlog`} />
                 <meta prefix="og: http://ogp.me/ns#" property='og:image' content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
                 {/* <meta property='og:description' content={author?.bio.about || "Author at DevBlog"} /> */}
-                <meta prefix="og: http://ogp.me/ns#" property='og:url' content={"https://luisdevblog.netlify.app/authors/" + author?.id } />
+                <meta prefix="og: http://ogp.me/ns#" property='og:url' content={"https://devblog.dev/authors/" + author.username } />
                 {/* LINKEDIN */}
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
             <div>
-                {!author 
-                    ? <CssLoader message="Loading author" />
-                    : <ProfileImage 
-                        imgSource= {author?.images[0]?.url || null}
-                        first_name= {author?.first_name}
-                        last_name={author?.last_name}
-                       />
-                }
-                <h2>{author?.first_name} {author?.last_name}</h2>
-                
-                    {
-                        author?.bio && author ? (
-                            <div>
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-evenly',
-                                        marginBottom: '16px'
-                                    }}   
-                                > 
-                                    <Link to={ `${match.url}/about`} >
-                                          About
-                                    </Link>
-                                    <Link to={ `${match.url}/contact`} >
-                                          Contact
-                                    </Link>
-                                </div>
-                                <div>
-                                    <Route
-                                        path = {`${match.path}/about`}
-                                    >
-                                        <AuthorBio author={author} criteria = "about" />
-                                    </Route>
-                                    <Route
-                                        path = {`${match.path}/contact`}
-                                    >
-                                        <AuthorBio author={author} criteria = "contact" />
-                                    </Route>
-                                </div>
-                            </div>
-                        ) : (
-                            null
-                        )
-                    }  
+                <ProfileImage 
+                    imgSource= {author.images[0]?.url || null}
+                    first_name= {author.first_name}
+                    last_name={author.last_name}
+                />
+                <h2>{author.first_name} {author.last_name}</h2>
+                <div>
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-evenly',
+                            marginBottom: '16px'
+                        }}   
+                    > 
+                        <Link to={ `${match.url}/about`} >
+                                About
+                        </Link>
+                        <Link to={ `${match.url}/contact`} >
+                                Contact
+                        </Link>
+                    </div>
+                    <div>
+                        <Route path = {`${match.path}/about`}>
+                            <AuthorBio author={author} criteria = "about" />
+                        </Route>
+                        <Route path = {`${match.path}/contact`}>
+                            <AuthorBio author={author} criteria = "contact" />
+                        </Route>
+                    </div>
+                </div> 
             </div>
             <div className= 'remainderPosts'>
                 {authorPosts()}

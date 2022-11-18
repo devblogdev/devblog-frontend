@@ -77,13 +77,13 @@ function App() {
             <meta name="og:title" content="DevBlog" />
             <meta name="og:description" content="Blog website for coding-related posts. Browse all of the website's resources for free; login to create blog posts and customize your author page." />
             <meta name="og:image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
-            <meta name="og:url" content="https://luisdevblog.netlify.app" />
+            <meta name="og:url" content="https://devblog.dev" />
             <meta name="og:site_name" content="DevBlog" />
             {/* <!-- Open Graph for LinkedIn & Microsoft --> */}
             <meta property='og:title' content="DevBlog" />
             <meta property='og:image' content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
             {/* <meta property='og:description' content="Blog website for coding related posts" /> */}
-            <meta property='og:url' content= "https://luisdevblog.netlify.app" />
+            <meta property='og:url' content= "https://devblog.dev" />
             {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
         </Helmet>
         <div className="Nav-addon"></div>
@@ -139,10 +139,6 @@ function App() {
                 path={`/posts/:postID`} 
                 render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} users = {users} user={current_user} />} 
             />
-            {/* <Route 
-                path={`/:author_slug/:post_slug`} 
-                render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} users = {users} user={current_user} />} 
-            /> */}
             <Route
                 path={'/authors/:authorID'}
                 render= {routerProps => <AuthorContainer {...routerProps} authors={users} />}
@@ -167,6 +163,11 @@ function App() {
                 path="/password-reset"
                 render={routerProps => <ManageLogin {...routerProps} retrieveModalState = {retrieveModalState} /> }
             />   
+
+            <Route 
+                path={`/:author_slug/:post_slug`} 
+                render= {routerProps => <PostsAndCommentsContainer {...routerProps} posts = {posts} users = {users} user={current_user} />} 
+            />
           </Switch>
         </Container>  
       </div>

@@ -17,17 +17,20 @@ export default function PostLinksContainer({match, location, posts}) {
         // doing so will cause the component to rerender and make the code in useEffect to run again, causing an infinite loop 
     },[previousPath, initial] )
     
-    const published = posts.filter( post => post.status === "published").map((post,index) => 
-        <li key={index}>
-            <article>
-                <header>
-                    <h2><Link rel="canonical" to= {`${match.url}/${post.id}`}>{post.title} </Link></h2>
-                    <span>{post.creation_time} | {post.author_name}</span>
-                </header>
-                <p>{post.abstract.length >= 210 ? post.abstract.slice(0,211) + "..." : post.abstract}</p>
-            </article>
-        </li>
-      )
+    const published = posts
+                        .filter( post => post.status === "published")
+                        .map((post,index) => 
+                            <li key={index}>
+                                <article>
+                                    <header>
+                                        {/* <h2><Link rel="canonical" to= {`${match.url}/${post.id}`}>{post.title} </Link></h2> */}
+                                        <Link rel="canonical" to= {`/${post.url}`}><h2>{post.title}</h2></Link>
+                                        <span>{post.creation_time} | {post.author_name}</span>
+                                    </header>
+                                    <p>{post.abstract.length >= 210 ? post.abstract.slice(0,211) + "..." : post.abstract}</p>
+                                </article>
+                            </li>
+                        )
       
     return (
         <div className="postListPage postLinks standardSize">
@@ -46,13 +49,13 @@ export default function PostLinksContainer({match, location, posts}) {
                 <meta name="og:title" content= "Posts List | DevBlog" />
                 <meta name="og:description" content="DevBlog Posts" />
                 <meta name="og:image" content="https://user-images.githubusercontent.com/75151961/142552680-369cf146-fe13-443d-b1ca-a0e0b86c53d7.png" />
-                <meta name="og:url" content="https://luisdevblog.netlify.app/posts" />
+                <meta name="og:url" content="https://devblog.dev/posts" />
                 <meta name="og:site_name" content="DevBlog" />
                 {/* LINKEDIN */}
                 <meta property='og:title' content= "Posts List | DevBlog" />
                 <meta property='og:image' content="https://user-images.githubusercontent.com/75151961/142552680-369cf146-fe13-443d-b1ca-a0e0b86c53d7.png" />
                 <meta property='og:description' content="DevBlog Posts" />
-                <meta property='og:url' content="https://luisdevblog.netlify.app/posts" />
+                <meta property='og:url' content="https://devblog.dev/posts" />
                 {/* LINKEDIN */}
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>

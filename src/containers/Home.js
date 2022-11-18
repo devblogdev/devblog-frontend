@@ -37,21 +37,24 @@ const Home = ({match, location, history, posts, retrieveModalState}) => {
     
     const mainPost = useCallback(() => {
         if (published.length > 0) {
-          return  <Link to={`/posts/${published[0].id}`} style={{ textDecoration: 'none' }}>
+        //   return  <Link to={`/posts/${published[0].id}`} style={{ textDecoration: 'none' }}>
+          return  <Link to={`/${published[0].url}`} style={{ textDecoration: 'none' }}>
                     <ImgCardMedia post={published[0] } className="mainPost" imageHeight={"290"}/>
                   </Link>
         }
     },[published])
      
     const featuredPosts = published.slice(1,3).map ( (post, index) => {
-        return <Link key={index} to={`/posts/${post.id}`} style={{ textDecoration: 'none' }} >
+        // return <Link key={index} to={`/posts/${post.id}`} style={{ textDecoration: 'none' }} >
+        return <Link key={index} to={`/${post.url}`} style={{ textDecoration: 'none' }} >
                     <ImgCardMedia post = {post} height= {100} imageHeight={"200"} />
                 </Link>
     })
 
     const remainderPosts = published.slice(3).concat(posts.filter( post => post.coming_from !== "database")).map( (post,index) => {
         if (post.coming_from === "database") {
-            return <Link key={index} to={`/posts/${post.id}`} style={{ textDecoration: 'none' }} >
+            // return <Link key={index} to={`/posts/${post.id}`} style={{ textDecoration: 'none' }} >
+            return <Link key={index} to={`/${post.url}`} style={{ textDecoration: 'none' }} >
                       <ImgCardMedia post = {post} height= {100} imageHeight={"140"} />
                    </Link>
         }
