@@ -67,7 +67,7 @@ const  Post = ({match, posts, user, users}) => {
 
             <div className="authorInfo">
                 <ProfileImage 
-                    imgSource= {(author.current.images[0]?.url) || null} 
+                    imgSource= {(author.current?.images[0]?.url) || null} 
                     first_name = {author.current.first_name} 
                     last_name = {author.current.last_name}
                     size = "45px" 
