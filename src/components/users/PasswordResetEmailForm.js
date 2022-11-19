@@ -85,7 +85,7 @@ export default function PasswordResetEmailForm(props) {
                         <br/><br/>
                         <strong>
                             The provided email has not been registered at DevBlog or 
-                            the email was registered using a third party account, in which case no password reset is needed. 
+                            the email was registered using a third party provider (such as Google), in which case no password reset is needed. 
                             Go to <NavLink to="/login">login</NavLink>.
                         </strong>
                             <p>Error: {error.response.status} {error.response.statusText}</p>
