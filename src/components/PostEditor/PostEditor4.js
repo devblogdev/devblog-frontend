@@ -74,7 +74,6 @@ const PostEditor4 = (props) => {
     const saveDraft = (event) => {
         const contentState = convertToRaw(editorState.getCurrentContent());
         const final = extractBodyImages(contentState);
-        console.log(final);
         const data = draftToHtml(contentState);
         const endpoint = "/draft" 
         const postExtraction = extractTitle(data)
@@ -106,13 +105,11 @@ const PostEditor4 = (props) => {
     const savePost = () => {
         const contentState = convertToRaw(editorState.getCurrentContent());
         const final = extractBodyImages(contentState);
-        console.log(final);
         const data = draftToHtml(contentState);
         const endpoint = "/publish" 
         const postExtraction = extractTitle(data)
         const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[1]?.slice(1), status: "published"}
-        const initialAll = initial.newImages
-        console.log(initialAll)
+        const initialAll = initial.newImages;
         const bodyImages = { scheduleImagesForDestruction, initialAll, final }
         const resolveImageThenResolvePost = async () => {
             dispatch({type: 'LOADING', payload: "Managing image..."})
@@ -136,14 +133,12 @@ const PostEditor4 = (props) => {
     const updateDraft = () => {
         const contentState = convertToRaw(editorState.getCurrentContent());
         const final = extractBodyImages(contentState);
-        console.log(final);
         const data = draftToHtml(contentState);
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const postExtraction = extractTitle(data)
         const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[1]?.slice(1), status: "draft"}
         const initialAll = union(initial.oldImages, initial.newImages)
-        console.log(initialAll)
         const bodyImages = { scheduleImagesForDestruction, initialAll, final }
         const resolveImageThenResolvePost = async () => {
             dispatch({type: 'LOADING', payload: "Managing image..."})
@@ -168,14 +163,12 @@ const PostEditor4 = (props) => {
     const updatePost = () => {
         const contentState = convertToRaw(editorState.getCurrentContent());
         const final = extractBodyImages(contentState);
-        console.log(final);
         const data = draftToHtml(contentState);
         const endpoint = `/posts/${props.match.params.postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const postExtraction = extractTitle(data)
         const rawPostData = {body: data, title: postExtraction[0]?.slice(1), abstract: postExtraction[1]?.slice(1), status: "published"}
         const initialAll = union(initial.oldImages, initial.newImages)
-        console.log(initialAll)
         const bodyImages = { scheduleImagesForDestruction, initialAll, final }
         const resolveImageThenResolvePost = async () => {
             dispatch({type: 'LOADING', payload: "Managing image..."})
@@ -201,7 +194,6 @@ const PostEditor4 = (props) => {
         const endpoint = `/posts/${postID}`
         const currentPost = props.user.posts.find(post => `${post.id}` === props.match.params.postID)
         const initialAll = union(initial.oldImages, initial.newImages)
-        console.log(initialAll)
         const bodyImages = { scheduleImagesForDestruction, initialAll }
         const resolveImageThenResolvePost = async () => {
             await manageImageForDraftOrPost(currentPost);
@@ -334,7 +326,6 @@ const PostEditor4 = (props) => {
   // This ensures that the editor does not break when refreshing the page while editing a draft or post
   const reinitializeState = useCallback ((argument) => {
     const contentState = generateContentState(argument)
-    console.log("reinitialize state called")
     const stateWithRealPost = EditorState.createWithContent(contentState);
     return stateWithRealPost;
   },[generateContentState])
@@ -342,13 +333,11 @@ const PostEditor4 = (props) => {
   const editor = useRef(null);
 
   useEffect( () => {
-    console.log("use effect called in post editorrrrrrr")
     if (props.match.url !== "/profile/drafts/new") {
       if (props.user.posts) {
         // 'content' is the incoming draft or post
         const content = loadedDraftOrPost
         // setDraftOrPost(content)       // Not used; eliminate at some point if needed
-        console.log("useffect in ;post editor called")
         // replaces the inital dummy content with the content from the draft or post
         setEditorState(reinitializeState(content))
       }
@@ -362,7 +351,6 @@ const PostEditor4 = (props) => {
     if (props.match.url !== "/profile/drafts/new") {
       if (props.user.posts) {
       const contentState = generateContentState(loadedDraftOrPost);
-      console.log("second useffect in post editor called")
       dispatch( registerDraftOrPostBodyImages ( convertToRaw(contentState), {type: "initial"} ) )
       }
     }
