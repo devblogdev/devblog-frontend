@@ -221,6 +221,12 @@ img:not([src]):not([srcset]) {
   margin-bottom: 28px;
 }
 
+.postSection > :not(.authorInfo) img:not(.image) {
+  max-width: 100%;
+  margin: auto;
+  display: block;
+}
+
 .standardSize {
   max-width: 680px;
   margin-left: auto;
