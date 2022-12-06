@@ -36,50 +36,39 @@ const About = () => {
                 class="image" 
                 alt="Devlog's post editor in About page"
             />
-            <p>DevBlog is a React JS and Redux frontend app served with a Ruby on Rails backend API. 
+            <p>DevBlog is a <b>React JS</b> and <b>Redux</b> frontend app served with a <b>Ruby on Rails</b> backend API. 
                 When planning for DevBlog, I decided that I wanted a website that is non-invasive, 
                 that is, a website in which users can browse all of the website's resources without 
-                the need of logging in or signing up. DevBlog accomplishes just that: you can browse 
-                all of the website's resources without logging in. Creating an account is only 
+                the need of logging in or signing up and no unexpected pop-up windows after 
+                five minutes of browsing. DevBlog accomplishes just that: you can browse 
+                all of the website's resources without logging in. Creating an account in DevBlog is only 
                 required when you want to create a blog post to publish it to the website.
             </p>
 
-            <p>DevBlog utilizes React router protected routes along with JSON Web Tokens (JWT) 
-                to ensure that only registered and verified users can access the website's 
-                blog posting functionalities.
+            <p>DevBlog consumes a series of APIs, cloud services, and microservices to power some 
+                of its functionalities, such as the <b>New York Times API</b> for complementary world news 
+                posts while the site grows, the <b>Imgur API</b> for storing the body images of blog posts,
+                <b>Amazon Web Services S3</b> for storing the cover image of blog posts, and the <b>Disqus
+                microservice</b> for storing and managing the comments for blog posts. 
             </p>
 
-            <p>In DevBlog users can log in or create an account to access their profile page 
-                where they can create a new blog post and either, save it as a draft and continue 
-                to work on it later or publish the post, which will be immediately available 
-                in the home page and the Posts List. Posts saved as drafts are only visible to 
-                the post's author. Users can upload a cover image for their post at the time of 
-                publishing or saving the post or at any other time. Moreover, users can delete 
-                their posts' cover image or replace it with any other image. Posts' cover images 
-                are uploaded to an Amazon Web Services S3 bucket, and an extended copy of the 
-                image object is also created in the app's backend API, all happening at the 
-                time of clicking the 'Save' or 'Publish' buttons. The post editor also 
-                supports uploading images in the body of blog posts as well as integrating iframes. 
-                Posts' body images are uploaded to an Imgur API bucket. When users publish a post, 
-                their names are added to the top of the Authors List, and their blog post is featured 
-                in the main section of the home page. The post is also added to the top of 
-                the Posts List. 
+            <p>DevBlog runs an <b>email service</b> for verifying new users' emails, and <b>background workers</b> 
+                that help in keeping the integrity of the data persisted to its backend. 
+                DevBlog also counts with an interesting <b>frontend-backend interlocking system</b>  
+                that automatically deletes the body images from unsaved blog posts. 
             </p>
 
-            <p>In addition to creating blog posts, in their profile page, users can 
-                complete their profile form, which includes a bio section, a contact info, 
-                and the option to upload a profile image. The info included in the profile 
-                form will be publicly visible to DevBlog's visitors in the user's author page. 
+            <p>You can find the source code for [DevBlog frontend](https://github.com/mmartinezluis/devblog-frontend) 
+                and [DevBlog backend](https://github.com/mmartinezluis/devblog-backend-postgres) here.</p>
+
+            <p>DevBlog is still in progress. Please feel free to explore the website's 
+                current functionalities!!!
             </p>
 
-            <p>DevBlog is still in progress. Please feel free to explore the website's current 
-                functionalities.
+            <p>
+              <em>Luis Martinez</em><br/>
+              <em>Creator of DevBlog</em>
             </p>
-
-            <p>You can find the GitHub repositories for DevBlog frontend 
-                and DevBlog backend on this line.
-            </p>
-
         </div>
     )
 }
