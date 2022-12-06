@@ -118,14 +118,6 @@ h1,h2,h3,h4,h5,h6 {
 .crud-buttons p {
   margin: 0;
 }
-
-/* .crud-buttons.scroll {
-  position: sticky;
-  bottom: 0;
-  z-index: 80;
-  background-color: white;
-} */
-
 /* STYLES FOR POSTS TEXT EDITOR END */
 
 
@@ -185,7 +177,8 @@ img:not([src]):not([srcset]) {
 
 .postPage,
 .postListPage,
-.authorListPage {
+.authorListPage,
+.aboutPage {
   margin-top: 2rem;
   margin-bottom: 2rem;
   text-align: left;
@@ -221,6 +214,7 @@ img:not([src]):not([srcset]) {
   margin-bottom: 28px;
 }
 
+/* centralize the body images of blog posts */
 .postSection > :not(.authorInfo) img:not(.image) {
   max-width: 100%;
   margin: auto;

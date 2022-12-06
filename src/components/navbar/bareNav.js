@@ -4,8 +4,6 @@ import DevBlogLogoFrame from '../logo/DevBlogLogoFrame';
 import DevBlogLogoWhiteColor from '../logo/DevBlogLogoWhiteColor';
 import "./bareNav.css";
 
-// var w = window.innerWidth;
-// var h = window.innerHeight;
 export const BareNav= (props) => {
     const location = useLocation();
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -75,27 +73,35 @@ export const BareNav= (props) => {
                 </NavLink>
                 <NavLink 
                     to={{
-                    pathname: '/posts',
-                    state: { from: location}
+                        pathname: '/posts',
+                        state: { from: location}
                     }}
                     onClick={() => setMobileOpen(false)}
                 >All Posts   
                 </NavLink>
                 <NavLink 
                     to={{
-                    pathname: '/authors',
-                    state: { from: location}
+                        pathname: '/authors',
+                        state: { from: location}
                     }}
                     onClick={() => setMobileOpen(false)}
                 >Authors
                 </NavLink>
                 <NavLink 
                     to={{
-                    pathname: '/profile',
-                    state: { from: location}
+                        pathname: '/profile',
+                        state: { from: location}
                     }}
                     onClick={() => setMobileOpen(false)}
                 >My Profile
+                </NavLink>
+                <NavLink 
+                    to={{
+                        pathname: '/about',
+                        state: { from: location}
+                    }}
+                    onClick={() => setMobileOpen(false)}
+                >About
                 </NavLink>
                 {Buttons()}
 

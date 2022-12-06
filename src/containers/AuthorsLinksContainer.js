@@ -81,10 +81,10 @@ export default function AuthorsLinksContainer({match, location, authors }) {
                 <meta name="og:url" content="https://devblog.dev/authors" />
                 <meta name="og:site_name" content="DevBlog" />
                 {/* LINKEDIN */}
-                <meta property='og:title' content= "Authors List | DevBlog" />
-                <meta property='og:image' content="https://user-images.githubusercontent.com/75151961/142552680-369cf146-fe13-443d-b1ca-a0e0b86c53d7.png" />
-                <meta property='og:description' content="DevBlog Authors" />
-                <meta property='og:url' content="https://devblog.dev/authors" />
+                <meta prefix="og: http://ogp.me/ns#" property='og:title' content= "Authors List | DevBlog" />
+                <meta prefix="og: http://ogp.me/ns#" property='og:image' content="https://user-images.githubusercontent.com/75151961/142552680-369cf146-fe13-443d-b1ca-a0e0b86c53d7.png" />
+                <meta prefix="og: http://ogp.me/ns#" property='og:description' content="DevBlog Authors" />
+                <meta prefix="og: http://ogp.me/ns#" property='og:url' content="https://devblog.dev/authors" />
                 {/* LINKEDIN */}
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>

@@ -18,7 +18,8 @@ import ManageLogin from './containers/ManageLogin';
 import Modal from './components/modal/Modal';
 import { ModalContext } from './components/modal/ModalContext';
 import { Helmet } from 'react-helmet';
-import { BareNav } from './components/navbar/bareNav';
+import { BareNav } from './components/navbar/BareNav';
+import About from './containers/About';
 
 
 function App() {
@@ -66,7 +67,7 @@ function App() {
             {/* <!-- COMMON TAGS --> */}
             <title>DevBlog</title>
             {/* <!-- Search Engine --> */}
-            <meta name="description" content="Blog website for coding related posts/" />
+            <meta name="description" content="Blog website for coding related posts" />
             <meta name="image" content="https://user-images.githubusercontent.com/75151961/138567246-01b18138-9eb4-4d64-973b-7965083a26a8.png" />
             {/* <!-- Schema.org for Google --> */}
             <meta itemprop="name" content="DevBlog" />
@@ -145,6 +146,10 @@ function App() {
             <Route
                 exact path="/authors"
                 render= {routerProps => <AuthorsLinksContainer {...routerProps} authors={users} />}
+            />
+            <Route
+                exact path="/about"
+                render={routerProps => <About {...routerProps} retrieveModalState = {retrieveModalState} /> }
             />
             <Route
                 exact path="/login"
