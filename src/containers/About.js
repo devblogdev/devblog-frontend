@@ -55,7 +55,7 @@ const About = () => {
                 that is, a website in which users can browse all of the website's resources without 
                 the need of logging in or signing up, and no unexpected pop-up windows after 
                 five minutes of browsing. DevBlog accomplishes just that: you can browse 
-                all of the website's resources without logging in. Creating an account in DevBlog is only 
+                all of the website's resources without logging in. Creating an account is only 
                 required when you want to create a blog post to publish it to the website.
             </p>
 
@@ -65,10 +65,11 @@ const About = () => {
                 storing the cover image of blog posts, and the <b>Disqus microservice</b> for storing and managing the comments for blog posts. 
             </p>
 
-            <p>DevBlog runs an <b>email service</b> for verifying new users' emails, and <b>background workers</b> that 
-                help in keeping the integrity of the data persisted to its backend. 
-                DevBlog also counts with an interesting <b>frontend-backend interlocking system</b> that 
-                automatically deletes the body images from unsaved blog posts. 
+            <p>If you are a developer, and you like to document your learnings, consider writing in DevBlog!!!
+                When you post in DevBlog, your name rises to the top of the authors list, your post
+                gets featured as the main post in the home page, and your post rises to the top of 
+                the posts list. In addition, you'll have your profile page where you can include info 
+                about yourself for your readers to get to know you more.
             </p>
 
             <p>You can find the source code for <a href='https://github.com/mmartinezluis/devblog-frontend' target="_blank" rel='noreferrer'>DevBlog frontend</a> and <a href='https://github.com/mmartinezluis/devblog-backend-postgres' target="_blank" rel='noreferrer'>DevBlog backend</a> on this line.
