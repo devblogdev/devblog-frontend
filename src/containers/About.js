@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { scheduleImagesForDestruction } from '../actions/imageActions';
 
 
 const About = () => {
+
+    const location = useLocation();
+    const previousPath = location.state?.from.pathname
+    const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages.newImages)
+    
+    useEffect( () => {
+        console.log("posts links useEffect called")
+        if( (previousPath?.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.size ) scheduleImagesForDestruction(initial, new Set()) 
+        // FATAL ERROR: do not dispatch an action here that updates the 'initial' redux variables included in the dependency array of this useFeect
+        // doing so will cause the component to rerender and make the code in useEffect to run again, causing an infinite loop 
+    },[previousPath, initial] )
+
     return (
         <div className='aboutPage standardSize'>
             <Helmet>
@@ -39,7 +54,7 @@ const About = () => {
             <p>DevBlog is a <b>React JS</b> and <b>Redux</b> frontend app served with a <b>Ruby on Rails</b> backend API. 
                 When planning for DevBlog, I decided that I wanted a website that is non-invasive, 
                 that is, a website in which users can browse all of the website's resources without 
-                the need of logging in or signing up and no unexpected pop-up windows after 
+                the need of logging in or signing up, and no unexpected pop-up windows after 
                 five minutes of browsing. DevBlog accomplishes just that: you can browse 
                 all of the website's resources without logging in. Creating an account in DevBlog is only 
                 required when you want to create a blog post to publish it to the website.
@@ -47,19 +62,18 @@ const About = () => {
 
             <p>DevBlog consumes a series of APIs, cloud services, and microservices to power some 
                 of its functionalities, such as the <b>New York Times API</b> for complementary world news 
-                posts while the site grows, the <b>Imgur API</b> for storing the body images of blog posts,
-                <b>Amazon Web Services S3</b> for storing the cover image of blog posts, and the <b>Disqus
-                microservice</b> for storing and managing the comments for blog posts. 
+                posts while the site grows, the <b>Imgur API</b> for storing the body images of blog posts, <b>Amazon Web Services S3</b> for 
+                storing the cover image of blog posts, and the <b>Disqus microservice</b> for storing and managing the comments for blog posts. 
             </p>
 
             <p>DevBlog runs an <b>email service</b> for verifying new users' emails, and <b>background workers</b> 
                 that help in keeping the integrity of the data persisted to its backend. 
-                DevBlog also counts with an interesting <b>frontend-backend interlocking system</b>  
-                that automatically deletes the body images from unsaved blog posts. 
+                DevBlog also counts with an interesting <b>frontend-backend interlocking system</b> that 
+                automatically deletes the body images from unsaved blog posts. 
             </p>
 
-            <p>You can find the source code for [DevBlog frontend](https://github.com/mmartinezluis/devblog-frontend) 
-                and [DevBlog backend](https://github.com/mmartinezluis/devblog-backend-postgres) here.</p>
+            <p>You can find the source code for <a href='https://github.com/mmartinezluis/devblog-frontend' target="_blank" rel='noreferrer'>DevBlog frontend</a> and <a href='https://github.com/mmartinezluis/devblog-backend-postgres' target="_blank" rel='noreferrer'>DevBlog backend</a> on this line.
+            </p>
 
             <p>DevBlog is still in progress. Please feel free to explore the website's 
                 current functionalities!!!
