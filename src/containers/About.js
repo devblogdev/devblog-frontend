@@ -46,7 +46,7 @@ const About = () => {
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
             <h1>About</h1>
-            <img src="https://devblogimages.s3-us-east-2.amazonaws.com/31kNA6X2YPNbV887n14RRT.png" 
+            <img src="https://user-images.githubusercontent.com/75151961/205791314-48fd5081-1923-44e7-8d8f-1c419d9b58a1.png"
                 className="image" 
                 alt="Devlog's post editor in About page"
             />
