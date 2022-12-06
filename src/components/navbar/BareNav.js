@@ -63,14 +63,14 @@ export const BareNav= (props) => {
                 </div>
             </div>
             <div className="nav-links">
-                <NavLink 
+                {/* <NavLink 
                     to={{
                         pathname: '/',
                         state: { from: location}
                     }}
                     onClick={() => setMobileOpen(false)}
                 >Home 
-                </NavLink>
+                </NavLink> */}
                 <NavLink 
                     to={{
                         pathname: '/posts',

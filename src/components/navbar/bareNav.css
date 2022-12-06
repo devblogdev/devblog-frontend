@@ -41,11 +41,8 @@
 
 .nav > .nav-links > a {
     display: inline-block;
-    /* padding: 10px 25px 10px 25px; */
-    /* padding: 10px 35px 10px 35px; */
     padding: 10px 30px 10px 30px;
     text-decoration: none;
-    /* color: #efefef; */
     color: #f5f5f7;
     font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
@@ -62,19 +59,10 @@
 
 @media (max-width: 960px) {
     .nav > .nav-links > a {
-        /* padding-left: 30px; */
         padding-left: 25px;
-        /* padding-right: 30px; */
         padding-right: 25px;
     }
 }
-
-/* @media (max-width: 700px) {
-    .nav > .nav-links > a {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-} */
 
 @media (max-width:760px) {
     .nav > .nav-header {

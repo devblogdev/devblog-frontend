@@ -12,7 +12,6 @@ const About = () => {
     const initial = useSelector((state) => state.images.currentDraftOrPostBodyImages.newImages)
     
     useEffect( () => {
-        console.log("posts links useEffect called")
         if( (previousPath?.includes("/profile/drafts/") || previousPath?.includes("/posts/edit/")) && initial.size ) scheduleImagesForDestruction(initial, new Set()) 
         // FATAL ERROR: do not dispatch an action here that updates the 'initial' redux variables included in the dependency array of this useFeect
         // doing so will cause the component to rerender and make the code in useEffect to run again, causing an infinite loop 
@@ -48,7 +47,7 @@ const About = () => {
             </Helmet>
             <h1>About</h1>
             <img src="https://devblogimages.s3-us-east-2.amazonaws.com/31kNA6X2YPNbV887n14RRT.png" 
-                class="image" 
+                className="image" 
                 alt="Devlog's post editor in About page"
             />
             <p>DevBlog is a <b>React JS</b> and <b>Redux</b> frontend app served with a <b>Ruby on Rails</b> backend API. 
@@ -66,8 +65,8 @@ const About = () => {
                 storing the cover image of blog posts, and the <b>Disqus microservice</b> for storing and managing the comments for blog posts. 
             </p>
 
-            <p>DevBlog runs an <b>email service</b> for verifying new users' emails, and <b>background workers</b> 
-                that help in keeping the integrity of the data persisted to its backend. 
+            <p>DevBlog runs an <b>email service</b> for verifying new users' emails, and <b>background workers</b> that 
+                help in keeping the integrity of the data persisted to its backend. 
                 DevBlog also counts with an interesting <b>frontend-backend interlocking system</b> that 
                 automatically deletes the body images from unsaved blog posts. 
             </p>
