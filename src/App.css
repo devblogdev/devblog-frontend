@@ -134,6 +134,13 @@ h1,h2,h3,h4,h5,h6 {
 .image, img {
   max-width: 100%;
 }
+
+.video {
+  box-sizing: border-box;
+  max-width: 100%;
+  border: solid 1px grey;
+}
+
 iframe {
   width: 100%;
   /* height: 225px; */

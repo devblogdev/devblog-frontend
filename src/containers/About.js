@@ -46,10 +46,13 @@ const About = () => {
                 {/* <!-- ADDED USING https://megatags.co/#generate-tags --> */}
             </Helmet>
             <h1>About</h1>
-            <img src="https://user-images.githubusercontent.com/75151961/205791314-48fd5081-1923-44e7-8d8f-1c419d9b58a1.png"
+            <video controls className='video'>
+                <source src="https://user-images.githubusercontent.com/75151961/202080569-100e6858-7ec7-4fbd-b876-a2019f9d27a4.mp4" type='video/mp4'/>
+            </video>
+            {/* <img src="https://user-images.githubusercontent.com/75151961/205791314-48fd5081-1923-44e7-8d8f-1c419d9b58a1.png"
                 className="image" 
                 alt="Devlog's post editor in About page"
-            />
+            /> */}
             <p>DevBlog is a <b>React JS</b> and <b>Redux</b> frontend app served with a <b>Ruby on Rails</b> backend API. 
                 When planning for DevBlog, I decided that I wanted a website that is non-invasive, 
                 that is, a website in which users can browse all of the website's resources without 
