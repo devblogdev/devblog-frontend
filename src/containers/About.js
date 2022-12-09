@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { scheduleImagesForDestruction } from '../actions/imageActions';
 import { GreenButton } from '../components/decorators/Buttons';
 import ImageResize from '../components/decorators/ImageResize';
-import flowChart from "../DevBlog_PUBLISH_button.png"
+// import flowChart from "../DevBlog_PUBLISH_button.png"
 
 const About = () => {
 
@@ -103,11 +103,11 @@ const About = () => {
                     className="resize-initial resize-container"
                     onClick={() => setShowFlowchart(false)}
                 >
-                    <img src={flowChart}
+                    {/* <img src={flowChart}
                         className="image resize" 
                         alt="DevBlog PUBLISH button flowchart"
                         onClick={() => setShowFlowchart(false)}
-                    />
+                    /> */}
                 </div>
             : null }
 
