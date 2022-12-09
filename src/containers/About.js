@@ -84,7 +84,7 @@ const About = () => {
             
             <h2>Architecture</h2>
             <p>Some buttons may seem simple at first sight, but there can be a lot going on behind the scenes. Consider such a button in DevBlog's
-                post editor, the <em>Publish</em> button, which is responsible for publishing a draft post (click on the button to see what happens 
+                post editor, the <em>Publish</em> button, which is responsible for publishing a draft post (click on the button to see what occurs 
                 behind the scenes):
             </p>
             <div style={{display: 'flex', justifyContent: 'center'}}>
@@ -97,7 +97,6 @@ const About = () => {
                     Publish
                 </GreenButton>
             </div>
-            <p>And that is one process; there are other processes going on at DevBlog!!!</p>
             {showFlowchart ?
                 <div 
                     className="resize-initial resize-container"
