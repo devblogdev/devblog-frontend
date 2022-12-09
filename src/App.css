@@ -135,6 +135,38 @@ h1,h2,h3,h4,h5,h6 {
   max-width: 100%;
 }
 
+.resize-initial {
+  width: 100%;
+  z-index: 10;
+}
+
+.resize-initial img {
+  cursor: pointer;
+  max-height: 100%;
+}
+
+.resize-container {
+  height: 100%;
+  width: 100vw;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #fafafa; */
+  background-color: rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  padding: 20px;
+  /* visibility: hidden; */
+  /* opacity: 0; */
+  /* transition: opacity ease 1s;  */
+}
+
+.resize-show {
+  visibility: visible;
+  opacity: 1;
+}
+
 .video {
   box-sizing: border-box;
   max-width: 100%;
