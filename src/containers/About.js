@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { scheduleImagesForDestruction } from '../actions/imageActions';
 import { GreenButton } from '../components/decorators/Buttons';
 import ImageResize from '../components/decorators/ImageResize';
-import flowChart from "../DevBlog_PUBLISH_button.png"
+import flowChart from "../DevBlog's PUBLISH Button Architecture.png"
 
 const About = () => {
 
