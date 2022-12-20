@@ -3,7 +3,6 @@ import React from 'react'
 
 export const mediaBlockRenderer = block => {
     const type = block.getType();
-    console.log('the type is', type)
     if (type === 'atomic') {
       return {
         component: MediaComponent,
@@ -51,7 +50,6 @@ export const mediaBlockRenderer = block => {
   }
 
   const MediaComponent = props => {
-    console.log("media block render function called")
     const entity = props.contentState.getEntity(props.block.getEntityAt(0));
     const src = entity.getData().src
     const type = entity.getType();
