@@ -3,7 +3,7 @@ import React from 'react'
 
 export const mediaBlockRenderer = block => {
     const type = block.getType();
-    // debugger
+    console.log('the type is', type)
     if (type === 'atomic') {
       return {
         component: MediaComponent,
@@ -50,59 +50,8 @@ export const mediaBlockRenderer = block => {
       return null
   }
 
-//   const CodeSnippet = props => {
-//       if (!!props.src) {
-//           return (
-//               <script 
-//                     src={props.src} 
-//                     title = 'Wysiwyg Embedded Content'
-//                     frameBorder="0"  
-//                     style={{
-//                             height:'auto',
-//                              width:'100%', 
-//                     }}
-//               />
-//           )
-//       }
-//       return null
-//   }
-//   const CodeSnippet = props => {
-//       if (!!props.src) {
-//           return (
-//             <iframe 
-//                 frameBorder='0' 
-//                 style={{minWidth: '200px', width: '100%', height: '460px'}}
-//                 scrolling="no" 
-//                 seamless="seamless" 
-//                 srcDoc='<html><body><style type=text/css>.gist .gist-data { height: 400px; }</style><script src=props.src></script></body></html>'
-//             /> 
-//           )
-//       }
-//       return null
-//   }
-  
-//   const MediaComponent = props => {
-//     const entity = props.contentState.getEntity(props.block.getEntityAt(0));
-//     // const { src } = entity.getData();
-//     const srcLinkAndDeleteHash = entity.getData().src?.split("-")
-//     const src = srcLinkAndDeleteHash[0]
-//     const deleteHash= srcLinkAndDeleteHash[1]
-//     const type = entity.getType();
-//     let media= null
-//     if (type === 'IMAGE') {
-//         media= <Image src={src} deleteHash={deleteHash} />
-//     }
-//     else if ( type === 'EMBEDDED_LINK')(
-//         entity.getData().src[0] === "<" ? (
-//             media = <script src={entity.getData().src.split("=")[1].split(">")[0]} />
-//         ) : (
-//             media= <Iframe src={entity.getData().src} />
-//         )
-//         // <script src="https://gist.github.com/mmartinezluis/b0ee57fc92ee0771d8230af0f3ca98ab.js"></script>
-//     )
-//     return media
-// }
   const MediaComponent = props => {
+    console.log("media block render function called")
     const entity = props.contentState.getEntity(props.block.getEntityAt(0));
     const src = entity.getData().src
     const type = entity.getType();

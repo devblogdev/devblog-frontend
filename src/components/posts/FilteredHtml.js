@@ -19,6 +19,7 @@ const FilteredHtml = ( { content } ) => {
             img: ['src'],
             a: [ 'href', 'name', 'target' ],
             span: ['style'],
+            code: ['class']
         },
         allowedStyles: {
             'span': {
@@ -26,7 +27,7 @@ const FilteredHtml = ( { content } ) => {
                 'background-color': [/^#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
             },
         },
-        allowedIframeHostnames: AllowedEmbedWebsites,
+        allowedIframeHostnames: AllowedEmbedWebsites,  
     })
     return(
         <div dangerouslySetInnerHTML= {{__html: clean}} />
