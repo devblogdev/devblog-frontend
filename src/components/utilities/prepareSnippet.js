@@ -37,13 +37,11 @@ export function prepareSnippet(body){
     return result;
 
     // @TODO change this function to use Regex instead
-
     // const beginning = /(<pre>```.*?)</g;
     // const ending = /<\/pre>/g;
     // const newLine = /\n/g;
     // function process(match, p1, p2, offset, string) {
     //     if(p1) {
-
     //     }
     // }
 }

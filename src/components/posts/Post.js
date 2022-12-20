@@ -6,10 +6,10 @@ import { extractBodySlidingWindow } from "../PostEditor/postEditorHelper";
 import ProfileImage from "../decorators/ProfileImage";
 import CssLoader from "../cssLoader/CssLoader";
 import { DiscussionEmbed } from "disqus-react";
-// import Interweave from 'interweave'
 import Prism from "prismjs";
 import "prismjs/themes/prism-okaidia.css";
 import 'prismjs/components/prism-ruby';
+import 'prismjs/components/prism-python';
 import 'prismjs/components/prism-java';
 import { prepareSnippet } from "../utilities/prepareSnippet";
 
