@@ -59,16 +59,19 @@ const About = () => {
                 When planning for DevBlog, I decided that I wanted a website that is non-invasive, 
                 that is, a website in which users can browse all of the website's resources without 
                 the need of logging in or signing up, and no unexpected pop-up windows after 
-                five minutes of browsing. DevBlog accomplishes just that: you can browse 
-                all of the website's resources without logging in. Creating an account is only 
-                required when you want to create a blog post to publish it to the website.
+                five minutes of browsing. DevBlog accomplishes just that: login is only required 
+                for creating blog posts and updating your profile page.
             </p>
 
-            <p>If you are a developer, and you like to document your learning, consider writing in DevBlog.
-                When you post in DevBlog, your name rises to the top of the authors list, your post
-                gets featured as the main post in the home page, and your post rises to the top of 
-                the posts list. In addition, you'll have your profile page where you can include info 
-                about yourself for your readers to get to know you more.
+            <p>When you publish in DevBlog, your post will be shown as the main post in the homepage, 
+                and it will be placed at the top of the posts list. In addition, your name will 
+                be moved to the top of the authors list.
+            </p>
+
+            <p>Through their profile page, users have access to their drafts, published posts, 
+                and their profile form. In their profile form, users can share their contact info, 
+                complete an about section, and/or upload a profile iamge, all of which will be 
+                visible to the visitors of the website when clicking on an author's name.
             </p>
 
             <h2>Technologies</h2>
