@@ -8,9 +8,11 @@ import CssLoader from "../cssLoader/CssLoader";
 import { DiscussionEmbed } from "disqus-react";
 import Prism from "prismjs";
 import "prismjs/themes/prism-okaidia.css";
-import 'prismjs/components/prism-ruby';
-import 'prismjs/components/prism-python';
-import 'prismjs/components/prism-java';
+import "prismjs/components/prism-ruby";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-java";
+import "prismjs/plugins/line-numbers/prism-line-numbers";
+import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import { prepareSnippet } from "../utilities/prepareSnippet";
 
 const Post = ({ match, posts, user, users }) => {
@@ -140,7 +142,9 @@ const Post = ({ match, posts, user, users }) => {
           />
         </div>
       ) : null}
-      <FilteredHtml content={prepareSnippet(extractBodySlidingWindow(post.body))} />
+      <FilteredHtml
+        content={prepareSnippet(extractBodySlidingWindow(post.body))}
+      />
       <div className="disqus-section">
         <hr />
         <DiscussionEmbed
