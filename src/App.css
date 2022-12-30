@@ -378,7 +378,7 @@ pre {
   padding: 1rem;
   background-color: rgba(242, 242, 242, 1);
   font-family: Menlo, Monaco, "Courier New", Courier, monospace;
-  font-size: 16px;
+  font-size: 16px !important;
   overflow-x: scroll;
   line-height: 1.18;
   margin-top: 40px;
