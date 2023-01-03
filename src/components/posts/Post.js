@@ -24,7 +24,7 @@ const Post = ({ match, posts, user, users }) => {
   const author = useRef({});
 
   useEffect(() => {
-    if (posts.length > 0) {
+    if (posts.length && users.length) {
       const temp = posts.find(
         ({ id, url }) =>
           (author_slug && author_slug + "/" + post_slug === url) ||
