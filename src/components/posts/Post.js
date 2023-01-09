@@ -94,7 +94,7 @@ const Post = ({ match, posts, user, users }) => {
         <meta
           prefix="og: http://ogp.me/ns#"
           property="og:title"
-          content={post.title + " | Posts | DevBlog"}
+          content={post.title}
         />
         <meta
           prefix="og: http://ogp.me/ns#"
