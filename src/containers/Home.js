@@ -94,7 +94,7 @@ const Home = ({ match, location, history, posts, retrieveModalState }) => {
     <div className="home">
       <div className="mainPost">
         <h1>Welcome to DevBlog</h1>
-        {/* {!posts.length ? <CssLoader message="Loading posts" /> : null} */}
+        {!posts.length ? <CssLoader message="Loading posts" /> : null}
         {mainPost()}
       </div>
       <div className="featuredPosts">{featuredPosts}</div>

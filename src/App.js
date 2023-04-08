@@ -118,10 +118,10 @@ function App() {
           displayModeModal={displayModeModal}
           modalMessage={modalMessage}
         />
-        <p style={{ color: "red", fontWeight: "bold" }}>
+        {/* <p style={{ color: "red", fontWeight: "bold" }}>
           The backend for DevBlog is currently undergoing an upgrade; <br />
           please come back later
-        </p>
+        </p> */}
         <Container className="main" maxWidth="lg">
           <Switch>
             <Route
