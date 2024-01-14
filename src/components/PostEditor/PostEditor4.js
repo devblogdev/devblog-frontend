@@ -503,8 +503,11 @@ const PostEditor4 = (props) => {
       };
       if (file.size > 1500000)
         return reject(retrieveModalState(["Max file size is 1.5 MB"]));
+      const formData = new FormData();
+      formData.append("image", file);
       axios
-        .post("https://api.imgur.com/3/image", file, config)
+        // .post("https://api.imgur.com/3/image", file, config)
+        .post("https://api.imgur.com/3/image", formData, config)
         .then((res) => {
           const source = res.data.data.link + "-" + res.data.data.deletehash;
           dispatch({ type: "REGISTER_NEW_IMAGE", payload: source });
