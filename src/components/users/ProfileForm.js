@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext, useRef } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-// import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import { styled } from '@mui/material/styles';
+// import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import CustomInputField from '../decorators/CustomInputField'
 import ProfileImageService from '../images/ProfileImageService';
 import { ActivationContext } from './ActivationContext';
@@ -11,36 +11,33 @@ import { updateUser } from '../../actions/userActions';
 import { manageImageForDraftOrPost } from '../../actions/imageActions'
 
 
-const useStyles = makeStyles(theme => ({
-    root: {
-      display: 'grid',
-      gridTemplateAreas: `
-                        'contact profileImage'
-                        'about profileImage'
-                    `,
-      justifyItems: 'center',
-      justifyContent: 'space-evenly',
-      padding: theme.spacing(2),
+const Root = styled('div')(({ theme }) => ( {
+  display: 'grid',
+  gridTemplateAreas: `
+                'contact profileImage'
+                'about profileImage'
+            `,
+  justifyItems: 'center',
+  justifyContent: 'space-evenly',
+  padding: theme.spacing(2),
   '@media (max-width: 540px)': {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-      },
+  },
   '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: '300px',
-      },
+    margin: theme.spacing(1),
+    width: '300px',
+  },
   '& .MuiButtonBase-root': {
         margin: theme.spacing(2),
-      },
-    },
-  }));
+  },
+}))
 
 // ProfileForm is rendered in containers/ProfileContainer.js
 // In the UI, the ProfileForm is shown under the "My Info" tab
 export default function ProfileForm(props) {
 
-    const classes = useStyles();
     const { user } = props;
     console.log(props)
     const dispatch = useDispatch();
@@ -137,7 +134,7 @@ export default function ProfileForm(props) {
             }}
         >       
             <form onSubmit={handleSubmit}>
-                <div className={classes.root}>
+                <Root>
                     <CustomInputField 
                         name="contact" 
                         label="Contact Email" 
@@ -167,7 +164,7 @@ export default function ProfileForm(props) {
                     <div style={{ gridArea: 'profileImage'}}>
                         <ProfileImageService user = {props.user} retrieveImageState = {retrieveImageState} showSaveButton={showSaveButton} {...props} />
                     </div>
-                </div>
+                </Root>
                 { !showSaveButton ? (
                         <div style={{ display: "flex", justifyContent: 'center', marginBottom: '16px'}}>
                             <Button variant="contained" color="primary" onClick={handleEdit} disableElevation >

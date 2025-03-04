@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { RemoveImageButton } from '../decorators/Buttons'
 import { ModalContext } from '../modal/ModalContext';
 

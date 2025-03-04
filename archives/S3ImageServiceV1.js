@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
-import { purple } from '@material-ui/core/colors';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+import { purple } from '@mui/material/colors';
 
-const RemoveImageButton = withStyles((theme) => ({
-    root: {
-      backgroundColor: purple[600],
-      '&:hover': {
-        backgroundColor: purple[800],
-      },
-    },
-  }))(Button);
+const RemoveImageButton = styled(Button)(() => ({
+  backgroundColor: purple[600],
+  '&:hover': {
+    backgroundColor: purple[800],
+  },
+}))  
 
 // Functional component; utilizes Amazon Web Services S3 for storing images
 

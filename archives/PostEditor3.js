@@ -10,8 +10,8 @@ import { convertFromHTML } from 'draft-convert';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 // import { Map } from 'immutable'
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
 import { GreenButton, DangerButton } from '../decorators/Buttons'
 import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsActions';
 import  S3ImageService2  from '../images/S3ImageService2'
@@ -25,18 +25,14 @@ import { mediaBlockRenderer } from './mediaBlockRenderer';
 import { editorLabels } from './editorLabels';
 
 
-const useStyles = makeStyles((theme) => ({
-    margin: {
-      margin: theme.spacing(1),
-    },
-  }));
+const GreenButtonStyled = styled(GreenButton)(({ theme }) => ({
+  margin: theme.spacing(1),
+}));
 
 //   FUNCTIONAL COMPONENT; MAIN COMPONENT
 const PostEditor3 = (props) => {
 
     const dispatch = useDispatch()
-
-    const classes = useStyles();
     
     // --------------------- CRUD ACTIONS START ------------------------------------
 
@@ -197,13 +193,12 @@ const PostEditor3 = (props) => {
                               </Button>
 
         // Saves a new draft and immediately publishes it; no longer a draft, now a published post
-    const publishNewButton = <GreenButton 
+    const publishNewButton = <GreenButtonStyled 
                                 onClick={savePost}
                                 color="primary" variant="contained" component="span"
                                 disableElevation
-                                className={classes.margin}
                               >Publish
-                              </GreenButton>  
+                              </GreenButtonStyled>  
 
     //   ------------ DRAFT POST ---------------
         //   Updating a draft post and keeping it as a draft
@@ -215,23 +210,21 @@ const PostEditor3 = (props) => {
                         </Button>
 
         //   Publishing a draft
-    const publishDraftButton = <GreenButton 
+    const publishDraftButton = <GreenButtonStyled 
                                   onClick={updatePost}
                                   color="primary" variant="contained" component="span"
                                   disableElevation
-                                  className={classes.margin}
                                >Publish
-                               </GreenButton>  
+                               </GreenButtonStyled>  
     
     //   ------------ PUBLISHED POST  ---------------
         // Updates an already published post
-    const saveAndPublishButton = <GreenButton 
+    const saveAndPublishButton = <GreenButtonStyled 
                                     onClick={updatePost}
                                     color="primary" variant="contained" component="span"
                                     disableElevation
-                                    className={classes.margin}
                                   >Save and Publish
-                                  </GreenButton>
+                                  </GreenButtonStyled>
     
     //   ------------ DELETE DRAFT OR POST  ---------------
     const deleteButton = <DangerButton 

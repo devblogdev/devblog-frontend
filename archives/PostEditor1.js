@@ -10,45 +10,34 @@ import { convertToRaw } from 'draft-js';  //do not delete this line; can be used
 // import { convertFromRaw } from 'draft-js'; //do not delete this line; can be used for future improvement
 import { convertToHTML, convertFromHTML } from 'draft-convert';
 // import DOMPurify from 'dompurify';
-import Button from '@material-ui/core/Button';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { green, blueGrey } from '@material-ui/core/colors';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+import { green, blueGrey } from '@mui/material/colors';
 import { addPost, editPost, deletePost } from '../../actions/postsAndCommentsActions';
 import  S3ImageService  from '../images/S3ImageService'
 import { manageImageForNewDraftOrPost } from '../../actions/imageActions'
 import { manageImageForDraftOrPost } from '../../actions/imageActions'
 import { extractTitle } from '../../actions/postEditorHelper'
 
-const ColorButton = withStyles((theme) => ({
-    root: {
-      backgroundColor: green[600],
-      '&:hover': {
-        backgroundColor: green[800],
-      },
-    },
-  }))(Button);
+const ColorButton = styled(Button)(({ theme }) => ({
+  backgroundColor: green[600],
+  '&:hover': {
+    backgroundColor: green[800],
+  },
+  margin: theme.spacing(1),
+}));
 
-const DangerButton = withStyles((theme) => ({
-    root: {
-      backgroundColor: blueGrey[200],
-      '&:hover': {
-        backgroundColor: blueGrey[400],
-      },
-    },
-  }))(Button);
-
-const useStyles = makeStyles((theme) => ({
-    margin: {
-      margin: theme.spacing(1),
-    },
-  }));
+const DangerButton = styled(Button)(({ theme}) => ({
+  backgroundColor: blueGrey[200],
+  '&:hover': {
+    backgroundColor: blueGrey[400],
+  },
+}))
   
 //   FUNCTIONAL COMPONENT
 const PostEditor = (props) => {
 
     const dispatch = useDispatch()
-
-    const classes = useStyles();
     
     
     // --------------------- CRUD ACTIONS START ------------------------------------
@@ -166,7 +155,6 @@ const PostEditor = (props) => {
                                 onClick={savePost}
                                 color="primary" variant="contained" component="span"
                                 disableElevation
-                                className={classes.margin}
                               >Publish
                               </ColorButton>  
 
@@ -184,7 +172,6 @@ const PostEditor = (props) => {
                                   onClick={updatePost}
                                   color="primary" variant="contained" component="span"
                                   disableElevation
-                                  className={classes.margin}
                                >Publish
                                </ColorButton>  
     
@@ -193,7 +180,6 @@ const PostEditor = (props) => {
                                     onClick={updatePost}
                                     color="primary" variant="contained" component="span"
                                     disableElevation
-                                    className={classes.margin}
                                   >Save and Publish
                                   </ColorButton>
     

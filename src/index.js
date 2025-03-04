@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client'
 // import { hydrate, render } from "react-dom";
 import './index.css';
 import App from './App';
@@ -13,6 +14,7 @@ import thunk from 'redux-thunk'
 import rootReducer from './reducers/index'
 import axios from 'axios'
 import { ModalProvider } from './components/modal/ModalContext';
+import { ThemeProvider, createTheme } from '@mui/material';
 
 
 // Sets the base URL used by the Ruby on Rails API that serves this app
@@ -21,14 +23,33 @@ axios.defaults.baseURL= process.env.REACT_APP_BASE_API_URL || "http://localhost:
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
+const container =  document.getElementById('root');
+const root = createRoot(container);
 
-ReactDOM.render(
+const navyBlue = '#3f51b5';
+const darkPink = '#f50057';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: navyBlue,
+      dark: '#303f9f'
+    },
+    secondary: {
+      main: darkPink,
+      dark: '#c51162'
+    }
+  }
+});
+
+root.render(
   <Provider store = {store} >
-    <ModalProvider>
-      <App />
-    </ModalProvider>
-  </Provider>,
-  document.getElementById('root')
+    <ThemeProvider theme={theme}>
+      <ModalProvider>
+        <App />
+      </ModalProvider>
+    </ThemeProvider>
+  </Provider>
 );
 
 

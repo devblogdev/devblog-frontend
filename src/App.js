@@ -7,7 +7,7 @@ import {
   Switch,
   useHistory,
 } from "react-router-dom";
-import Container from "@material-ui/core/Container";
+import Container from "@mui/material/Container";
 import { authorization } from "./actions/securityActions";
 import { fetchPosts } from "./actions/postsAndCommentsActions";
 import { fetchUsers } from "./actions/userActions";

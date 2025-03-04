@@ -1,5 +1,5 @@
 import { WhiteBlue, WhiteGreen, WhiteRed } from "../decorators/Buttons";
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
 
 export default function DevBlogLogoWhiteColor(props) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import ProfileImage from '../decorators/ProfileImage';
 import { RemoveImageButton } from '../decorators/Buttons';
 import { ActivationContext } from '../users/ActivationContext';

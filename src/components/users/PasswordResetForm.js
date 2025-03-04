@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 // MATERIAL UI DEPENDENCIES
-// import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+// import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
+// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { styled } from '@mui/material/styles';
+import Container from '@mui/material/Container';
 // APP DEPENDENCIES
 import { useInput } from '../hooks/input-hook'
 import DevBlogLogoFrame from '../logo/DevBlogLogoFrame';
@@ -19,30 +19,25 @@ import { NavLink } from 'react-router-dom';
 
 
 // MATERIAL UI STYLES
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(5),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+const Paper = styled('div')(({ theme }) => ({
+  marginTop: theme.spacing(5),
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',  
+}))
+
+const FormStyled = styled('form')(({ theme }) => ({
+  width: '100%', // Fix IE 11 issue.
+  marginTop: theme.spacing(3),
+}))
+
+const Submit = styled(Button)(({ theme }) => ({
+  margin: theme.spacing(3, 0, 2),
+}))
 
 // Resets the password
 export default function PasswordResetForm({updateMessage, email}) {
 
-  const classes = useStyles();
   const [displayErrors, setDisplayErrors] = useState(false)
 
   // CONSTANTS FOR INPUT CUSTOM HOOK
@@ -100,7 +95,7 @@ export default function PasswordResetForm({updateMessage, email}) {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <Paper>
         <DevBlogLogoFrame 
           child= {<DevBlogLogoWhiteColor />}
           border = "solid 1px"
@@ -110,7 +105,7 @@ export default function PasswordResetForm({updateMessage, email}) {
           width = "100px"
         />
         Write your new password:
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <FormStyled noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -140,17 +135,16 @@ export default function PasswordResetForm({updateMessage, email}) {
               />
             </Grid>
           </Grid>
-          <Button
+          <Submit
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
           >
             Reset Password
-          </Button>
-        </form>
-      </div>
+          </Submit>
+        </FormStyled>
+      </Paper>
     </Container>
   );
 }

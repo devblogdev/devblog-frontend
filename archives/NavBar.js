@@ -1,36 +1,26 @@
 import React from 'react';
 // MATERIAL UI DEPENDENCIES 
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import { styled } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 // APP DEPENDENCIES
 import { NavLink, useLocation } from 'react-router-dom'
 
 // MATERIAL UI STYLES
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  backgroundColor: "gray"
-}));
+const MenuButton = styled(IconButton)(({ theme }) => ({
+  marginRight: theme.spacing(2)
+}))
 
 // MAIN FUNCTION, FUNCTIONAL COMPONENT
 export default function NavBar(props) {
-    
-  const classes = useStyles();
+
   const location = useLocation();
 
   return (
-    <div className={classes.root}>
+    <div sx={{ flexGrow: 1 }}>
       <AppBar 
         position="relative" 
         style={{
@@ -38,10 +28,10 @@ export default function NavBar(props) {
         }}
       >
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <MenuButton edge="start" color="inherit" aria-label="menu">
             <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          </MenuButton>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
              <NavLink 
                   to={{
                     pathname: '/',
@@ -51,7 +41,7 @@ export default function NavBar(props) {
             > DevBlog  
             </NavLink>
           </Typography>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
              <NavLink 
                 to={{
                   pathname: '/posts',
@@ -61,7 +51,7 @@ export default function NavBar(props) {
             >All Posts   
             </NavLink>
           </Typography>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
              <NavLink 
                 to={{
                   pathname: '/authors',
@@ -71,7 +61,7 @@ export default function NavBar(props) {
             >Authors
             </NavLink>
           </Typography>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
             <NavLink 
                 to={{
                   pathname: '/profile',

@@ -3,15 +3,15 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { authorization } from '../actions/securityActions'
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-// import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import blueGrey from '@material-ui/core/colors/blueGrey';
+import { styled } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+// import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import blueGrey from '@mui/material/colors/blueGrey';
 import ProfileForm from '../components/users/ProfileForm'
 import { ActivationContext } from '../components/users/ActivationContext';
 
@@ -80,17 +80,14 @@ DemoTabs.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const useStyles = makeStyles ((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-}));
+const Root = styled('div')(() => ({
+  flexGrow: 1,
+}))
 
 //  Container before implementing interlocking sytem for posts' body images
 export default function ProfileContainer({ user, posts, token, ...routerProps}) {
 
   const dispatch = useDispatch()
-  const classes = useStyles();
   const [drafts, setDrafts] = useState([])
   const [published, setPublished] = useState([])
 
@@ -122,7 +119,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
 
   return (
     <Container>
-      <div className={classes.root}>
+      <Root>
         {/* <Typography id="demo-a11y-tabs-manual-label"> */}
           <h3>Welcome to your profile, {user.first_name}</h3>
         {/* </Typography> */}
@@ -153,7 +150,7 @@ export default function ProfileContainer({ user, posts, token, ...routerProps}) 
             <ProfileForm user={user} {...routerProps} />
         </TabPanel>
 
-      </div>
+      </Root>
     </Container>
   )
   

@@ -1,25 +1,24 @@
 import React, { useState, useContext } from "react";
 // MATERIAL UI DEPENDENCIES
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Checkbox from '@mui/material/Checkbox';
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+import Container from "@mui/material/Container";
 // APP DEPENDENCIES
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createOrLoginUser } from "../../actions/userActions";
 import DevBlogLogoWhiteColor from "../logo/DevBlogLogoWhiteColor";
 import DevBlogLogoFrame from "../logo/DevBlogLogoFrame";
-import { grey } from "@material-ui/core/colors";
-import GoogleLogin from "react-google-login";
-import { googleUser } from "./googleOAuth/googleUser";
+import { grey } from "@mui/material/colors";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { ModalContext } from "../modal/ModalContext";
 
@@ -38,29 +37,24 @@ function Copyright() {
 }
 
 // MATERIAL-UI STYLES
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(5),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+const Paper = styled('div')(({ theme }) => ({
+  marginTop: theme.spacing(5),
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
 }));
+
+const FormStyled = styled('form')(({ theme}) => ({
+  width: "100%", // Fix IE 11 issue.
+  marginTop: theme.spacing(1),
+}))
+
+const Submit = styled(Button)(({ theme}) => ({
+  margin: theme.spacing(3, 0, 2),
+}))
 
 // MAIN: FUCNTIONAL COMPONENT; RENDERS A LOGIN FORM
 export default function Login(props) {
-  const classes = useStyles();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -92,13 +86,8 @@ export default function Login(props) {
 
   const responseGoogle = (data) => {
     if (!data.error) {
-      // for later usage: use this to have the server request an access token for user, thus the server can verify the credentials and logout the uswer if tokens have experied
-      // const { code } = data
-      // axios.post("/tokens", {code})
-      // for later usage
-      const user = googleUser(data);
       axios
-        .post("/omniauth/google/callback", user)
+        .post("/omniauth/google/callback", data)
         .then((response) => {
           localStorage.setItem("token", response.data.jwt);
           const payload = {
@@ -126,7 +115,7 @@ export default function Login(props) {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <Paper>
         <DevBlogLogoFrame
           child={<DevBlogLogoWhiteColor />}
           border="solid 1px"
@@ -138,7 +127,7 @@ export default function Login(props) {
         <Typography component="h1" variant="h5">
           DevBlog
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <FormStyled noValidate onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -167,15 +156,14 @@ export default function Login(props) {
             onChange={(event) => setPassword(event.target.value)}
           />
           {displayErrors && fieldValidator(password, "Password")}
-          <Button
+          <Submit
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
           >
             Login
-          </Button>
+          </Submit>
           <Grid container justifyContent="flex-end">
             <Grid item>
               Don't have an account?
@@ -189,23 +177,22 @@ export default function Login(props) {
               </NavLink>
             </Grid>
           </Grid>
-        </form>
-      </div>
+        </FormStyled>
+      </Paper>
 
       <br />
       <hr />
       {/* Google button */}
-      <GoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        buttonText="Login with Google"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={"single_host_origin"}
-        isSignedIn={false}
-        prompt="consent"
-        // responseType='code'
-        // accessType='offline'
-      />
+      <div style={{margin: '0 auto', width:'180px', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 2px 2px 0px, rgba(0, 0, 0, 0.24) 0px 0px 1px 0px'}}>
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+            <GoogleLogin
+              onSuccess={responseGoogle}
+              onError={responseGoogle}
+              width='180px'
+            />
+        </GoogleOAuthProvider>
+      </div>
+      
       <Box mt={8}>
         <Copyright />
       </Box>

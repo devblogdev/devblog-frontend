@@ -1,7 +1,7 @@
 import React, {useState, useRef} from 'react';
 // import {uploadFile} from 'react-aws-s3'
 import S3 from 'react-aws-s3'
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
 // Remove the strings from the below values for config object to work
 const config = {

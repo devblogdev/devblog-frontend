@@ -7,7 +7,7 @@ import {convertFromRaw, convertToRaw} from 'draft-js';
 import { convertToHTML} from 'draft-convert';
 // import DOMPurify from 'dompurify';
 
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { addPost } from '../src/actions/postsAndCommentsActions'
 
 const PostEditor = (props) => {

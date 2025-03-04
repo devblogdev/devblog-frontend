@@ -1,31 +1,28 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material';
 
-const useStyles = makeStyles({
-  root: {
-    // maxWidth: 345,
-    maxWidth: '100%',
-    media: {
-        // height: 140,
-        height: 400,
-    },
+const CardStyled = styled(Card)(() => ({
+  // maxWidth: 345,
+  maxWidth: '100%',
+  media: {
+      // height: 140,
+      height: 400,
   },
-});
+}))
 
 export default function ExternalImgCardMedia(props) {
    
-  const classes = useStyles();
   const { post } = props
   
   return (
-    <Card className={classes.root}>
+    <CardStyled>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -57,6 +54,6 @@ export default function ExternalImgCardMedia(props) {
           {post.creation_time}
         </Typography>
       </CardActions>
-    </Card>
+    </CardStyled>
   );
 }

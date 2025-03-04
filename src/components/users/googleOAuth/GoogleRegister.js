@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect } from 'react'
-import GoogleLogin from 'react-google-login';
 // THIS COMPONENT IS NOT USED IN THE APP; RESERVE FOR FUTURE USE
 const GoogleRegister = function RegisterContent() {
 
