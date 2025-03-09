@@ -496,10 +496,12 @@ const PostEditor4 = (props) => {
           // Accept: 'application/json'
         },
       };
+      const formData = new FormData();
+      formData.append('image', file)
       if (file.size > 1500000)
         return reject(retrieveModalState(["Max file size is 1.5 MB"]));
       axios
-        .post("https://api.imgur.com/3/image", {image: file}, config)
+        .post("https://api.imgur.com/3/image", formData, config)
         // .get("https://api.imgur.com/3/image/U2E92M2", config)
         .then((res) => {
           console.log(res)
