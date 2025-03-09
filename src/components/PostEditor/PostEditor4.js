@@ -492,8 +492,6 @@ const PostEditor4 = (props) => {
       const config = {
         headers: {
           Authorization: 'Bearer ' + process.env.REACT_APP_IMGUR_ACCESS_TOKEN,
-          // Authorization: 'Client-ID ' + process.env.REACT_APP_IMGUR_CLIENT_ID,
-          // Accept: 'application/json'
         },
       };
       const formData = new FormData();
@@ -502,17 +500,14 @@ const PostEditor4 = (props) => {
         return reject(retrieveModalState(["Max file size is 1.5 MB"]));
       axios
         .post("https://api.imgur.com/3/image", formData, config)
-        // .get("https://api.imgur.com/3/image/U2E92M2", config)
         .then((res) => {
           console.log(res)
-          return
-          // const source = res.data.data.link + "-" + res.data.data.deletehash;
-          // dispatch({ type: "REGISTER_NEW_IMAGE", payload: source });
-          // resolve({ data: { link: source } });
+          const source = res.data.data.link + "-" + res.data.data.deletehash;
+          dispatch({ type: "REGISTER_NEW_IMAGE", payload: source });
+          resolve({ data: { link: source } });
         })
         .catch((error) => {
           console.log(error);
-          console.log(error.message)
           reject();
         });
     });
