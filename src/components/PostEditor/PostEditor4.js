@@ -491,8 +491,7 @@ const PostEditor4 = (props) => {
     return new Promise((resolve, reject) => {
       const config = {
         headers: {
-          Authorization: "Client-ID " + process.env.REACT_APP_IMGUR_CLIENT_ID,
-          'Content-Type': 'multipart/form-data'
+          Authorization: "Bearer " + process.env.REACT_APP_IMGUR_ACCESS_TOKEN,
         },
       };
       if (file.size > 1500000)
