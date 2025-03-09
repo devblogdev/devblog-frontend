@@ -74,7 +74,7 @@ function DemoTabs(props) {
         aria-labelledby={labelId}
         onChange={onChange}
         indicatorColor='secondary'
-        variant='fullWdidth'
+        variant='fullWidth'
         selectionFollowsFocus={selectionFollowsFocus}
         value={value}
         centered
