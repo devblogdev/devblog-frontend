@@ -597,7 +597,9 @@ const PostEditor4 = (props) => {
             urlEnabled: true,
             uploadCallback: (file) => {
               return new Promise((resolve, reject) => {
+                console.log('Before IMGUR CALLBACK, albums are', imgurAlbums)
                 const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('body-images'))]
+                console.log('Before IMGUR CALLBACK, album is', album)
                 console.log(album, typeof album)
                 imgurUploadBodyImage(file, album)
                   .then((data) => {
