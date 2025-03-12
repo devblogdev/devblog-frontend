@@ -35,12 +35,13 @@ import {
 } from "../../actions/imageActions";
 import { extractTitle } from "./postEditorHelper";
 import { noBody, noTitle } from "./validPost";
-import axios from "axios";
+// import axios from "axios";
 import { ModalContext } from "../modal/ModalContext";
 import { AllowedEmbedWebsites } from "./allowedWebsites";
 import { mediaBlockRenderer } from "./mediaBlockRenderer";
 import { editorLabels } from "./editorLabels";
 import { union } from "../utilities/setsFunctions";
+import { imgurUploadBodyImage } from "../../services/imgurImageService";
 // import { extractBodyImages, registerDraftOrPostBodyImages, scheduleImagesForDestruction } from './customFunctions/customFunctions';
 
 const GreenButtonStyled = styled(GreenButton)(({ theme }) => ({
@@ -57,6 +58,10 @@ const PostEditor4 = (props) => {
   const initial = useSelector(
     (state) => state.images.currentDraftOrPostBodyImages
   );
+
+  const imgurAlbums = useSelector(
+    (state) => state.images.imgurAlbums
+  )
 
   // --------------------- CRUD ACTIONS START ------------------------------------
 
@@ -97,7 +102,8 @@ const PostEditor4 = (props) => {
     // wrap the function in an async/await block to wait until the promise is resolved
     const resolveImageThenResolvePost = async () => {
       dispatch({ type: "LOADING", payload: "Managing image..." });
-      const coverImageData = await manageImageForNewDraftOrPost(imageState);
+      const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('cover-images'))]
+      const coverImageData = await manageImageForNewDraftOrPost(imageState, album);
       // Note: the key 'images_attributes' should not be changed as it is used by backend to process the cover image;
       let postData = Object.assign({}, rawPostData, {
         images_attributes: coverImageData,
@@ -133,7 +139,8 @@ const PostEditor4 = (props) => {
     const bodyImages = { scheduleImagesForDestruction, initialAll, final };
     const resolveImageThenResolvePost = async () => {
       dispatch({ type: "LOADING", payload: "Managing image..." });
-      const coverImageData = await manageImageForNewDraftOrPost(imageState);
+      const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('cover-images'))]
+      const coverImageData = await manageImageForNewDraftOrPost(imageState, album);
       // Note: the key 'images_attributes' should not be changed as it is used by backend to process the cover image;
       let postData = Object.assign({}, rawPostData, {
         images_attributes: coverImageData,
@@ -171,9 +178,11 @@ const PostEditor4 = (props) => {
     const bodyImages = { scheduleImagesForDestruction, initialAll, final };
     const resolveImageThenResolvePost = async () => {
       dispatch({ type: "LOADING", payload: "Managing image..." });
+      const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('cover-images'))]
       const coverImageData = await manageImageForDraftOrPost(
         currentPost,
-        imageState
+        imageState,
+        album
       );
       // Note: the key 'images_attributes' should not be changed as it is used by backend to process the cover image;
       let postData = Object.assign({}, rawPostData, {
@@ -213,9 +222,11 @@ const PostEditor4 = (props) => {
     const bodyImages = { scheduleImagesForDestruction, initialAll, final };
     const resolveImageThenResolvePost = async () => {
       dispatch({ type: "LOADING", payload: "Managing image..." });
+      const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('cover-images'))]
       const coverImageData = await manageImageForDraftOrPost(
         currentPost,
-        imageState
+        imageState,
+        album
       );
       // Note: the key 'images_attributes' should not be changed as it is used by backend to process the cover image;
       let postData = Object.assign({}, rawPostData, {
@@ -487,31 +498,42 @@ const PostEditor4 = (props) => {
     );
   };
 
-  function uploadImageCallback(file) {
-    return new Promise((resolve, reject) => {
-      const config = {
-        headers: {
-          Authorization: 'Bearer ' + process.env.REACT_APP_IMGUR_ACCESS_TOKEN,
-        },
-      };
-      const formData = new FormData();
-      formData.append('image', file)
-      if (file.size > 1500000)
-        return reject(retrieveModalState(["Max file size is 1.5 MB"]));
-      axios
-        .post("https://api.imgur.com/3/image", formData, config)
-        .then((res) => {
-          console.log(res)
-          const source = res.data.data.link + "-" + res.data.data.deletehash;
-          dispatch({ type: "REGISTER_NEW_IMAGE", payload: source });
-          resolve({ data: { link: source } });
-        })
-        .catch((error) => {
-          console.log(error);
-          reject();
-        });
-    });
-  }
+  // function uploadImageCallback(file) {
+    // return new Promise((resolve, reject) => {
+    //   const config = {
+    //     headers: {
+    //       Authorization: 'Bearer ' + process.env.REACT_APP_IMGUR_ACCESS_TOKEN,
+    //     },
+    //   };
+    //   const formData = new FormData();
+    //   formData.append('image', file)
+    //   if (file.size > 1500000)
+    //     return reject(retrieveModalState(["Max file size is 1.5 MB"]));
+    //   axios
+    //     .post("https://api.imgur.com/3/image", formData, config)
+    //     .then((res) => {
+    //       console.log(res)
+    //       const source = res.data.data.link + "-" + res.data.data.deletehash;
+    //       dispatch({ type: "REGISTER_NEW_IMAGE", payload: source });
+    //       resolve({ data: { link: source } });
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       reject();
+    //     });
+    // });
+    // console.log('initating call')
+    // if (file.size > 150) {
+    //   retrieveModalState(["Max file size is 1.5 MB"]);
+    //   return new Promise.reject()
+    // }
+    // debugger
+    // const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('body-images'))]
+    
+    // return imgurUploadBodyImage(file, album);
+    
+    // return imgurUploadBodyImage(file, album);
+  // }
 
   // --------------------- POST EDITOR END ------------------------
 
@@ -573,7 +595,23 @@ const PostEditor4 = (props) => {
           image: {
             className: "image",
             urlEnabled: true,
-            uploadCallback: uploadImageCallback,
+            uploadCallback: (file) => {
+              return new Promise((resolve, reject) => {
+                const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('body-images'))]
+                imgurUploadBodyImage(file, album)
+                  .then((data) => {
+                    console.log(data)
+                    console.log('RUNNING SUCCESS BLOCK OUTSIDE')
+                    // resolve({data: {link: 'https://i.imgur.com/c8q8rL8.png-hE4KDpY5a4RZIj5'}});
+                    dispatch({ type: "REGISTER_NEW_IMAGE", payload: data.data.link });
+                    resolve(data)
+                  })
+                  .catch((error) => {
+                    console.log("RUNNING ERROR BLOCK OUTSIDE")
+                    console.log(error);
+                    reject();
+                  })
+            })},
             alignmentEnabled: false,
             defaultSize: {
               height: "auto",

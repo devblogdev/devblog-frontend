@@ -21,7 +21,7 @@ export default function ProfileImageService({retrieveImageState, user, showSaveB
 
     useEffect(() => {
         console.log("rerender")
-        if (Object.keys(user) !== []) {
+        if (Object.keys(user).length) {
             const userImage = user.images[0]
             if (userImage) {
                 // setSelectedFile(userImage)

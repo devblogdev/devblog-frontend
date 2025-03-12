@@ -6,7 +6,7 @@ import CustomInputField from '../decorators/CustomInputField'
 import ProfileImageService from '../images/ProfileImageService';
 import { ActivationContext } from './ActivationContext';
 import { DangerButton, GreenButton } from '../decorators/Buttons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../actions/userActions';
 import { manageImageForDraftOrPost } from '../../actions/imageActions'
 
@@ -41,6 +41,8 @@ export default function ProfileForm(props) {
     const { user } = props;
     console.log(props)
     const dispatch = useDispatch();
+
+    const imgurAlbums = useSelector((state) => state.images.imgurAlbums)
 
     // "activate" is used to activate the buttons and the textfields present in the ProfileForm when the user clicks on the "Edit" button
     // "deactivate" is used to deactivate the buttons and the textfields present in the ProfileForm when the user clicks on "Cancel"
@@ -104,7 +106,8 @@ export default function ProfileForm(props) {
                 //   }
                 }
         const resolveImageThenResolveUser = async () => {
-            const imageData = await manageImageForDraftOrPost(user, imageState, true)
+            const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('profile-images'))]
+            const imageData = await manageImageForDraftOrPost(user, imageState, album)
             // 'anyChanges' -> Did the user write anything on the textfields compared to what was in the textfields initially?
                         //  -> Did the profile image file change in name or file size?
             const anyChanges = JSON.stringify({bio: user.bio}) !== JSON.stringify(rawUserData) || user.images[0]?.name !== imageData[0]?.name || user.images[0]?.size !== imageData[0]?.size 

@@ -7,7 +7,8 @@ export default function imagesReducer(
             oldImages: new Set(), 
             newImages: new Set()
         },
-        finalStateDraftOrPostBodyImages: new Set()
+        finalStateDraftOrPostBodyImages: new Set(),
+        imgurAlbums: {}
     }, action) {
         if(action.type === "REGISTER_IMAGES") {            
             return {
@@ -42,6 +43,11 @@ export default function imagesReducer(
                         newImages: new Set()
                     },
                     finalStateDraftOrPostBodyImages: new Set()
+            }
+        } else if(action.type === 'REGISTER_IMGUR_ALBUMS') {
+            return {
+                ...state,
+                imgurAlbums: action.payload
             }
         }
         return state
