@@ -11,9 +11,10 @@ export async function imgurRequestAlbums() {
   try {
     const response = await axios.get(`https://api.imgur.com/3/account/${process.env.REACT_APP_IMGUR_USERNAME}/albums`, config)
     const albumIds = {};
-    response.data.forEach((album) => {
+    response.data.data.forEach((album) => {
       albumIds[album.title] = album.id
     })
+    console.log(albumIds)
     return albumIds;
   } catch (error) {
     throw error;
