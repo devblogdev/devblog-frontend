@@ -43,9 +43,11 @@ export async function imgurUploadBodyImage(file, album) {
   const formData = new FormData();
   formData.append('image', file);
   formData.append('album', album);
+  console.log('Album In Imgur Callback', album)
   return axios
     .post(BASEURL, formData, config)
     .then((res) => {
+      console.log('Response from Imgur upload', res)
       const source = res.data.data.link + "-" + res.data.data.deletehash;
       console.log("SUCCESSFUL RESPONSE INSIDE IMGUR CALLBACK")
       return { data: { link: source } };

@@ -598,11 +598,11 @@ const PostEditor4 = (props) => {
             uploadCallback: (file) => {
               return new Promise((resolve, reject) => {
                 const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('body-images'))]
+                console.log(album, typeof album)
                 imgurUploadBodyImage(file, album)
                   .then((data) => {
                     console.log(data)
                     console.log('RUNNING SUCCESS BLOCK OUTSIDE')
-                    // resolve({data: {link: 'https://i.imgur.com/c8q8rL8.png-hE4KDpY5a4RZIj5'}});
                     dispatch({ type: "REGISTER_NEW_IMAGE", payload: data.data.link });
                     resolve(data)
                   })
