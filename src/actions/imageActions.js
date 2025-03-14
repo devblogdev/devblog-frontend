@@ -87,6 +87,7 @@ const deleteImage = async (postImage) => {
         await imgurDeleteFile(postImage.imgur_delete_hash)
             .catch((error) => {
                 console.error('Error:', error);
+                return [postImage]
             });
         // This empty array response will be later processed by Rails backend API; an empty erray will let Rails know 
         // that the 'images_attributes' array is empty and, therefore, if there is an image on the associated post or user, the image object will be deleted

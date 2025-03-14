@@ -24,7 +24,6 @@ const config = {
 export function imgurUploadFile(file, album) {
   return new Promise((resolve, reject) => {
     const formData = new FormData();
-    console.log('the album is', album)
     formData.append('image', file);
     formData.append('album', album);
     axios
