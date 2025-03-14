@@ -600,11 +600,13 @@ const PostEditor4 = (props) => {
                 console.log('Before IMGUR CALLBACK, albums are', imgurAlbums)
                 const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('body-images'))]
                 console.log('Before IMGUR CALLBACK, album is', album)
-                console.log(album, typeof album)
+                if(typeof album !== 'string' || !album.length) {
+                  console.log('The Imgur album to upload the picture is not availble')
+                  return reject();
+                }
                 imgurUploadBodyImage(file, album)
                   .then((data) => {
                     console.log(data)
-                    console.log('RUNNING SUCCESS BLOCK OUTSIDE')
                     dispatch({ type: "REGISTER_NEW_IMAGE", payload: data.data.link });
                     resolve(data)
                   })

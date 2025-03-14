@@ -7,19 +7,19 @@ const config = {
   },
 };
 
-export async function imgurRequestAlbums() {
-  try {
-    const response = await axios.get(`https://api.imgur.com/3/account/${process.env.REACT_APP_IMGUR_USERNAME}/albums`, config)
-    const albumIds = {};
-    response.data.data.forEach((album) => {
-      albumIds[album.title] = album.id
-    })
-    console.log(albumIds)
-    return albumIds;
-  } catch (error) {
-    throw error;
-  }
-};
+// Not needed; see comment for "fetchImgurAlbums" in imageActions.js
+// export async function imgurRequestAlbums() {
+//   try {
+//     const response = await axios.get(`https://api.imgur.com/3/account/${process.env.REACT_APP_IMGUR_USERNAME}/albums`, config)
+//     const albumIds = {};
+//     response.data.data.forEach((album) => {
+//       albumIds[album.title] = album.id
+//     })
+//     return albumIds;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 export function imgurUploadFile(file, album) {
   return new Promise((resolve, reject) => {
@@ -43,18 +43,14 @@ export async function imgurUploadBodyImage(file, album) {
   const formData = new FormData();
   formData.append('image', file);
   formData.append('album', album);
-  console.log('Album In Imgur Callback', album)
   return axios
     .post(BASEURL, formData, config)
     .then((res) => {
       console.log('Response from Imgur upload', res)
       const source = res.data.data.link + "-" + res.data.data.deletehash;
-      console.log("SUCCESSFUL RESPONSE INSIDE IMGUR CALLBACK")
       return { data: { link: source } };
     })
-    .catch((error) => {
-      console.log(error);
-      console.log('RUNNING THE ERROR BLOCK INSIDE IMGUR CALLBACK')
+    .catch((error) => {  
       throw error;
     });
 };

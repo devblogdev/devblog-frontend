@@ -11,7 +11,6 @@ import Container from "@mui/material/Container";
 import { authorization } from "./actions/securityActions";
 import { fetchPosts } from "./actions/postsAndCommentsActions";
 import { fetchUsers } from "./actions/userActions";
-import { imgurRequestAlbums } from "./services/imgurImageService";
 import Home from "./containers/Home";
 import PostLinksContainer from "./containers/PostLinksContainer";
 import ProtectedRoute from "./components/protectedRoute/protectedRoute";
@@ -55,17 +54,6 @@ function App() {
     console.log("Auhorization dispatcher in App.js was called");
     dispatch(authorization(null, { history, retrieveModalState })); // Note: 'authorization' affects one state variable: state.users.current_user; this triggers 1 render of App component (and the whole App as well); if user is not logged in, then no rerender is triggered
   }, [dispatch, history, retrieveModalState]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const albumIds = await imgurRequestAlbums();
-        dispatch( {type: 'REGISTER_IMGUR_ALBUMS', payload: albumIds } );
-      } catch(error) {
-        console.log('Error fetching albums from ImgurAPI', error)
-      }
-    })()
-  },[dispatch])
 
   useEffect(() => {
     const endpoint = "/posts";

@@ -17,6 +17,21 @@ import { imgurUploadFile, imgurDeleteFile  } from '../services/imgurImageService
 
 const token = localStorage.getItem('token');
 
+// Not necessary (or does not work for the case when the albums need to used inside 
+// "uploadCallback" in PsotEditor; after dispatching to set the values for the albums,
+// "uploadCallback" still reads undefined for value of the updated redux variable, namely, imgurAlbums); 
+// using environment variables instead; see images reducer
+// export const fetchImgurAlbums = () => {
+//     return async (dispatch) => {
+//         try {
+//             const albumIds = await imgurRequestAlbums();
+//             dispatch( {type: 'REGISTER_IMGUR_ALBUMS', payload: albumIds } );
+//         } catch(error) {
+//             console.log('Error fetching albums from ImgurAPI', error)
+//         }
+//     }
+// }
+
 const uploadImage =  async (file, album) => {
     if (file && token && album) {
         console.log("upload image called")
