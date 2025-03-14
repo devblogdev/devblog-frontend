@@ -42,7 +42,7 @@ const uploadImage =  async (file, album) => {
                 name: file.name,
                 size: file.size,
                 url: response.link,
-                imgur_delete_hash: response.deleteHash
+                imgur_delete_hash: response.deletehash
             }]
             console.log(response);
             return images_attributes
@@ -82,7 +82,7 @@ const uploadImage =  async (file, album) => {
 
 const deleteImage = async (postImage) => {
     if (token) {
-        console.log("'Delete image' called")
+        console.log("'Delete image' called", postImage)
         // await MyS3Client.deleteFile(postImage.s3key)
         await imgurDeleteFile(postImage.imgur_delete_hash)
             .catch((error) => {
