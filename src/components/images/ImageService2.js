@@ -4,7 +4,7 @@ import { RemoveImageButton } from '../decorators/Buttons'
 import { ModalContext } from '../modal/ModalContext';
 
 // Functional component; utilizes Amazon Web Services S3 for storing images
-const S3ImageService2 = ({ retrieveImageState, user, ...props}) => {
+const ImageService2 = ({ retrieveImageState, user, ...props}) => {
 
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [isFilePicked, setIsFilePicked] = useState(false)
@@ -88,4 +88,4 @@ const S3ImageService2 = ({ retrieveImageState, user, ...props}) => {
 	)
 }
 
-export default S3ImageService2
+export default ImageService2

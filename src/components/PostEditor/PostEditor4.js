@@ -25,7 +25,7 @@ import {
   editPost,
   deletePost,
 } from "../../actions/postsAndCommentsActions";
-import S3ImageService2 from "../images/S3ImageService2";
+import ImageService2 from "../images/ImageService2";
 import {
   manageImageForNewDraftOrPost,
   manageImageForDraftOrPost,
@@ -67,7 +67,7 @@ const PostEditor4 = (props) => {
   // --------------- Image Data Retrieval START-------------------
   // This variable is set when the user selects a picture to upload
   const [imageState, setImageState] = useState();
-  // This function is passed to the child S3ImageService2 component in return block; it is activated when the user selects an image for upload
+  // This function is passed to the child ImageService2 component in return block; it is activated when the user selects an image for upload
   const retrieveImageState = useCallback(
     (file) => {
       setImageState(file);
@@ -556,7 +556,8 @@ const PostEditor4 = (props) => {
           },
           image: {
             className: "image",
-            urlEnabled: true,
+            urlEnabled: false,
+            previewImage: true,
             uploadCallback: (file) => {
               return new Promise((resolve, reject) => {
                 const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('body-images'))]
@@ -591,7 +592,7 @@ const PostEditor4 = (props) => {
           <React.Fragment key={index}>{button}</React.Fragment>
         ))}
         {/* Renders the "Upload A Cover Image" button; this button is a full compponent by itself */}
-        <S3ImageService2
+        <ImageService2
           retrieveImageState={retrieveImageState}
           user={props.user}
           {...props}
