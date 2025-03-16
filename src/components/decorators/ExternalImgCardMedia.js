@@ -28,7 +28,7 @@ export default function ExternalImgCardMedia(props) {
           component="img"
           alt="Contemplative Reptile"
           height={props.imageHeight}
-          image={post?.images[0].url}
+          image={post?.images[0]?.url}
           title="Contemplative Reptile"
         />
         <CardContent>

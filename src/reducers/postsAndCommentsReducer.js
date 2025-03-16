@@ -27,7 +27,13 @@ export default function postsAndCommentsReducer(
                     ...state,
                     loading: false,
                     message: "",
-                    posts: action.payload
+                    posts: [...action.payload, ...state.posts]
+                }
+
+            case 'FETCH_EXTERNAL_POSTS':
+                return {
+                    ...state,
+                    posts: [...state.posts, ...action.payload]
                 }
 
             case 'ADD_POST':

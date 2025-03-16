@@ -10,7 +10,13 @@ export function fetchPosts(endpoint) {
         } catch(error) {
             console.log(error)
             auth.logout()
-        }        
+        }
+        try {
+            const response = await axios.get('/posts/external');
+            dispatch({type: 'FETCH_EXTERNAL_POSTS', payload: response.data})
+        } catch(error) {
+            console.log('External posts fetching failed', error)
+        }
     }
 }
 
