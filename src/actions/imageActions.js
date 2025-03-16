@@ -1,19 +1,9 @@
 import axios from 'axios'
 import { difference } from '../components/utilities/setsFunctions';
-// import awsS3Js  from "aws-s3-js";
 import { imgurUploadFile, imgurDeleteFile  } from '../services/imgurImageService';
 
-// CODE FOR MANAGING IMAGES IN AMAZON S3 BUCKET; MANAGES POSTS' COVER IMAGE AND USER PROFILE IMAGE
+// CODE FOR MANAGING IMAGES; MANAGES POSTS' COVER IMAGE AND USER PROFILE IMAGE
     // <----- START ------->
-
-// const config = {
-//     bucketName: process.env.REACT_APP_S3_BUCKET,
-//     region: process.env.REACT_APP_REGION,
-//     accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
-//     secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
-// }
-
-// const MyS3Client = new awsS3Js(config);
 
 const token = localStorage.getItem('token');
 
@@ -52,38 +42,10 @@ const uploadImage =  async (file, album) => {
         }
     } return []
 }
-// const uploadImage =  async (file, isProfileImage) => {
-//     // Upload the image to Amazon S3 bucket
-//     if (file && token) {
-//         console.log("upload image called")
-//         try {
-//             let response
-//             if (!isProfileImage) {
-                // response = await MyS3Client.uploadFile(file);           
-//                 response = await imgurUploadFile(file, )
-//             } else {
-//                 response = await MyS3Client.uploadFile(file, undefined, `profileimages`)
-//             }
-//             // 'images_attributes' array will be later processed by Rails backend API; do not change the name 'images_attributes', it is required by Rails API
-//             const images_attributes = [{
-//                 name: file.name,
-//                 size: file.size,
-//                 url: response.location,
-//                 s3key: response.key
-//             }]
-//             // console.log(response);
-//             return images_attributes
-//         } catch(error) { 
-//             console.log(error) 
-//             return []
-//         }
-//     } return []
-// }
 
 const deleteImage = async (postImage) => {
     if (token) {
         console.log("'Delete image' called", postImage)
-        // await MyS3Client.deleteFile(postImage.s3key)
         await imgurDeleteFile(postImage.imgur_delete_hash)
             .catch((error) => {
                 console.error('Error:', error);
@@ -120,24 +82,6 @@ const updateImage = async (postImage, imageData, album) => {
         return images_attributes
     } return []
 }
-// const updateImage = async (postImage, imageData) => {
-//     // Update the image in Amazon S3 bucket
-//     if (token) {
-//         console.log("update image called")
-//         await MyS3Client.uploadFile(imageData, postImage.s3key)
-//         .catch(error => { 
-//             console.log(error) 
-//             return [postImage]
-//         })
-//         const images_attributes = [{
-//             name: imageData.name,
-//             size: imageData.size,
-//             url: postImage.url,
-//             s3key: postImage.s3key
-//         }]
-//         return images_attributes
-//     } return []
-// }
 
 export function manageImageForNewDraftOrPost(imageData, album) {
     // returns a promise; promise is resolved in Post Editor

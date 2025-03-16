@@ -35,7 +35,6 @@ import {
 } from "../../actions/imageActions";
 import { extractTitle } from "./postEditorHelper";
 import { noBody, noTitle } from "./validPost";
-// import axios from "axios";
 import { ModalContext } from "../modal/ModalContext";
 import { AllowedEmbedWebsites } from "./allowedWebsites";
 import { mediaBlockRenderer } from "./mediaBlockRenderer";
@@ -498,43 +497,6 @@ const PostEditor4 = (props) => {
     );
   };
 
-  // function uploadImageCallback(file) {
-    // return new Promise((resolve, reject) => {
-    //   const config = {
-    //     headers: {
-    //       Authorization: 'Bearer ' + process.env.REACT_APP_IMGUR_ACCESS_TOKEN,
-    //     },
-    //   };
-    //   const formData = new FormData();
-    //   formData.append('image', file)
-    //   if (file.size > 1500000)
-    //     return reject(retrieveModalState(["Max file size is 1.5 MB"]));
-    //   axios
-    //     .post("https://api.imgur.com/3/image", formData, config)
-    //     .then((res) => {
-    //       console.log(res)
-    //       const source = res.data.data.link + "-" + res.data.data.deletehash;
-    //       dispatch({ type: "REGISTER_NEW_IMAGE", payload: source });
-    //       resolve({ data: { link: source } });
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       reject();
-    //     });
-    // });
-    // console.log('initating call')
-    // if (file.size > 150) {
-    //   retrieveModalState(["Max file size is 1.5 MB"]);
-    //   return new Promise.reject()
-    // }
-    // debugger
-    // const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('body-images'))]
-    
-    // return imgurUploadBodyImage(file, album);
-    
-    // return imgurUploadBodyImage(file, album);
-  // }
-
   // --------------------- POST EDITOR END ------------------------
 
   return (
@@ -597,11 +559,9 @@ const PostEditor4 = (props) => {
             urlEnabled: true,
             uploadCallback: (file) => {
               return new Promise((resolve, reject) => {
-                console.log('Before IMGUR CALLBACK, albums are', imgurAlbums)
                 const album = imgurAlbums[Object.keys(imgurAlbums).find((title) => title.includes('body-images'))]
-                console.log('Before IMGUR CALLBACK, album is', album)
                 if(typeof album !== 'string' || !album.length) {
-                  console.log('The Imgur album to upload the picture is not availble')
+                  console.log('The Imgur album to upload the picture is not availble', album)
                   return reject();
                 }
                 imgurUploadBodyImage(file, album)
