@@ -8,4 +8,5 @@ export const AllowedEmbedWebsites  = [
     'codeshare.io', 
     'gist.github.com',
     'github.com',
+    'githubusercontent.com'
 ]

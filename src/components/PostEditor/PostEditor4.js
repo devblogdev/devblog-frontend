@@ -482,7 +482,7 @@ const PostEditor4 = (props) => {
   const embeddedUrl = (url) => {
     let boolean = false;
     AllowedEmbedWebsites.forEach((domain) => {
-      if (url.indexOf(domain) > -1) {
+      if (url.includes(domain)) {
         boolean = true;
       }
     });
