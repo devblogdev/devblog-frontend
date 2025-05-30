@@ -11,6 +11,7 @@ import "prismjs/themes/prism-okaidia.css";
 import "prismjs/components/prism-ruby";
 import "prismjs/components/prism-python";
 import "prismjs/components/prism-java";
+import "prismjs/components/prism-r";
 import "prismjs/plugins/line-numbers/prism-line-numbers";
 import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import { prepareSnippet } from "../utilities/prepareSnippet";
