@@ -10,7 +10,7 @@ import CssLoader from './cssLoader/CssLoader'
 // import Avatar from '@mui/material/Avatar';
 
 const Author = ({match, author}) => {
-    
+
     const posts = useSelector( (state) => state.posts.posts)
     
     const authorPosts = useCallback(() => {

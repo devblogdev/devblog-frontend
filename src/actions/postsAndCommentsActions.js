@@ -1,19 +1,22 @@
 import axios from 'axios'
 import auth from '../components/security/auth'
+import { posts } from '../temp-delete/posts'
 
 export function fetchPosts(endpoint) {
     return async (dispatch) => {
         dispatch({type: 'LOADING', payload: "Loading posts" })
         try {
-            const response = await axios.get(endpoint)
-            dispatch({type: 'FETCH_POSTS', payload: response.data })
+            // const response = await axios.get(endpoint)
+            // dispatch({type: 'FETCH_POSTS', payload: response.data })
+            const response = posts;
+            dispatch({type: 'FETCH_POSTS', payload: response })
         } catch(error) {
             console.log(error)
             auth.logout()
         }
         try {
-            const response = await axios.get('/posts/external');
-            dispatch({type: 'FETCH_EXTERNAL_POSTS', payload: response.data})
+            // const response = await axios.get('/posts/external');
+            // dispatch({type: 'FETCH_EXTERNAL_POSTS', payload: response.data})
         } catch(error) {
             console.log('External posts fetching failed', error)
         }

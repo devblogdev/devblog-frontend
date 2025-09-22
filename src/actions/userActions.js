@@ -1,5 +1,6 @@
 import axios from 'axios'
 import auth from '..//components/security/auth'
+import { authors } from '../temp-delete/authors'
 
 export function createOrLoginUser(endpoint, userData, routerAndModal) {
     return (dispatch) => {
@@ -47,8 +48,10 @@ export function createOrLoginUser(endpoint, userData, routerAndModal) {
 export function fetchUsers(endpoint) {
     return async (dispatch) => {
         try {
-            const response = await axios.get(endpoint)
-            dispatch({type: 'ADD_USERS', payload: response.data })
+            // const response = await axios.get(endpoint)
+            // dispatch({type: 'ADD_USERS', payload: response.data })
+            const response = authors;
+            dispatch({type: 'ADD_USERS', payload: response })
         } catch(error) {
             auth.logout()
             console.log(error.response)

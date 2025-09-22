@@ -114,6 +114,7 @@ export default function Login(props) {
 
   return (
     <Container component="main" maxWidth="xs">
+      <p style={{color: 'red'}}>We regret to inform that DevBlog is temporarily working in read-mode only while a new backend provider is obtained </p>
       <CssBaseline />
       <Paper>
         <DevBlogLogoFrame
