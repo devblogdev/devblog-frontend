@@ -1,6 +1,6 @@
 import axios from 'axios'
 import auth from '../components/security/auth'
-import { posts } from '../temp-delete/posts'
+import { posts }  from '../temp-delete/posts'
 
 export function fetchPosts(endpoint) {
     return async (dispatch) => {

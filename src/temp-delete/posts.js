@@ -1,3 +1,4 @@
+/* eslint no-template-curly-in-string: 0 */
 export const posts = 
 [
   {
